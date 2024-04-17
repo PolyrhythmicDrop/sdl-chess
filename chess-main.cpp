@@ -1,15 +1,18 @@
 // Main game loop for SDL Chess
 
-// Includes, using SDL, SDL_image, standard IO, and strings
-#include <SDL.h>
-#include <SDL_image.h>
 #include <stdio.h>
+#include <iostream>
 #include <string>
+#include "Window.h"
+
 
 // ** Main loop **
-int main(int argc, char* args[])
+
+int main()
 {
+	Window window{};
+	std::cout << window.windowWidth << window.windowHeight;
 
 
 	return 0;
-}
+};
