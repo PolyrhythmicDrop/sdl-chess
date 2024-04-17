@@ -2,6 +2,9 @@
 class Window
 {
 public:
+	// Attributes
+	
+	// Window height and width
 	int windowHeight { };
 	int windowWidth { };
 

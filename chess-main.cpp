@@ -6,14 +6,16 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "Window.h"
+#include "SDLfunc.h"
 
 
 // ** Main loop **
 
 int main( int argc, char* args[] )
 {
-	Window window{};
-	std::cout << window.windowWidth << window.windowHeight;
+	SDLfunc sdlEngine{};
+	sdlEngine.Init();
+	sdlEngine.Close();
 
 
 	return 0;

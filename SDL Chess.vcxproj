@@ -138,9 +138,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="chess-main.cpp" />
+    <ClCompile Include="SDLfunc.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SDLfunc.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
