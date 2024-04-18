@@ -27,6 +27,8 @@ public:
 	/// <returns>True if initialization was successful, false if not.</returns>
 	bool Init();
 
+	SDL_Window* createWindow(int width, int height);
+
 	/// <summary>
 	/// Loads up a media file to be passed to loadSurface().
 	/// </summary>

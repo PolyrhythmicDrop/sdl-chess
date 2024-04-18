@@ -23,6 +23,10 @@ int main( int argc, char* args[] )
 	}
 	else
 	{
+		// Create the window
+		Window window{1280, 720};
+		SDL_Window* mainWindow = sdlEngine.createWindow(window.getWindowWidth(), window.getWindowHeight());
+		SDL_Surface* mainSurface = mainWindow
 		// Load media
 		if (!sdlEngine.loadMedia())
 		{
@@ -51,8 +55,15 @@ int main( int argc, char* args[] )
 					}
 				}
 
+				// Create rectangle to center
+				SDL_Rect centerRect;
+				centerRect.x = sdlEngine.sdlSurface->w / 8;
+				centerRect.y = 0;
+				centerRect.w = sdlEngine.sdlSurface->w;
+				centerRect.h = sdlEngine.sdlSurface->h;
+
 				// Apply/blit the optimized PNG image that we loaded
-				SDL_BlitSurface(sdlEngine.pngSurface, NULL, sdlEngine.sdlSurface, NULL);
+				SDL_BlitSurface(sdlEngine.pngSurface, NULL, sdlEngine.sdlSurface, &centerRect);
 
 				// Update the surface after blitting
 				SDL_UpdateWindowSurface(sdlEngine.sdlWindow);

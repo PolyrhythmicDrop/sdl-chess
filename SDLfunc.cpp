@@ -17,43 +17,43 @@ bool SDLfunc::Init()
 	/// Initialization flag
 	bool success = true;
 
-	// The game window
-	Window gWindow{};
-
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
 		success = false;
 	}
+	return success;
+}
+
+SDL_Window* SDLfunc::createWindow(int width, int height)
+{
+	// Window creation flag
+	bool success = true;
+	// Create an SDL window
+	sdlWindow = SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
+	// Error handling for SDL window creation
+	if (sdlWindow == NULL)
+	{
+		printf("Window could not be created! SDL Error %s\n", SDL_GetError());
+		success = false;
+	}
 	else
 	{
-		// Create an SDL window
-		sdlWindow = SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, gWindow.getWindowWidth(), gWindow.getWindowHeight(), SDL_WINDOW_SHOWN);
-		// Error handling for SDL window creation
-		if (sdlWindow == NULL)
+		// Initialize PNG loading
+		int imgFlags = IMG_INIT_PNG;
+		// PNG error handling
+		if (!(IMG_Init(imgFlags) & imgFlags))
 		{
-			printf("Window could not be created! SDL Error %s\n", SDL_GetError());
+			printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
 			success = false;
 		}
 		else
 		{
-			// Initialize PNG loading
-			int imgFlags = IMG_INIT_PNG;
-			// PNG error handling
-			if (!(IMG_Init(imgFlags) & imgFlags))
-			{
-				printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
-				success = false;
-			}
-			else
-			{
-				// Get the surface of the new SDL window
-				sdlSurface = SDL_GetWindowSurface(sdlWindow);
-			}
-			
+			// Get the surface of the new SDL window
+			sdlSurface = SDL_GetWindowSurface(sdlWindow);
 		}
 	}
-	return success;
+	return sdlWindow;
 }
 
 bool SDLfunc::loadMedia()
