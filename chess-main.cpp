@@ -17,18 +17,26 @@ int main( int argc, char* args[] )
 	SDLfunc sdlEngine{};
 
 	// Initialize SDL and check if successful
-	if (!sdlEngine.Init())
-	{
-		printf("Failed to initialize!\n");
-	}
-	else
-	{
-		// Create the window
-		Window window{1280, 720};
+	sdlEngine.Init();
+
+	// Initialize SDL IMG and check if successful
+	sdlEngine.InitIMG(IMG_INIT_PNG);
+
+		// Create the window instance, using parameters specified by options menu. Default is 640x480.
+		Window window{1080, 720};
+		// Generate the SDL window
 		SDL_Window* mainWindow = sdlEngine.createWindow(window.getWindowWidth(), window.getWindowHeight());
-		SDL_Surface* mainSurface = mainWindow
+		// Initialize the renderer
+		SDL_Renderer* mainRenderer = sdlEngine.createRenderer(mainWindow, SDL_RENDERER_ACCELERATED, 255, 255, 255, 255);
+		// Set render resolution to match the window
+		if (SDL_RenderSetLogicalSize(mainRenderer, window.getWindowWidth(), window.getWindowHeight()) < 0)
+		{
+			printf("Failed to set logical render size!\n");
+		}
 		// Load media
-		if (!sdlEngine.loadMedia())
+		std::string imgPath = "images/chessboard.png";
+		SDL_Texture* loadedTexture = IMG_LoadTexture(mainRenderer, imgPath.c_str());
+		if (!loadedTexture)
 		{
 			printf("Failed to load media!\n");
 		}
@@ -57,19 +65,29 @@ int main( int argc, char* args[] )
 
 				// Create rectangle to center
 				SDL_Rect centerRect;
-				centerRect.x = sdlEngine.sdlSurface->w / 8;
+				centerRect.x = window.windowWidth / 8;
 				centerRect.y = 0;
-				centerRect.w = sdlEngine.sdlSurface->w;
-				centerRect.h = sdlEngine.sdlSurface->h;
+				centerRect.w = window.windowWidth;
+				centerRect.h = window.windowHeight;
 
+				// Clear the screen with the render color
+				SDL_RenderClear(mainRenderer);
+
+				// Render texture to screen
+				SDL_RenderCopy(mainRenderer, loadedTexture, NULL, NULL);
+
+				// Update screen
+				SDL_RenderPresent(mainRenderer);
+
+				/*
 				// Apply/blit the optimized PNG image that we loaded
-				SDL_BlitSurface(sdlEngine.pngSurface, NULL, sdlEngine.sdlSurface, &centerRect);
+				SDL_BlitSurface(sdlEngine.pngSurface, NULL, sdlEngine.windowSurface, &centerRect);
 
 				// Update the surface after blitting
 				SDL_UpdateWindowSurface(sdlEngine.sdlWindow);
+				*/
 			}
 		}
-	}
 
 	sdlEngine.Close();
 
