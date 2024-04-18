@@ -1,5 +1,4 @@
 #include "Window.h"
-#include <SDL.h>
 
 /// <summary>
 ///  Default constructor for a window
@@ -9,3 +8,13 @@
 Window::Window(int width, int height) 
 	: windowHeight { height }, windowWidth { width }
 {}
+
+int Window::getWindowWidth()
+{
+	return windowWidth;
+}
+
+int Window::getWindowHeight()
+{
+	return windowHeight;
+}

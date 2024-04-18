@@ -5,10 +5,18 @@ public:
 	// Attributes
 	
 	// Window height and width
-	int windowHeight { };
 	int windowWidth { };
+	int windowHeight { };
 
 	//Constructors
 	Window(int width = 640, int height = 480);
+
+	// Methods
+
+	// Get window width
+	int getWindowWidth();
+
+	// Get window height
+	int getWindowHeight();
 };
 

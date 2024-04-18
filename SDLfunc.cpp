@@ -17,6 +17,9 @@ bool SDLfunc::Init()
 	/// Initialization flag
 	bool success = true;
 
+	// The game window
+	Window gWindow{};
+
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
@@ -24,11 +27,8 @@ bool SDLfunc::Init()
 	}
 	else
 	{
-		// Instantiate the Window class
-		Window gWindow{};
-
 		// Create an SDL window
-		sdlWindow = SDL_CreateWindow("SDL Chess", 0, 0, gWindow.windowWidth, gWindow.windowHeight, SDL_WINDOW_SHOWN);
+		sdlWindow = SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, gWindow.getWindowWidth(), gWindow.getWindowHeight(), SDL_WINDOW_SHOWN);
 		// Error handling for SDL window creation
 		if (sdlWindow == NULL)
 		{
@@ -50,10 +50,55 @@ bool SDLfunc::Init()
 				// Get the surface of the new SDL window
 				sdlSurface = SDL_GetWindowSurface(sdlWindow);
 			}
-
+			
 		}
 	}
 	return success;
+}
+
+bool SDLfunc::loadMedia()
+{
+	// Loading success flag
+	bool success = true;
+
+	// Load the PNG image to a surface
+	pngSurface = loadSurface("images/chessboard.png");
+
+	// Error checking for load media
+	if (pngSurface == NULL)
+	{
+		printf("Failed to load PNG image!\n");
+		success = false;
+	}
+
+	return success;
+}
+
+SDL_Surface* SDLfunc::loadSurface(std::string path)
+{
+	// The final, optimized image, loaded to a surface
+	SDL_Surface* optimizedSurface = NULL;
+
+	// Load image 
+	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
+	if (loadedSurface == NULL)
+	{
+		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
+	}
+	else
+	{
+		optimizedSurface = SDL_ConvertSurface(loadedSurface, sdlSurface->format, 0);
+		// Error checking for surface optimization
+		if (optimizedSurface == NULL)
+		{
+			printf("Unable to optimize image %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
+		}
+
+		// Free old loaded surface, which was unoptimized
+		SDL_FreeSurface(loadedSurface);
+	}
+
+	return optimizedSurface;
 }
 
 void SDLfunc::Close()
