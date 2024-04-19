@@ -36,6 +36,35 @@ int main( int argc, char* args[] )
 		// Load media
 		std::string imgPath = "images/chessboard.png";
 		SDL_Texture* loadedTexture = IMG_LoadTexture(mainRenderer, imgPath.c_str());
+
+		// Get values for rect, renderer and window
+		/*
+		int loadedTextureW;
+		int loadedTextureH;
+		SDL_QueryTexture(loadedTexture, NULL, NULL, &loadedTextureW, &loadedTextureH);
+		float renderScaleX;
+		float renderScaleY;
+		SDL_RenderGetScale(mainRenderer, &renderScaleX, &renderScaleY);
+		int windowW;
+		int windowH;
+		SDL_GetWindowSize(mainWindow, &windowW, &windowH);
+
+		
+
+		// Create rectangle for the chessboard texture that is set in the middle of the window, no matter the size of the window.
+		SDL_Rect centerRect;
+		centerRect.x = 0;
+		centerRect.y = 0;
+		centerRect.w = loadedTextureW;
+		centerRect.h = loadedTextureH;
+
+		std::cout << "texture width and height:\n" << loadedTextureW << "\n" << loadedTextureH << "\n";
+		std::cout << "render scale X and Y:\n" << renderScaleX << "\n" << renderScaleY << "\n";
+		std::cout << "window size width and height:\n" << windowW << "\n" << windowH << "\n";
+		std::cout << "Rectangle dimensions:\n" << "X: " << centerRect.x << "\n" << "Y: " << centerRect.y << "\nW: ";
+		*/
+
+		
 		if (!loadedTexture)
 		{
 			printf("Failed to load media!\n");
@@ -63,18 +92,11 @@ int main( int argc, char* args[] )
 					}
 				}
 
-				// Create rectangle to center
-				SDL_Rect centerRect;
-				centerRect.x = window.windowWidth / 8;
-				centerRect.y = 0;
-				centerRect.w = window.windowWidth;
-				centerRect.h = window.windowHeight;
-
 				// Clear the screen with the render color
 				SDL_RenderClear(mainRenderer);
 
 				// Render texture to screen
-				SDL_RenderCopy(mainRenderer, loadedTexture, NULL, NULL);
+				SDL_RenderCopy(mainRenderer, loadedTexture, NULL, &centerRect);
 
 				// Update screen
 				SDL_RenderPresent(mainRenderer);
