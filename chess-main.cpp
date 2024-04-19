@@ -9,23 +9,22 @@
 #include "SDLfunc.h"
 #include <algorithm>
 
-// Scale rectangle and keep aspect ratio
-void scaleRect(SDL_Rect& pos, float scalar)
-{
-	pos.w = ((float)pos.w) * scalar;
-	pos.h = ((float)pos.h) * scalar;
-}
 
-// Draw the chessboard
-void drawChessboard(Window window, SDL_Renderer* renderer, float borderWidth)
+/// <summary>
+/// Draws the chessboard.
+/// </summary>
+/// <param name="window">The window to get dimensions from.</param>
+/// <param name="renderer">The renderer.</param>
+/// <param name="borderWidth">The width of the border for the chessboard.</param>
+static void drawChessboard(Window window, SDL_Renderer* renderer, double borderWidth = 10)
 {
 	int windowW = window.getWindowWidth();
 	int windowH = window.getWindowHeight();
 	// Get minimum value between window width and window height to set the board side length
 	int minWindowDimension = std::min(windowW, windowH);
 	// Set the board side length to the 2/3rds the size of the minimum dimension of the window size
-	float boardSideLength = (minWindowDimension * 2 / 3);
-	float borderPointerPos = borderWidth / 2;
+	double boardSideLength = (minWindowDimension * 2 / 3);
+	double borderPointerPos = borderWidth / 2;
 
 	SDL_FRect boardBase = { 0, 0, boardSideLength, boardSideLength };
 	SDL_FRect boardBorder = { 0, 0, boardSideLength + borderWidth, boardSideLength + borderWidth };
@@ -97,7 +96,7 @@ int main( int argc, char* args[] )
 	sdlEngine.InitIMG(IMG_INIT_PNG);
 
 		// Create the window instance, using parameters specified by options menu. Default is 640x480.
-		Window window{1080, 720};
+		Window window{};
 		int windowW = window.getWindowWidth();
 		int windowH = window.getWindowHeight();
 		// Generate the SDL window
@@ -154,7 +153,7 @@ int main( int argc, char* args[] )
 				SDL_SetRenderDrawColor(mainRenderer, 255, 255, 255, 255);
 				SDL_RenderClear(mainRenderer);
 
-				drawChessboard(window, mainRenderer, 10);
+				drawChessboard(window, mainRenderer);
 
 				// Update screen
 				SDL_RenderPresent(mainRenderer);
