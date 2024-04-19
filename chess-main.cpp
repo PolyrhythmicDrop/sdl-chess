@@ -37,8 +37,7 @@ int main( int argc, char* args[] )
 		std::string imgPath = "images/chessboard.png";
 		SDL_Texture* loadedTexture = IMG_LoadTexture(mainRenderer, imgPath.c_str());
 
-		// Get values for rect, renderer and window
-		/*
+		// Get values for rect, renderer and window		
 		int loadedTextureW;
 		int loadedTextureH;
 		SDL_QueryTexture(loadedTexture, NULL, NULL, &loadedTextureW, &loadedTextureH);
@@ -48,7 +47,7 @@ int main( int argc, char* args[] )
 		int windowW;
 		int windowH;
 		SDL_GetWindowSize(mainWindow, &windowW, &windowH);
-
+		
 		
 
 		// Create rectangle for the chessboard texture that is set in the middle of the window, no matter the size of the window.
@@ -58,6 +57,7 @@ int main( int argc, char* args[] )
 		centerRect.w = loadedTextureW;
 		centerRect.h = loadedTextureH;
 
+		/*
 		std::cout << "texture width and height:\n" << loadedTextureW << "\n" << loadedTextureH << "\n";
 		std::cout << "render scale X and Y:\n" << renderScaleX << "\n" << renderScaleY << "\n";
 		std::cout << "window size width and height:\n" << windowW << "\n" << windowH << "\n";
@@ -101,6 +101,7 @@ int main( int argc, char* args[] )
 				// Update screen
 				SDL_RenderPresent(mainRenderer);
 
+				// Blits and surfaces, instead of textures
 				/*
 				// Apply/blit the optimized PNG image that we loaded
 				SDL_BlitSurface(sdlEngine.pngSurface, NULL, sdlEngine.windowSurface, &centerRect);
