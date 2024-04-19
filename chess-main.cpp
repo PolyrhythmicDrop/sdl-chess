@@ -7,7 +7,14 @@
 #include <SDL_image.h>
 #include "Window.h"
 #include "SDLfunc.h"
+#include <algorithm>
 
+// Scale rectangle and keep aspect ratio
+void scaleRect(SDL_Rect& pos, float scalar)
+{
+	pos.w = ((float)pos.w) * scalar;
+	pos.h = ((float)pos.h) * scalar;
+}
 
 // ** Main loop **
 
@@ -24,8 +31,10 @@ int main( int argc, char* args[] )
 
 		// Create the window instance, using parameters specified by options menu. Default is 640x480.
 		Window window{1080, 720};
+		int windowW = window.getWindowWidth();
+		int windowH = window.getWindowHeight();
 		// Generate the SDL window
-		SDL_Window* mainWindow = sdlEngine.createWindow(window.getWindowWidth(), window.getWindowHeight());
+		SDL_Window* mainWindow = sdlEngine.createWindow(windowW, windowH);
 		// Initialize the renderer
 		SDL_Renderer* mainRenderer = sdlEngine.createRenderer(mainWindow, SDL_RENDERER_ACCELERATED, 255, 255, 255, 255);
 		// Set render resolution to match the window
@@ -44,18 +53,16 @@ int main( int argc, char* args[] )
 		float renderScaleX;
 		float renderScaleY;
 		SDL_RenderGetScale(mainRenderer, &renderScaleX, &renderScaleY);
-		int windowW;
-		int windowH;
-		SDL_GetWindowSize(mainWindow, &windowW, &windowH);
-		
+		// Get minimum value between window width and window height to set the board side length
+		int minWindowDimension = std::min(windowW, windowH);
+		// Set the board side length to the 2/3rds the size of the minimum dimension of the window size
+		float boardSideLength = (minWindowDimension * 2 / 3);
+
 		
 
-		// Create rectangle for the chessboard texture that is set in the middle of the window, no matter the size of the window.
-		SDL_Rect centerRect;
-		centerRect.x = 0;
-		centerRect.y = 0;
-		centerRect.w = loadedTextureW;
-		centerRect.h = loadedTextureH;
+
+				
+
 
 		/*
 		std::cout << "texture width and height:\n" << loadedTextureW << "\n" << loadedTextureH << "\n";
@@ -92,14 +99,70 @@ int main( int argc, char* args[] )
 					}
 				}
 
-				// Clear the screen with the render color
+
+
+				
+				// Clear the screen with white
+				SDL_SetRenderDrawColor(mainRenderer, 255, 255, 255, 255);
 				SDL_RenderClear(mainRenderer);
 
-				// Render texture to screen
-				SDL_RenderCopy(mainRenderer, loadedTexture, NULL, &centerRect);
+				SDL_FRect boardBase = { 0, 0, boardSideLength, boardSideLength };
+				SDL_FRect boardBorder = { 0, 0, boardSideLength + 10, boardSideLength + 10 };
+				// Set the width and height of the boardBase and boardBorder rectangles to be the center of the window
+				boardBase.x = (windowW / 2) - (boardBase.w / 2);
+				boardBase.y = (windowH / 2) - (boardBase.h / 2);
+				boardBorder.x = (windowW / 2) - (boardBase.w / 2) - 5;
+				boardBorder.y = (windowH / 2) - (boardBase.h / 2) - 5;
+
+				// Get the side for each square in the board
+				float spaceSideLength = (boardBase.w / 8);
+
+				// Create the basic board square variable
+				SDL_FRect boardSpace = { 0, 0, spaceSideLength, spaceSideLength};
+				SDL_Point boardSpaceStartPoint = { boardBase.x, boardBase.y };
+				SDL_Point boardSpacePoint = boardSpaceStartPoint;
+				
+				// Draw the board border
+				SDL_SetRenderDrawColor(mainRenderer, 0, 0, 0, 255);
+				SDL_RenderFillRectF(mainRenderer, &boardBorder);
+
+				// Draw the board base
+				SDL_SetRenderDrawColor(mainRenderer, 182, 133, 35, 255);
+				SDL_RenderFillRectF(mainRenderer, &boardBase);
+
+				// Draw the chessboard
+				// Set the render color to white for the odd board squares
+				SDL_SetRenderDrawColor(mainRenderer, 255, 255, 255, 255);
+				// Draw the odd board squares
+				for (int i = 1; i <= 4; i++)
+				{
+					// Draw the first row of odd board squares
+					for (int i = 1; i <= 4; i++)
+					{
+						boardSpace.x = boardSpacePoint.x;
+						boardSpace.y = boardSpacePoint.y;
+						SDL_RenderFillRectF(mainRenderer, &boardSpace);
+						boardSpacePoint.x = boardSpacePoint.x + (spaceSideLength * 2);
+					}
+					// Move the y value of the draw point down by a space, then the x point over by a space					
+					boardSpacePoint.y = boardSpacePoint.y + spaceSideLength;
+					boardSpacePoint.x = boardSpacePoint.x - (spaceSideLength * 7);
+					// Draw the next row of odd board squares
+					for (int i = 1; i <= 4; i++)
+					{
+						boardSpace.x = boardSpacePoint.x;
+						boardSpace.y = boardSpacePoint.y;
+						SDL_RenderFillRectF(mainRenderer, &boardSpace);
+						boardSpacePoint.x = boardSpacePoint.x + (spaceSideLength * 2);
+
+					}
+					boardSpacePoint.x = boardSpacePoint.x - (spaceSideLength * 9);
+					boardSpacePoint.y = boardSpacePoint.y + spaceSideLength;					
+				}
 
 				// Update screen
 				SDL_RenderPresent(mainRenderer);
+				
 
 				// Blits and surfaces, instead of textures
 				/*
