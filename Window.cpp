@@ -6,17 +6,24 @@
 #include <iostream>
 
 /// <summary>
-///  Default constructor for a window
+///  Default constructor for a window. Set width and height with default value, then everything else gets initialized.
 /// </summary>
 /// <param name="width">The width of the window</param>
 /// <param name="height">The height of the window</param>
-Window::Window(int width, int height) 
-	: _windowWidth{ width }, _windowHeight { height }, _window { NULL }
-{}
+Window::Window(int width, int height)
+	: _windowWidth{ width },
+	_windowHeight{ height }
+{
+	_window = NULL;
+	_mouseFocus = false;
+	_keyboardFocus = false;
+	_fullscreen = false;
+	_minimized = false;
+}
 
 void Window::setWindow(SDL_Window* window)
 {
-	window = _window;
+	_window = window;
 }
 
 SDL_Window* Window::getWindow()
@@ -56,4 +63,31 @@ void Window::setWindowHeight(int height)
 	{
 		printf("Cannot set window height to less than 0!\n");
 	}
+}
+
+bool Window::hasMouseFocus()
+{
+	return _mouseFocus;
+}
+
+bool Window::hasKeyboardFocus()
+{
+	return _keyboardFocus;
+}
+
+bool Window::isMinimized()
+{
+	return _minimized;
+}
+
+void Window::freeWindow()
+{
+	if (_window != NULL)
+	{
+		SDL_DestroyWindow(_window);
+	}
+	_mouseFocus = false;
+	_keyboardFocus = false;
+	_windowWidth = 0;
+	_windowHeight = 0;
 }

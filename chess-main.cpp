@@ -100,15 +100,15 @@ int main( int argc, char* args[] )
 		int windowW = window.getWindowWidth();
 		int windowH = window.getWindowHeight();
 		// Generate the SDL window
-		SDL_Window* mainWindow = SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowW, windowH, SDL_WINDOW_SHOWN);
-		window.setWindow(mainWindow);
+		window.setWindow(SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowW, windowH, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE));
+		SDL_Window* mainWindow = window.getWindow();
 		if (mainWindow == NULL)
 		{
 			printf("Window could not be created! SDL Error %s\n", SDL_GetError());			
 		}
 		
 		// Initialize the renderer
-		SDL_Renderer* mainRenderer = SDL_CreateRenderer(mainWindow, -1, SDL_RENDERER_ACCELERATED);
+		SDL_Renderer* mainRenderer = SDL_CreateRenderer(mainWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
 		// Set render resolution to match the window
 		if (SDL_RenderSetLogicalSize(mainRenderer, windowW, windowH) < 0)
 		{
@@ -138,9 +138,11 @@ int main( int argc, char* args[] )
 					if (e.type == SDL_QUIT)
 					{
 						quit = true;
-					}
-
+					}					
 				}
+
+				
+
 
 				
 				// Fill the screen with white
