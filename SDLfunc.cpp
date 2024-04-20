@@ -43,21 +43,6 @@ bool SDLfunc::InitIMG(IMG_InitFlags flags)
 	return success;
 }
 
-SDL_Window* SDLfunc::createWindow(int width, int height)
-{
-	// Window creation flag
-	bool success = true;
-	// Create an SDL window
-	sdlWindow = SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
-	// Error handling for SDL window creation
-	if (sdlWindow == NULL)
-	{
-		printf("Window could not be created! SDL Error %s\n", SDL_GetError());
-		success = false;
-	}
-
-	return sdlWindow;
-}
 
 std::array<Uint8,4> SDLfunc::colorConverter(int r, int g, int b, int a)
 {

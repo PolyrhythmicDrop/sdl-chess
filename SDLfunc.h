@@ -41,14 +41,6 @@ public:
 	bool InitIMG(IMG_InitFlags flags);
 
 	/// <summary>
-	/// Creates a window, which functions as the main window for the game.
-	/// </summary>
-	/// <param name="width">The width of the window.</param>
-	/// <param name="height">The height of the window.</param>
-	/// <returns></returns>
-	SDL_Window* createWindow(int width, int height);
-
-	/// <summary>
 	/// Creates a renderer for a window, and also sets the draw color for that renderer.
 	/// </summary>
 	/// <param name="window">The window to create the renderer for.</param>

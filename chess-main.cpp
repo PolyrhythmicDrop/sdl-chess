@@ -100,11 +100,17 @@ int main( int argc, char* args[] )
 		int windowW = window.getWindowWidth();
 		int windowH = window.getWindowHeight();
 		// Generate the SDL window
-		SDL_Window* mainWindow = sdlEngine.createWindow(windowW, windowH);
+		SDL_Window* mainWindow = SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowW, windowH, SDL_WINDOW_SHOWN);
+		window.setWindow(mainWindow);
+		if (mainWindow == NULL)
+		{
+			printf("Window could not be created! SDL Error %s\n", SDL_GetError());			
+		}
+		
 		// Initialize the renderer
-		SDL_Renderer* mainRenderer = sdlEngine.createRenderer(mainWindow, SDL_RENDERER_ACCELERATED, 255, 255, 255, 255);
+		SDL_Renderer* mainRenderer = SDL_CreateRenderer(mainWindow, -1, SDL_RENDERER_ACCELERATED);
 		// Set render resolution to match the window
-		if (SDL_RenderSetLogicalSize(mainRenderer, window.getWindowWidth(), window.getWindowHeight()) < 0)
+		if (SDL_RenderSetLogicalSize(mainRenderer, windowW, windowH) < 0)
 		{
 			printf("Failed to set logical render size!\n");
 		}
