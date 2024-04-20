@@ -54,7 +54,8 @@ public:
 	/// </summary>
 	/// <param name="x">The X coordinate to render the texture</param>
 	/// <param name="y">The Y coordinate to render the texture</param>
-	void renderTexture(int x, int y);
+	/// <param name="clip">The rectangle to use for clip rendering, aka the srcrect for SDL_RenderCopy(). NULL by default; do not pass a clip if you want to render the whole texture.</param>
+	void renderTexture(int x, int y, SDL_Rect* clip = NULL);
 
 	// Get dimensions of texture
 	int getTextureWidth();
