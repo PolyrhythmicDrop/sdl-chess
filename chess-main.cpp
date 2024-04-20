@@ -108,24 +108,7 @@ int main( int argc, char* args[] )
 		{
 			printf("Failed to set logical render size!\n");
 		}
-		/*
-		// Load chessboard image to texture
-		SDL_Texture* loadedTexture = sdlEngine.loadTexture(mainRenderer, "images/chessboard.png");		
 		
-		std::cout << "texture width and height:\n" << loadedTextureW << "\n" << loadedTextureH << "\n";
-		std::cout << "render scale X and Y:\n" << renderScaleX << "\n" << renderScaleY << "\n";
-		std::cout << "window size width and height:\n" << windowW << "\n" << windowH << "\n";
-		std::cout << "Rectangle dimensions:\n" << "X: " << centerRect.x << "\n" << "Y: " << centerRect.y << "\nW: ";
-		
-
-		
-		if (!loadedTexture)
-		{
-			printf("Failed to load media!\n");
-		}
-		*/ 
-
-		// Main blitting and updating loop with event handler begins
 		if (mainRenderer == NULL)
 		{
 			printf("Renderer failed to initalize!\n");

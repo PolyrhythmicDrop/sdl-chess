@@ -77,13 +77,6 @@ public:
 	bool loadMedia();
 
 	/// <summary>
-	/// Creates a texture from a surface using the image at the specified path. Uses an older method of loading textures. Typically, you should use IMG_LoadTexture instead.
-	/// </summary>
-	/// <param name="path">The path of the image to convert to a texture</param>
-	/// <returns></returns>
-	SDL_Texture* loadTexture(SDL_Renderer* renderer, std::string path);
-
-	/// <summary>
 	/// Loads media at the specified path to the surface created from the main window (sdlWindow).
 	/// </summary>
 	/// <param name="path">The media path</param>

@@ -115,24 +115,6 @@ bool SDLfunc::loadMedia()
 	return success;
 }
 
-SDL_Texture* SDLfunc::loadTexture(SDL_Renderer* renderer, std::string path)
-{
-	// The final texture
-	SDL_Texture* newTexture = NULL;
-
-	if (newTexture != NULL)
-	{ 
-		// Deallocate existing texture, if any
-		SDL_DestroyTexture(loadedTexture);
-	}
-
-	// Load an image at the specified path to a texture.
-	SDL_Texture* loadedTexture = IMG_LoadTexture(renderer, path.c_str());
-	loadedTexture = newTexture;
-
-	return newTexture;
-}
-
 SDL_Surface* SDLfunc::loadSurface(std::string path)
 {
 	// The final, optimized image, loaded to a surface
