@@ -81,7 +81,7 @@ public:
 	/// </summary>
 	/// <param name="path">The path of the image to convert to a texture</param>
 	/// <returns></returns>
-	SDL_Texture* loadTexture(std::string path);
+	SDL_Texture* loadTexture(SDL_Renderer* renderer, std::string path);
 
 	/// <summary>
 	/// Loads media at the specified path to the surface created from the main window (sdlWindow).

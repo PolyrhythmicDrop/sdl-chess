@@ -139,10 +139,12 @@
   <ItemGroup>
     <ClCompile Include="chess-main.cpp" />
     <ClCompile Include="SDLfunc.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SDLfunc.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

@@ -115,30 +115,21 @@ bool SDLfunc::loadMedia()
 	return success;
 }
 
-SDL_Texture* SDLfunc::loadTexture(std::string path)
+SDL_Texture* SDLfunc::loadTexture(SDL_Renderer* renderer, std::string path)
 {
 	// The final texture
 	SDL_Texture* newTexture = NULL;
 
-	// Load an image at the specified path.
-	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
-	if (loadedSurface == NULL)
-	{
-		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
+	if (newTexture != NULL)
+	{ 
+		// Deallocate existing texture, if any
+		SDL_DestroyTexture(loadedTexture);
 	}
-	else
-	{
-		// Create the texture from the surface pixels
-		newTexture = SDL_CreateTextureFromSurface(windowRenderer, loadedSurface);
-		if (newTexture == NULL)
-		{
-			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-		}
 
-		// Free old loaded surface
-		SDL_FreeSurface(loadedSurface);
-	}
+	// Load an image at the specified path to a texture.
+	SDL_Texture* loadedTexture = IMG_LoadTexture(renderer, path.c_str());
 	loadedTexture = newTexture;
+
 	return newTexture;
 }
 
