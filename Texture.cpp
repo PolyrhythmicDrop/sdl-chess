@@ -96,11 +96,18 @@ bool Texture::loadTextureFromImage(std::string path)
 	return success;
 }
 
-void Texture::renderTexture(int x, int y)
+void Texture::renderTexture(int x, int y, SDL_Rect* clip)
 {
 	//Set rendering space and render to screen
 	SDL_Rect renderQuad = { x, y, _width, _height };
-	SDL_RenderCopy(_renderer, _texture, NULL, &renderQuad);
+	//Set clip rendering dimensions
+	if (clip != NULL)
+	{
+		renderQuad.w = clip->w;
+		renderQuad.h = clip->h;
+	}
+
+	SDL_RenderCopy(_renderer, _texture, clip, &renderQuad);
 }
 
 
