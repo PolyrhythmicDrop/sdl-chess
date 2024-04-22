@@ -84,15 +84,6 @@ static void drawChessboard(Window window, SDL_Renderer* renderer, double borderW
 
 }
 
-static void loadImage(std::string path, SDL_Renderer* renderer)
-{
-	SDL_Texture* texture = NULL;
-	SDL_Surface* surface = NULL;
-	surface = IMG_Load(path.c_str());
-	texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-}
-
 // ** Main loop **
 
 int main( int argc, char* args[] )
