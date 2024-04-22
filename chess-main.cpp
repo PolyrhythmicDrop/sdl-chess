@@ -8,6 +8,8 @@
 #include "Window.h"
 #include "SDLfunc.h"
 #include <algorithm>
+#include "Button.h"
+#include "Texture.h"
 
 
 /// <summary>
@@ -82,6 +84,15 @@ static void drawChessboard(Window window, SDL_Renderer* renderer, double borderW
 
 }
 
+static void loadImage(std::string path, SDL_Renderer* renderer)
+{
+	SDL_Texture* texture = NULL;
+	SDL_Surface* surface = NULL;
+	surface = IMG_Load(path.c_str());
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+}
+
 // ** Main loop **
 
 int main( int argc, char* args[] )
@@ -96,7 +107,7 @@ int main( int argc, char* args[] )
 	sdlEngine.InitIMG(IMG_INIT_PNG);
 
 		// Create the window instance, using parameters specified by options menu. Default is 640x480.
-		Window window{};
+		Window window{1920, 1080};
 		int windowW = window.getWindowWidth();
 		int windowH = window.getWindowHeight();
 		// Generate the SDL window
@@ -108,12 +119,13 @@ int main( int argc, char* args[] )
 		}
 		
 		// Initialize the renderer
-		SDL_Renderer* mainRenderer = SDL_CreateRenderer(mainWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
+		SDL_Renderer* mainRenderer = SDL_CreateRenderer(mainWindow, -1, SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_ACCELERATED );
 		// Set render resolution to match the window
 		if (SDL_RenderSetLogicalSize(mainRenderer, windowW, windowH) < 0)
 		{
 			printf("Failed to set logical render size!\n");
 		}
+
 		
 		if (mainRenderer == NULL)
 		{
@@ -121,7 +133,8 @@ int main( int argc, char* args[] )
 		}
 		else
 		{
-			
+
+		
 			// Main loop flag
 			bool quit = false;
 
@@ -141,15 +154,57 @@ int main( int argc, char* args[] )
 					}					
 				}
 
-				
+				// Standalone IMG Load Texture test with global variables
+				/*
+				std::string path = "images/sprsheet-esc-menu.png";
+				SDL_Texture* standaloneTexture = IMG_LoadTexture(mainRenderer, path.c_str());
+				SDL_Rect srcRect = { 0, 0, 300, 100 };
+				SDL_Rect destRect = { 0, 0, 300, 100 };
+				*/
+				//
+
+				// Texture class loading test
+				/*
+				Texture textureTest(mainRenderer);
+				textureTest.loadTextureFromImage("images/sprsheet-esc-menu.png");
+				SDL_Texture* classTexture = textureTest.getTexture();
+				SDL_Rect srcRect = { 0, 0, 300, 100 };
+				SDL_Rect destRect = { 0, 0, 300, 100 };
+				*/
+
+				// Button class loading test
+				Texture buttonTexture(mainRenderer);
+				Button optionsButton("Options", "images/sprsheet-esc-menu.png");
+				optionsButton.setButtonTexture(buttonTexture.loadTextureFromImage(optionsButton.getButtonPath()));
+				SDL_Texture* optionsTexture = optionsButton.getButtonTexture();
+				optionsButton.setButtonSourceRect(0, 0, 300, 100);
+				SDL_Rect optionsSrcRect = optionsButton.getButtonSourceRect();
+	
+				SDL_Rect destRect = { 0, 0, 300, 100 };
 
 
 				
 				// Fill the screen with white
-				SDL_SetRenderDrawColor(mainRenderer, 255, 255, 255, 255);
+				SDL_SetRenderDrawColor(mainRenderer, 100, 100, 100, 100);
 				SDL_RenderClear(mainRenderer);
 
 				drawChessboard(window, mainRenderer);
+
+				SDL_RenderCopy(mainRenderer, optionsTexture, &optionsSrcRect, &destRect);
+
+				// Rendering the Texture class loading test
+
+
+				// Rendering the Standalone IMG_LoadTexture test
+				/*
+				SDL_RenderCopy(mainRenderer, standaloneTexture, &srcRect, &destRect);
+				destRect = { 0, 200, 300, 100 };
+				srcRect = { 0, 110, 300, 100 };
+				SDL_RenderCopy(mainRenderer, standaloneTexture, &srcRect, &destRect);
+				*/
+
+				// optionsButton.renderButton(10, 10, mainRenderer);
+				// SDL_RenderCopy(mainRenderer, optionsButton.getButtonTexture(), NULL, NULL);
 
 				// Update screen
 				SDL_RenderPresent(mainRenderer);

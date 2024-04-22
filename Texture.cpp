@@ -23,10 +23,8 @@ void Texture::initTexture()
 {
 	// Initialize variables
 	_texture = NULL;
-	_renderer = NULL;
 	_width = 0;
 	_height = 0;
-
 }
 
 
@@ -77,7 +75,7 @@ bool Texture::loadTextureFromSurface(std::string path)
 	}
 }
 
-bool Texture::loadTextureFromImage(std::string path)
+SDL_Texture* Texture::loadTextureFromImage(std::string path)
 {
 	bool success = false;
 	
@@ -85,29 +83,29 @@ bool Texture::loadTextureFromImage(std::string path)
 	freeTexture();
 	
 	// Load an image at the specified path to a texture.
-	_texture = IMG_LoadTexture(_renderer, path.c_str());	
+	SDL_Texture* newTexture = IMG_LoadTexture(_renderer, path.c_str());	
 
-	// Check that texture loaded properly
-	if (_texture != NULL)
-	{
-		success = true;
-	}
+	_texture = newTexture;
 
-	return success;
+	return _texture;
 }
 
-void Texture::renderTexture(int x, int y, SDL_Rect* clip)
+SDL_Texture* Texture::getTexture()
 {
-	//Set rendering space and render to screen
-	SDL_Rect renderQuad = { x, y, _width, _height };
-	//Set clip rendering dimensions
-	if (clip != NULL)
-	{
-		renderQuad.w = clip->w;
-		renderQuad.h = clip->h;
-	}
+	return _texture;
+}
 
-	SDL_RenderCopy(_renderer, _texture, clip, &renderQuad);
+
+void Texture::renderTexture(int x, int y, int w, int h, SDL_Rect clip)
+{
+	SDL_Rect destRect = { x, y, w, h };
+	SDL_RenderCopy(_renderer, _texture, &clip, &destRect);
+
+}
+
+SDL_Renderer* Texture::getRenderer()
+{
+	return _renderer;
 }
 
 
