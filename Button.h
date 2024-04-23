@@ -13,9 +13,9 @@ class Button
 private:
 	
 	std::string _buttonName;
+	std::string _buttonPath;
 	SDL_Texture* _buttonTexture;
 	SDL_Rect _buttonRect;
-	std::string _buttonPath;
 	int _buttonW;
 	int _buttonH;
 	int _buttonX;

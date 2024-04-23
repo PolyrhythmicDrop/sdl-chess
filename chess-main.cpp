@@ -12,6 +12,7 @@
 #include "Texture.h"
 
 
+
 /// <summary>
 /// Draws the chessboard.
 /// </summary>
@@ -88,6 +89,7 @@ static void drawChessboard(Window window, SDL_Renderer* renderer, double borderW
 
 int main( int argc, char* args[] )
 {
+	
 	// Initialize the SDL Engine, which contains all my basic SDL functions
 	SDLfunc sdlEngine{};
 
@@ -101,8 +103,10 @@ int main( int argc, char* args[] )
 		Window window{1920, 1080};
 		int windowW = window.getWindowWidth();
 		int windowH = window.getWindowHeight();
+
+
 		// Generate the SDL window
-		window.setWindow(SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowW, windowH, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE));
+		window.setWindow(SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowW, windowH, SDL_WINDOW_SHOWN ));
 		SDL_Window* mainWindow = window.getWindow();
 		if (mainWindow == NULL)
 		{
@@ -116,6 +120,14 @@ int main( int argc, char* args[] )
 		{
 			printf("Failed to set logical render size!\n");
 		}
+		// Button class loading test
+		Texture buttonTexture(mainRenderer);
+		Button optionsButton("Options", "images/sprsheet-esc-menu.png");
+		optionsButton.setButtonTexture(buttonTexture.loadTextureFromImage(optionsButton.getButtonPath()));
+		SDL_Texture* optionsTexture = optionsButton.getButtonTexture();
+		optionsButton.setButtonSourceRect(0, 0, 300, 100);
+		SDL_Rect optionsSrcRect = optionsButton.getButtonSourceRect();
+		SDL_Rect optionsDestRect = { 0, 0, optionsButton.getButtonWidth(), optionsButton.getButtonHeight() };
 
 		
 		if (mainRenderer == NULL)
@@ -142,8 +154,22 @@ int main( int argc, char* args[] )
 					if (e.type == SDL_QUIT)
 					{
 						quit = true;
-					}					
+					}
+					if (e.type == SDL_KEYDOWN)
+					{
+						switch (e.key.keysym.sym)
+						{
+						case SDLK_a:
+							SDL_SetWindowSize(mainWindow, 1024, 768);
+							break;
+						case SDLK_ESCAPE:
+							quit = true;
+							break;
+						}
+
+					}
 				}
+				
 
 				// Standalone IMG Load Texture test with global variables
 				/*
@@ -163,15 +189,7 @@ int main( int argc, char* args[] )
 				SDL_Rect destRect = { 0, 0, 300, 100 };
 				*/
 
-				// Button class loading test
-				Texture buttonTexture(mainRenderer);
-				Button optionsButton("Options", "images/sprsheet-esc-menu.png");
-				optionsButton.setButtonTexture(buttonTexture.loadTextureFromImage(optionsButton.getButtonPath()));
-				SDL_Texture* optionsTexture = optionsButton.getButtonTexture();
-				optionsButton.setButtonSourceRect(0, 0, 300, 100);
-				SDL_Rect optionsSrcRect = optionsButton.getButtonSourceRect();
-	
-				SDL_Rect destRect = { 0, 0, 300, 100 };
+				
 
 
 				
@@ -179,9 +197,9 @@ int main( int argc, char* args[] )
 				SDL_SetRenderDrawColor(mainRenderer, 100, 100, 100, 100);
 				SDL_RenderClear(mainRenderer);
 
-				drawChessboard(window, mainRenderer);
+				drawChessboard(window, mainRenderer);				
 
-				SDL_RenderCopy(mainRenderer, optionsTexture, &optionsSrcRect, &destRect);
+				SDL_RenderCopy(mainRenderer, optionsTexture, &optionsSrcRect, &optionsDestRect);
 
 				// Rendering the Texture class loading test
 

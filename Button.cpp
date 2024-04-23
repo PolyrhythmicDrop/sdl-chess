@@ -10,11 +10,10 @@
 
 // Constructor, initialize values
 Button::Button(std::string name, std::string imgPath) :
-	_buttonName {name}
+	_buttonName(name), _buttonPath(imgPath)
 {
 	_buttonTexture = NULL;
 	_buttonRect;
-	_buttonPath = imgPath;
 	_buttonW = 0;
 	_buttonH = 0;
 	_buttonX = 0;
