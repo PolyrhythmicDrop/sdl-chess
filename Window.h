@@ -27,7 +27,7 @@ private:
 public:
 
 	//Constructors
-	Window(int width = 640, int height = 480);
+	Window(int width = 1920, int height = 1080);
 
 	// ** Methods **
 

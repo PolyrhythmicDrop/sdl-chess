@@ -99,8 +99,8 @@ int main( int argc, char* args[] )
 	// Initialize SDL IMG and check if successful
 	sdlEngine.InitIMG(IMG_INIT_PNG);
 
-		// Create the window instance, using parameters specified by options menu. Default is 640x480.
-		Window window{1920, 1080};
+		// Create the window instance, using parameters specified by options menu. Default is 1920x1080.
+		Window window{};
 		int windowW = window.getWindowWidth();
 		int windowH = window.getWindowHeight();
 
@@ -120,6 +120,8 @@ int main( int argc, char* args[] )
 		{
 			printf("Failed to set logical render size!\n");
 		}
+		
+		
 		// Button class loading test
 		Texture buttonTexture(mainRenderer);
 		Button optionsButton("Options", "images/sprsheet-esc-menu.png");
@@ -128,6 +130,9 @@ int main( int argc, char* args[] )
 		optionsButton.setButtonSourceRect(0, 0, 300, 100);
 		SDL_Rect optionsSrcRect = optionsButton.getButtonSourceRect();
 		SDL_Rect optionsDestRect = { 0, 0, optionsButton.getButtonWidth(), optionsButton.getButtonHeight() };
+
+		// Render flip initialization
+		SDL_RendererFlip flipType = SDL_FLIP_NONE;
 
 		
 		if (mainRenderer == NULL)
@@ -159,9 +164,15 @@ int main( int argc, char* args[] )
 					{
 						switch (e.key.keysym.sym)
 						{
-						case SDLK_a:
+						case SDLK_q:
 							SDL_SetWindowSize(mainWindow, 1024, 768);
+							windowW = 1024;
+							windowH = 768;
 							break;
+						case SDLK_e:
+							SDL_SetWindowSize(mainWindow, 1920, 1080);
+							windowW = 1920;
+							windowH = 1080;						
 						case SDLK_ESCAPE:
 							quit = true;
 							break;
@@ -200,6 +211,7 @@ int main( int argc, char* args[] )
 				drawChessboard(window, mainRenderer);				
 
 				SDL_RenderCopy(mainRenderer, optionsTexture, &optionsSrcRect, &optionsDestRect);
+				flipType = SDL_FLIP_NONE;
 
 				// Rendering the Texture class loading test
 
