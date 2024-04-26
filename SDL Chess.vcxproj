@@ -151,15 +151,13 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\chessboard.png" />
-    <Image Include="images\sprsheet-esc-menu.tiff" />
-    <Image Include="images\1024.tiff" />
-    <Image Include="images\1920.tiff" />
-    <Image Include="images\bg-esc-menu.tiff" />
-    <Image Include="images\button-back.tiff" />
-    <Image Include="images\button-exit.tiff" />
-    <Image Include="images\button-options.tiff" />
-    <Image Include="images\button-resolution.tiff" />
-    <Image Include="images\sprsheet-esc-menu_button-options.png" />
+    <Image Include="images\esc-menu_1024.png" />
+    <Image Include="images\esc-menu_1920.png" />
+    <Image Include="images\esc-menu_bg-esc-menu.png" />
+    <Image Include="images\esc-menu_button-back.png" />
+    <Image Include="images\esc-menu_button-exit.png" />
+    <Image Include="images\esc-menu_button-options.png" />
+    <Image Include="images\esc-menu_button-resolution.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

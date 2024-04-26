@@ -25,6 +25,9 @@ public:
 	// Constructors
 	Button(std::string name = "Button", std::string imgPath = "");
 
+	// Deconstructor
+	~Button();
+
 
 	/// <summary>
 	/// Gets the texture for the button.
@@ -43,7 +46,7 @@ public:
 	/// <param name="height">The height of the rectangle</param>
 	/// <param name="x">The X coordinate of the rectangle</param>
 	/// <param name="y">The Y coordinate of the rectangle</param>
-	void setButtonSourceRect(int x, int y, int width, int height);
+	void setButtonDimensions(int x, int y, int width, int height);
 	
 
 	SDL_Rect getButtonSourceRect();

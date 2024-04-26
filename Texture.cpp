@@ -14,6 +14,12 @@ Texture::Texture(SDL_Renderer* renderer)
 	: _renderer {renderer}, _texture {NULL}, _width {0}, _height {0}
 {};
 
+Texture::~Texture()
+{
+	freeTexture();
+}
+
+
 // Method Definitions
 
 /// <summary>
@@ -27,11 +33,6 @@ void Texture::initTexture()
 	_height = 0;
 }
 
-
-Texture::~Texture()
-{
-	freeTexture();
-}
 
 
 bool Texture::loadTextureFromSurface(std::string path)

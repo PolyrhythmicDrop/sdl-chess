@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Images">
+      <UniqueIdentifier>{7e44c341-05e3-419a-8d53-f2e7ed86e9ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chess-main.cpp">
@@ -49,32 +52,26 @@
     <Image Include="images\chessboard.png">
       <Filter>Source Files</Filter>
     </Image>
-    <Image Include="images\sprsheet-esc-menu.tiff">
-      <Filter>Source Files</Filter>
+    <Image Include="images\esc-menu_1024.png">
+      <Filter>Source Files\Images</Filter>
     </Image>
-    <Image Include="images\1024.tiff">
-      <Filter>Source Files</Filter>
+    <Image Include="images\esc-menu_1920.png">
+      <Filter>Source Files\Images</Filter>
     </Image>
-    <Image Include="images\1920.tiff">
-      <Filter>Source Files</Filter>
+    <Image Include="images\esc-menu_bg-esc-menu.png">
+      <Filter>Source Files\Images</Filter>
     </Image>
-    <Image Include="images\bg-esc-menu.tiff">
-      <Filter>Source Files</Filter>
+    <Image Include="images\esc-menu_button-back.png">
+      <Filter>Source Files\Images</Filter>
     </Image>
-    <Image Include="images\button-back.tiff">
-      <Filter>Source Files</Filter>
+    <Image Include="images\esc-menu_button-exit.png">
+      <Filter>Source Files\Images</Filter>
     </Image>
-    <Image Include="images\button-exit.tiff">
-      <Filter>Source Files</Filter>
+    <Image Include="images\esc-menu_button-options.png">
+      <Filter>Source Files\Images</Filter>
     </Image>
-    <Image Include="images\button-options.tiff">
-      <Filter>Source Files</Filter>
-    </Image>
-    <Image Include="images\button-resolution.tiff">
-      <Filter>Source Files</Filter>
-    </Image>
-    <Image Include="images\sprsheet-esc-menu_button-options.png">
-      <Filter>Source Files</Filter>
+    <Image Include="images\esc-menu_button-resolution.png">
+      <Filter>Source Files\Images</Filter>
     </Image>
   </ItemGroup>
 </Project>

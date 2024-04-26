@@ -22,12 +22,12 @@ public:
 
 	Texture(SDL_Renderer* renderer);
 
-	void initTexture();
-
 	/// <summary>
 	/// Removes the class from memory and deallocates the texture. Runs Texture::freeTexture().
 	/// </summary>
 	~Texture();
+
+	void initTexture();
 
 	/// <summary>
 	/// Creates a surface using an image path, then creates a texture from that surface.

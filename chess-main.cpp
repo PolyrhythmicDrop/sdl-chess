@@ -94,7 +94,7 @@ int main( int argc, char* args[] )
 	SDLfunc sdlEngine{};
 
 	// Initialize SDL and check if successful
-	sdlEngine.Init(SDL_INIT_VIDEO, IMG_INIT_TIF);
+	sdlEngine.Init(SDL_INIT_VIDEO, IMG_INIT_PNG);
 
 		// Create the window instance, using parameters specified by options menu. Default is 1920x1080.
 		Window window{};
@@ -121,11 +121,11 @@ int main( int argc, char* args[] )
 		
 		// Button class loading test
 		Texture textureLoader(mainRenderer);
-		Button optionsButton("Options", "images/button-options.tiff");
+		Button optionsButton("Options", "images/esc-menu_button-options.png");
 		textureLoader.loadTextureFromImage(optionsButton.getButtonPath());
 		optionsButton.setButtonTexture(textureLoader.getTexture());
 		SDL_Texture* optionsTexture = optionsButton.getButtonTexture();
-		optionsButton.setButtonSourceRect(0, 0, 300, 100);
+		optionsButton.setButtonDimensions(0, 0, 300, 100);
 
 		SDL_Rect optionsDestRect = { 0, 0, optionsButton.getButtonWidth(), optionsButton.getButtonHeight() };
 		
@@ -192,7 +192,8 @@ int main( int argc, char* args[] )
 			}
 		}
 
-	sdlEngine.Close();
+	
+		sdlEngine.Close();
 
 
 

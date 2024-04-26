@@ -20,6 +20,9 @@ Button::Button(std::string name, std::string imgPath) :
 	_buttonY = 0;
 }
 
+// Deconstructor
+Button::~Button() { std::cout << "Destructor activated! Object destroyed."; };
+
 SDL_Texture* Button::getButtonTexture()
 {
 	return _buttonTexture;
@@ -35,7 +38,7 @@ std::string Button::getButtonPath()
 	return _buttonPath;
 }
 
-void Button::setButtonSourceRect(int x, int y, int width, int height)
+void Button::setButtonDimensions(int x, int y, int width, int height)
 {
 	SDL_Rect buttonRect = { x, y, width, height };
 	/*
