@@ -49,10 +49,31 @@
     <Image Include="images\chessboard.png">
       <Filter>Source Files</Filter>
     </Image>
-    <Image Include="images\sprsheet-esc-menu.tif">
+    <Image Include="images\sprsheet-esc-menu.tiff">
       <Filter>Source Files</Filter>
     </Image>
-    <Image Include="images\sprsheet-esc-menu.png">
+    <Image Include="images\1024.tiff">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="images\1920.tiff">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="images\bg-esc-menu.tiff">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="images\button-back.tiff">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="images\button-exit.tiff">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="images\button-options.tiff">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="images\button-resolution.tiff">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="images\sprsheet-esc-menu_button-options.png">
       <Filter>Source Files</Filter>
     </Image>
   </ItemGroup>

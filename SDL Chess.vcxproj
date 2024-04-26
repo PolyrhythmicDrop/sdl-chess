@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\DevLibraries\SDL2-2.30.2\include;D:\DevLibraries\SDL2_image-2.8.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\DevLibraries\SDL2-2.30.2\lib\x64;D:\DevLibraries\SDL2_image-2.8.2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\DevLibraries\SDL2_ttf-2.22.0\include;D:\DevLibraries\SDL2-2.30.2\include;D:\DevLibraries\SDL2_image-2.8.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\DevLibraries\SDL2_ttf-2.22.0\lib\x64;D:\DevLibraries\SDL2-2.30.2\lib\x64;D:\DevLibraries\SDL2_image-2.8.2\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\DevLibraries\SDL2-2.30.2\include;D:\DevLibraries\SDL2_image-2.8.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\DevLibraries\SDL2-2.30.2\lib\x64;D:\DevLibraries\SDL2_image-2.8.2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\DevLibraries\SDL2_ttf-2.22.0\include;D:\DevLibraries\SDL2-2.30.2\include;D:\DevLibraries\SDL2_image-2.8.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\DevLibraries\SDL2_ttf-2.22.0\lib\x64;D:\DevLibraries\SDL2-2.30.2\lib\x64;D:\DevLibraries\SDL2_image-2.8.2\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -116,7 +116,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -133,7 +133,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -151,8 +151,15 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\chessboard.png" />
-    <Image Include="images\sprsheet-esc-menu.png" />
-    <Image Include="images\sprsheet-esc-menu.tif" />
+    <Image Include="images\sprsheet-esc-menu.tiff" />
+    <Image Include="images\1024.tiff" />
+    <Image Include="images\1920.tiff" />
+    <Image Include="images\bg-esc-menu.tiff" />
+    <Image Include="images\button-back.tiff" />
+    <Image Include="images\button-exit.tiff" />
+    <Image Include="images\button-options.tiff" />
+    <Image Include="images\button-resolution.tiff" />
+    <Image Include="images\sprsheet-esc-menu_button-options.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -31,14 +31,7 @@ public:
 	/// Initialize SDL
 	/// </summary>
 	/// <returns>True if initialization was successful, false if not.</returns>
-	bool Init();
-
-	/// <summary>
-	/// Initialize the SDL IMG library.
-	/// </summary>
-	/// <param name="flags">The flags the initialize IMG with. There can be multiple flags, OR'd together. To add more flags after running InitIMG(), call IMG_Init() with the new flags.</param>
-	/// <returns></returns>
-	bool InitIMG(IMG_InitFlags flags);
+	bool Init(Uint32 sdlFlags, int imgFlags);
 
 	/// <summary>
 	/// Creates a renderer for a window, and also sets the draw color for that renderer.
