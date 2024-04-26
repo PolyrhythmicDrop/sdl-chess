@@ -1,7 +1,6 @@
 #include "SDLfunc.h"
 #include <SDL.h>
 #include <SDL_image.h>
-#include <SDL_ttf.h>
 #include <stdio.h>
 #include "Window.h"
 #include <array>
@@ -15,26 +14,32 @@ SDLfunc::SDLfunc() {};
 
 // ** Methods **
 
-bool SDLfunc::Init(Uint32 sdlFlags, int imgFlags)
+bool SDLfunc::Init()
 {
 	/// Initialization flag
 	bool success = true;
 
-	if (SDL_Init(sdlFlags) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
 		success = false;
 	}
-	if (TTF_Init() < 0)
+	return success;
+}
+
+bool SDLfunc::InitIMG(IMG_InitFlags flags)
+{
+	/// Initialization flag
+	bool success = true;
+	/// Flags for image type
+	int imgFlags = flags;
+	/// Initialize loading using the type specified in flags argument
+	if (!imgFlags)
 	{
-		printf("TTF library could not initialize! SDL Error %s\n", SDL_GetError());
+		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
 		success = false;
 	}
-	if (IMG_Init(imgFlags) < 0)
-	{
-		printf("IMG library could not initialize! SDL Error %s\n", SDL_GetError());
-		success = false;
-	}
+
 	return success;
 }
 
@@ -142,6 +147,5 @@ void SDLfunc::Close()
 
 	// Quit SDL subsystems
 	IMG_Quit();
-	TTF_Quit();
 	SDL_Quit();
 }

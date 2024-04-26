@@ -19,7 +19,7 @@ private:
 
 public:
 	// Constructor
-
+	Texture() {};
 	Texture(SDL_Renderer* renderer);
 
 	/// <summary>

@@ -94,7 +94,10 @@ int main( int argc, char* args[] )
 	SDLfunc sdlEngine{};
 
 	// Initialize SDL and check if successful
-	sdlEngine.Init(SDL_INIT_VIDEO, IMG_INIT_PNG);
+	sdlEngine.Init();
+
+	// Initialize SDL IMG and check if successful
+	sdlEngine.InitIMG(IMG_INIT_PNG);
 
 		// Create the window instance, using parameters specified by options menu. Default is 1920x1080.
 		Window window{};
@@ -121,13 +124,15 @@ int main( int argc, char* args[] )
 		
 		// Button class loading test
 		Texture textureLoader(mainRenderer);
-		Button optionsButton("Options", "images/esc-menu_button-options.png");
+		Button optionsButton("Options", "images/button-options.tiff");
 		textureLoader.loadTextureFromImage(optionsButton.getButtonPath());
 		optionsButton.setButtonTexture(textureLoader.getTexture());
 		SDL_Texture* optionsTexture = optionsButton.getButtonTexture();
-		optionsButton.setButtonDimensions(0, 0, 300, 100);
+		optionsButton.setButtonSourceRect(0, 0, 300, 100);
 
-		SDL_Rect optionsDestRect = { 0, 0, optionsButton.getButtonWidth(), optionsButton.getButtonHeight() };
+		// Render flip initialization
+		SDL_RendererFlip flipType = SDL_FLIP_NONE;
+
 		
 		if (mainRenderer == NULL)
 		{
@@ -135,6 +140,7 @@ int main( int argc, char* args[] )
 		}
 		else
 		{
+
 		
 			// Main loop flag
 			bool quit = false;
@@ -165,8 +171,7 @@ int main( int argc, char* args[] )
 						case SDLK_e:
 							SDL_SetWindowSize(mainWindow, 1920, 1080);
 							windowW = 1920;
-							windowH = 1080;		
-							break;
+							windowH = 1080;						
 						case SDLK_ESCAPE:
 							quit = true;
 							break;
@@ -175,20 +180,64 @@ int main( int argc, char* args[] )
 					}
 				}
 				
+
+				// Standalone IMG Load Texture test with global variables
+				/*
+				std::string path = "images/sprsheet-esc-menu.png";
+				SDL_Texture* standaloneTexture = IMG_LoadTexture(mainRenderer, path.c_str());
+				SDL_Rect srcRect = { 0, 0, 300, 100 };
+				SDL_Rect destRect = { 0, 0, 300, 100 };
+				*/
+				//
+
+				// Texture class loading test
+				/*
+				Texture textureTest(mainRenderer);
+				textureTest.loadTextureFromImage("images/sprsheet-esc-menu.png");
+				SDL_Texture* classTexture = textureTest.getTexture();
+				SDL_Rect srcRect = { 0, 0, 300, 100 };
+				SDL_Rect destRect = { 0, 0, 300, 100 };
+				*/
+
+				
+
+
 				
 				// Fill the screen with white
-				SDL_SetRenderDrawColor(mainRenderer, 100, 100, 100, 255);
+				SDL_SetRenderDrawColor(mainRenderer, 100, 100, 100, 100);
 				SDL_RenderClear(mainRenderer);
 
 				drawChessboard(window, mainRenderer);				
 
-				SDL_RenderCopy(mainRenderer, optionsTexture, NULL, &optionsDestRect);
-				
+				SDL_RenderCopy(mainRenderer, optionsTexture, &optionsSrcRect, &optionsDestRect);
+				flipType = SDL_FLIP_NONE;
 
-				
+				// Rendering the Texture class loading test
+
+
+				// Rendering the Standalone IMG_LoadTexture test
+				/*
+				SDL_RenderCopy(mainRenderer, standaloneTexture, &srcRect, &destRect);
+				destRect = { 0, 200, 300, 100 };
+				srcRect = { 0, 110, 300, 100 };
+				SDL_RenderCopy(mainRenderer, standaloneTexture, &srcRect, &destRect);
+				*/
+
+				// optionsButton.renderButton(10, 10, mainRenderer);
+				// SDL_RenderCopy(mainRenderer, optionsButton.getButtonTexture(), NULL, NULL);
+
 				// Update screen
 				SDL_RenderPresent(mainRenderer);
+				
 
+				// Blits and surfaces, instead of textures
+				/*
+				// Apply/blit the optimized PNG image that we loaded
+				SDL_BlitSurface(sdlEngine.pngSurface, NULL, sdlEngine.windowSurface, &centerRect);
+
+				// Update the surface after blitting
+				SDL_UpdateWindowSurface(sdlEngine.sdlWindow);
+				*/
 			}
 		}
 
