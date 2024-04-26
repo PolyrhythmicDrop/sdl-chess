@@ -8,12 +8,14 @@
 #include <array>
 #include <iostream>
 
+
 // Constructor, initialize values
 Button::Button(std::string name, std::string imgPath) :
 	_buttonName(name), _buttonPath(imgPath)
 {
 	_buttonTexture = NULL;
-	_buttonRect;
+	_buttonRect = { 0, 0, 0, 0 };	
+	buttonPos = { 0, 0, 0, 0 };
 	_buttonW = 0;
 	_buttonH = 0;
 	_buttonX = 0;
@@ -21,7 +23,7 @@ Button::Button(std::string name, std::string imgPath) :
 }
 
 // Deconstructor
-Button::~Button() { std::cout << "Destructor activated! Object destroyed."; };
+Button::~Button() { std::cout << "Destructor activated! Button destroyed."; };
 
 SDL_Texture* Button::getButtonTexture()
 {
@@ -41,22 +43,20 @@ std::string Button::getButtonPath()
 void Button::setButtonDimensions(int x, int y, int width, int height)
 {
 	SDL_Rect buttonRect = { x, y, width, height };
-	/*
-	button->w = width;
-	button->h = height;
-	button->x = x;
-	button->y = y;
-	*/
-	
+
+	buttonPos = { x, y, width, height };
+
 	_buttonRect = buttonRect;
 	_buttonW = buttonRect.w;
 	_buttonH = buttonRect.h;
+
+
 	//std::cout << button.w << button.h;
 
 }
 
 
-SDL_Rect Button::getButtonSourceRect()
+SDL_Rect Button::getButtonRect()
 {
 	return _buttonRect;
 }
@@ -104,4 +104,9 @@ void Button::setButtonY(int y)
 int Button::getButtonY()
 {
 	return _buttonY;
+}
+
+void Button::OnClick()
+{
+	std::cout << _buttonName << "was clicked!";
 }

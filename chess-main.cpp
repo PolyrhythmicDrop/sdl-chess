@@ -10,6 +10,8 @@
 #include <algorithm>
 #include "Button.h"
 #include "Texture.h"
+#include "GameDatabase.h"
+#include "EventSource.h"
 
 
 
@@ -19,10 +21,11 @@
 /// <param name="window">The window to get dimensions from.</param>
 /// <param name="renderer">The renderer.</param>
 /// <param name="borderWidth">The width of the border for the chessboard.</param>
-static void drawChessboard(Window window, SDL_Renderer* renderer, double borderWidth = 10)
+static void drawChessboard(SDL_Window* window, SDL_Renderer* renderer, double borderWidth = 10)
 {
-	int windowW = window.getWindowWidth();
-	int windowH = window.getWindowHeight();
+	int windowW;
+	int windowH;
+	SDL_GetWindowSize(window, &windowW, &windowH);
 	// Get minimum value between window width and window height to set the board side length
 	int minWindowDimension = std::min(windowW, windowH);
 	// Set the board side length to the 2/3rds the size of the minimum dimension of the window size
@@ -96,15 +99,27 @@ int main( int argc, char* args[] )
 	// Initialize SDL and check if successful
 	sdlEngine.Init(SDL_INIT_VIDEO, IMG_INIT_PNG);
 
-		// Create the window instance, using parameters specified by options menu. Default is 1920x1080.
-		Window window{};
-		int windowW = window.getWindowWidth();
-		int windowH = window.getWindowHeight();
+	/* Window wrapper 
+	// Create the window instance, using parameters specified by options menu. Default is 1920x1080.
+	Window window{};
+	int windowW = window.getWindowWidth();
+	int windowH = window.getWindowHeight();
+	// Generate the SDL window
+	window.setWindow(SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowW, windowH, SDL_WINDOW_SHOWN));
+	*/
+	
+	// Initialize the Game Database
+	SDL_Window* mainWindow = SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1920, 1080, SDL_WINDOW_SHOWN);
+	GameDatabase gameDB{ mainWindow };	
+	int windowW;
+	int windowH;
+	SDL_GetWindowSize(mainWindow, &windowW, &windowH);
+
+	// Initialize the EventSource
+	EventSource eventSource;
 
 
-		// Generate the SDL window
-		window.setWindow(SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowW, windowH, SDL_WINDOW_SHOWN ));
-		SDL_Window* mainWindow = window.getWindow();
+		
 		if (mainWindow == NULL)
 		{
 			printf("Window could not be created! SDL Error %s\n", SDL_GetError());			
@@ -119,15 +134,9 @@ int main( int argc, char* args[] )
 		}
 		
 		
-		// Button class loading test
-		Texture textureLoader(mainRenderer);
-		Button optionsButton("Options", "images/esc-menu_button-options.png");
-		textureLoader.loadTextureFromImage(optionsButton.getButtonPath());
-		optionsButton.setButtonTexture(textureLoader.getTexture());
-		SDL_Texture* optionsTexture = optionsButton.getButtonTexture();
-		optionsButton.setButtonDimensions(0, 0, 300, 100);
+		
 
-		SDL_Rect optionsDestRect = { 0, 0, optionsButton.getButtonWidth(), optionsButton.getButtonHeight() };
+		
 		
 		if (mainRenderer == NULL)
 		{
@@ -136,6 +145,17 @@ int main( int argc, char* args[] )
 		else
 		{
 		
+			/*
+			// Button class loading test
+			Texture textureLoader(mainRenderer);
+			Button optionsButton{ "Options", "images/esc-menu_button-options.png" };
+			textureLoader.loadTextureFromImage(optionsButton.getButtonPath());
+			optionsButton.setButtonTexture(textureLoader.getTexture());
+			SDL_Texture* optionsTexture = optionsButton.getButtonTexture();
+			optionsButton.setButtonDimensions(0, 0, 300, 100);
+			SDL_Rect optionsDestRect = { 0, 0, optionsButton.getButtonWidth(), optionsButton.getButtonHeight() };
+			*/
+			
 			// Main loop flag
 			bool quit = false;
 
@@ -143,9 +163,12 @@ int main( int argc, char* args[] )
 			SDL_Event e;
 
 			// While the application is running...
-			while (!quit)
+			while (eventSource.PollEvents(gameDB) != false)
 			{
-				// While the event queue is empty
+
+
+				/* Original Event Loop
+				// While the event queue is not empty
 				while (SDL_PollEvent( &e ) != 0)
 				{
 					// If the user requests to quit by clicking the X in the window, set quit to true and exit
@@ -174,15 +197,20 @@ int main( int argc, char* args[] )
 
 					}
 				}
+				*/
+
+				
+
+
 				
 				
 				// Fill the screen with white
 				SDL_SetRenderDrawColor(mainRenderer, 100, 100, 100, 255);
 				SDL_RenderClear(mainRenderer);
 
-				drawChessboard(window, mainRenderer);				
+				drawChessboard(mainWindow, mainRenderer);				
 
-				SDL_RenderCopy(mainRenderer, optionsTexture, NULL, &optionsDestRect);
+				// SDL_RenderCopy(mainRenderer, optionsButton.getButtonTexture(), NULL, &optionsDestRect);
 				
 
 				

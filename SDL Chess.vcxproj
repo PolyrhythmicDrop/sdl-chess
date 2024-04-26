@@ -139,12 +139,18 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="chess-main.cpp" />
+    <ClCompile Include="EventSource.cpp" />
+    <ClCompile Include="GameDatabase.cpp" />
+    <ClCompile Include="IClickable.cpp" />
     <ClCompile Include="SDLfunc.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="EventSource.h" />
+    <ClInclude Include="GameDatabase.h" />
+    <ClInclude Include="IClickable.h" />
     <ClInclude Include="SDLfunc.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Window.h" />

@@ -7,15 +7,16 @@
 #include "Window.h"
 #include <array>
 #include <iostream>
+#include "IClickable.h"
 
-class Button
+class Button : IClickable
 {
 private:
 	
 	std::string _buttonName;
 	std::string _buttonPath;
 	SDL_Texture* _buttonTexture;
-	SDL_Rect _buttonRect;
+	SDL_Rect _buttonRect;	
 	int _buttonW;
 	int _buttonH;
 	int _buttonX;
@@ -27,6 +28,13 @@ public:
 
 	// Deconstructor
 	~Button();
+
+	// Struct of dimensions and location
+	struct buttonPos
+	{
+		int x, y;
+		int w, h;
+	}buttonPos;
 
 
 	/// <summary>
@@ -49,7 +57,7 @@ public:
 	void setButtonDimensions(int x, int y, int width, int height);
 	
 
-	SDL_Rect getButtonSourceRect();
+	SDL_Rect getButtonRect();
 
 	/// <summary>
 	/// Gets the string name of the button.
@@ -70,6 +78,8 @@ public:
 
 	void setButtonY(int y);
 	int getButtonY();
+
+	void OnClick();
 
 
 

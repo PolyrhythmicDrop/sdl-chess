@@ -67,6 +67,7 @@ bool Texture::loadTextureFromSurface(std::string path)
 			//Get image dimensions and set them to texture
 			_width = loadedSurface->w;
 			_height = loadedSurface->h;
+			success = true;
 		}
 
 		//Get rid of old loaded surface
