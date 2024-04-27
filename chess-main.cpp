@@ -135,14 +135,13 @@ int main( int argc, char* args[] )
 		optionsButton.setButtonDimensions(0, 0, 300, 100);
 		SDL_Rect destRect = { 0, 0, 300, 100 };
 
-		// ** Event listener variable initialization...this is a test!! **
+		
 		// Initialize the event manager
 		EventManager eManager;		
+		// ** Event listener variable initialization...this is a test!! **
 		std::string text = "Eeeee!";
-		std::string& text_Pntr = text;
-		// auto fn_callback = std::bind(&Window::OnEPress, &window, text_Pntr);
-		eManager.Subscribe("E Press", std::bind(&Window::OnEPress, &window, text_Pntr));
-		eManager.Event("E Press");
+		std::string& text_Pntr = text;		
+		eManager.Subscribe("E Press", std::bind(&Window::OnEPress, &window, text_Pntr));		
 
 				
 		if (mainRenderer == NULL)

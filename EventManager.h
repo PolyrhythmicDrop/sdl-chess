@@ -41,7 +41,7 @@ public:
 
 	void Publish(std::string event);
 
-	void Event(std::string event);
+	void Event();
 
 };
 

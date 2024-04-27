@@ -33,7 +33,8 @@ void EventManager::EventLoop(bool* quit)
 				break;
 			case SDLK_e:
 				_eventName = "E Press";
-				
+				Event();
+				break;
 			}			
 		}
 	}
@@ -55,7 +56,7 @@ void EventManager::Publish(std::string event)
 	}
 }
 
-void EventManager::Event(std::string event)
+void EventManager::Event()
 {
-	Publish(event);
+	Publish(_eventName);
 }
