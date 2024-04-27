@@ -14,7 +14,7 @@ private:
 	/// Subscriber list, in the form of a map: <string name, list of callback functions>. The functions stored in the list must return void and take a pointer to a constant string as an argument.
 	/// </summary>
 	// std::map< std::string&, std::list<std::function<void(const std::string&)>> > m_subscribers;
-	std::map< std::string, std::list<std::function<void(const std::string&)>>> m_subscribers;
+	std::map< std::string, std::list<std::function<void(std::string&)>>> m_subscribers;
 
 	std::string _eventName;
 public: 
@@ -37,7 +37,11 @@ public:
 	/// </summary>
 	/// <param name="event">The event to listen for.</param>
 	/// <param name="callback">The callback function to when the event is heard.</param>
-	void Subscribe(const std::string event, std::function<void(const std::string&)> callback);
+	void Subscribe(const std::string event, std::function<void(std::string&)> callback);
+
+	void Publish(std::string event);
+
+	void Event(std::string event);
 
 };
 

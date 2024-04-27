@@ -135,8 +135,16 @@ int main( int argc, char* args[] )
 		optionsButton.setButtonDimensions(0, 0, 300, 100);
 		SDL_Rect destRect = { 0, 0, 300, 100 };
 
+		// ** Event listener variable initialization...this is a test!! **
+		// Initialize the event manager
+		EventManager eManager;		
+		std::string text = "Eeeee!";
+		std::string& text_Pntr = text;
+		// auto fn_callback = std::bind(&Window::OnEPress, &window, text_Pntr);
+		eManager.Subscribe("E Press", std::bind(&Window::OnEPress, &window, text_Pntr));
+		eManager.Event("E Press");
 
-		
+				
 		if (mainRenderer == NULL)
 		{
 			printf("Renderer failed to initalize!\n");
@@ -146,10 +154,7 @@ int main( int argc, char* args[] )
 
 		
 			// Main loop flag
-			bool quit = false;	
-
-			// Initialize the event manager
-			EventManager eManager;
+			bool quit = false;				
 
 
 			// While the application is running...

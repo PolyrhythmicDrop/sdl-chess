@@ -91,3 +91,8 @@ void Window::freeWindow()
 	_windowWidth = 0;
 	_windowHeight = 0;
 }
+
+void Window::OnEPress(std::string& event)
+{
+	std::cout << "E was pressed! Here's the string that was passed: " << event;
+}

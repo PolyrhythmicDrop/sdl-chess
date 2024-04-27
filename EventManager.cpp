@@ -39,7 +39,23 @@ void EventManager::EventLoop(bool* quit)
 	}
 }
 
-void EventManager::Subscribe(const std::string event, std::function<void(const std::string&)> callback)
+void EventManager::Subscribe(const std::string event, std::function<void(std::string&)> callback)
 {
+	// Add an event and an associated callback function to the subscriber list.
 	m_subscribers[event].push_back(callback);
+}
+
+void EventManager::Publish(std::string event)
+{
+	std::string text = "A button was pressed!";
+	std::string& textPntr = text;
+	for (auto& e : m_subscribers[event])
+	{
+		e(textPntr);
+	}
+}
+
+void EventManager::Event(std::string event)
+{
+	Publish(event);
 }
