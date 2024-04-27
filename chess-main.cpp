@@ -10,6 +10,7 @@
 #include <algorithm>
 #include "Button.h"
 #include "Texture.h"
+#include "EventManager.h"
 
 
 
@@ -94,15 +95,13 @@ int main( int argc, char* args[] )
 	// Initialize the SDL Engine, which contains all my basic SDL functions
 	SDLfunc sdlEngine{};
 
+	
+
 	// Initialize SDL and check if successful
-	sdlEngine.Init();
+	sdlEngine.Init();	
 
 	// Initialize SDL IMG and check if successful
 	sdlEngine.InitIMG(IMG_INIT_PNG);
-
-	int x = 0;
-	int y = 0;
-	std::cout << x << y;
 	
 
 		// Create the window instance, using parameters specified by options menu. Default is 1920x1080.
@@ -137,8 +136,6 @@ int main( int argc, char* args[] )
 		optionsButton.setButtonDimensions(0, 0, 300, 100);
 		SDL_Rect destRect = { 0, 0, 300, 100 };
 
-		// Render flip initialization
-		SDL_RendererFlip flipType = SDL_FLIP_NONE;
 
 		
 		if (mainRenderer == NULL)
@@ -155,9 +152,16 @@ int main( int argc, char* args[] )
 			// SDL Event Handler
 			SDL_Event e;
 
+			SDL_PeepEvents(&e, 1, SDL_PEEKEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT);
+
+			EventManager eManager;
+
+
 			// While the application is running...
 			while (!quit)
 			{
+				eManager.EventLoop(e, &quit);
+				/*
 				// While the event queue is empty
 				while (SDL_PollEvent( &e ) != 0)
 				{
@@ -184,14 +188,9 @@ int main( int argc, char* args[] )
 							quit = true;
 							break;
 						}
-					}
-					if (e.type = SDL_MOUSEMOTION)
-					{
-						system("cls");
-						SDL_GetMouseState(&x, &y);
-						std::cout << "New fillers for x: " << x << " and y: " << y;
-					}
+					}					
 				}
+*/
 
 				
 				
