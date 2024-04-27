@@ -25,9 +25,6 @@ public:
 	// Constructors
 	Button(std::string name = "Button", std::string imgPath = "");
 
-	// Deconstructor
-	~Button();
-
 
 	/// <summary>
 	/// Gets the texture for the button.

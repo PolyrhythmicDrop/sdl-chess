@@ -89,7 +89,8 @@ static void drawChessboard(Window window, SDL_Renderer* renderer, double borderW
 
 int main( int argc, char* args[] )
 {
-	
+
+
 	// Initialize the SDL Engine, which contains all my basic SDL functions
 	SDLfunc sdlEngine{};
 
@@ -98,6 +99,11 @@ int main( int argc, char* args[] )
 
 	// Initialize SDL IMG and check if successful
 	sdlEngine.InitIMG(IMG_INIT_PNG);
+
+	int x = 0;
+	int y = 0;
+	std::cout << x << y;
+	
 
 		// Create the window instance, using parameters specified by options menu. Default is 1920x1080.
 		Window window{};
@@ -124,11 +130,12 @@ int main( int argc, char* args[] )
 		
 		// Button class loading test
 		Texture textureLoader(mainRenderer);
-		Button optionsButton("Options", "images/button-options.tiff");
+		Button optionsButton("Options", "images/esc-menu_button-options.png");
 		textureLoader.loadTextureFromImage(optionsButton.getButtonPath());
 		optionsButton.setButtonTexture(textureLoader.getTexture());
 		SDL_Texture* optionsTexture = optionsButton.getButtonTexture();
-		optionsButton.setButtonSourceRect(0, 0, 300, 100);
+		optionsButton.setButtonDimensions(0, 0, 300, 100);
+		SDL_Rect destRect = { 0, 0, 300, 100 };
 
 		// Render flip initialization
 		SDL_RendererFlip flipType = SDL_FLIP_NONE;
@@ -171,14 +178,22 @@ int main( int argc, char* args[] )
 						case SDLK_e:
 							SDL_SetWindowSize(mainWindow, 1920, 1080);
 							windowW = 1920;
-							windowH = 1080;						
+							windowH = 1080;	
+							break;
 						case SDLK_ESCAPE:
 							quit = true;
 							break;
 						}
-
+					}
+					if (e.type = SDL_MOUSEMOTION)
+					{
+						system("cls");
+						SDL_GetMouseState(&x, &y);
+						std::cout << "New fillers for x: " << x << " and y: " << y;
 					}
 				}
+
+				
 				
 
 				// Standalone IMG Load Texture test with global variables
@@ -209,8 +224,8 @@ int main( int argc, char* args[] )
 
 				drawChessboard(window, mainRenderer);				
 
-				SDL_RenderCopy(mainRenderer, optionsTexture, &optionsSrcRect, &optionsDestRect);
-				flipType = SDL_FLIP_NONE;
+				SDL_RenderCopy(mainRenderer, optionsTexture, NULL, &destRect);
+			
 
 				// Rendering the Texture class loading test
 
