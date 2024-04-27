@@ -138,10 +138,9 @@ int main( int argc, char* args[] )
 		
 		// Initialize the event manager
 		EventManager eManager;		
-		// ** Event listener variable initialization...this is a test!! **
-		std::string text = "Eeeee!";
-		std::string& text_Pntr = text;		
-		eManager.Subscribe("E Press", std::bind(&Window::ResizeWindow, &window, text_Pntr));		
+		// ** Event subscriptions **			
+		eManager.Subscribe("E Press", std::bind(&Window::ResizeWindow, &window, 1920, 1080));
+		eManager.Subscribe("Q Press", std::bind(&Window::ResizeWindow, &window, 1024, 768));
 
 				
 		if (mainRenderer == NULL)
@@ -160,97 +159,22 @@ int main( int argc, char* args[] )
 			while (!quit)
 			{
 				eManager.EventLoop(&quit);
-				/*
-				// While the event queue is empty
-				while (SDL_PollEvent( &e ) != 0)
-				{
-					// If the user requests to quit by clicking the X in the window, set quit to true and exit
-					if (e.type == SDL_QUIT)
-					{
-						quit = true;
-					}
-					if (e.type == SDL_KEYDOWN)
-					{
-						switch (e.key.keysym.sym)
-						{
-						case SDLK_q:
-							SDL_SetWindowSize(mainWindow, 1024, 768);
-							windowW = 1024;
-							windowH = 768;
-							break;
-						case SDLK_e:
-							SDL_SetWindowSize(mainWindow, 1920, 1080);
-							windowW = 1920;
-							windowH = 1080;	
-							break;
-						case SDLK_ESCAPE:
-							quit = true;
-							break;
-						}
-					}					
-				}
-*/
-
-				
-				
-
-				// Standalone IMG Load Texture test with global variables
-				/*
-				std::string path = "images/sprsheet-esc-menu.png";
-				SDL_Texture* standaloneTexture = IMG_LoadTexture(mainRenderer, path.c_str());
-				SDL_Rect srcRect = { 0, 0, 300, 100 };
-				SDL_Rect destRect = { 0, 0, 300, 100 };
-				*/
-				//
-
-				// Texture class loading test
-				/*
-				Texture textureTest(mainRenderer);
-				textureTest.loadTextureFromImage("images/sprsheet-esc-menu.png");
-				SDL_Texture* classTexture = textureTest.getTexture();
-				SDL_Rect srcRect = { 0, 0, 300, 100 };
-				SDL_Rect destRect = { 0, 0, 300, 100 };
-				*/
-
-				
-
-
+								
 				
 				// Fill the screen with white
 				SDL_SetRenderDrawColor(mainRenderer, 100, 100, 100, 100);
+
 				SDL_RenderClear(mainRenderer);
 
-				drawChessboard(window, mainRenderer);				
-
 				SDL_RenderCopy(mainRenderer, optionsTexture, NULL, &destRect);
+
+				drawChessboard(window, mainRenderer);								
 			
-
-				// Rendering the Texture class loading test
-
-
-				// Rendering the Standalone IMG_LoadTexture test
-				/*
-				SDL_RenderCopy(mainRenderer, standaloneTexture, &srcRect, &destRect);
-				destRect = { 0, 200, 300, 100 };
-				srcRect = { 0, 110, 300, 100 };
-				SDL_RenderCopy(mainRenderer, standaloneTexture, &srcRect, &destRect);
-				*/
-
-				// optionsButton.renderButton(10, 10, mainRenderer);
-				// SDL_RenderCopy(mainRenderer, optionsButton.getButtonTexture(), NULL, NULL);
 
 				// Update screen
 				SDL_RenderPresent(mainRenderer);
 				
 
-				// Blits and surfaces, instead of textures
-				/*
-				// Apply/blit the optimized PNG image that we loaded
-				SDL_BlitSurface(sdlEngine.pngSurface, NULL, sdlEngine.windowSurface, &centerRect);
-
-				// Update the surface after blitting
-				SDL_UpdateWindowSurface(sdlEngine.sdlWindow);
-				*/
 			}
 		}
 

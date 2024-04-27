@@ -58,6 +58,6 @@ public:
 	// Deallocate the window
 	void freeWindow();
 
-	void ResizeWindow(std::string& ePress);
+	void ResizeWindow(int w, int h);
 };
 

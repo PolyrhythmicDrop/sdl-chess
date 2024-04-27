@@ -92,9 +92,9 @@ void Window::freeWindow()
 	_windowHeight = 0;
 }
 
-void Window::ResizeWindow(std::string& event)
+void Window::ResizeWindow(int w, int h)
 {
-	SDL_SetWindowSize(_window, 1024, 768);
-	_windowWidth = 1024;
-	_windowHeight = 768;
+	SDL_SetWindowSize(_window, w, h);
+	_windowWidth = w;
+	_windowHeight = h;
 }
