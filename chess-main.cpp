@@ -1,16 +1,17 @@
 // Main game loop for SDL Chess
 
-#include <stdio.h>
+#include "Button.h"
+#include "EventManager.h"
+#include "SDLfunc.h"
+#include "Texture.h"
+#include "Window.h"
+#include <algorithm>
+#include <functional>
 #include <iostream>
-#include <string>
 #include <SDL.h>
 #include <SDL_image.h>
-#include "Window.h"
-#include "SDLfunc.h"
-#include <algorithm>
-#include "Button.h"
-#include "Texture.h"
-#include "EventManager.h"
+#include <stdio.h>
+#include <string>
 
 
 
@@ -89,9 +90,7 @@ static void drawChessboard(Window window, SDL_Renderer* renderer, double borderW
 // ** Main loop **
 
 int main( int argc, char* args[] )
-{
-
-
+{	
 	// Initialize the SDL Engine, which contains all my basic SDL functions
 	SDLfunc sdlEngine{};
 
