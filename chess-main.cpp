@@ -141,7 +141,7 @@ int main( int argc, char* args[] )
 		// ** Event listener variable initialization...this is a test!! **
 		std::string text = "Eeeee!";
 		std::string& text_Pntr = text;		
-		eManager.Subscribe("E Press", std::bind(&Window::OnEPress, &window, text_Pntr));		
+		eManager.Subscribe("E Press", std::bind(&Window::ResizeWindow, &window, text_Pntr));		
 
 				
 		if (mainRenderer == NULL)

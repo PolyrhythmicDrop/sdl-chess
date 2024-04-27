@@ -11,9 +11,8 @@ class EventManager
 {
 private:
 	/// <summary>
-	/// Subscriber list, in the form of a map: <string name, list of callback functions>. The functions stored in the list must return void and take a pointer to a constant string as an argument.
+	/// Subscriber list, in the form of a map: <string name, list of callback functions>.
 	/// </summary>
-	// std::map< std::string&, std::list<std::function<void(const std::string&)>> > m_subscribers;
 	std::map< std::string, std::list<std::function<void(std::string&)>>> m_subscribers;
 
 	std::string _eventName;

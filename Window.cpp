@@ -92,7 +92,9 @@ void Window::freeWindow()
 	_windowHeight = 0;
 }
 
-void Window::OnEPress(std::string& event)
+void Window::ResizeWindow(std::string& event)
 {
-	std::cout << "E was pressed! Here's the string that was passed: " << event;
+	SDL_SetWindowSize(_window, 1024, 768);
+	_windowWidth = 1024;
+	_windowHeight = 768;
 }
