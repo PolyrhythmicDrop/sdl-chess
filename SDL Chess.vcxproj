@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="chess-main.cpp" />
+    <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="SDLfunc.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Window.cpp" />

@@ -147,20 +147,16 @@ int main( int argc, char* args[] )
 
 		
 			// Main loop flag
-			bool quit = false;
+			bool quit = false;	
 
-			// SDL Event Handler
-			SDL_Event e;
-
-			SDL_PeepEvents(&e, 1, SDL_PEEKEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT);
-
+			// Initialize the event manager
 			EventManager eManager;
 
 
 			// While the application is running...
 			while (!quit)
 			{
-				eManager.EventLoop(e, &quit);
+				eManager.EventLoop(&quit);
 				/*
 				// While the event queue is empty
 				while (SDL_PollEvent( &e ) != 0)
