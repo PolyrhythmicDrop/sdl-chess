@@ -24,6 +24,7 @@ void EventManager::EventLoop(bool* quit)
 		if (e.type == SDL_QUIT)
 		{
 			*quit = true;
+			break;
 		}
 		if (e.type == SDL_KEYDOWN)
 		{
@@ -33,15 +34,14 @@ void EventManager::EventLoop(bool* quit)
 				*quit = true;
 				break;
 			case SDLK_e:
-				_eventName = "E Press";
-				Event();
+				_eventName = "E Press";				
 				break;
 			case SDLK_q:
-				_eventName = "Q Press";
-				Event();
+				_eventName = "Q Press";		
 				break;
-			}			
-		}
+			}
+			Event();
+		}		
 	}
 }
 

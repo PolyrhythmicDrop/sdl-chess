@@ -97,4 +97,5 @@ void Window::ResizeWindow(int w, int h)
 	SDL_SetWindowSize(_window, w, h);
 	_windowWidth = w;
 	_windowHeight = h;
+	std::cout << "Window resized!";
 }
