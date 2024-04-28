@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <string>
+
 // Texture loader class
 class Texture
 {

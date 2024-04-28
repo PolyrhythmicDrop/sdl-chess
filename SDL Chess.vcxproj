@@ -140,6 +140,8 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="chess-main.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="GameContext.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SDLfunc.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -147,6 +149,8 @@
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="GameContext.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="SDLfunc.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Window.h" />
