@@ -1,8 +1,10 @@
 #include "Renderer.h"
 
-Renderer::Renderer() 
+Renderer::Renderer(Window window) 
 {
-	_renderer = NULL;
+	SDL_Renderer* renderer = SDL_CreateRenderer(window.getWindow(), -1, SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_ACCELERATED);
+	SDL_RenderSetLogicalSize(renderer, window.getWindowWidth(), window.getWindowHeight());
+	_renderer = renderer;
 }
 
 Renderer::~Renderer()
@@ -12,9 +14,7 @@ Renderer::~Renderer()
 
 void Renderer::Init(Window window)
 {
-	SDL_Renderer* renderer = SDL_CreateRenderer(window.getWindow(), -1, SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_ACCELERATED);
-	SDL_RenderSetLogicalSize(renderer, window.getWindowWidth(), window.getWindowHeight());
-	_renderer = renderer;
+	
 }
 
 SDL_Renderer* Renderer::GetRenderer()

@@ -111,11 +111,10 @@ int main( int argc, char* args[] )
 	{
 		printf("Window could not be created! SDL Error %s\n", SDL_GetError());			
 	}
-	Renderer renderer{};
-	renderer.Init(window);
+	Renderer renderer{window};
 
 	// Initialize the game context, containing all the game data
-	GameContext gc{ mainWindow, renderer };
+	GameContext gc{ window, renderer };
 	SDL_Renderer* mainRenderer = renderer.GetRenderer();
 	
 	// Button class loading test

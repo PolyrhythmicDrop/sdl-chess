@@ -13,7 +13,7 @@ private:
 public:
 
 	// Default constructor
-	Renderer();
+	Renderer(Window window);
 
 	// Deconstructor
 	~Renderer();
