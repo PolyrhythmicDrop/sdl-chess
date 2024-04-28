@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Images">
+      <UniqueIdentifier>{7e44c341-05e3-419a-8d53-f2e7ed86e9ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chess-main.cpp">
@@ -27,6 +30,21 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -38,10 +56,46 @@
     <ClInclude Include="Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\chessboard.png">
       <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="images\esc-menu_1024.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\esc-menu_1920.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\esc-menu_bg-esc-menu.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\esc-menu_button-back.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\esc-menu_button-exit.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\esc-menu_button-options.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\esc-menu_button-resolution.png">
+      <Filter>Source Files\Images</Filter>
     </Image>
   </ItemGroup>
 </Project>

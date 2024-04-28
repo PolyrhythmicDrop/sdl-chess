@@ -137,18 +137,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="chess-main.cpp" />
+    <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="GameContext.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SDLfunc.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="EventManager.h" />
+    <ClInclude Include="GameContext.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="SDLfunc.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\chessboard.png" />
+    <Image Include="images\esc-menu_1024.png" />
+    <Image Include="images\esc-menu_1920.png" />
+    <Image Include="images\esc-menu_bg-esc-menu.png" />
+    <Image Include="images\esc-menu_button-back.png" />
+    <Image Include="images\esc-menu_button-exit.png" />
+    <Image Include="images\esc-menu_button-options.png" />
+    <Image Include="images\esc-menu_button-resolution.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

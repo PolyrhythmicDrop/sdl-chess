@@ -1,13 +1,19 @@
 // Main game loop for SDL Chess
 
-#include <stdio.h>
+#include "Button.h"
+#include "EventManager.h"
+#include "GameContext.h"
+#include "SDLfunc.h"
+#include "Texture.h"
+#include "Window.h"
+#include <algorithm>
+#include <functional>
 #include <iostream>
-#include <string>
 #include <SDL.h>
 #include <SDL_image.h>
-#include "Window.h"
-#include "SDLfunc.h"
-#include <algorithm>
+#include <stdio.h>
+#include <string>
+
 
 
 /// <summary>
@@ -85,86 +91,88 @@ static void drawChessboard(Window window, SDL_Renderer* renderer, double borderW
 // ** Main loop **
 
 int main( int argc, char* args[] )
-{
-	// Initialize the SDL Engine, which contains all my basic SDL functions
+{	
+	// Initialize the SDL Engine
 	SDLfunc sdlEngine{};
 
 	// Initialize SDL and check if successful
-	sdlEngine.Init();
+	sdlEngine.Init();	
 
 	// Initialize SDL IMG and check if successful
 	sdlEngine.InitIMG(IMG_INIT_PNG);
+	
 
-		// Create the window instance, using parameters specified by options menu. Default is 640x480.
-		Window window{};
-		int windowW = window.getWindowWidth();
-		int windowH = window.getWindowHeight();
-		// Generate the SDL window
-		SDL_Window* mainWindow = SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowW, windowH, SDL_WINDOW_SHOWN);
-		window.setWindow(mainWindow);
-		if (mainWindow == NULL)
-		{
-			printf("Window could not be created! SDL Error %s\n", SDL_GetError());			
-		}
+	// Instantiate the Window instance in 1920x1080, the native resolution.
+	Window window{};
+	// Generate the SDL window
+	window.initWindow();
+	SDL_Window* mainWindow = window.getWindow();
+	if (mainWindow == NULL)
+	{
+		printf("Window could not be created! SDL Error %s\n", SDL_GetError());			
+	}
+	Renderer renderer{&window};
+
+	// Initialize the game context, containing all the game data
+	GameContext gc{ &window, &renderer };
+	
+	
+	
+	// Button class loading test
+	Texture textureLoader(gc.getSdlRenderer());
+	Button optionsButton("Options", "images/esc-menu_button-options.png");
+	textureLoader.loadTextureFromImage(optionsButton.getButtonPath());
+	optionsButton.setButtonTexture(textureLoader.getTexture());
+	SDL_Texture* optionsTexture = optionsButton.getButtonTexture();
+	optionsButton.setButtonDimensions(0, 0, 300, 100);
+	SDL_Rect destRect = { 0, 0, 300, 100 };
+
 		
-		// Initialize the renderer
-		SDL_Renderer* mainRenderer = SDL_CreateRenderer(mainWindow, -1, SDL_RENDERER_ACCELERATED);
-		// Set render resolution to match the window
-		if (SDL_RenderSetLogicalSize(mainRenderer, windowW, windowH) < 0)
-		{
-			printf("Failed to set logical render size!\n");
-		}
-		
-		if (mainRenderer == NULL)
+		// Initialize the event manager
+		EventManager eManager;		
+		// ** Event subscriptions **			
+		eManager.Subscribe("E", std::bind(&Window::ResizeWindow, &window, 1920, 1080));
+		eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, 1024, 768));
+
+				
+		if (gc.getSdlRenderer() == NULL)
 		{
 			printf("Renderer failed to initalize!\n");
 		}
 		else
 		{
-			
-			// Main loop flag
-			bool quit = false;
 
-			// SDL Event Handler
-			SDL_Event e;
+		
+			// Main loop flag
+			bool quit = false;				
+
 
 			// While the application is running...
 			while (!quit)
 			{
-				// While the event queue is empty
-				while (SDL_PollEvent( &e ) != 0)
-				{
-					// If the user requests to quit by clicking the X in the window, set quit to true and exit
-					if (e.type == SDL_QUIT)
-					{
-						quit = true;
-					}
-
-				}
-
+				eManager.EventLoop(&quit);
+								
 				
 				// Fill the screen with white
-				SDL_SetRenderDrawColor(mainRenderer, 255, 255, 255, 255);
-				SDL_RenderClear(mainRenderer);
+				SDL_SetRenderDrawColor(gc.getSdlRenderer(), 100, 100, 100, 255);
 
-				drawChessboard(window, mainRenderer);
+				SDL_RenderClear(gc.getSdlRenderer());
+
+				SDL_RenderCopy(gc.getSdlRenderer(), optionsTexture, NULL, &destRect);
+
+				// Substitute this with an image of a chessboard, it'll be easier to work with!
+				// drawChessboard(window, mainRenderer);								
+			
 
 				// Update screen
-				SDL_RenderPresent(mainRenderer);
+				SDL_RenderPresent(gc.getSdlRenderer());
 				
 
-				// Blits and surfaces, instead of textures
-				/*
-				// Apply/blit the optimized PNG image that we loaded
-				SDL_BlitSurface(sdlEngine.pngSurface, NULL, sdlEngine.windowSurface, &centerRect);
-
-				// Update the surface after blitting
-				SDL_UpdateWindowSurface(sdlEngine.sdlWindow);
-				*/
 			}
 		}
 
-	sdlEngine.Close();
+	
+		sdlEngine.Close();
 
 
 

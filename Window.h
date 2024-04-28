@@ -10,33 +10,46 @@ class Window
 {
 private:
 	
-	// The window
+	// Window data
 	SDL_Window* _window;
 	
 	// Window height and width
 	int _windowWidth;
 	int _windowHeight;
-
+	
 public:
 
 	//Constructors
-	Window(int width = 640, int height = 480);
+	Window(int width = 1920, int height = 1080);
 
-	// Methods
+	~Window();
 
-	// Set the SDL window value
-	void setWindow(SDL_Window* window);
+	// ** Methods **
+
+	// Creates the SDL window using the values of the Window wrapper class
+	void initWindow();
+
 	// Get the SDL window
 	SDL_Window* getWindow();
 
-	// Window height and width
+	// Get width for window
 	int getWindowWidth();
+	// Set width for window
 	void setWindowWidth(int width);
 
-	// Get window height
+	// Get height for window
 	int getWindowHeight();
+	// Set height for window
 	void setWindowHeight(int height);
 
+	// Deallocate the window
+	void freeWindow();
 
+	/// <summary>
+	/// Resizes the window
+	/// </summary>
+	/// <param name="w">width</param>
+	/// <param name="h">height</param>
+	void ResizeWindow(int w, int h);
 };
 
