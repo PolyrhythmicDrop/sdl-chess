@@ -20,3 +20,9 @@ public:
 	};
 };
 
+// Structure of dimensions for game objects
+struct dim {
+	int x, y;
+	int w, h;
+};
+

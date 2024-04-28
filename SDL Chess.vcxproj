@@ -143,6 +143,7 @@
     <ClCompile Include="GameContext.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SDLfunc.cpp" />
+    <ClCompile Include="StaticImage.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -155,6 +156,7 @@
     <ClInclude Include="IDrawable.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SDLfunc.h" />
+    <ClInclude Include="StaticImage.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

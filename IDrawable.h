@@ -1,4 +1,5 @@
 #pragma once
+#include "Texture.h"
 
 /// <summary>
 /// "Interface" for drawable game objects.
@@ -6,7 +7,7 @@
 class IDrawable
 {
 public:
-	void virtual assignTexture() = 0;
+	void virtual assignTexture(Texture* loader) = 0;
 	void virtual draw() = 0;
 };
 

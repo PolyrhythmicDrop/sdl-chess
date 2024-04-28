@@ -6,6 +6,7 @@
 #include "SDLfunc.h"
 #include "Texture.h"
 #include "Window.h"
+#include "StaticImage.h"
 #include <algorithm>
 #include <functional>
 #include <iostream>
@@ -87,6 +88,7 @@ static void drawChessboard(Window window, SDL_Renderer* renderer, double borderW
 	}
 
 }
+int GameObject::gameObjectCount = 0;
 
 // ** Main loop **
 
@@ -116,16 +118,26 @@ int main( int argc, char* args[] )
 	// Initialize the game context, containing all the game data
 	GameContext gc{ &window, &renderer };
 	
-	
-	
-	// Button class loading test
+
+	// Texture loading framework test
 	Texture textureLoader(gc.getSdlRenderer());
+	StaticImage escMenuBg{ "Esc Menu BG", "images/esc-menu_bg-esc-menu.png" };
+	escMenuBg.assignTexture(&textureLoader);
+
+
+	
+	
+	
+	/*
+	// Button class loading test
+	
 	Button optionsButton("Options", "images/esc-menu_button-options.png");
 	textureLoader.loadTextureFromImage(optionsButton.getButtonPath());
 	optionsButton.setButtonTexture(textureLoader.getTexture());
 	SDL_Texture* optionsTexture = optionsButton.getButtonTexture();
 	optionsButton.setButtonDimensions(0, 0, 300, 100);
 	SDL_Rect destRect = { 0, 0, 300, 100 };
+	*/
 
 		
 		// Initialize the event manager
@@ -158,7 +170,8 @@ int main( int argc, char* args[] )
 
 				SDL_RenderClear(gc.getSdlRenderer());
 
-				SDL_RenderCopy(gc.getSdlRenderer(), optionsTexture, NULL, &destRect);
+				// Commenting out to stop rendering
+				// SDL_RenderCopy(gc.getSdlRenderer(), optionsTexture, NULL, &destRect);
 
 				// Substitute this with an image of a chessboard, it'll be easier to work with!
 				// drawChessboard(window, mainRenderer);								
