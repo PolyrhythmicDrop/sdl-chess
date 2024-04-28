@@ -36,6 +36,15 @@
     <ClCompile Include="EventManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -51,6 +60,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
