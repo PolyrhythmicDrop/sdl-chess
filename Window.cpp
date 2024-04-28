@@ -10,15 +10,18 @@ Window::Window(int width, int height)
 	_windowHeight{ height }
 {
 	_window = NULL;
-	_mouseFocus = false;
-	_keyboardFocus = false;
-	_fullscreen = false;
-	_minimized = false;
+	std::cout << "Window wrapper initialized!\n";
 }
 
-void Window::setWindow(SDL_Window* window)
+Window::~Window()
 {
-	_window = window;
+	freeWindow();
+	std::cout << "Window wrapper destructed!\n";
+}
+
+void Window::initWindow()
+{
+	_window = SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _windowWidth, _windowHeight, SDL_WINDOW_SHOWN);
 }
 
 SDL_Window* Window::getWindow()
@@ -60,29 +63,12 @@ void Window::setWindowHeight(int height)
 	}
 }
 
-bool Window::hasMouseFocus()
-{
-	return _mouseFocus;
-}
-
-bool Window::hasKeyboardFocus()
-{
-	return _keyboardFocus;
-}
-
-bool Window::isMinimized()
-{
-	return _minimized;
-}
-
 void Window::freeWindow()
 {
 	if (_window != NULL)
 	{
 		SDL_DestroyWindow(_window);
 	}
-	_mouseFocus = false;
-	_keyboardFocus = false;
 	_windowWidth = 0;
 	_windowHeight = 0;
 }
@@ -92,5 +78,5 @@ void Window::ResizeWindow(int w, int h)
 	SDL_SetWindowSize(_window, w, h);
 	_windowWidth = w;
 	_windowHeight = h;
-	std::cout << "Window resized!";
+	std::cout << "Window resized!\n";
 }

@@ -10,17 +10,26 @@
 	{
 	private:
 		// The main window for the current game session
-		Window _window;
+		Window* _window;
 
 		// The renderer wrapper for the current game session
-		Renderer _renderer;
+		Renderer* _renderer;
+
+		// The SDL renderer used by the Renderer.
+		SDL_Renderer* _sdlRenderer;
+
+		// The SDL window used by the Window.
+		SDL_Window* _sdlWindow;
 
 	public:
 
 		// Constructor
-		GameContext(Window window, Renderer renderer);
+		GameContext(Window* window, Renderer* renderer);
 
 		// Deconstructor
 		~GameContext();
 
+		SDL_Renderer* getSdlRenderer();
+
+		SDL_Window* getSdlWindow();
 	};

@@ -105,20 +105,21 @@ int main( int argc, char* args[] )
 	// Instantiate the Window instance in 1920x1080, the native resolution.
 	Window window{};
 	// Generate the SDL window
-	window.setWindow(SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window.getWindowWidth(), window.getWindowHeight(), SDL_WINDOW_SHOWN ));
+	window.initWindow();
 	SDL_Window* mainWindow = window.getWindow();
 	if (mainWindow == NULL)
 	{
 		printf("Window could not be created! SDL Error %s\n", SDL_GetError());			
 	}
-	Renderer renderer{window};
+	Renderer renderer{&window};
 
 	// Initialize the game context, containing all the game data
-	GameContext gc{ window, renderer };
-	SDL_Renderer* mainRenderer = renderer.GetRenderer();
+	GameContext gc{ &window, &renderer };
+	
+	
 	
 	// Button class loading test
-	Texture textureLoader(mainRenderer);
+	Texture textureLoader(gc.getSdlRenderer());
 	Button optionsButton("Options", "images/esc-menu_button-options.png");
 	textureLoader.loadTextureFromImage(optionsButton.getButtonPath());
 	optionsButton.setButtonTexture(textureLoader.getTexture());
@@ -134,7 +135,7 @@ int main( int argc, char* args[] )
 		eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, 1024, 768));
 
 				
-		if (mainRenderer == NULL)
+		if (gc.getSdlRenderer() == NULL)
 		{
 			printf("Renderer failed to initalize!\n");
 		}
@@ -153,18 +154,18 @@ int main( int argc, char* args[] )
 								
 				
 				// Fill the screen with white
-				SDL_SetRenderDrawColor(mainRenderer, 100, 100, 100, 255);
+				SDL_SetRenderDrawColor(gc.getSdlRenderer(), 100, 100, 100, 255);
 
-				SDL_RenderClear(mainRenderer);
+				SDL_RenderClear(gc.getSdlRenderer());
 
-				SDL_RenderCopy(mainRenderer, optionsTexture, NULL, &destRect);
+				SDL_RenderCopy(gc.getSdlRenderer(), optionsTexture, NULL, &destRect);
 
 				// Substitute this with an image of a chessboard, it'll be easier to work with!
 				// drawChessboard(window, mainRenderer);								
 			
 
 				// Update screen
-				SDL_RenderPresent(mainRenderer);
+				SDL_RenderPresent(gc.getSdlRenderer());
 				
 
 			}

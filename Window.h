@@ -16,23 +16,19 @@ private:
 	// Window height and width
 	int _windowWidth;
 	int _windowHeight;
-
-	// Window focus
-	bool _mouseFocus;
-	bool _keyboardFocus;
-	bool _fullscreen;
-	bool _minimized;
 	
-
 public:
 
 	//Constructors
 	Window(int width = 1920, int height = 1080);
 
+	~Window();
+
 	// ** Methods **
 
-	// Set the SDL window value
-	void setWindow(SDL_Window* window);
+	// Creates the SDL window using the values of the Window wrapper class
+	void initWindow();
+
 	// Get the SDL window
 	SDL_Window* getWindow();
 
@@ -46,18 +42,14 @@ public:
 	// Set height for window
 	void setWindowHeight(int height);
 
-	// Returns true if window has mouse focus
-	bool hasMouseFocus();
-
-	// Returns true if window has keyboard focus
-	bool hasKeyboardFocus();
-
-	// Returns true if the window is minimized
-	bool isMinimized();
-
 	// Deallocate the window
 	void freeWindow();
 
+	/// <summary>
+	/// Resizes the window
+	/// </summary>
+	/// <param name="w">width</param>
+	/// <param name="h">height</param>
 	void ResizeWindow(int w, int h);
 };
 

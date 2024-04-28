@@ -13,12 +13,10 @@ private:
 public:
 
 	// Default constructor
-	Renderer(Window window);
+	Renderer(Window* window);
 
 	// Deconstructor
 	~Renderer();
-
-	void Init(Window window);
 
 	SDL_Renderer* GetRenderer();
 };
