@@ -139,8 +139,8 @@ int main( int argc, char* args[] )
 		// Initialize the event manager
 		EventManager eManager;		
 		// ** Event subscriptions **			
-		eManager.Subscribe("E Press", std::bind(&Window::ResizeWindow, &window, 1920, 1080));
-		eManager.Subscribe("Q Press", std::bind(&Window::ResizeWindow, &window, 1024, 768));
+		eManager.Subscribe("E", std::bind(&Window::ResizeWindow, &window, 1920, 1080));
+		eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, 1024, 768));
 
 				
 		if (mainRenderer == NULL)

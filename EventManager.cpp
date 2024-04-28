@@ -34,10 +34,10 @@ void EventManager::EventLoop(bool* quit)
 				*quit = true;
 				break;
 			case SDLK_e:
-				_eventName = "E Press";				
+				_eventName = "E";				
 				break;
 			case SDLK_q:
-				_eventName = "Q Press";		
+				_eventName = "Q";		
 				break;
 			}
 			Event();
