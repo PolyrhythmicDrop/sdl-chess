@@ -22,60 +22,6 @@ Texture::~Texture()
 
 // Method Definitions
 
-/// <summary>
-/// Initializes the texture variables to default values.
-/// </summary>
-void Texture::initTexture()
-{
-	// Initialize variables
-	_texture = NULL;
-	_width = 0;
-	_height = 0;
-}
-
-
-
-bool Texture::loadTextureFromSurface(std::string path)
-{
-	// Success flag
-	bool success = true;
-
-	//Get rid of pre-existing texture, if any
-	freeTexture();
-
-	//The final texture
-	SDL_Texture* newTexture = NULL;
-
-	//Load image at specified path
-	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
-	if (loadedSurface == NULL)
-	{
-		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
-		success = false;
-	}
-	else
-	{
-		//Create texture from surface pixels
-		_texture = SDL_CreateTextureFromSurface(_renderer, loadedSurface);
-		if (_texture == NULL)
-		{
-			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-			success = false;
-		}
-		else
-		{
-			//Get image dimensions and set them to texture
-			_width = loadedSurface->w;
-			_height = loadedSurface->h;
-		}
-
-		//Get rid of old loaded surface
-		SDL_FreeSurface(loadedSurface);
-
-		return success;
-	}
-}
-
 SDL_Texture* Texture::loadTextureFromImage(std::string path)
 {
 	bool success = false;
@@ -91,22 +37,9 @@ SDL_Texture* Texture::loadTextureFromImage(std::string path)
 	return _texture;
 }
 
-SDL_Texture* Texture::getTexture()
+SDL_Texture* const Texture::getTexture()
 {
 	return _texture;
-}
-
-
-void Texture::renderTexture(int x, int y, int w, int h, SDL_Rect clip)
-{
-	SDL_Rect destRect = { x, y, w, h };
-	SDL_RenderCopy(_renderer, _texture, &clip, &destRect);
-
-}
-
-SDL_Renderer* Texture::getRenderer()
-{
-	return _renderer;
 }
 
 
@@ -120,15 +53,5 @@ void Texture::freeTexture()
 		_width = 0;
 		_height = 0;
 	}
-}
-
-int Texture::getTextureWidth()
-{
-	return _width;
-}
-
-int Texture::getTextureHeight()
-{
-	return _height;
 }
 
