@@ -24,7 +24,7 @@ StaticImage::~StaticImage()
 void StaticImage::assignTexture(Texture* loader)
 {
 	_texture = loader->loadTextureFromImage(_imgPath);
-	std::cout << "Texture loaded to " << _name << " !\n";
+	std::cout << "Texture loaded to " << _name << "!\n";
 }
 
 void StaticImage::draw()

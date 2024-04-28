@@ -4,13 +4,18 @@
 #include <iostream>
 #include <functional>
 #include <SDL.h>
+#include "Renderer.h"
 
 class DrawManager
 {
 private:
-	std::map<std::string, std::vector<std::function<int(SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*)>>> _renderQueue;
+	const Renderer* _renderer;
 
 public:
+
+	DrawManager(Renderer* renderer);
+
+	~DrawManager();
 
 	void drawQueue();
 

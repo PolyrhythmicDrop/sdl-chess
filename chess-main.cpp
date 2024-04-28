@@ -14,6 +14,7 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
+#include "DrawManager.h"
 
 
 
@@ -102,22 +103,19 @@ int main( int argc, char* args[] )
 
 	// Initialize SDL IMG and check if successful
 	sdlEngine.InitIMG(IMG_INIT_PNG);
-	
 
 	// Instantiate the Window instance in 1920x1080, the native resolution.
 	Window window{};
 	// Generate the SDL window
 	window.initWindow();
-	SDL_Window* mainWindow = window.getWindow();
-	if (mainWindow == NULL)
-	{
-		printf("Window could not be created! SDL Error %s\n", SDL_GetError());			
-	}
+	// Initialize the renderer wrapper
 	Renderer renderer{&window};
 
 	// Initialize the game context, containing all the game data
 	GameContext gc{ &window, &renderer };
-	
+
+	// Initialize the Draw Manager
+	DrawManager dm(&renderer);
 
 	// Texture loading framework test
 	Texture textureLoader(gc.getSdlRenderer());
