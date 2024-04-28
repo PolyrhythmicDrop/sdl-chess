@@ -1,11 +1,8 @@
-
 #include "GameContext.h"
+#include "Window.h"
 
-GameContext::GameData::GameData() { std::cout << "Game context initialized!"; };
-GameContext::GameData::~GameData() { std::cout << "Game context deconstructed"; };
+GameContext::GameContext(SDL_Window* window, Renderer renderer) :
+	_window{ window }, _renderer{ renderer }
+{ std::cout << "Game context initialized!"; }
 
-void GameContext::GameData::InitializeGameContext(Window window, Renderer renderer)
-{
-	_window = window;
-	_renderer = renderer;
-}
+GameContext::~GameContext() { std::cout << "Game context deconstructed"; };

@@ -2,6 +2,7 @@
 
 #include "Button.h"
 #include "EventManager.h"
+#include "GameContext.h"
 #include "SDLfunc.h"
 #include "Texture.h"
 #include "Window.h"
@@ -91,10 +92,8 @@ static void drawChessboard(Window window, SDL_Renderer* renderer, double borderW
 
 int main( int argc, char* args[] )
 {	
-	// Initialize the SDL Engine, which contains all my basic SDL functions
+	// Initialize the SDL Engine
 	SDLfunc sdlEngine{};
-
-	
 
 	// Initialize SDL and check if successful
 	sdlEngine.Init();	
@@ -103,37 +102,30 @@ int main( int argc, char* args[] )
 	sdlEngine.InitIMG(IMG_INIT_PNG);
 	
 
-		// Create the window instance, using parameters specified by options menu. Default is 1920x1080.
-		Window window{};
-		int windowW = window.getWindowWidth();
-		int windowH = window.getWindowHeight();
+	// Instantiate the Window instance in 1920x1080, the native resolution.
+	Window window{};
+	// Generate the SDL window
+	window.setWindow(SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window.getWindowWidth(), window.getWindowHeight(), SDL_WINDOW_SHOWN ));
+	SDL_Window* mainWindow = window.getWindow();
+	if (mainWindow == NULL)
+	{
+		printf("Window could not be created! SDL Error %s\n", SDL_GetError());			
+	}
+	Renderer renderer{};
+	renderer.Init(window);
 
-
-		// Generate the SDL window
-		window.setWindow(SDL_CreateWindow("SDL Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowW, windowH, SDL_WINDOW_SHOWN ));
-		SDL_Window* mainWindow = window.getWindow();
-		if (mainWindow == NULL)
-		{
-			printf("Window could not be created! SDL Error %s\n", SDL_GetError());			
-		}
-		
-		// Initialize the renderer
-		SDL_Renderer* mainRenderer = SDL_CreateRenderer(mainWindow, -1, SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_ACCELERATED );
-		// Set render resolution to match the window
-		if (SDL_RenderSetLogicalSize(mainRenderer, windowW, windowH) < 0)
-		{
-			printf("Failed to set logical render size!\n");
-		}
-		
-		
-		// Button class loading test
-		Texture textureLoader(mainRenderer);
-		Button optionsButton("Options", "images/esc-menu_button-options.png");
-		textureLoader.loadTextureFromImage(optionsButton.getButtonPath());
-		optionsButton.setButtonTexture(textureLoader.getTexture());
-		SDL_Texture* optionsTexture = optionsButton.getButtonTexture();
-		optionsButton.setButtonDimensions(0, 0, 300, 100);
-		SDL_Rect destRect = { 0, 0, 300, 100 };
+	// Initialize the game context, containing all the game data
+	GameContext gc{ mainWindow, renderer };
+	SDL_Renderer* mainRenderer = renderer.GetRenderer();
+	
+	// Button class loading test
+	Texture textureLoader(mainRenderer);
+	Button optionsButton("Options", "images/esc-menu_button-options.png");
+	textureLoader.loadTextureFromImage(optionsButton.getButtonPath());
+	optionsButton.setButtonTexture(textureLoader.getTexture());
+	SDL_Texture* optionsTexture = optionsButton.getButtonTexture();
+	optionsButton.setButtonDimensions(0, 0, 300, 100);
+	SDL_Rect destRect = { 0, 0, 300, 100 };
 
 		
 		// Initialize the event manager
@@ -162,13 +154,14 @@ int main( int argc, char* args[] )
 								
 				
 				// Fill the screen with white
-				SDL_SetRenderDrawColor(mainRenderer, 100, 100, 100, 100);
+				SDL_SetRenderDrawColor(mainRenderer, 100, 100, 100, 255);
 
 				SDL_RenderClear(mainRenderer);
 
 				SDL_RenderCopy(mainRenderer, optionsTexture, NULL, &destRect);
 
-				drawChessboard(window, mainRenderer);								
+				// Substitute this with an image of a chessboard, it'll be easier to work with!
+				// drawChessboard(window, mainRenderer);								
 			
 
 				// Update screen

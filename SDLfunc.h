@@ -5,7 +5,7 @@
 
 class SDLfunc
 {
-		// Public members
+		
 public:
 	// The SDL window
 	SDL_Window* sdlWindow = NULL;

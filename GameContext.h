@@ -9,27 +9,21 @@
 #include <SDL_image.h>
 #include <stdio.h>
 
-namespace GameContext{
-
-	class GameData
+	class GameContext
 	{
 	private:
 		// The main window for the current game session
-		Window _window;
+		SDL_Window* _window;
 
-		// The renderer for the current game session
+		// The renderer wrapper for the current game session
 		Renderer _renderer;
 
 	public:
 
 		// Constructor
-		GameData();
+		GameContext(SDL_Window* window, Renderer renderer);
 
 		// Deconstructor
-		~GameData();
-		
-		void InitializeGameContext(Window window, Renderer renderer);
+		~GameContext();
 
 	};
-
-}

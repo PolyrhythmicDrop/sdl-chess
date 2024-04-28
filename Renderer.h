@@ -1,6 +1,5 @@
 #pragma once
-#include "GameContext.h"
-#include "Texture.h"
+#include "Window.h"
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
@@ -19,6 +18,8 @@ public:
 	// Deconstructor
 	~Renderer();
 
-	void SetRenderer();
+	void Init(Window window);
+
+	SDL_Renderer* GetRenderer();
 };
 

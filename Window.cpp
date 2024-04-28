@@ -1,9 +1,4 @@
 #include "Window.h"
-#include <SDL.h>
-#include <SDL_image.h>
-#include <stdio.h>
-#include <array>
-#include <iostream>
 
 /// <summary>
 ///  Default constructor for a window. Set width and height with default value, then everything else gets initialized.
