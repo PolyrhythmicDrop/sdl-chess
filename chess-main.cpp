@@ -1,12 +1,12 @@
 // Main game loop for SDL Chess
 
 #include "Button.h"
+#include "Decoration.h"
 #include "EventManager.h"
 #include "GameContext.h"
 #include "SDLfunc.h"
 #include "Texture.h"
 #include "Window.h"
-#include "StaticImage.h"
 #include <algorithm>
 #include <functional>
 #include <iostream>
@@ -14,8 +14,6 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
-#include "DrawManager.h"
-
 
 
 /// <summary>
@@ -89,7 +87,9 @@ static void drawChessboard(Window window, SDL_Renderer* renderer, double borderW
 	}
 
 }
+
 int GameObject::gameObjectCount = 0;
+bool GraphicsService::_instantiated = false;
 
 // ** Main loop **
 
@@ -111,16 +111,8 @@ int main( int argc, char* args[] )
 	// Initialize the renderer wrapper
 	Renderer renderer{&window};
 
-	// Initialize the game context, containing all the game data
-	GameContext gc{ &window, &renderer };
-
-	// Initialize the Draw Manager
-	DrawManager dm(&renderer);
-
 	// Texture loading framework test
-	Texture textureLoader(gc.getSdlRenderer());
-	StaticImage escMenuBg{ "Esc Menu BG", "images/esc-menu_bg-esc-menu.png" };
-	escMenuBg.assignTexture(&textureLoader);
+	
 
 
 	
@@ -142,18 +134,9 @@ int main( int argc, char* args[] )
 		EventManager eManager;		
 		// ** Event subscriptions **			
 		eManager.Subscribe("E", std::bind(&Window::ResizeWindow, &window, 1920, 1080));
-		eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, 1024, 768));
-
-				
-		if (gc.getSdlRenderer() == NULL)
-		{
-			printf("Renderer failed to initalize!\n");
-		}
-		else
-		{
-
+		eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, 1024, 768));			
 		
-			// Main loop flag
+			// Main quit flag for the loop
 			bool quit = false;				
 
 
@@ -164,9 +147,9 @@ int main( int argc, char* args[] )
 								
 				
 				// Fill the screen with white
-				SDL_SetRenderDrawColor(gc.getSdlRenderer(), 100, 100, 100, 255);
+				//SDL_SetRenderDrawColor(gc.getSdlRenderer(), 100, 100, 100, 255);
 
-				SDL_RenderClear(gc.getSdlRenderer());
+				//SDL_RenderClear(gc.getSdlRenderer());
 
 				// Commenting out to stop rendering
 				// SDL_RenderCopy(gc.getSdlRenderer(), optionsTexture, NULL, &destRect);
@@ -176,16 +159,13 @@ int main( int argc, char* args[] )
 			
 
 				// Update screen
-				SDL_RenderPresent(gc.getSdlRenderer());
+				//SDL_RenderPresent(gc.getSdlRenderer());
 				
-
 			}
-		}
+		
 
 	
 		sdlEngine.Close();
-
-
 
 	return 0;
 };

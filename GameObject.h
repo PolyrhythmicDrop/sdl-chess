@@ -1,28 +1,33 @@
 #pragma once
 #include <iostream>
+#include <SDL.h>
 
 // Pure abstract class for game objects
 class GameObject
 {
+protected:
+	std::string _name;
+	SDL_Rect _srcRect;
+	SDL_Rect _destRect;
+	// Structure of dimensions for game objects
+	struct dim {
+		int x, y;
+		int w, h;
+	}_dimensions;
+	
+
 public:
 	// Keeps track of the current number of game objects.
 	int static gameObjectCount;
+	
+	GameObject(std::string name);
+	
+	~GameObject();
 
-	GameObject() 
-	{ 
-		gameObjectCount++;
-		std::cout << "Object created! Game object count: " << gameObjectCount << "\n";
-	};
-	~GameObject() 
-	{ 
-		gameObjectCount--;
-		std::cout << "Object destroyed! Game object count: " << gameObjectCount << "\n";
-	};
+	std::string virtual getName();
+
+	dim virtual getDimensions();
 };
 
-// Structure of dimensions for game objects
-struct dim {
-	int x, y;
-	int w, h;
-};
+
 

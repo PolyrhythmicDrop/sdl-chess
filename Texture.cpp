@@ -1,22 +1,17 @@
 #include "Texture.h"
-#include <SDL.h>
-#include <SDL_image.h>
-#include <stdio.h>
-#include "Window.h"
-#include <array>
-#include <iostream>
 
 /// <summary>
 /// Default constructor for the texture wrapper
 /// </summary>
 /// <param name="renderer">The renderer to render the texture with.</param>
-Texture::Texture(SDL_Renderer* renderer) 
-	: _renderer {renderer}, _texture {NULL}, _width {0}, _height {0}
+Texture::Texture(Renderer* renderer) 
+	: _renderer{renderer}, _sdlTexture {NULL}
 {};
 
 Texture::~Texture()
 {
 	freeTexture();
+	std::cout << "Texture destructed!\n";
 }
 
 
@@ -30,28 +25,26 @@ SDL_Texture* Texture::loadTextureFromImage(std::string path)
 	freeTexture();
 	
 	// Load an image at the specified path to a texture.
-	SDL_Texture* newTexture = IMG_LoadTexture(_renderer, path.c_str());	
+	SDL_Texture* newTexture = IMG_LoadTexture(_renderer->GetRenderer(), path.c_str());
 
-	_texture = newTexture;
+	_sdlTexture = newTexture;
 
-	return _texture;
+	return _sdlTexture;
 }
 
-SDL_Texture* const Texture::getTexture()
+SDL_Texture* Texture::getTexture()
 {
-	return _texture;
+	return _sdlTexture;
 }
 
 
 void Texture::freeTexture()
 {
 	// Free texture if it exists
-	if (_texture != NULL)
+	if (getTexture() != NULL)
 	{
-		SDL_DestroyTexture(_texture);
-		_texture = NULL;
-		_width = 0;
-		_height = 0;
+		SDL_DestroyTexture(_sdlTexture);
+		_sdlTexture = NULL;		
 	}
 }
 
