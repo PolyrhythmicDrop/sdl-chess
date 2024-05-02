@@ -14,6 +14,13 @@ Decoration::~Decoration()
 void Decoration::loadTexture()
 {
 	_sdlTexture = _textureLoader->loadTextureFromImage(_imgPath);
+	int w;
+	int h;
+	// Query loaded texture to get the width and height of the texture and set them to w & h variables
+	SDL_QueryTexture(_sdlTexture, NULL, NULL, &w, &h);
+	_dimensions.w = w;
+	_dimensions.h = h;
+
 	std::cout << "Texture loaded to " << _name << "!\n";
 }
 
@@ -25,9 +32,9 @@ void Decoration::addToDrawQueue()
 void Decoration::draw(int x, int y)
 {
 	SDL_Renderer* renderer = ServiceLocator::getGraphics().getRenderer()->GetRenderer();
-	SDL_Rect destRect = { _dimensions.w, _dimensions.h, x, y };
-	SDL_Rect srcRect = { _dimensions.w, _dimensions.h, _dimensions.x, _dimensions.y };
-	SDL_RenderCopy(renderer, _sdlTexture, &srcRect, &destRect);
+	SDL_Rect destRect = { x, y, _dimensions.w, _dimensions.h };
+	SDL_Rect srcRect = { _dimensions.x, _dimensions.y, _dimensions.w, _dimensions.h };
+	SDL_RenderCopy(renderer, _sdlTexture, NULL, &destRect);
 }
 
 

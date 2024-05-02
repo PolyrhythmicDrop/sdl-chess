@@ -145,9 +145,10 @@ int main( int argc, char* args[] )
 			while (!quit)
 			{
 				eManager.EventLoop(&quit);
-
+				SDL_SetRenderDrawColor(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 100, 100, 100, 255);
 				SDL_RenderClear(ServiceLocator::getGraphics().getRenderer()->GetRenderer());
 				escMenuBg.draw(0, 0);
+				SDL_RenderPresent(ServiceLocator::getGraphics().getRenderer()->GetRenderer());
 				
 								
 				
