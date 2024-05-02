@@ -1,8 +1,8 @@
 #include "GraphicsService.h"
 
 GraphicsService::GraphicsService(Window* window) :	
-	_window(window),
-	_renderer(new Renderer(window))
+
+	_window(window), _renderer(new Renderer(window))
 {
 	// Asserts that there are no existing instances of the Graphics Service
 	assert(!_instantiated);

@@ -1,17 +1,20 @@
 #pragma once
 #include <iostream>
 #include <SDL.h>
-#include "Renderer.h"
-#include "Window.h"
+#include "IGraphics.h"
 #include <cassert>
 
-class GraphicsService
+/// <summary>
+/// Service class to handle graphics. Container for Window and Renderer, contains a draw queue, and has functions to draw the queue and return the window and renderer.
+/// </summary>
+class GraphicsService: public IGraphics
 {
 private:
-	Renderer* _renderer;	
+	Renderer* _renderer;
 	Window* _window;
 
 	static bool _instantiated;
+
 
 public:
 
@@ -19,13 +22,13 @@ public:
 
 	~GraphicsService();
 
-	Window* getWindow();
+	virtual Window* getWindow();
 
-	Renderer* getRenderer();
+	virtual Renderer* getRenderer();
 
-	void removeFromQueue();
+	virtual void removeFromQueue();
 
-	void drawQueue();
+	virtual void drawQueue();
 
 };
 

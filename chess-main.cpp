@@ -3,10 +3,11 @@
 #include "Button.h"
 #include "Decoration.h"
 #include "EventManager.h"
-#include "GameContext.h"
 #include "SDLfunc.h"
 #include "Texture.h"
 #include "Window.h"
+#include "ServiceLocator.h"
+#include "GraphicsService.h"
 #include <algorithm>
 #include <functional>
 #include <iostream>
@@ -88,8 +89,12 @@ static void drawChessboard(Window window, SDL_Renderer* renderer, double borderW
 
 }
 
+// Initialize static variables
 int GameObject::gameObjectCount = 0;
 bool GraphicsService::_instantiated = false;
+IGraphics* ServiceLocator::_graphicsService;
+NullGraphicsService ServiceLocator::_nullGraphicsService;
+
 
 // ** Main loop **
 
@@ -104,14 +109,23 @@ int main( int argc, char* args[] )
 	// Initialize SDL IMG and check if successful
 	sdlEngine.InitIMG(IMG_INIT_PNG);
 
+	
+
+
 	// Instantiate the Window instance in 1920x1080, the native resolution.
 	Window window{};
 	// Generate the SDL window
 	window.initWindow();
-	// Initialize the renderer wrapper
-	Renderer renderer{&window};
 
-	// Texture loading framework test
+	// Initialize the Service Locator and call initialize to set it to the null provider
+	ServiceLocator locator{};
+	locator.initialize();
+	// Initialize the graphics service using the window
+	GraphicsService graphics{ &window };
+	// Set the service locator to provide the graphics service
+	locator.provide(&graphics);
+
+	
 	
 
 

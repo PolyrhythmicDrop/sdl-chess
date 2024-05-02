@@ -144,9 +144,11 @@
     <ClCompile Include="GameContext.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="IDrawable.cpp" />
+    <ClCompile Include="NullGraphicsService.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SDLfunc.cpp" />
     <ClCompile Include="Decoration.cpp" />
+    <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -158,9 +160,12 @@
     <ClInclude Include="GameContext.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="IDrawable.h" />
+    <ClInclude Include="IGraphics.h" />
+    <ClInclude Include="NullGraphicsService.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SDLfunc.h" />
     <ClInclude Include="Decoration.h" />
+    <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
