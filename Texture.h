@@ -3,6 +3,8 @@
 #include <SDL_image.h>
 #include <string>
 #include "Renderer.h"
+#include "GraphicsService.h"
+#include "ServiceLocator.h"
 
 // Texture loader class
 class Texture
@@ -10,14 +12,11 @@ class Texture
 private:
 
 	// The actual hardware texture
-	SDL_Texture* _sdlTexture;
-
-	// Renderer to render the texture
-	Renderer* &_renderer;
+	SDL_Texture* _loadedTexture;
 
 public:
 	// Constructor
-	Texture(Renderer* renderer);
+	Texture();
 
 	/// <summary>
 	/// Removes the class from memory and deallocates the texture. Runs Texture::freeTexture().

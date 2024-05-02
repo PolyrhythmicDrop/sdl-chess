@@ -7,8 +7,6 @@ class GameObject
 {
 protected:
 	std::string _name;
-	SDL_Rect _srcRect;
-	SDL_Rect _destRect;
 	// Structure of dimensions for game objects
 	struct dim {
 		int x, y;

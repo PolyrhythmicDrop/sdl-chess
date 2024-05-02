@@ -2,8 +2,6 @@
 
 GameObject::GameObject(std::string name) :
 	_name(name),
-	_srcRect({0, 0, 0, 0}),
-	_destRect({0, 0, 0, 0}),
 	_dimensions({0, 0, 0, 0})
 {
 	gameObjectCount++;

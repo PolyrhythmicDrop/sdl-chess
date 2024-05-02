@@ -3,9 +3,8 @@
 /// <summary>
 /// Default constructor for the texture wrapper
 /// </summary>
-/// <param name="renderer">The renderer to render the texture with.</param>
-Texture::Texture(Renderer* renderer) 
-	: _renderer{renderer}, _sdlTexture {NULL}
+Texture::Texture() 
+	: _loadedTexture{ NULL }
 {};
 
 Texture::~Texture()
@@ -23,28 +22,30 @@ SDL_Texture* Texture::loadTextureFromImage(std::string path)
 	
 	// Free the existing texture, if any
 	freeTexture();
+
+	// Get the renderer
+	SDL_Renderer* renderer = ServiceLocator::getGraphics().getRenderer()->GetRenderer();
 	
 	// Load an image at the specified path to a texture.
-	SDL_Texture* newTexture = IMG_LoadTexture(_renderer->GetRenderer(), path.c_str());
+	_loadedTexture = IMG_LoadTexture(renderer, path.c_str());
 
-	_sdlTexture = newTexture;
-
-	return _sdlTexture;
+	return _loadedTexture;
 }
 
 SDL_Texture* Texture::getTexture()
 {
-	return _sdlTexture;
+	return _loadedTexture;
 }
 
 
 void Texture::freeTexture()
 {
 	// Free texture if it exists
-	if (getTexture() != NULL)
+	if (_loadedTexture != NULL)
 	{
-		SDL_DestroyTexture(_sdlTexture);
-		_sdlTexture = NULL;		
+		SDL_DestroyTexture(_loadedTexture);
+		_loadedTexture = NULL;		
 	}
+	
 }
 

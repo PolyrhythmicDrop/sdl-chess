@@ -10,7 +10,8 @@
 class IDrawable
 {
 protected:
-	Texture* _texture;
+	Texture* _textureLoader;
+	SDL_Texture* _sdlTexture;
 	std::string _imgPath;
 
 public:

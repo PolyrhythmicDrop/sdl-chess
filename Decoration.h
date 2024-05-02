@@ -18,9 +18,9 @@ public:
 
 	void loadTexture();
 
-	void addToDrawQueue(GraphicsService* dm);
+	void addToDrawQueue();
 
-	void draw(GraphicsService* dm);
+	void draw(int x, int y);
 
 
 };

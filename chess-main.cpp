@@ -125,30 +125,17 @@ int main( int argc, char* args[] )
 	// Set the service locator to provide the graphics service
 	locator.provide(&graphics);
 
-	
-	
-
-
-	
-	
-	
-	/*
-	// Button class loading test
-	
-	Button optionsButton("Options", "images/esc-menu_button-options.png");
-	textureLoader.loadTextureFromImage(optionsButton.getButtonPath());
-	optionsButton.setButtonTexture(textureLoader.getTexture());
-	SDL_Texture* optionsTexture = optionsButton.getButtonTexture();
-	optionsButton.setButtonDimensions(0, 0, 300, 100);
-	SDL_Rect destRect = { 0, 0, 300, 100 };
-	*/
 
 		
 		// Initialize the event manager
 		EventManager eManager;		
 		// ** Event subscriptions **			
 		eManager.Subscribe("E", std::bind(&Window::ResizeWindow, &window, 1920, 1080));
-		eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, 1024, 768));			
+		eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, 1024, 768));	
+
+		Decoration escMenuBg{ "Esc Menu BG", "images/esc-menu_bg-esc-menu.png" };
+		escMenuBg.loadTexture();
+		
 		
 			// Main quit flag for the loop
 			bool quit = false;				
@@ -158,6 +145,10 @@ int main( int argc, char* args[] )
 			while (!quit)
 			{
 				eManager.EventLoop(&quit);
+
+				SDL_RenderClear(ServiceLocator::getGraphics().getRenderer()->GetRenderer());
+				escMenuBg.draw(0, 0);
+				
 								
 				
 				// Fill the screen with white
