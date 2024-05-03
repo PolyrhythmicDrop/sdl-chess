@@ -129,11 +129,7 @@ int main( int argc, char* args[] )
 		EventManager eManager;		
 		// ** Event subscriptions **			
 		eManager.Subscribe("E", std::bind(&Window::ResizeWindow, &window, ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 1920, 1080));
-		eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 1024, 768));
-
-		Decoration escMenuBg{ "Esc Menu BG", "images/esc-menu_bg-esc-menu.png" };
-		escMenuBg.loadTexture();
-		escMenuBg.setDimensionsFromTexture(escMenuBg.getSdlTexture());
+		eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 1024, 768));		
 		
 		
 			// Main quit flag for the loop
@@ -145,8 +141,7 @@ int main( int argc, char* args[] )
 			{
 				eManager.EventLoop(&quit);
 				SDL_SetRenderDrawColor(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 100, 100, 100, 255);
-				SDL_RenderClear(ServiceLocator::getGraphics().getRenderer()->GetRenderer());
-				escMenuBg.draw(escMenuBg.getDimensions().x, escMenuBg.getDimensions().y, escMenuBg.getDimensions().w, escMenuBg.getDimensions().h);
+				SDL_RenderClear(ServiceLocator::getGraphics().getRenderer()->GetRenderer());				
 				SDL_RenderPresent(ServiceLocator::getGraphics().getRenderer()->GetRenderer());
 				
 								

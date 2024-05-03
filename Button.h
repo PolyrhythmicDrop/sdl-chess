@@ -12,20 +12,23 @@
 
 class Button: public GameObject, public IDrawable, public IClickable
 {
-private:
-	enum ButtonType {
+private:		
+
+public:
+
+	const enum ButtonType {
 		OPTIONS,
 		BACK,
 		EXIT_GAME,
 		RESOLUTION
 	};
-	
 
-public:
 	// Constructors
 	Button(ButtonType type);
 
 	~Button();
+
+	
 
 	void virtual onClick();
 

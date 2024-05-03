@@ -7,12 +7,23 @@
 
 class Decoration : public GameObject, virtual public IDrawable
 {
-private:	
+private:
+	
 	
 
 public:
 
-	Decoration(std::string name, std::string path);
+	const enum DecorationType
+	{
+		ESC_MENU_BG,
+		RESO_MENU_BG
+	};
+
+	/// <summary>
+	/// Construct the decoration, passing in the specific DecorationType that the decoration is.
+	/// </summary>
+	/// <param name="type">The type of decoration</param>
+	Decoration(DecorationType type);
 
 	~Decoration();	
 
