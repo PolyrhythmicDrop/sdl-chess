@@ -45,7 +45,7 @@ void EventManager::EventLoop(bool* quit)
 	}
 }
 
-void EventManager::Subscribe(const std::string event, std::function<void(int, int)> callback)
+void EventManager::Subscribe(const std::string event, std::function<void(SDL_Renderer*, int, int)> callback)
 {
 	// Add an event and an associated callback function to the subscriber list.
 	m_subscribers[event].push_back(callback);
@@ -55,9 +55,10 @@ void EventManager::Publish(std::string event)
 {	
 	int w = 0;
 	int h = 0;
+	SDL_Renderer* r = NULL;
 	for (auto& e : m_subscribers[event])
 	{
-		e(w, h);
+		e(r, w, h);
 	}
 }
 

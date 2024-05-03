@@ -1,8 +1,6 @@
 #pragma once
 #include <SDL.h>
-#include <SDL_image.h>
 #include <stdio.h>
-#include <array>
 #include <iostream>
 
 // Window wrapper class
@@ -42,6 +40,6 @@ public:
 	/// </summary>
 	/// <param name="w">width</param>
 	/// <param name="h">height</param>
-	void ResizeWindow(int w, int h);
+	void ResizeWindow(SDL_Renderer* renderer, int w, int h);
 };
 

@@ -109,19 +109,17 @@ int main( int argc, char* args[] )
 	// Initialize SDL IMG and check if successful
 	sdlEngine.InitIMG(IMG_INIT_PNG);
 
-	
-
+	// Initialize the Service Locator and call initialize to set it to the null provider
+	ServiceLocator locator{};
+	locator.initialize();
 
 	// Instantiate the Window instance in 1920x1080, the native resolution.
 	Window window{};
 	// Generate the SDL window
 	window.initWindow();
-
-	// Initialize the Service Locator and call initialize to set it to the null provider
-	ServiceLocator locator{};
-	locator.initialize();
 	// Initialize the graphics service using the window
 	GraphicsService graphics{ &window };
+
 	// Set the service locator to provide the graphics service
 	locator.provide(&graphics);
 
@@ -130,8 +128,8 @@ int main( int argc, char* args[] )
 		// Initialize the event manager
 		EventManager eManager;		
 		// ** Event subscriptions **			
-		eManager.Subscribe("E", std::bind(&Window::ResizeWindow, &window, 1920, 1080));
-		eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, 1024, 768));	
+		eManager.Subscribe("E", std::bind(&Window::ResizeWindow, &window, ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 1920, 1080));
+		eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 1024, 768));
 
 		Decoration escMenuBg{ "Esc Menu BG", "images/esc-menu_bg-esc-menu.png" };
 		escMenuBg.loadTexture();
