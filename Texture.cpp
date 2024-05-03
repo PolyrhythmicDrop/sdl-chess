@@ -22,12 +22,9 @@ SDL_Texture* Texture::loadTextureFromImage(std::string path)
 	
 	// Free the existing texture, if any
 	freeTexture();
-
-	// Get the renderer
-	SDL_Renderer* renderer = ServiceLocator::getGraphics().getRenderer()->GetRenderer();
 	
 	// Load an image at the specified path to a texture.
-	_loadedTexture = IMG_LoadTexture(renderer, path.c_str());
+	_loadedTexture = IMG_LoadTexture(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), path.c_str());
 
 	return _loadedTexture;
 }

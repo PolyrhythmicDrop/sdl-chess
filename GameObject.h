@@ -9,8 +9,8 @@ protected:
 	std::string _name;
 	// Structure of dimensions for game objects
 	struct dim {
-		int w, h;
-		int x, y;		
+		int x, y;
+		int w, h;				
 	}_dimensions;
 	
 

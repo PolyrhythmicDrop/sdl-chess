@@ -1,11 +1,8 @@
-#include "Button.h"
-#include "Texture.h"
+#include "Button.h""
 #include <SDL.h>
 #include <SDL_image.h>
 #include <string>
 #include <stdio.h>
-#include "Window.h"
-#include <array>
 #include <iostream>
 
 // Constructor, initialize values

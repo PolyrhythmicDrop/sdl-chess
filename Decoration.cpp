@@ -22,6 +22,7 @@ void Decoration::loadTexture()
 	_dimensions.h = h;
 
 	std::cout << "Texture loaded to " << _name << "!\n";
+	std::cout << "Texture dimensions:\nW: " << _dimensions.w << " H: " << _dimensions.h << " X: " << _dimensions.x << " Y: " << _dimensions.y;
 }
 
 void Decoration::addToDrawQueue()
