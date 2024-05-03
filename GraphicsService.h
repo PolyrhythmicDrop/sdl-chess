@@ -26,6 +26,8 @@ public:
 
 	virtual Renderer* getRenderer();
 
+	virtual void addToQueue();
+
 	virtual void removeFromQueue();
 
 	virtual void drawQueue();

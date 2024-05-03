@@ -10,6 +10,11 @@ Renderer* NullGraphicsService::getRenderer()
 	return NULL;
 }
 
+void NullGraphicsService::addToQueue()
+{
+
+}
+
 void NullGraphicsService::removeFromQueue()
 {
 

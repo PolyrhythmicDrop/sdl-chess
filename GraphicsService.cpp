@@ -26,6 +26,11 @@ Renderer* GraphicsService::getRenderer()
 	return _renderer;
 }
 
+void GraphicsService::addToQueue()
+{
+
+}
+
 void GraphicsService::removeFromQueue()
 {
 
