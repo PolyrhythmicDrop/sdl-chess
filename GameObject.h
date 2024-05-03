@@ -18,7 +18,7 @@ public:
 	// Keeps track of the current number of game objects.
 	int static gameObjectCount;
 	
-	GameObject(std::string name);
+	GameObject(std::string name = "");
 	
 	~GameObject();
 

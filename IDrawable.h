@@ -16,7 +16,7 @@ protected:
 
 public:
 
-	IDrawable(std::string path);
+	IDrawable(std::string path = "");
 	~IDrawable();
 	virtual void loadTexture();
 	virtual SDL_Texture* getSdlTexture();

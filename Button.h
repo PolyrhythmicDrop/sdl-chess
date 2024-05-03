@@ -13,11 +13,17 @@
 class Button: public GameObject, public IDrawable, public IClickable
 {
 private:
+	enum ButtonType {
+		OPTIONS,
+		BACK,
+		EXIT_GAME,
+		RESOLUTION
+	};
 	
 
 public:
 	// Constructors
-	Button(std::string name = "Button", std::string imgPath = "");
+	Button(ButtonType type);
 
 	~Button();
 
