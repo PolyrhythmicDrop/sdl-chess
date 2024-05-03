@@ -21,10 +21,6 @@ SDL_Texture* IDrawable::getSdlTexture()
 	return _sdlTexture;
 }
 
-void IDrawable::addToDrawQueue()
-{
-}
-
 void IDrawable::draw(int x, int y, int w, int h)
 {
 	SDL_Renderer* renderer = ServiceLocator::getGraphics().getRenderer()->GetRenderer();

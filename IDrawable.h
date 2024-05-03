@@ -20,7 +20,6 @@ public:
 	~IDrawable();
 	virtual void loadTexture();
 	virtual SDL_Texture* getSdlTexture();
-	virtual void addToDrawQueue();
 	virtual void draw(int x, int y, int w, int h);
 };
 
