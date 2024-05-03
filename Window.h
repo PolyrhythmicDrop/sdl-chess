@@ -32,15 +32,7 @@ public:
 	// Get the SDL window
 	SDL_Window* getWindow();
 
-	// Get width for window
-	int getWindowWidth();
-	// Set width for window
-	void setWindowWidth(int width);
-
-	// Get height for window
-	int getWindowHeight();
-	// Set height for window
-	void setWindowHeight(int height);
+	void getWindowSize(int* w, int* h);
 
 	// Deallocate the window
 	void freeWindow();

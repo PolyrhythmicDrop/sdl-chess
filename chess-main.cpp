@@ -23,7 +23,7 @@
 /// <param name="window">The window to get dimensions from.</param>
 /// <param name="renderer">The renderer.</param>
 /// <param name="borderWidth">The width of the border for the chessboard.</param>
-static void drawChessboard(Window window, SDL_Renderer* renderer, double borderWidth = 10)
+/*static void drawChessboard(Window window, SDL_Renderer* renderer, double borderWidth = 10)
 {
 	int windowW = window.getWindowWidth();
 	int windowH = window.getWindowHeight();
@@ -87,7 +87,7 @@ static void drawChessboard(Window window, SDL_Renderer* renderer, double borderW
 		boardSpacePoint.y = boardSpacePoint.y + spaceSideLength;
 	}
 
-}
+}*/
 
 // Initialize static variables
 int GameObject::gameObjectCount = 0;
