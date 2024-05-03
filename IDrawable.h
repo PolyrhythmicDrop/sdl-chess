@@ -18,7 +18,9 @@ public:
 
 	IDrawable(std::string path);
 	~IDrawable();
-	void virtual loadTexture();
-	void virtual addToDrawQueue();
+	virtual void loadTexture();
+	virtual SDL_Texture* getSdlTexture();
+	virtual void addToDrawQueue();
+	virtual void draw(int x, int y, int w, int h);
 };
 

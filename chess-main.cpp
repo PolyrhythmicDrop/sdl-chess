@@ -133,6 +133,7 @@ int main( int argc, char* args[] )
 
 		Decoration escMenuBg{ "Esc Menu BG", "images/esc-menu_bg-esc-menu.png" };
 		escMenuBg.loadTexture();
+		escMenuBg.setDimensionsFromTexture(escMenuBg.getSdlTexture());
 		
 		
 			// Main quit flag for the loop
@@ -145,7 +146,7 @@ int main( int argc, char* args[] )
 				eManager.EventLoop(&quit);
 				SDL_SetRenderDrawColor(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 100, 100, 100, 255);
 				SDL_RenderClear(ServiceLocator::getGraphics().getRenderer()->GetRenderer());
-				escMenuBg.draw(0, 0);
+				escMenuBg.draw(escMenuBg.getDimensions().x, escMenuBg.getDimensions().y, escMenuBg.getDimensions().w, escMenuBg.getDimensions().h);
 				SDL_RenderPresent(ServiceLocator::getGraphics().getRenderer()->GetRenderer());
 				
 								

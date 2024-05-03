@@ -24,6 +24,20 @@ GameObject::dim GameObject::getDimensions()
 	return _dimensions;
 }
 
+void GameObject::setDimensions(int x, int y, int w, int h)
+{
+	_dimensions = { x, y, w, h };
+}
+
+void GameObject::setDimensionsFromTexture(SDL_Texture* texture)
+{
+	int w;
+	int h;
+	// Query loaded texture to get the width and height of the texture and set them to w & h variables
+	SDL_QueryTexture(texture, NULL, NULL, &w, &h);
+	this->setDimensions(_dimensions.x, _dimensions.y, w, h);
+}
+
 
 
 

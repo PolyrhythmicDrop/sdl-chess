@@ -14,13 +14,7 @@ public:
 
 	Decoration(std::string name, std::string path);
 
-	~Decoration();
-
-	void loadTexture();
-
-	void addToDrawQueue();
-
-	void draw(int x, int y);
+	~Decoration();	
 
 
 };

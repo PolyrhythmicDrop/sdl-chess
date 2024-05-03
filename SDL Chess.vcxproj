@@ -146,6 +146,7 @@
     <ClCompile Include="IDrawable.cpp" />
     <ClCompile Include="NullGraphicsService.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SDLfunc.cpp" />
     <ClCompile Include="Decoration.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="NullGraphicsService.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="SDLfunc.h" />
     <ClInclude Include="Decoration.h" />
     <ClInclude Include="ServiceLocator.h" />

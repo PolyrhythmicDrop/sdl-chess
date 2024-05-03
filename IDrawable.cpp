@@ -13,8 +13,21 @@ IDrawable::~IDrawable()
 
 void IDrawable::loadTexture()
 {
+	_sdlTexture = _textureLoader->loadTextureFromImage(_imgPath);
+}
 
+SDL_Texture* IDrawable::getSdlTexture()
+{
+	return _sdlTexture;
 }
 
 void IDrawable::addToDrawQueue()
-{}
+{
+}
+
+void IDrawable::draw(int x, int y, int w, int h)
+{
+	SDL_Renderer* renderer = ServiceLocator::getGraphics().getRenderer()->GetRenderer();
+	SDL_Rect destRect = { x, y, w, h };
+	SDL_RenderCopy(renderer, _sdlTexture, NULL, &destRect);
+}

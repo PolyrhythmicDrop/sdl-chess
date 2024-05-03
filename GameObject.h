@@ -25,6 +25,10 @@ public:
 	std::string virtual getName();
 
 	dim virtual getDimensions();
+
+	void virtual setDimensions(int x, int y, int w, int h);
+
+	void virtual setDimensionsFromTexture(SDL_Texture* texture);
 };
 
 
