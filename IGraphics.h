@@ -6,10 +6,10 @@
 
 // Pure abstract class for graphics handling, should be inherited by both the NullGraphicsService and the GraphicsService.
 class IGraphics
-{
-		
+{	
 
 public:
+	
 
 	~IGraphics() {};
 

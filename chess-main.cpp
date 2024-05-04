@@ -1,14 +1,11 @@
 // Main game loop for SDL Chess
 
-#include "Button.h"
-#include "Decoration.h"
 #include "EventManager.h"
-#include "SDLfunc.h"
-#include "Texture.h"
-#include "Window.h"
-#include "ServiceLocator.h"
 #include "GraphicsService.h"
-#include <algorithm>
+#include "SDLfunc.h"
+#include "ServiceLocator.h"
+#include "Window.h"
+
 #include <functional>
 #include <iostream>
 #include <SDL.h>

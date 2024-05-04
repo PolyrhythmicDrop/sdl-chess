@@ -18,11 +18,6 @@ protected:
 	/// </summary>
 	std::vector<GameObject*> _objectVector;
 
-	/// <summary>
-	/// Vector containing all the draw functions of the objects in the scene, in the order that they are to be drawn.
-	/// </summary>
-	std::vector<std::function<void(int, int, int, int)>> _sceneDrawVector;
-
 public:
 
 	Scene();
@@ -42,10 +37,5 @@ public:
 
 	const std::vector<GameObject*> getObjectVector();
 
-	/// <summary>
-	/// Add draw functions to the scene draw vector.
-	/// </summary>
-	/// <param name="object">The object whose draw function will be added.</param>
-	virtual void addToSceneDrawVector(IDrawable* object, std::function<void(int, int, int, int)> drawFunction);
 };
 

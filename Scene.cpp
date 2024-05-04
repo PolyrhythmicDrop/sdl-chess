@@ -20,8 +20,3 @@ const std::vector<GameObject*> Scene::getObjectVector()
 {
 	return _objectVector;
 }
-
-void Scene::addToSceneDrawVector(IDrawable* object, std::function<void(int, int, int, int)> drawFunction)
-{
-	_sceneDrawVector.push_back(drawFunction);
-}

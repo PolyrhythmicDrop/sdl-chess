@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <functional>
 
-class Decoration : public GameObject, virtual public IDrawable
+class Decoration : public GameObject, public IDrawable
 {
 private:
 	
