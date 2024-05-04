@@ -25,7 +25,8 @@ Button::Button(ButtonType type) :
 			_graphics->_imgPath = "images/esc-menu_button-resolution.png";
 			break;
 	}
-	_graphics->loadTexture();		
+	_graphics->loadTexture();
+	setScaleFromTexture(_graphics->getSdlTexture());
 	std::cout << "Button " << _name << " created!\n";
 }
 

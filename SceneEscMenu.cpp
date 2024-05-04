@@ -18,11 +18,19 @@ void SceneEscMenu::buildScene()
 	Button* backButton = new Button(Button::BACK);
 	Button* exitButton = new Button(Button::EXIT_GAME);
 
+	// Get window variables
+	int windowW;
+	int windowH;
+	ServiceLocator::getGraphics().getWindow()->getWindowSize(&windowW, &windowH);
+	// Position the objects
+	
+
+
 	// Add the objects to the scene map
 	addObject(escMenuBg, escMenuBg->getGraphicsComponent()->getSdlTexture());
 	addObject(optionsButton, optionsButton->getGraphicsComponent()->getSdlTexture());
 	addObject(backButton, backButton->getGraphicsComponent()->getSdlTexture());
-	addObject(exitButton, exitButton->getGraphicsComponent()->getSdlTexture());
+	addObject(exitButton, exitButton->getGraphicsComponent()->getSdlTexture());	
 
 	// Debug to make sure this is actually happening
 	std::map<GameObject*, SDL_Texture*>::iterator itr;

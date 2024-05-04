@@ -21,11 +21,27 @@ public:
 
 	virtual std::string getName();
 
+	/// <summary>
+	/// Get Rect (nerd). Returns the _dimensions of the game object, which is an SDL Rect.
+	/// </summary>
+	/// <returns></returns>
 	virtual SDL_Rect* getDimensions();
 
-	virtual void setDimensions(int x, int y, int w, int h);
+	/// <summary>
+	/// Set the width and height of the game object.
+	/// </summary>
+	/// <param name="w"></param>
+	/// <param name="h"></param>
+	virtual void setScale(int w, int h);
 
-	virtual void setDimensionsFromTexture(SDL_Texture* texture);
+	/// <summary>
+	/// Set the position of the game object.
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
+	virtual void setPosition(int x, int y);
+
+	virtual void setScaleFromTexture(SDL_Texture* texture);
 };
 
 

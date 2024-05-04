@@ -17,7 +17,7 @@ Decoration::Decoration(DecorationType type)	:
 	// Load the texture using the image path in the constructor's switch statement
 	_graphics->loadTexture();
 	// Set the initial dimensions for the decoration using the texture
-	setDimensionsFromTexture(_graphics->getSdlTexture());
+	setScaleFromTexture(_graphics->getSdlTexture());
 	std::cout << "Decoration " << _name << " created!\n";
 }
 
