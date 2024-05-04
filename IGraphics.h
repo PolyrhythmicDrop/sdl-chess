@@ -17,7 +17,7 @@ public:
 
 	virtual Renderer* getRenderer() = 0;
 
-	virtual void addToQueue(std::vector<GameObject*>) = 0;
+	virtual void addToQueue(std::vector<GameObject*> objects) = 0;
 
 	virtual void removeFromQueue() = 0;
 

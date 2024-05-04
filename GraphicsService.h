@@ -13,6 +13,8 @@ private:
 	Renderer* _renderer;
 	Window* _window;
 
+	std::vector<GameObject*> _objVector;
+
 	static bool _instantiated;
 
 
@@ -26,7 +28,7 @@ public:
 
 	virtual Renderer* getRenderer();
 
-	virtual void addToQueue(std::vector<GameObject*>);
+	virtual void addToQueue(std::vector<GameObject*> objects);
 
 	virtual void removeFromQueue();
 
