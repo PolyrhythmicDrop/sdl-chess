@@ -18,6 +18,11 @@ void GraphicsComponent::loadTexture()
 	_sdlTexture = _textureLoader->loadTextureFromImage(_imgPath);
 }
 
+void GraphicsComponent::setImgPath(std::string path)
+{
+	_imgPath = path;
+}
+
 SDL_Texture* GraphicsComponent::getSdlTexture()
 {
 	return _sdlTexture;
