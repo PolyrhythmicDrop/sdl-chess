@@ -26,7 +26,7 @@ Renderer* GraphicsService::getRenderer()
 	return _renderer;
 }
 
-void GraphicsService::addToQueue()
+void GraphicsService::addToQueue(std::vector<GameObject*>)
 {
 
 }

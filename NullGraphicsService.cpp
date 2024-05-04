@@ -10,7 +10,7 @@ Renderer* NullGraphicsService::getRenderer()
 	return NULL;
 }
 
-void NullGraphicsService::addToQueue()
+void NullGraphicsService::addToQueue(std::vector<GameObject*>)
 {
 
 }

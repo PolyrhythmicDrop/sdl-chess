@@ -1,6 +1,8 @@
 #pragma once
 #include "Window.h"
 #include "Renderer.h"
+#include "GameObject.h"
+#include <vector>
 
 // Pure abstract class for graphics handling, should be inherited by both the NullGraphicsService and the GraphicsService.
 class IGraphics
@@ -15,7 +17,7 @@ public:
 
 	virtual Renderer* getRenderer() = 0;
 
-	virtual void addToQueue() = 0;
+	virtual void addToQueue(std::vector<GameObject*>) = 0;
 
 	virtual void removeFromQueue() = 0;
 
