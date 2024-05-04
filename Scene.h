@@ -3,7 +3,7 @@
 #include "Decoration.h"
 #include "Button.h"
 #include <functional>
-#include <vector>
+#include <map>
 
 /// <summary>
 /// Abstract class for building scenes.
@@ -14,9 +14,9 @@ protected:
 
 	
 	/// <summary>
-	/// Vector containing all the objects in the scene.
+	/// Map containing all the objects in the scene, plus their associated textures.
 	/// </summary>
-	std::vector<GameObject*> _objectVector;
+	std::map<GameObject*, SDL_Texture*> _sceneMap;
 
 public:
 
@@ -33,9 +33,9 @@ public:
 	/// Adds an object to the back of to the scene object vector.
 	/// </summary>
 	/// <param name="object">The object to add to the vector.</param>
-	virtual void addObject(GameObject* object);
+	virtual void addObject(GameObject* object, SDL_Texture* texture);
 
-	const std::vector<GameObject*> getObjectVector();
+	const std::map<GameObject*, SDL_Texture*> getObjectMap();
 
 };
 

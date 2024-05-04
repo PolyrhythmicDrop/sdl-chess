@@ -1,7 +1,7 @@
 #include "Scene.h"
 
 Scene::Scene() :
-	_objectVector({})
+	_sceneMap({})
 {
 	std::cout << "Scene created!";
 }
@@ -11,12 +11,12 @@ Scene::~Scene()
 	std::cout << "Scene destructed!";
 }
 
-void Scene::addObject(GameObject* object)
+void Scene::addObject(GameObject* object, SDL_Texture* texture)
 {
-	_objectVector.push_back(object);
+	_sceneMap.insert({ object, texture });
 }
 
-const std::vector<GameObject*> Scene::getObjectVector()
+const std::map<GameObject*, SDL_Texture*> Scene::getObjectMap()
 {
-	return _objectVector;
+	return _sceneMap;
 }

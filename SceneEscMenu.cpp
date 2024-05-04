@@ -18,25 +18,14 @@ void SceneEscMenu::buildScene()
 	Button* backButton = new Button(Button::BACK);
 	Button* exitButton = new Button(Button::EXIT_GAME);
 
-	// Add the objects to the object array
-	addObject(escMenuBg);
-	addObject(optionsButton);
-	addObject(backButton);
-	addObject(exitButton);
+	// Add the objects to the scene map
+	addObject(escMenuBg, escMenuBg->getGraphicsComponent()->getSdlTexture());
+	addObject(optionsButton, optionsButton->getGraphicsComponent()->getSdlTexture());
+	addObject(backButton, backButton->getGraphicsComponent()->getSdlTexture());
+	addObject(exitButton, exitButton->getGraphicsComponent()->getSdlTexture());
 
-	// Add all the object texture to a separate array; make sure they're in the same order they were added to the object array
-	std::vector<SDL_Texture*> vTexture =
-	{
-		escMenuBg->getGraphicsComponent()->getSdlTexture(),
-		optionsButton->getGraphicsComponent()->getSdlTexture(),
-		backButton->getGraphicsComponent()->getSdlTexture(),
-		exitButton->getGraphicsComponent()->getSdlTexture()
-	};
+	// Add the scene map to the render map in the Graphics Service
+	ServiceLocator::getGraphics().addToRenderMap(_sceneMap);
 
 
-	// Set the dimensions for each object according to its texture
-	for (auto i = 0; i <= _objectVector.size(); i++)
-	{
-		_objectVector[i]->setDimensionsFromTexture(vTexture[i]);
-	}
 }

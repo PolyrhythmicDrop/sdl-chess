@@ -10,7 +10,7 @@ Renderer* NullGraphicsService::getRenderer()
 	return NULL;
 }
 
-void NullGraphicsService::addToQueue(std::vector<GameObject*> objects)
+void NullGraphicsService::addToRenderMap(std::map<GameObject*, SDL_Texture*> map)
 {
 
 }

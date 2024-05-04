@@ -26,9 +26,9 @@ Renderer* GraphicsService::getRenderer()
 	return _renderer;
 }
 
-void GraphicsService::addToQueue(std::vector<GameObject*> objects)
+void GraphicsService::addToRenderMap(std::map<GameObject*, SDL_Texture*> map)
 {
-
+	_renderMap.insert(map.begin(), map.end());
 }
 
 void GraphicsService::removeFromQueue()

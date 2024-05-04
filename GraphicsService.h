@@ -2,7 +2,6 @@
 #include "IGraphics.h"
 #include <cassert>
 #include <iostream>
-#include <SDL.h>
 
 /// <summary>
 /// Service class to handle graphics. Container for Window and Renderer, contains a draw queue, and has functions to draw the queue and return the window and renderer.
@@ -13,7 +12,7 @@ private:
 	Renderer* _renderer;
 	Window* _window;
 
-	std::vector<GameObject*> _objVector;
+	std::map<GameObject*, SDL_Texture*> _renderMap;
 
 	static bool _instantiated;
 
@@ -28,7 +27,7 @@ public:
 
 	virtual Renderer* getRenderer();
 
-	virtual void addToQueue(std::vector<GameObject*> objects);
+	virtual void addToRenderMap(std::map<GameObject*, SDL_Texture*> map);
 
 	virtual void removeFromQueue();
 

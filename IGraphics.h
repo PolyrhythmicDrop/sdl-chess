@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "Renderer.h"
 #include "GameObject.h"
-#include <vector>
+#include <map>
 
 // Pure abstract class for graphics handling, should be inherited by both the NullGraphicsService and the GraphicsService.
 class IGraphics
@@ -17,7 +17,7 @@ public:
 
 	virtual Renderer* getRenderer() = 0;
 
-	virtual void addToQueue(std::vector<GameObject*> objects) = 0;
+	virtual void addToRenderMap(std::map<GameObject*, SDL_Texture*> map) = 0;
 
 	virtual void removeFromQueue() = 0;
 
