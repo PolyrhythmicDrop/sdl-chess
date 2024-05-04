@@ -12,7 +12,7 @@ private:
 	Renderer* _renderer;
 	Window* _window;
 
-	std::map<GameObject*, SDL_Texture*> _renderMap;
+	std::map<int, std::pair<GameObject*, SDL_Texture*>> _renderMap;
 
 	static bool _instantiated;
 
@@ -27,7 +27,7 @@ public:
 
 	virtual Renderer* getRenderer();
 
-	virtual void addToRenderMap(std::map<GameObject*, SDL_Texture*> map);
+	virtual void addToRenderMap(std::map<int, std::pair<GameObject*, SDL_Texture*>> map);
 
 	virtual void removeFromQueue();
 

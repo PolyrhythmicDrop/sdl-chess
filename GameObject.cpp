@@ -2,7 +2,8 @@
 
 GameObject::GameObject(std::string name) :
 	_name(name),
-	_dimensions({0, 0, 0, 0})
+	_dimensions({0, 0, 0, 0}),
+	_zIndex(0)
 {
 	gameObjectCount++;
 	std::cout << "Object created! Game object count: " << gameObjectCount << "\n";
@@ -38,6 +39,16 @@ int GameObject::getWidth()
 int GameObject::getHeight()
 {
 	return _dimensions.h;
+}
+
+int GameObject::getZ()
+{
+	return _zIndex;
+}
+
+void GameObject::setZ(int z)
+{
+	_zIndex = z;
 }
 
 void GameObject::setPosition(int x, int y)

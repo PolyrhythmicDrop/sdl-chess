@@ -10,7 +10,7 @@ public:
 
 	virtual Renderer* getRenderer();
 
-	virtual void addToRenderMap(std::map<GameObject*, SDL_Texture*> map);
+	virtual void addToRenderMap(std::map<int, std::pair<GameObject*, SDL_Texture*>> map);
 
 	virtual void removeFromQueue();
 

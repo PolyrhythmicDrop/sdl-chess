@@ -13,10 +13,12 @@ Scene::~Scene()
 
 void Scene::addObject(GameObject* object, SDL_Texture* texture)
 {
-	_sceneMap.insert(std::pair<GameObject*, SDL_Texture*>(object, texture));
+	// _textureMap.insert(std::pair<GameObject*, SDL_Texture*>(object, texture));
+
+	_sceneMap.insert({object->getZ(), std::pair<GameObject*, SDL_Texture*>(object, texture) });
 }
 
-const std::map<GameObject*, SDL_Texture*> Scene::getObjectMap()
+const std::map<int, std::pair<GameObject*, SDL_Texture*>> Scene::getObjectMap()
 {
 	return _sceneMap;
 }

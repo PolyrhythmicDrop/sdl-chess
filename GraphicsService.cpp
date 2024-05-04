@@ -26,15 +26,15 @@ Renderer* GraphicsService::getRenderer()
 	return _renderer;
 }
 
-void GraphicsService::addToRenderMap(std::map<GameObject*, SDL_Texture*> map)
+void GraphicsService::addToRenderMap(std::map<int, std::pair<GameObject*, SDL_Texture*>> map)
 {
 	_renderMap.insert(map.begin(), map.end());
 
 	// Debug to make sure objects are being added to the map
-	std::map<GameObject*, SDL_Texture*>::iterator itr;
+	std::map<int, std::pair<GameObject*, SDL_Texture*>>::iterator itr;
 	for (itr = _renderMap.begin(); itr != _renderMap.end(); ++itr)
 	{
-		std::cout << "Object name " << itr->first->getName() << " has been inserted into the render map!\n";
+		std::cout << "Object name " << itr->second.first->getName() << " has been inserted into the render map!\n";
 	}
 
 }
@@ -46,19 +46,17 @@ void GraphicsService::removeFromQueue()
 
 void GraphicsService::render()
 {
-	// iterator for the map
-	std::map<GameObject*, SDL_Texture*>::iterator itr;
 	// Set renderer variable
 	SDL_Renderer* renderer = _renderer->GetRenderer();
-	// Sort the render map by Z value
-
 
 	// Set the background color and clear the renderer
 	SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
 	SDL_RenderClear(renderer);
-	for (itr = _renderMap.begin(); itr != _renderMap.end(); ++itr)
+
+	std::map<int, std::pair<GameObject*, SDL_Texture*>>::iterator it = _renderMap.begin();
+	for (it; it != _renderMap.end(); it++)
 	{
-		SDL_RenderCopy(renderer, itr->second, NULL, itr->first->getDimensions());
+		SDL_RenderCopy(renderer, it->second.second, NULL, it->second.first->getDimensions());
 	}
 	
 	SDL_RenderPresent(renderer);
