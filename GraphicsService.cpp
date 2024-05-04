@@ -48,15 +48,16 @@ void GraphicsService::render()
 {
 	// iterator for the map
 	std::map<GameObject*, SDL_Texture*>::iterator itr;
-	itr = _renderMap.begin();
+	// Set renderer variable
 	SDL_Renderer* renderer = _renderer->GetRenderer();
+	// Initialize a rect that I can in the render command
+
+	// Set the background color and clear the renderer
 	SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
 	SDL_RenderClear(renderer);
-
-	SDL_Rect rect = { 500, 500, 100, 300 };
 	for (itr = _renderMap.begin(); itr != _renderMap.end(); ++itr)
 	{
-		SDL_RenderCopy(_renderer->GetRenderer(), itr->second, NULL, &rect);
+		SDL_RenderCopy(renderer, itr->second, NULL, itr->first->getDimensions());
 	}
 	
 	SDL_RenderPresent(renderer);

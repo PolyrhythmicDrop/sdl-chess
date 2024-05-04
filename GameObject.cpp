@@ -19,9 +19,9 @@ std::string GameObject::getName()
 	return _name;
 }
 
-GameObject::dim GameObject::getDimensions()
+SDL_Rect* GameObject::getDimensions()
 {
-	return _dimensions;
+	return &_dimensions;
 }
 
 void GameObject::setDimensions(int x, int y, int w, int h)

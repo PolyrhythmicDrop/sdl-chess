@@ -8,10 +8,7 @@ class GameObject
 protected:
 	std::string _name;
 	// Structure of dimensions for game objects
-	struct dim {
-		int x, y;
-		int w, h;				
-	}_dimensions;
+	SDL_Rect _dimensions;
 	
 
 public:
@@ -22,13 +19,13 @@ public:
 	
 	~GameObject();
 
-	std::string virtual getName();
+	virtual std::string getName();
 
-	dim virtual getDimensions();
+	virtual SDL_Rect* getDimensions();
 
-	void virtual setDimensions(int x, int y, int w, int h);
+	virtual void setDimensions(int x, int y, int w, int h);
 
-	void virtual setDimensionsFromTexture(SDL_Texture* texture);
+	virtual void setDimensionsFromTexture(SDL_Texture* texture);
 };
 
 

@@ -14,7 +14,10 @@ Decoration::Decoration(DecorationType type)	:
 		_graphics->_imgPath = "images/esc-menu_bg-resolution-menu.png";
 		break;
 	}
+	// Load the texture using the image path in the constructor's switch statement
 	_graphics->loadTexture();
+	// Set the initial dimensions for the decoration using the texture
+	setDimensionsFromTexture(_graphics->getSdlTexture());
 	std::cout << "Decoration " << _name << " created!\n";
 }
 
