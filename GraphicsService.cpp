@@ -50,7 +50,8 @@ void GraphicsService::render()
 	std::map<GameObject*, SDL_Texture*>::iterator itr;
 	// Set renderer variable
 	SDL_Renderer* renderer = _renderer->GetRenderer();
-	// Initialize a rect that I can in the render command
+	// Sort the render map by Z value
+
 
 	// Set the background color and clear the renderer
 	SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);

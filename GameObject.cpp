@@ -30,6 +30,16 @@ void GameObject::setScale(int w, int h)
 	_dimensions.h = h;
 }
 
+int GameObject::getWidth()
+{
+	return _dimensions.w;
+}
+
+int GameObject::getHeight()
+{
+	return _dimensions.h;
+}
+
 void GameObject::setPosition(int x, int y)
 {
 	_dimensions.x = x;

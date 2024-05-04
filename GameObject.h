@@ -34,6 +34,10 @@ public:
 	/// <param name="h"></param>
 	virtual void setScale(int w, int h);
 
+	virtual int getWidth();
+
+	virtual int getHeight();
+
 	/// <summary>
 	/// Set the position of the game object.
 	/// </summary>

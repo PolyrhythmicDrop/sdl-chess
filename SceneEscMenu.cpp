@@ -22,9 +22,22 @@ void SceneEscMenu::buildScene()
 	int windowW;
 	int windowH;
 	ServiceLocator::getGraphics().getWindow()->getWindowSize(&windowW, &windowH);
-	// Position the objects
 	
+	// Position the objects
+	// Set the Z-values
+	escMenuBg->getGraphicsComponent()->setZ(0);
+	optionsButton->getGraphicsComponent()->setZ(1);
+	backButton->getGraphicsComponent()->setZ(1);
+	exitButton->getGraphicsComponent()->setZ(1);
 
+	// Set the position
+	escMenuBg->setPosition(	(windowW / 2) - (escMenuBg->getWidth() / 2), (windowH / 2) - (escMenuBg->getHeight() / 2) );
+
+	optionsButton->setPosition((windowW / 2) - (optionsButton->getWidth() / 2), (escMenuBg->getDimensions()->y + optionsButton->getHeight()));
+
+	backButton->setPosition((windowW / 2) - (backButton->getWidth() / 2), (optionsButton->getDimensions()->y + backButton->getHeight()));
+
+	exitButton->setPosition((windowW / 2) - (exitButton->getWidth() / 2), (backButton->getDimensions()->y + exitButton->getHeight()));
 
 	// Add the objects to the scene map
 	addObject(escMenuBg, escMenuBg->getGraphicsComponent()->getSdlTexture());
