@@ -19,7 +19,7 @@ public:
 
 	virtual void removeFromQueue() = 0;
 
-	virtual void drawQueue() = 0;
+	virtual void render() = 0;
 
 	};
 

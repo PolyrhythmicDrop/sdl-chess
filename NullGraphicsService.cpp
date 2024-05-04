@@ -20,7 +20,7 @@ void NullGraphicsService::removeFromQueue()
 
 }
 
-void NullGraphicsService::drawQueue()
+void NullGraphicsService::render()
 {
 
 }

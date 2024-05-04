@@ -36,7 +36,7 @@ void GraphicsService::removeFromQueue()
 
 }
 
-void GraphicsService::drawQueue()
+void GraphicsService::render()
 {
 
 }

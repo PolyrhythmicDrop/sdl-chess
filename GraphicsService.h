@@ -30,7 +30,7 @@ public:
 
 	virtual void removeFromQueue();
 
-	virtual void drawQueue();
+	virtual void render();
 
 };
 
