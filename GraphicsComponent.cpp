@@ -1,7 +1,7 @@
 #include "GraphicsComponent.h"
 
 GraphicsComponent::GraphicsComponent() :
-	_imgPath(""), _textureLoader(NULL), _sdlTexture(NULL)
+	_imgPath(""), _textureLoader(NULL), _sdlTexture(NULL), _zIndex(0)
 {
 	_textureLoader = new Texture();
 	std::cout << "Graphics component constructed!\n";
@@ -31,4 +31,14 @@ SDL_Texture* GraphicsComponent::getSdlTexture()
 GraphicsComponent* GraphicsComponent::getGraphicsComponent()
 {
 	return this;
+}
+
+int GraphicsComponent::getZ()
+{
+	return _zIndex;
+}
+
+void GraphicsComponent::setZ(int z)
+{
+	_zIndex = z;
 }

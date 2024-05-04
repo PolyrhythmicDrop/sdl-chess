@@ -8,6 +8,8 @@ private:
 	Texture* _textureLoader;
 	SDL_Texture* _sdlTexture;
 	std::string _imgPath;
+	// Z-index for drawing purposes. Higher values render on top of lower values.
+	int _zIndex;
 
 public:
 	
@@ -22,6 +24,10 @@ public:
 	SDL_Texture* getSdlTexture();
 
 	GraphicsComponent* getGraphicsComponent();
+
+	int getZ();
+
+	void setZ(int z);
 
 };
 

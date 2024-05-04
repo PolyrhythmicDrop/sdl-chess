@@ -3,7 +3,6 @@
 // Constructor, initialize values
 Button::Button(ButtonType type) :
 	_graphics(new GraphicsComponent())
-
 {
 	// Sets the button's name and texture path, depending on the type of button it is.
 	switch (type)
