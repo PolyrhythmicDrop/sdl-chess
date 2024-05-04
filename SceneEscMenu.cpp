@@ -25,19 +25,19 @@ void SceneEscMenu::buildScene()
 	
 	// Position the objects
 	// Set the Z-values
-	escMenuBg->setZ(0);
-	optionsButton->setZ(1);
-	backButton->setZ(2);
-	exitButton->setZ(3);
+	escMenuBg->setZ(100);
+	optionsButton->setZ(101);
+	backButton->setZ(102);
+	exitButton->setZ(103);
 
 	// Set the position
 	escMenuBg->setPosition(	(windowW / 2) - (escMenuBg->getWidth() / 2), (windowH / 2) - (escMenuBg->getHeight() / 2) );
 
-	optionsButton->setPosition((windowW / 2) - (optionsButton->getWidth() / 2), (escMenuBg->getDimensions()->y + optionsButton->getHeight()));
+	optionsButton->setPosition((windowW / 2) - (optionsButton->getWidth() / 2), (escMenuBg->getDimensions()->y + (optionsButton->getHeight() / 2)));
 
-	backButton->setPosition((windowW / 2) - (backButton->getWidth() / 2), (optionsButton->getDimensions()->y + backButton->getHeight()));
+	backButton->setPosition((windowW / 2) - (backButton->getWidth() / 2), ((escMenuBg->getDimensions()->y) + (escMenuBg->getHeight() / 2)) - (backButton->getHeight() / 2));
 
-	exitButton->setPosition((windowW / 2) - (exitButton->getWidth() / 2), (backButton->getDimensions()->y + exitButton->getHeight()));
+	exitButton->setPosition((windowW / 2) - (exitButton->getWidth() / 2), (escMenuBg->getDimensions()->y + escMenuBg->getHeight() - exitButton->getHeight()) - (exitButton->getHeight() / 2));
 
 	// Add the objects to the scene map
 	addObject(escMenuBg, escMenuBg->getGraphicsComponent()->getSdlTexture());
