@@ -50,17 +50,16 @@ void GraphicsService::render()
 	std::map<GameObject*, SDL_Texture*>::iterator itr;
 	itr = _renderMap.begin();
 	SDL_Renderer* renderer = _renderer->GetRenderer();
-	SDL_Texture* texture = itr->second;
-	// Attempt to render one object in the map.
-	SDL_RenderCopy(renderer, texture, NULL, NULL);
+	SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
+	SDL_RenderClear(renderer);
 
-	/* Render everything in the map
 	SDL_Rect rect = { 500, 500, 100, 300 };
 	for (itr = _renderMap.begin(); itr != _renderMap.end(); ++itr)
 	{
 		SDL_RenderCopy(_renderer->GetRenderer(), itr->second, NULL, &rect);
 	}
-	*/
+	
+	SDL_RenderPresent(renderer);
 }
 
 
