@@ -25,12 +25,12 @@ void SceneEscMenu::buildScene()
 	addObject(exitButton);
 
 	// Add all the object texture to a separate array; make sure they're in the same order they were added to the object array
-	std::vector<SDL_Texture*> vTexture = 
+	std::vector<SDL_Texture*> vTexture =
 	{
-		escMenuBg->getSdlTexture(), 
-		optionsButton->getSdlTexture(),
-		backButton->getSdlTexture(),
-		exitButton->getSdlTexture()
+		escMenuBg->getGraphicsComponent()->getSdlTexture(),
+		optionsButton->getGraphicsComponent()->getSdlTexture(),
+		backButton->getGraphicsComponent()->getSdlTexture(),
+		exitButton->getGraphicsComponent()->getSdlTexture()
 	};
 
 

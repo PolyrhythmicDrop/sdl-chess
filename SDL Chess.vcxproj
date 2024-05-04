@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="chess-main.cpp" />
+    <ClCompile Include="GraphicsComponent.cpp" />
     <ClCompile Include="GraphicsService.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameContext.cpp" />
@@ -158,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="GraphicsComponent.h" />
     <ClInclude Include="GraphicsService.h" />
     <ClInclude Include="IClickable.h" />
     <ClInclude Include="EventManager.h" />
