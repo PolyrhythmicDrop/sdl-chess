@@ -7,13 +7,14 @@ Decoration::Decoration(DecorationType type)	:
 	{
 	case ESC_MENU_BG:
 		_name = "Esc Menu Background";
-		_graphics->_imgPath = "esc-menu_bg-esc-menu.png";
+		_graphics->_imgPath = "images/esc-menu_bg-esc-menu.png";		
 		break;
 	case RESO_MENU_BG:
 		_name = "Resolution Menu Background";
-		_graphics->_imgPath = "esc-menu_bg-resolution-menu.png";
+		_graphics->_imgPath = "images/esc-menu_bg-resolution-menu.png";
 		break;
 	}
+	_graphics->loadTexture();
 	std::cout << "Decoration " << _name << " created!\n";
 }
 

@@ -5,6 +5,7 @@
 #include "SDLfunc.h"
 #include "ServiceLocator.h"
 #include "Window.h"
+#include "SceneEscMenu.h"
 
 #include <functional>
 #include <iostream>
@@ -122,12 +123,17 @@ int main( int argc, char* args[] )
 
 
 		
-		// Initialize the event manager
-		EventManager eManager;		
-		// ** Event subscriptions **			
-		eManager.Subscribe("E", std::bind(&Window::ResizeWindow, &window, ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 1920, 1080));
-		eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 1024, 768));		
-		
+	// Initialize the event manager
+	EventManager eManager;		
+	// ** Event subscriptions **			
+	eManager.Subscribe("E", std::bind(&Window::ResizeWindow, &window, ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 1920, 1080));
+	eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 1024, 768));		
+
+	// Scene building test
+	SceneEscMenu escMenu;
+	escMenu.buildScene();
+	
+
 		
 			// Main quit flag for the loop
 			bool quit = false;				
@@ -138,7 +144,13 @@ int main( int argc, char* args[] )
 			{
 				eManager.EventLoop(&quit);
 				SDL_SetRenderDrawColor(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 100, 100, 100, 255);
-				SDL_RenderClear(ServiceLocator::getGraphics().getRenderer()->GetRenderer());				
+				SDL_RenderClear(ServiceLocator::getGraphics().getRenderer()->GetRenderer());
+				
+				// Attempt the render command to render the escape menu scene
+				ServiceLocator::getGraphics().render();
+		
+
+
 				SDL_RenderPresent(ServiceLocator::getGraphics().getRenderer()->GetRenderer());
 				
 								

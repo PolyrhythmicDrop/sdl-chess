@@ -10,27 +10,28 @@ Button::Button(ButtonType type) :
 	{
 		case OPTIONS:
 			_name = "Options Button";
-			_graphics->_imgPath = "esc-menu_button-options.png";
+			_graphics->_imgPath = "images/esc-menu_button-options.png";
 			break;
 		case BACK:
 			_name = "Back Button";
-			_graphics->_imgPath = "esc-menu_button-back.png";
+			_graphics->_imgPath = "images/esc-menu_button-back.png";
 			break;
 		case EXIT_GAME:
 			_name = "Exit Game Button";
-			_graphics->_imgPath = "esc-menu_button-exit.png";
+			_graphics->_imgPath = "images/esc-menu_button-exit.png";
 			break;
 		case RESOLUTION:
 			_name = "Resolution Button";
-			_graphics->_imgPath = "esc-menu_button-resolution.png";
+			_graphics->_imgPath = "images/esc-menu_button-resolution.png";
+			break;
 	}
-		
-	std::cout << "Button " << _name << " created!";
+	_graphics->loadTexture();		
+	std::cout << "Button " << _name << " created!\n";
 }
 
 Button::~Button()
 {
-	std::cout << "Button " << _name << " destructed!";
+	std::cout << "Button " << _name << " destructed!\n";
 }
 
 GraphicsComponent* Button::getGraphicsComponent()
