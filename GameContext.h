@@ -1,35 +1,22 @@
 #pragma once
-#include "Renderer.h"
-#include "Window.h"
-#include <iostream>
-#include <SDL.h>
-#include <SDL_image.h>
-#include <stdio.h>
+#include "GameObject.h"
+#include <cassert>
+#include <vector>
 
 	class GameContext
 	{
 	private:
-		// The main window for the current game session
-		Window* _window;
 
-		// The renderer wrapper for the current game session
-		Renderer* _renderer;
-
-		// The SDL renderer used by the Renderer.
-		SDL_Renderer* _sdlRenderer;
-
-		// The SDL window used by the Window.
-		SDL_Window* _sdlWindow;
+		static bool _instantiated;		
 
 	public:
 
+		std::vector<GameObject*> _gameObjects;
+
 		// Constructor
-		GameContext(Window* window, Renderer* renderer);
+		GameContext();
 
 		// Deconstructor
 		~GameContext();
 
-		SDL_Renderer* getSdlRenderer();
-
-		SDL_Window* getSdlWindow();
 	};

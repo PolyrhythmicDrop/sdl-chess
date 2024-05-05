@@ -1,9 +1,8 @@
 #pragma once
-#include <SDL.h>
-#include <SDL_image.h>
-#include <stdio.h>
-#include <array>
+
+#include "SDLfunc.h"
 #include <iostream>
+#include <stdio.h>
 
 // Window wrapper class
 class Window
@@ -32,15 +31,7 @@ public:
 	// Get the SDL window
 	SDL_Window* getWindow();
 
-	// Get width for window
-	int getWindowWidth();
-	// Set width for window
-	void setWindowWidth(int width);
-
-	// Get height for window
-	int getWindowHeight();
-	// Set height for window
-	void setWindowHeight(int height);
+	void getWindowSize(int* w, int* h);
 
 	// Deallocate the window
 	void freeWindow();
@@ -50,6 +41,6 @@ public:
 	/// </summary>
 	/// <param name="w">width</param>
 	/// <param name="h">height</param>
-	void ResizeWindow(int w, int h);
+	void ResizeWindow(SDL_Renderer* renderer, int w, int h);
 };
 

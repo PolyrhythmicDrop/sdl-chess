@@ -29,38 +29,9 @@ SDL_Window* Window::getWindow()
 	return _window;
 }
 
-int Window::getWindowWidth()
+void Window::getWindowSize(int* w, int* h)
 {
-	return _windowWidth;
-}
-
-void Window::setWindowWidth(int width)
-{
-	if (width > 0)
-	{
-		_windowWidth = width;
-	}
-	else
-	{
-		printf("Cannot set window width to less than 0!\n");
-	}	
-}
-
-int Window::getWindowHeight()
-{
-	return _windowHeight;
-}
-
-void Window::setWindowHeight(int height)
-{
-	if (height > 0)
-	{
-		_windowHeight = height;
-	}
-	else
-	{
-		printf("Cannot set window height to less than 0!\n");
-	}
+	SDL_GetWindowSize(_window, w, h);
 }
 
 void Window::freeWindow()
@@ -73,10 +44,11 @@ void Window::freeWindow()
 	_windowHeight = 0;
 }
 
-void Window::ResizeWindow(int w, int h)
+void Window::ResizeWindow(SDL_Renderer* renderer, int w, int h)
 {
 	SDL_SetWindowSize(_window, w, h);
 	_windowWidth = w;
-	_windowHeight = h;
+	_windowHeight = h;	
+	SDL_RenderPresent(renderer);
 	std::cout << "Window resized!\n";
 }

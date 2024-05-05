@@ -1,19 +1,7 @@
-// Main game loop for SDL Chess
-
-#include "Button.h"
 #include "EventManager.h"
 #include "GameContext.h"
-#include "SDLfunc.h"
-#include "Texture.h"
-#include "Window.h"
-#include <algorithm>
-#include <functional>
-#include <iostream>
-#include <SDL.h>
-#include <SDL_image.h>
-#include <stdio.h>
-#include <string>
-
+#include "GraphicsService.h"
+#include "SceneEscMenu.h"
 
 
 /// <summary>
@@ -22,7 +10,7 @@
 /// <param name="window">The window to get dimensions from.</param>
 /// <param name="renderer">The renderer.</param>
 /// <param name="borderWidth">The width of the border for the chessboard.</param>
-static void drawChessboard(Window window, SDL_Renderer* renderer, double borderWidth = 10)
+/*static void drawChessboard(Window window, SDL_Renderer* renderer, double borderWidth = 10)
 {
 	int windowW = window.getWindowWidth();
 	int windowH = window.getWindowHeight();
@@ -86,12 +74,26 @@ static void drawChessboard(Window window, SDL_Renderer* renderer, double borderW
 		boardSpacePoint.y = boardSpacePoint.y + spaceSideLength;
 	}
 
-}
+}*/
+
+// Initialize static variables
+int GameObject::gameObjectCount = 0;
+bool GameContext::_instantiated = false;
+bool GraphicsService::_instantiated = false;
+IGraphics* ServiceLocator::_graphicsService;
+NullGraphicsService ServiceLocator::_nullGraphicsService;
+
 
 // ** Main loop **
 
 int main( int argc, char* args[] )
 {	
+
+	// Initialize the game context
+	GameContext gc;
+	std::vector<GameObject*> gameObjects;
+	gameObjects.reserve(50);
+	
 	// Initialize the SDL Engine
 	SDLfunc sdlEngine{};
 
@@ -100,50 +102,36 @@ int main( int argc, char* args[] )
 
 	// Initialize SDL IMG and check if successful
 	sdlEngine.InitIMG(IMG_INIT_PNG);
-	
+
+	// Initialize the Service Locator and call initialize to set it to the null provider
+	ServiceLocator locator{};
+	locator.initialize();
 
 	// Instantiate the Window instance in 1920x1080, the native resolution.
 	Window window{};
 	// Generate the SDL window
 	window.initWindow();
-	SDL_Window* mainWindow = window.getWindow();
-	if (mainWindow == NULL)
-	{
-		printf("Window could not be created! SDL Error %s\n", SDL_GetError());			
-	}
-	Renderer renderer{&window};
+	// Initialize the graphics service using the window
+	GraphicsService graphics{ &window };
 
-	// Initialize the game context, containing all the game data
-	GameContext gc{ &window, &renderer };
-	
-	
-	
-	// Button class loading test
-	Texture textureLoader(gc.getSdlRenderer());
-	Button optionsButton("Options", "images/esc-menu_button-options.png");
-	textureLoader.loadTextureFromImage(optionsButton.getButtonPath());
-	optionsButton.setButtonTexture(textureLoader.getTexture());
-	SDL_Texture* optionsTexture = optionsButton.getButtonTexture();
-	optionsButton.setButtonDimensions(0, 0, 300, 100);
-	SDL_Rect destRect = { 0, 0, 300, 100 };
+	// Set the service locator to provide the graphics service
+	locator.provide(&graphics);
+
 
 		
-		// Initialize the event manager
-		EventManager eManager;		
-		// ** Event subscriptions **			
-		eManager.Subscribe("E", std::bind(&Window::ResizeWindow, &window, 1920, 1080));
-		eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, 1024, 768));
+	// Initialize the event manager
+	EventManager eManager;		
+	// ** Event subscriptions **			
+	eManager.Subscribe("E", std::bind(&Window::ResizeWindow, &window, ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 1920, 1080));
+	eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 1024, 768));		
 
-				
-		if (gc.getSdlRenderer() == NULL)
-		{
-			printf("Renderer failed to initalize!\n");
-		}
-		else
-		{
+	// Scene building test
+	SceneEscMenu escMenu;
+	escMenu.buildScene();
+	
 
 		
-			// Main loop flag
+			// Main quit flag for the loop
 			bool quit = false;				
 
 
@@ -151,30 +139,37 @@ int main( int argc, char* args[] )
 			while (!quit)
 			{
 				eManager.EventLoop(&quit);
+				
+				
+				// Attempt the render command to render the escape menu scene
+				ServiceLocator::getGraphics().render();
+		
+
+
+	
+				
 								
 				
 				// Fill the screen with white
-				SDL_SetRenderDrawColor(gc.getSdlRenderer(), 100, 100, 100, 255);
+				//SDL_SetRenderDrawColor(gc.getSdlRenderer(), 100, 100, 100, 255);
 
-				SDL_RenderClear(gc.getSdlRenderer());
+				//SDL_RenderClear(gc.getSdlRenderer());
 
-				SDL_RenderCopy(gc.getSdlRenderer(), optionsTexture, NULL, &destRect);
+				// Commenting out to stop rendering
+				// SDL_RenderCopy(gc.getSdlRenderer(), optionsTexture, NULL, &destRect);
 
 				// Substitute this with an image of a chessboard, it'll be easier to work with!
 				// drawChessboard(window, mainRenderer);								
 			
 
 				// Update screen
-				SDL_RenderPresent(gc.getSdlRenderer());
+				//SDL_RenderPresent(gc.getSdlRenderer());
 				
-
 			}
-		}
+		
 
 	
 		sdlEngine.Close();
-
-
 
 	return 0;
 };

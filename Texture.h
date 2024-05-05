@@ -1,8 +1,5 @@
 #pragma once
-#include <SDL.h>
-#include <SDL_image.h>
-#include <string>
-#include "GameContext.h"
+#include "ServiceLocator.h"
 
 // Texture loader class
 class Texture
@@ -10,18 +7,11 @@ class Texture
 private:
 
 	// The actual hardware texture
-	SDL_Texture* _texture;
-
-	// Renderer to render the texture
-	SDL_Renderer* _renderer;
-
-	// Dimensions of the texture
-	int _width;
-	int _height;
+	SDL_Texture* _loadedTexture;
 
 public:
 	// Constructor
-	Texture(SDL_Renderer* renderer);
+	Texture();
 
 	/// <summary>
 	/// Removes the class from memory and deallocates the texture. Runs Texture::freeTexture().
@@ -36,7 +26,7 @@ public:
 	/// <returns></returns>
 	SDL_Texture* loadTextureFromImage(std::string path);
 
-	SDL_Texture* const getTexture();
+	SDL_Texture* getTexture();
 
 	/// <summary>
 	/// Free the texture, if one exists, and re-initialize the member variables

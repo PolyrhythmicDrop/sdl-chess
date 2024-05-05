@@ -1,104 +1,40 @@
 #include "Button.h"
-#include "Texture.h"
-#include <SDL.h>
-#include <SDL_image.h>
-#include <string>
-#include <stdio.h>
-#include "Window.h"
-#include <array>
-#include <iostream>
 
 // Constructor, initialize values
-Button::Button(std::string name, std::string imgPath) :
-	_buttonName(name), _buttonPath(imgPath)
+Button::Button(ButtonType type) :
+	_graphics(new GraphicsComponent())
 {
-	_buttonTexture = NULL;
-	_buttonRect;
-	_buttonW = 0;
-	_buttonH = 0;
-	_buttonX = 0;
-	_buttonY = 0;
+	// Sets the button's name and texture path, depending on the type of button it is.
+	switch (type)
+	{
+		case OPTIONS:
+			_name = "Options Button";
+			_graphics->setImgPath("images/esc-menu_button-options.png");
+			break;
+		case BACK:
+			_name = "Back Button";
+			_graphics->setImgPath("images/esc-menu_button-back.png");
+			break;
+		case EXIT_GAME:
+			_name = "Exit Game Button";
+			_graphics->setImgPath("images/esc-menu_button-exit.png");
+			break;
+		case RESOLUTION:
+			_name = "Resolution Button";
+			_graphics->setImgPath("images/esc-menu_button-resolution.png");
+			break;
+	}
+	_graphics->loadTexture();
+	setScaleFromTexture(_graphics->getSdlTexture());
+	std::cout << "Button " << _name << " created!\n";
 }
 
-SDL_Texture* Button::getButtonTexture()
+Button::~Button()
 {
-	return _buttonTexture;
+	std::cout << "Button " << _name << " destructed!\n";
 }
 
-void Button::setButtonTexture(SDL_Texture* texture)
+GraphicsComponent* Button::getGraphicsComponent()
 {
-	_buttonTexture = texture;
-}
-
-std::string Button::getButtonPath()
-{
-	return _buttonPath;
-}
-
-void Button::setButtonDimensions(int x, int y, int width, int height)
-{
-	SDL_Rect buttonRect = { x, y, width, height };
-	/*
-	button->w = width;
-	button->h = height;
-	button->x = x;
-	button->y = y;
-	*/
-	
-	_buttonRect = buttonRect;
-	_buttonW = buttonRect.w;
-	_buttonH = buttonRect.h;
-	//std::cout << button.w << button.h;
-
-}
-
-
-SDL_Rect Button::getButtonSourceRect()
-{
-	return _buttonRect;
-}
-
-std::string Button::getButtonName()
-{
-	return _buttonName;
-}
-
-void Button::setButtonWidth(int width)
-{
-	_buttonW = width;
-}
-
-int Button::getButtonWidth()
-{
-	return _buttonW;
-}
-
-void Button::setButtonHeight(int height)
-{
-	_buttonH = height;
-}
-
-int Button::getButtonHeight()
-{
-	return _buttonH;
-}
-
-void Button::setButtonX(int x)
-{
-	_buttonX = x;
-}
-
-int Button::getButtonX()
-{
-	return _buttonX;
-}
-
-void Button::setButtonY(int y)
-{
-	_buttonY = y;
-}
-
-int Button::getButtonY()
-{
-	return _buttonY;
+	return _graphics->getGraphicsComponent();
 }

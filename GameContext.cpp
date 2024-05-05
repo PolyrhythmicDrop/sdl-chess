@@ -1,21 +1,12 @@
 #include "GameContext.h"
 
-GameContext::GameContext(Window* window, Renderer* renderer) :
-	_window{ window }, _renderer{ renderer }
-{
-	_sdlRenderer = renderer->GetRenderer();
-	_sdlWindow = window->getWindow();
+GameContext::GameContext()
+{	
+	// Asserts that there are no existing instances of the Graphics Service
+	assert(!_instantiated);
+	_instantiated = true;
+	_gameObjects.reserve(50);
 	std::cout << "Game context initialized!\n"; 
 }
 
 GameContext::~GameContext() { std::cout << "Game context destructed!\n"; };
-
-SDL_Renderer* GameContext::getSdlRenderer()
-{
-	return this->_sdlRenderer;
-}
-
-SDL_Window* GameContext::getSdlWindow()
-{
-	return this->_sdlWindow;
-}

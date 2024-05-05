@@ -112,6 +112,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,6 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,21 +141,39 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="chess-main.cpp" />
+    <ClCompile Include="GraphicsComponent.cpp" />
+    <ClCompile Include="GraphicsService.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameContext.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="IDrawable.cpp" />
+    <ClCompile Include="NullGraphicsService.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneEscMenu.cpp" />
     <ClCompile Include="SDLfunc.cpp" />
+    <ClCompile Include="Decoration.cpp" />
+    <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="GraphicsComponent.h" />
+    <ClInclude Include="GraphicsService.h" />
+    <ClInclude Include="IClickable.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameContext.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="IDrawable.h" />
+    <ClInclude Include="IGraphics.h" />
+    <ClInclude Include="NullGraphicsService.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneEscMenu.h" />
     <ClInclude Include="SDLfunc.h" />
+    <ClInclude Include="Decoration.h" />
+    <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
@@ -162,6 +182,7 @@
     <Image Include="images\esc-menu_1024.png" />
     <Image Include="images\esc-menu_1920.png" />
     <Image Include="images\esc-menu_bg-esc-menu.png" />
+    <Image Include="images\esc-menu_bg-resolution-menu.png" />
     <Image Include="images\esc-menu_button-back.png" />
     <Image Include="images\esc-menu_button-exit.png" />
     <Image Include="images\esc-menu_button-options.png" />

@@ -1,12 +1,7 @@
 #pragma once
-#include <SDL.h>
-#include "Window.h"
+#include "SDLfunc.h"
 #include <functional>
 #include <map>
-#include <vector>
-#include <list>
-#include <string>
-#include "GameContext.h"
 
 class EventManager
 {
@@ -14,7 +9,7 @@ private:
 	/// <summary>
 	/// Subscriber list, in the form of a map: <string name, list of callback functions>.
 	/// </summary>
-	std::map< std::string, std::list<std::function<void(int, int)>>> m_subscribers;
+	std::map< std::string, std::list<std::function<void(SDL_Renderer*, int, int)>>> m_subscribers;
 
 	std::string _eventName;
 public: 
@@ -37,7 +32,7 @@ public:
 	/// </summary>
 	/// <param name="event">The event to listen for.</param>
 	/// <param name="callback">The callback function to when the event is heard.</param>
-	void Subscribe(const std::string event, std::function<void(int, int)> callback);
+	void Subscribe(const std::string event, std::function<void(SDL_Renderer*, int, int)> callback);
 
 	void Publish(std::string event);
 
