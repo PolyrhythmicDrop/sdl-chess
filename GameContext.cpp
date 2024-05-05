@@ -5,7 +5,7 @@ GameContext::GameContext()
 	// Asserts that there are no existing instances of the Graphics Service
 	assert(!_instantiated);
 	_instantiated = true;
-	// _gameObjects.reserve(50);
+	_gameObjects.reserve(50);
 	std::cout << "Game context initialized!\n"; 
 }
 

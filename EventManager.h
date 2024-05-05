@@ -1,7 +1,7 @@
 #pragma once
+#include "SDLfunc.h"
 #include <functional>
 #include <map>
-#include "SDLfunc.h"
 
 class EventManager
 {

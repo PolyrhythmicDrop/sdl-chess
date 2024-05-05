@@ -1,8 +1,6 @@
 #pragma once
 #include "GameObject.h"
 #include "GraphicsComponent.h"
-#include <SDL.h>
-#include <stdio.h>
 
 class Decoration : public GameObject
 {

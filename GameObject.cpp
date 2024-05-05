@@ -5,14 +5,14 @@ GameObject::GameObject(std::string name) :
 	_dimensions({0, 0, 0, 0}),
 	_zIndex(0)
 {
-	GameContext::gameObjectCount++;
-	std::cout << "Object created! Game object count: " << GameContext::gameObjectCount << "\n";
+	gameObjectCount++;
+	std::cout << "Object created! Game object count: " << gameObjectCount << "\n";
 }
 
 GameObject::~GameObject()
 {
-	GameContext::gameObjectCount--;
-	std::cout << "Object destroyed! Game object count: " << GameContext::gameObjectCount << "\n";
+	gameObjectCount--;
+	std::cout << "Object destroyed! Game object count: " << gameObjectCount << "\n";
 }
 
 std::string GameObject::getName()

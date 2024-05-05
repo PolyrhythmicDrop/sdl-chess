@@ -1,7 +1,6 @@
 #pragma once
-#include "GameContext.h"
 #include <iostream>
-#include <SDL.h>
+#include "SDLfunc.h"
 
 // Pure abstract class for game objects
 class GameObject
@@ -12,6 +11,9 @@ protected:
 	SDL_Rect _dimensions;
 	// Z-index for drawing purposes. Higher values render on top of lower values.
 	int _zIndex;
+
+	// Keeps track of the current number of game objects.
+	int static gameObjectCount;
 	
 
 public:

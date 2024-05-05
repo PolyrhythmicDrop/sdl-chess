@@ -1,8 +1,7 @@
 #include "EventManager.h"
 #include "GraphicsService.h"
 #include "SceneEscMenu.h"
-#include "SDLfunc.h"
-
+#include "GameContext.h"
 
 
 /// <summary>
@@ -78,7 +77,7 @@
 }*/
 
 // Initialize static variables
-int GameContext::gameObjectCount = 0;
+int GameObject::gameObjectCount = 0;
 bool GameContext::_instantiated = false;
 bool GraphicsService::_instantiated = false;
 IGraphics* ServiceLocator::_graphicsService;

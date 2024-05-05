@@ -1,6 +1,6 @@
 #pragma once
+#include "GameObject.h"
 #include <cassert>
-#include <iostream>
 #include <vector>
 
 	class GameContext
@@ -11,8 +11,7 @@
 
 	public:
 
-		// Keeps track of the current number of game objects.
-		int static gameObjectCount;
+		std::vector<GameObject*> _gameObjects;
 
 		// Constructor
 		GameContext();
