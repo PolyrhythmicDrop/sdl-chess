@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <SDL.h>
+#include "GameContext.h"
 
 // Pure abstract class for game objects
 class GameObject
@@ -14,8 +15,6 @@ protected:
 	
 
 public:
-	// Keeps track of the current number of game objects.
-	int static gameObjectCount;
 	
 	GameObject(std::string name = "");
 	

@@ -1,17 +1,18 @@
 #pragma once
-#include "Renderer.h"
-#include "Window.h"
 #include <iostream>
-#include <SDL.h>
-#include <SDL_image.h>
-#include <stdio.h>
+#include <cassert>
 
 	class GameContext
 	{
 	private:
+
+		static bool _instantiated;
 		
 
 	public:
+
+		// Keeps track of the current number of game objects.
+		int static gameObjectCount;
 
 		// Constructor
 		GameContext();

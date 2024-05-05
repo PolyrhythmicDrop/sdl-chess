@@ -1,11 +1,10 @@
-// Main game loop for SDL Chess
-
 #include "EventManager.h"
 #include "GraphicsService.h"
 #include "SDLfunc.h"
 #include "ServiceLocator.h"
 #include "Window.h"
 #include "SceneEscMenu.h"
+#include "GameContext.h"
 
 #include <functional>
 #include <iostream>
@@ -88,7 +87,8 @@
 }*/
 
 // Initialize static variables
-int GameObject::gameObjectCount = 0;
+int GameContext::gameObjectCount = 0;
+bool GameContext::_instantiated = false;
 bool GraphicsService::_instantiated = false;
 IGraphics* ServiceLocator::_graphicsService;
 NullGraphicsService ServiceLocator::_nullGraphicsService;
@@ -98,6 +98,10 @@ NullGraphicsService ServiceLocator::_nullGraphicsService;
 
 int main( int argc, char* args[] )
 {	
+
+	// Initialize the game context
+	GameContext gc;
+	
 	// Initialize the SDL Engine
 	SDLfunc sdlEngine{};
 
