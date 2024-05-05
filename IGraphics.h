@@ -1,6 +1,6 @@
 #pragma once
+#include "GameContext.h"
 #include "Renderer.h"
-#include "GameObject.h"
 #include <map>
 
 // Pure abstract class for graphics handling, should be inherited by both the NullGraphicsService and the GraphicsService.

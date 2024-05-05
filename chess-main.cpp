@@ -1,7 +1,7 @@
 #include "EventManager.h"
+#include "GameContext.h"
 #include "GraphicsService.h"
 #include "SceneEscMenu.h"
-#include "GameContext.h"
 
 
 /// <summary>
