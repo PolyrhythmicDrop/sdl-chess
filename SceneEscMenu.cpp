@@ -23,14 +23,13 @@ void SceneEscMenu::buildScene()
 	int windowH;
 	ServiceLocator::getGraphics().getWindow()->getWindowSize(&windowW, &windowH);
 	
-	// Position the objects
 	// Set the Z-values
 	escMenuBg->setZ(100);
 	optionsButton->setZ(101);
 	backButton->setZ(102);
 	exitButton->setZ(103);
 
-	// Set the position
+	// Set the positions
 	escMenuBg->setPosition(	(windowW / 2) - (escMenuBg->getWidth() / 2), (windowH / 2) - (escMenuBg->getHeight() / 2) );
 
 	optionsButton->setPosition((windowW / 2) - (optionsButton->getWidth() / 2), (escMenuBg->getDimensions()->y + (optionsButton->getHeight() / 2)));
@@ -44,20 +43,6 @@ void SceneEscMenu::buildScene()
 	addObject(optionsButton, optionsButton->getGraphicsComponent()->getSdlTexture());
 	addObject(backButton, backButton->getGraphicsComponent()->getSdlTexture());
 	addObject(exitButton, exitButton->getGraphicsComponent()->getSdlTexture());
-
-	// Debug to make sure this is actually happening
-	std::map<int, std::pair<GameObject*, SDL_Texture*>>::iterator sceneItr = _sceneMap.begin();	
-	// Now the real test begins
-	for (sceneItr = _sceneMap.begin(); sceneItr != _sceneMap.end(); ++sceneItr)
-	{
-		std::cout << "The first item in the scene map is named " << sceneItr->second.first->getName() << ", and its Z-value is " << sceneItr->second.first->getZ() << ".\nHopefully this matches with its map key, which is " << sceneItr->first << "\n";
-	}
-
-
-	std::cout << "Esc Menu Z: " << escMenuBg->getZ() << "\n"
-		<< "Options Z: " << optionsButton->getZ() << "\n"
-		<< "Back Z: " << backButton->getZ() << "\n"
-		<< "Exit Z: " << exitButton->getZ() << "\n";
 	
 
 	// Add the scene map to the render map in the Graphics Service

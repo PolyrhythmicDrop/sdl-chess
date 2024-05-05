@@ -35,7 +35,7 @@ public:
 	/// <param name="object">The object to add to the vector.</param>
 	virtual void addObject(GameObject* object, SDL_Texture* texture);
 
-	const std::map<int, std::pair<GameObject*, SDL_Texture*>> getObjectMap();
+	const std::map<int, std::pair<GameObject*, SDL_Texture*>> getObjectMap();	
 
 };
 
