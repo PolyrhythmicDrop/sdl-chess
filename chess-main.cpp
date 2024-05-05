@@ -1,4 +1,5 @@
 #include "EventManager.h"
+#include "GraphicsService.h"
 #include "SceneEscMenu.h"
 #include "SDLfunc.h"
 

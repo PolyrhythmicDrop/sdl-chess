@@ -1,10 +1,8 @@
 #pragma once
+#include "ServiceLocator.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <string>
-#include "Renderer.h"
-#include "GraphicsService.h"
-#include "ServiceLocator.h"
 
 // Texture loader class
 class Texture
