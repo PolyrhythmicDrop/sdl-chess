@@ -1,17 +1,7 @@
 #include "EventManager.h"
-#include "GraphicsService.h"
-#include "SDLfunc.h"
-#include "ServiceLocator.h"
-#include "Window.h"
 #include "SceneEscMenu.h"
-#include "GameContext.h"
+#include "SDLfunc.h"
 
-#include <functional>
-#include <iostream>
-#include <SDL.h>
-#include <SDL_image.h>
-#include <stdio.h>
-#include <string>
 
 
 /// <summary>
@@ -101,6 +91,8 @@ int main( int argc, char* args[] )
 
 	// Initialize the game context
 	GameContext gc;
+	std::vector<GameObject*> gameObjects;
+	gameObjects.reserve(50);
 	
 	// Initialize the SDL Engine
 	SDLfunc sdlEngine{};

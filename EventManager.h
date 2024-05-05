@@ -1,12 +1,8 @@
 #pragma once
-#include <SDL.h>
-#include "Window.h"
 #include <functional>
 #include <map>
-#include <vector>
-#include <list>
+#include <SDL.h>
 #include <string>
-#include "GameContext.h"
 
 class EventManager
 {

@@ -1,7 +1,7 @@
 #pragma once
+#include "GameContext.h"
 #include <iostream>
 #include <SDL.h>
-#include "GameContext.h"
 
 // Pure abstract class for game objects
 class GameObject

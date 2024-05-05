@@ -1,13 +1,13 @@
 #pragma once
-#include <iostream>
 #include <cassert>
+#include <iostream>
+#include <vector>
 
 	class GameContext
 	{
 	private:
 
-		static bool _instantiated;
-		
+		static bool _instantiated;		
 
 	public:
 
