@@ -1,6 +1,5 @@
 #pragma once
-#include <SDL.h>
-#include <SDL_image.h>
+#include "SDLfunc.h"
 
 /// <summary>
 /// "Interface" for drawable game objects.

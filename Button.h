@@ -1,9 +1,9 @@
 #pragma once
 #include "GameObject.h"
 #include "GraphicsComponent.h"
+#include <iostream>
 #include <stdio.h>
 #include <string>
-#include <iostream>
 
 class Button: public GameObject
 {

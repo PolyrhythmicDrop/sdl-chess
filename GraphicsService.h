@@ -1,7 +1,6 @@
 #pragma once
 #include "IGraphics.h"
 #include <cassert>
-#include <iostream>
 
 /// <summary>
 /// Service class to handle graphics. Container for Window and Renderer, contains a draw queue, and has functions to draw the queue and return the window and renderer.

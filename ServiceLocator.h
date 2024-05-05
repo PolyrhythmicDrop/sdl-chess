@@ -1,5 +1,4 @@
 #pragma once
-#include "IGraphics.h"
 #include "NullGraphicsService.h"
 
 class ServiceLocator

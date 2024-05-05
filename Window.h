@@ -1,7 +1,8 @@
 #pragma once
-#include <SDL.h>
-#include <stdio.h>
+
+#include "SDLfunc.h"
 #include <iostream>
+#include <stdio.h>
 
 // Window wrapper class
 class Window
