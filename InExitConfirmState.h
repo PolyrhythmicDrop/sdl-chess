@@ -1,13 +1,12 @@
 #pragma once
 #include "IMenuState.h"
-#include "SceneEscMenu.h"
 
-class InEscMenu : public IMenuState
+class InExitConfirmState :  public IMenuState
 {
 private:
-	InEscMenu() {};
-	InEscMenu(const InEscMenu& other);
-	InEscMenu& operator=(const InEscMenu& other);
+	InExitConfirmState() {};
+	InExitConfirmState(const InExitConfirmState& other);
+	InExitConfirmState& operator=(const InExitConfirmState& other);
 
 public:
 	void enter(SceneEscMenu* menuScene);
@@ -15,6 +14,5 @@ public:
 	void exit(SceneEscMenu* menuScene);
 
 	static IMenuState& getInstance();
-
 };
 

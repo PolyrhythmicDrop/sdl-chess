@@ -1,6 +1,6 @@
 #include "SceneEscMenu.h"
 #include "InactiveMenuState.h"
-#include "InEscMenu.h"
+#include "InEscMenuState.h"
 
 SceneEscMenu::SceneEscMenu()
 {

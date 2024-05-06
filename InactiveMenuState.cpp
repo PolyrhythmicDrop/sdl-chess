@@ -1,5 +1,5 @@
 #include "InactiveMenuState.h"
-#include "InEscMenu.h"
+#include "InEscMenuState.h"
 
 void InactiveMenuState::enter(SceneEscMenu* menuScene)
 {
@@ -8,7 +8,7 @@ void InactiveMenuState::enter(SceneEscMenu* menuScene)
 
 void InactiveMenuState::changeState(SceneEscMenu* menuScene)
 {
-	menuScene->setMenuState(InEscMenu::getInstance());
+	menuScene->setMenuState(InEscMenuState::getInstance());
 }
 
 void InactiveMenuState::exit(SceneEscMenu* menuScene)

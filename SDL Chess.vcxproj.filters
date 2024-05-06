@@ -75,7 +75,13 @@
     <ClCompile Include="InactiveMenuState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InEscMenu.cpp">
+    <ClCompile Include="InEscMenuState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InResoMenuState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InExitConfirmState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,7 +146,13 @@
     <ClInclude Include="InactiveMenuState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InEscMenu.h">
+    <ClInclude Include="InEscMenuState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InResoMenuState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InExitConfirmState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

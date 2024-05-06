@@ -10,7 +10,7 @@ private:
 	/// <summary>
 	/// The current state of the escape menu scene. The states it can be in are:
 	/// *InactiveMenuState 
-	/// *InEscMenu
+	/// *InEscMenuState
 	/// *InResoMenu
 	/// *InExitConfirmation
 	/// </summary>
