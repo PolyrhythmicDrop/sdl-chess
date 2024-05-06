@@ -16,15 +16,19 @@ private:
 	/// </summary>
 	IMenuState* _currentState;
 
+	InputComponent* _input;
+
 public:
 
-	SceneEscMenu();
+	SceneEscMenu(InputComponent* input);
 	~SceneEscMenu();
 
 	inline IMenuState* getCurrentState() { return _currentState; };
 	void changeState();
 	void setMenuState(IMenuState& newState);
 
-	virtual void buildScene();
+	InputComponent* getInputComponent();
+
+	void buildMenu();
 };
 

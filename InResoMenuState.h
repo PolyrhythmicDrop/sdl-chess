@@ -14,5 +14,8 @@ public:
 	void exit(SceneEscMenu* menuScene);
 
 	static IMenuState& getInstance();
+
+	void buildMenu(SceneEscMenu* menuScene);
+
 };
 

@@ -18,7 +18,7 @@ public:
 	static IMenuState& getInstance();
 
 	// State-specific functions
-	void buildEscMenu(SceneEscMenu* menuScene);
+	void buildMenu(SceneEscMenu* menuScene);
 
 };
 

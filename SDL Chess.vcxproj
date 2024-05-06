@@ -152,7 +152,9 @@
     <ClCompile Include="InExitConfirmState.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="InResoMenuState.cpp" />
+    <ClCompile Include="MenuInputComponent.cpp" />
     <ClCompile Include="NullGraphicsService.cpp" />
+    <ClCompile Include="PlayerInputComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneEscMenu.cpp" />
@@ -167,7 +169,6 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="GraphicsComponent.h" />
     <ClInclude Include="GraphicsService.h" />
-    <ClInclude Include="IClickable.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameContext.h" />
     <ClInclude Include="GameObject.h" />
@@ -178,7 +179,9 @@
     <ClInclude Include="InExitConfirmState.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="InResoMenuState.h" />
+    <ClInclude Include="MenuInputComponent.h" />
     <ClInclude Include="NullGraphicsService.h" />
+    <ClInclude Include="PlayerInputComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneEscMenu.h" />
@@ -201,8 +204,6 @@
     <Image Include="images\esc-menu_button-resolution.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

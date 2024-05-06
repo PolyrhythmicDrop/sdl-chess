@@ -34,3 +34,8 @@ IMenuState& InResoMenuState::getInstance()
 	static InResoMenuState inReso;
 	return inReso;
 }
+
+void InResoMenuState::buildMenu(SceneEscMenu* menuScene)
+{
+
+}

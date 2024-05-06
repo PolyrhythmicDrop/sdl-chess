@@ -1,18 +1,20 @@
 #pragma once
-#include "IClickable.h"
 #include "SDLfunc.h"
 
-class InputComponent : public IClickable
+
+// Input Component interface
+class InputComponent
 {
 
 public:
-	InputComponent() {};
-	~InputComponent() {};
+	
+	virtual ~InputComponent() {};
 
-	InputComponent* getInputComponent();
+	virtual InputComponent* getInputComponent() = 0;
 
-	void handleInput(SDL_Event event);
-	void onClick();
-	void onHover();
+	virtual void handleInput(SDL_Event event) = 0;
+	virtual void onClick() = 0;
+	virtual void onHover() = 0;
+	virtual void onKeyPress() = 0;
 };
 

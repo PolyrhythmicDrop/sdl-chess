@@ -21,3 +21,8 @@ IMenuState& InactiveMenuState::getInstance()
 	static InactiveMenuState singleton;
 	return singleton;
 }
+
+void InactiveMenuState::buildMenu(SceneEscMenu* menuScene)
+{
+
+}

@@ -27,3 +27,8 @@ IMenuState& InExitConfirmState::getInstance()
 	static InExitConfirmState inExitConfirm;
 	return inExitConfirm;
 }
+
+void InExitConfirmState::buildMenu(SceneEscMenu* menuScene)
+{
+
+}

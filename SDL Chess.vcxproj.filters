@@ -28,9 +28,6 @@
     <Filter Include="Source Files\States\MenuStates">
       <UniqueIdentifier>{f7bc2fe5-7622-40ce-9665-0861f150d0dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\MenuStates">
-      <UniqueIdentifier>{e61481eb-1ebf-4a62-aa2e-b3a46f254742}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{ef955b9c-74aa-4851-821b-b2b33c32227a}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,18 @@
     </Filter>
     <Filter Include="Header Files\Scenes">
       <UniqueIdentifier>{30902cd8-9a87-4725-af51-47d2b40061be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\States">
+      <UniqueIdentifier>{f101dbd9-6e17-4583-af83-f79a7b59428b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\States\MenuStates">
+      <UniqueIdentifier>{e61481eb-1ebf-4a62-aa2e-b3a46f254742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{0feedeba-61f1-4186-9a54-c2ed244100ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{522b8807-eac5-41c2-ad4b-f63f8eabaff5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -112,7 +121,13 @@
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="InputComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInputComponent.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuInputComponent.cpp">
+      <Filter>Source Files\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,9 +143,6 @@
     <ClInclude Include="GameContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IClickable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ServiceLocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -144,19 +156,19 @@
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="IMenuState.h">
-      <Filter>Header Files\MenuStates</Filter>
+      <Filter>Header Files\States\MenuStates</Filter>
     </ClInclude>
     <ClInclude Include="InactiveMenuState.h">
-      <Filter>Header Files\MenuStates</Filter>
+      <Filter>Header Files\States\MenuStates</Filter>
     </ClInclude>
     <ClInclude Include="InEscMenuState.h">
-      <Filter>Header Files\MenuStates</Filter>
+      <Filter>Header Files\States\MenuStates</Filter>
     </ClInclude>
     <ClInclude Include="InExitConfirmState.h">
-      <Filter>Header Files\MenuStates</Filter>
+      <Filter>Header Files\States\MenuStates</Filter>
     </ClInclude>
     <ClInclude Include="InResoMenuState.h">
-      <Filter>Header Files\MenuStates</Filter>
+      <Filter>Header Files\States\MenuStates</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsComponent.h">
       <Filter>Header Files\Graphics</Filter>
@@ -186,7 +198,13 @@
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="InputComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInputComponent.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuInputComponent.h">
+      <Filter>Header Files\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -219,8 +237,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagram2.cd" />
   </ItemGroup>
 </Project>

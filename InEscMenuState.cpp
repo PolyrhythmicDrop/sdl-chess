@@ -1,10 +1,11 @@
 #include "InEscMenuState.h"
 #include "InactiveMenuState.h"
+#include "PlayerInputComponent.h"
 
 void InEscMenuState::enter(SceneEscMenu* menuScene)
 {
 	std::cout << "In Escape Menu state entered!";
-	buildEscMenu(menuScene);
+	buildMenu(menuScene);
 }
 
 void InEscMenuState::changeState(SceneEscMenu* menuScene)
@@ -23,13 +24,13 @@ IMenuState& InEscMenuState::getInstance()
 	return inEsc;
 }
 
-void InEscMenuState::buildEscMenu(SceneEscMenu* menuScene)
+void InEscMenuState::buildMenu(SceneEscMenu* menuScene)
 {
 	// Instantiate the buttons and backgrounds	
 	Decoration* escMenuBg = new Decoration(Decoration::ESC_MENU_BG);
-	Button* optionsButton = new Button(Button::OPTIONS);
-	Button* backButton = new Button(Button::BACK);
-	Button* exitButton = new Button(Button::EXIT_GAME);
+	Button* optionsButton = new Button(Button::OPTIONS, new PlayerInputComponent());
+	Button* backButton = new Button(Button::BACK, new PlayerInputComponent());
+	Button* exitButton = new Button(Button::EXIT_GAME, new PlayerInputComponent());
 
 	// Get window variables
 	int windowW;

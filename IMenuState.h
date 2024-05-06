@@ -11,5 +11,6 @@ public:
 	virtual void enter(SceneEscMenu* menuScene) = 0;
 	virtual void changeState(SceneEscMenu* menuScene) = 0;
 	virtual void exit(SceneEscMenu* menuScene) = 0;
+	virtual void buildMenu(SceneEscMenu* menuScene) = 0;
 };
 

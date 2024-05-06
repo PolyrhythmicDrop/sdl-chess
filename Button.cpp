@@ -1,8 +1,8 @@
 #include "Button.h"
 
 // Constructor, initialize values
-Button::Button(ButtonType bType) :
-	_graphics(new GraphicsComponent()), _input(new InputComponent()), type(OPTIONS)
+Button::Button(ButtonType bType, InputComponent* input) :
+	_graphics(new GraphicsComponent()), _input(input), type(OPTIONS)
 {
 	// Sets the button's name and texture path, depending on the type of button it is.
 	switch (bType)

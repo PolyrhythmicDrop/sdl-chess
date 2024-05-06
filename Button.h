@@ -3,8 +3,6 @@
 #include "GraphicsComponent.h"
 #include "InputComponent.h"
 
-
-
 class Button: public GameObject
 {
 private:
@@ -21,7 +19,7 @@ public:
 	};
 
 	// Constructors
-	Button(ButtonType type);
+	Button(ButtonType type, InputComponent* input);
 
 	~Button();
 
