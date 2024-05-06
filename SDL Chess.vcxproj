@@ -147,6 +147,8 @@
     <ClCompile Include="GameContext.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="IDrawable.cpp" />
+    <ClCompile Include="IMenuState.cpp" />
+    <ClCompile Include="InactiveMenuState.cpp" />
     <ClCompile Include="NullGraphicsService.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -154,6 +156,7 @@
     <ClCompile Include="SDLfunc.cpp" />
     <ClCompile Include="Decoration.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
+    <ClCompile Include="InEscMenu.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -167,6 +170,8 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="IDrawable.h" />
     <ClInclude Include="IGraphics.h" />
+    <ClInclude Include="IMenuState.h" />
+    <ClInclude Include="InactiveMenuState.h" />
     <ClInclude Include="NullGraphicsService.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
@@ -174,6 +179,7 @@
     <ClInclude Include="SDLfunc.h" />
     <ClInclude Include="Decoration.h" />
     <ClInclude Include="ServiceLocator.h" />
+    <ClInclude Include="InEscMenu.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

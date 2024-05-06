@@ -1,13 +1,27 @@
 #include "SceneEscMenu.h"
+#include "InactiveMenuState.h"
+#include "InEscMenu.h"
 
 SceneEscMenu::SceneEscMenu()
 {
-	
+	_currentState = &InactiveMenuState::getInstance();
 }
 
 SceneEscMenu::~SceneEscMenu()
 {
 
+}
+
+void SceneEscMenu::toggleState()
+{
+	_currentState->toggleState(this);
+}
+
+void SceneEscMenu::setState(IMenuState& newState)
+{
+	_currentState->exit(this);
+	_currentState = &newState;
+	_currentState->enter(this);
 }
 
 void SceneEscMenu::buildScene()
