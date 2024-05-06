@@ -10,11 +10,15 @@ private:
 	InEscMenuState& operator=(const InEscMenuState& other);
 
 public:
+
+	// State machine functions
 	void enter(SceneEscMenu* menuScene);
 	void changeState(SceneEscMenu* menuScene);
 	void exit(SceneEscMenu* menuScene);
-
 	static IMenuState& getInstance();
+
+	// State-specific functions
+	void buildEscMenu(SceneEscMenu* menuScene);
 
 };
 

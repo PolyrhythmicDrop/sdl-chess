@@ -127,8 +127,6 @@ int main( int argc, char* args[] )
 
 	// Scene building test
 	SceneEscMenu escMenu;
-	escMenu.buildScene();
-	escMenu.changeState();
 	escMenu.changeState();
 	
 
