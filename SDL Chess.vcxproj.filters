@@ -16,6 +16,33 @@
     <Filter Include="Source Files\Images">
       <UniqueIdentifier>{7e44c341-05e3-419a-8d53-f2e7ed86e9ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GameObjects">
+      <UniqueIdentifier>{d1c546c0-f886-4b87-bd0f-50400cda4066}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObjects">
+      <UniqueIdentifier>{887ff4b6-85ff-4843-9586-652a4db2e44b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States">
+      <UniqueIdentifier>{df97a898-06b8-4798-b798-e9fedb4e6ffd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States\MenuStates">
+      <UniqueIdentifier>{f7bc2fe5-7622-40ce-9665-0861f150d0dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MenuStates">
+      <UniqueIdentifier>{e61481eb-1ebf-4a62-aa2e-b3a46f254742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{ef955b9c-74aa-4851-821b-b2b33c32227a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{94641f78-dc68-4f51-af23-cfe043f66301}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scenes">
+      <UniqueIdentifier>{30c2c80c-c422-453c-8003-b4911016e250}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scenes">
+      <UniqueIdentifier>{30902cd8-9a87-4725-af51-47d2b40061be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chess-main.cpp">
@@ -27,62 +54,62 @@
     <ClCompile Include="SDLfunc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsService.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Decoration.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IDrawable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ServiceLocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NullGraphicsService.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Decoration.cpp">
+      <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="SceneEscMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsComponent.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="IMenuState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\States\MenuStates</Filter>
     </ClCompile>
     <ClCompile Include="InactiveMenuState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\States\MenuStates</Filter>
     </ClCompile>
     <ClCompile Include="InEscMenuState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InResoMenuState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\States\MenuStates</Filter>
     </ClCompile>
     <ClCompile Include="InExitConfirmState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\States\MenuStates</Filter>
+    </ClCompile>
+    <ClCompile Include="InResoMenuState.cpp">
+      <Filter>Source Files\States\MenuStates</Filter>
+    </ClCompile>
+    <ClCompile Include="NullGraphicsService.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsService.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsComponent.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="IDrawable.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEscMenu.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -92,68 +119,68 @@
     <ClInclude Include="SDLfunc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsService.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IClickable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IDrawable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Decoration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ServiceLocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NullGraphicsService.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IGraphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="SceneEscMenu.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Decoration.h">
+      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsComponent.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="IMenuState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MenuStates</Filter>
     </ClInclude>
     <ClInclude Include="InactiveMenuState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MenuStates</Filter>
     </ClInclude>
     <ClInclude Include="InEscMenuState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InResoMenuState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MenuStates</Filter>
     </ClInclude>
     <ClInclude Include="InExitConfirmState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MenuStates</Filter>
+    </ClInclude>
+    <ClInclude Include="InResoMenuState.h">
+      <Filter>Header Files\MenuStates</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsComponent.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsService.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="IDrawable.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="NullGraphicsService.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEscMenu.h">
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
