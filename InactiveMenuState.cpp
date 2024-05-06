@@ -6,9 +6,9 @@ void InactiveMenuState::enter(SceneEscMenu* menuScene)
 	std::cout << "Inactive menu state entered!";
 }
 
-void InactiveMenuState::toggleState(SceneEscMenu* menuScene)
+void InactiveMenuState::changeState(SceneEscMenu* menuScene)
 {
-	menuScene->setState(InEscMenu::getInstance());
+	menuScene->setMenuState(InEscMenu::getInstance());
 }
 
 void InactiveMenuState::exit(SceneEscMenu* menuScene)

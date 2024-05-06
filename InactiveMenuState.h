@@ -11,7 +11,7 @@ private:
 
 public:
 	void enter(SceneEscMenu* menuScene);
-	void toggleState(SceneEscMenu* menuScene);
+	void changeState(SceneEscMenu* menuScene);
 	void exit(SceneEscMenu* menuScene);
 
 	static IMenuState& getInstance();

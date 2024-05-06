@@ -12,12 +12,12 @@ SceneEscMenu::~SceneEscMenu()
 
 }
 
-void SceneEscMenu::toggleState()
+void SceneEscMenu::changeState()
 {
-	_currentState->toggleState(this);
+	_currentState->changeState(this);
 }
 
-void SceneEscMenu::setState(IMenuState& newState)
+void SceneEscMenu::setMenuState(IMenuState& newState)
 {
 	_currentState->exit(this);
 	_currentState = &newState;
