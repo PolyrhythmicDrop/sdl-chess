@@ -1,60 +1,41 @@
 #include "EventManager.h"
+#include "SceneEscMenu.h"
 
 
 EventManager::EventManager()
 {
 	SDL_PeepEvents(&e, 1, SDL_PEEKEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT);
-	_eventName = "";
 };
 
-void EventManager::EventLoop(bool* quit)
+void EventManager::HandleEvents(bool* quit)
 {
 	// While the event queue is empty
 	while (SDL_PollEvent(&e) != 0)
 	{
-		// If the user requests to quit by clicking the X in the window, set quit to true and exit
+		// If the event type is a quit, end the game.
 		if (e.type == SDL_QUIT)
 		{
 			*quit = true;
-			break;
 		}
-		if (e.type == SDL_KEYDOWN)
-		{
-			switch (e.key.keysym.sym)
-			{
-			case SDLK_ESCAPE:
-				*quit = true;
-				break;
-			case SDLK_e:
-				_eventName = "E";				
-				break;
-			case SDLK_q:
-				_eventName = "Q";		
-				break;
-			}
-			Event();
-		}		
+		Event();
 	}
 }
 
-void EventManager::Subscribe(const std::string event, std::function<void(SDL_Renderer*, int, int)> callback)
+void EventManager::Subscribe(SDL_EventType type, eventCallback callback)
 {
-	// Add an event and an associated callback function to the subscriber list.
-	m_subscribers[event].push_back(callback);
+	// Add an event type and an associated callback function to the subscriber list.
+	_subscribedCallbacks[type].push_back(callback);
 }
 
-void EventManager::Publish(std::string event)
+void EventManager::Publish(SDL_Event event)
 {	
-	int w = 0;
-	int h = 0;
-	SDL_Renderer* r = NULL;
-	for (auto& e : m_subscribers[event])
+	for (auto& cb : _subscribedCallbacks[static_cast<SDL_EventType>(event.type)])
 	{
-		e(r, w, h);
+		cb(e);
 	}
 }
 
 void EventManager::Event()
 {
-	Publish(_eventName);
+	Publish(e);
 }

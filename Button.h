@@ -1,12 +1,15 @@
 #pragma once
 #include "GameObject.h"
 #include "GraphicsComponent.h"
+#include "InputComponent.h"
+
 
 
 class Button: public GameObject
 {
 private:
 	GraphicsComponent* _graphics;
+	InputComponent* _input;
 
 public:
 
@@ -22,7 +25,10 @@ public:
 
 	~Button();
 
+	ButtonType type;
+
 	GraphicsComponent* getGraphicsComponent();
+	InputComponent* getInputComponent();
 
 
 };

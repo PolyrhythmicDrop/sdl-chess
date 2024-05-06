@@ -150,6 +150,7 @@
     <ClCompile Include="IMenuState.cpp" />
     <ClCompile Include="InactiveMenuState.cpp" />
     <ClCompile Include="InExitConfirmState.cpp" />
+    <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="InResoMenuState.cpp" />
     <ClCompile Include="NullGraphicsService.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="IMenuState.h" />
     <ClInclude Include="InactiveMenuState.h" />
     <ClInclude Include="InExitConfirmState.h" />
+    <ClInclude Include="InputComponent.h" />
     <ClInclude Include="InResoMenuState.h" />
     <ClInclude Include="NullGraphicsService.h" />
     <ClInclude Include="Renderer.h" />
@@ -197,6 +199,11 @@
     <Image Include="images\esc-menu_button-exit.png" />
     <Image Include="images\esc-menu_button-options.png" />
     <Image Include="images\esc-menu_button-resolution.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

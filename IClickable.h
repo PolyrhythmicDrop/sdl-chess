@@ -7,4 +7,5 @@ class IClickable
 {
 public:
 	void virtual onClick() = 0;
+	void virtual onHover() = 0;
 };
