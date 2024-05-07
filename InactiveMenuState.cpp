@@ -31,7 +31,7 @@ void InactiveMenuState::buildMenu(SceneEscMenu* menuScene)
 void InactiveMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
 {
 	manager.Subscribe(SDL_KEYUP, [this, menuScene](SDL_Event const& event) {
-		if (event.key.keysym.sym == SDLK_ESCAPE)
+		if (event.key.keysym.sym == SDLK_ESCAPE && menuScene->getCurrentState() == this)
 		{
 			changeState(menuScene, "");
 		}

@@ -67,8 +67,8 @@ void InEscMenuState::buildMenu(SceneEscMenu* menuScene)
 void InEscMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
 {
 	// Subscribe to listen for the Escape key to be released, then change the state.
-	manager.Subscribe(SDL_KEYDOWN, [this, menuScene](SDL_Event const& event) {
-		if (event.key.keysym.sym == SDLK_1)
+	manager.Subscribe(SDL_KEYUP, [this, menuScene](SDL_Event const& event) {
+		if (event.key.keysym.sym == SDLK_ESCAPE && menuScene->getCurrentState() == this)
 		{
 			changeState(menuScene, "");
 		}
