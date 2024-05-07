@@ -39,9 +39,12 @@ void GraphicsService::addToRenderMap(std::map<int, std::pair<GameObject*, SDL_Te
 
 }
 
-void GraphicsService::removeFromQueue()
+void GraphicsService::removeFromRenderMap(std::vector<int> zValues)
 {
-
+	for (int z : zValues)
+	{
+		_renderMap.erase(z);
+	}
 }
 
 void GraphicsService::render()

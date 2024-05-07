@@ -15,7 +15,7 @@ void NullGraphicsService::addToRenderMap(std::map<int, std::pair<GameObject*, SD
 
 }
 
-void NullGraphicsService::removeFromQueue()
+void NullGraphicsService::removeFromRenderMap(std::vector<int> zValues)
 {
 
 }

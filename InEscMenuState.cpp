@@ -16,6 +16,7 @@ void InEscMenuState::changeState(SceneEscMenu* menuScene, std::string eventStrin
 
 void InEscMenuState::exit(SceneEscMenu* menuScene)
 {
+	destroyMenu(menuScene);
 	std::cout << "In Escape Menu state exited!\n";
 }
 
@@ -59,9 +60,33 @@ void InEscMenuState::buildMenu(SceneEscMenu* menuScene)
 	menuScene->addObject(backButton, backButton->getGraphicsComponent()->getSdlTexture());
 	menuScene->addObject(exitButton, exitButton->getGraphicsComponent()->getSdlTexture());
 
+	menuScene->_currentMenuObjects.push_back(escMenuBg);
+	menuScene->_currentMenuObjects.push_back(optionsButton);
+	menuScene->_currentMenuObjects.push_back(backButton);
+	menuScene->_currentMenuObjects.push_back(exitButton);
+
 
 	// Add the scene map to the render map in the Graphics Service
 	ServiceLocator::getGraphics().addToRenderMap(menuScene->getObjectMap());
+}
+
+void InEscMenuState::destroyMenu(SceneEscMenu* menuScene)
+{
+	std::vector<int> zValues;
+	for (GameObject* obj : menuScene->_currentMenuObjects)
+	{
+		zValues.push_back(obj->getZ());
+	}
+
+	ServiceLocator::getGraphics().removeFromRenderMap(zValues);
+	
+	for (GameObject* obj : menuScene->_currentMenuObjects)
+	{
+		obj->~GameObject();
+	}
+
+	
+
 }
 
 void InEscMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)

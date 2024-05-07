@@ -19,6 +19,7 @@ public:
 
 	// State-specific functions
 	void buildMenu(SceneEscMenu* menuScene);
+	void destroyMenu(SceneEscMenu* menuScene);
 
 	void subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene);
 
