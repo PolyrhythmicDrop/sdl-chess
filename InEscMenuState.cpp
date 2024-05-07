@@ -16,6 +16,7 @@ void InEscMenuState::changeState(SceneEscMenu* menuScene, std::string eventStrin
 
 void InEscMenuState::exit(SceneEscMenu* menuScene)
 {
+	unsubscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
 	destroyMenu(menuScene);
 	std::cout << "In Escape Menu state exited!\n";
 }
@@ -72,21 +73,26 @@ void InEscMenuState::buildMenu(SceneEscMenu* menuScene)
 
 void InEscMenuState::destroyMenu(SceneEscMenu* menuScene)
 {
+	// Create vector of Z-values in the current menu objects
 	std::vector<int> zValues;
 	for (GameObject* obj : menuScene->_currentMenuObjects)
 	{
 		zValues.push_back(obj->getZ());
 	}
 
+	// Remove the objects from the render map using the Z values as the key
 	ServiceLocator::getGraphics().removeFromRenderMap(zValues);
 	
+	// Destroy the game objects
 	for (GameObject* obj : menuScene->_currentMenuObjects)
 	{
 		obj->~GameObject();
 	}
 
+	// Remove the vector of game current menu objects
+	menuScene->_currentMenuObjects.clear();
+	zValues.clear();
 	
-
 }
 
 void InEscMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
@@ -98,4 +104,9 @@ void InEscMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu
 			changeState(menuScene, "");
 		}
 		});
+}
+
+void InEscMenuState::unsubscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
+{
+	manager.Unsubscribe(SDL_KEYUP);
 }

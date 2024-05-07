@@ -44,3 +44,8 @@ void InResoMenuState::subscribeToEventManager(EventManager& manager, SceneEscMen
 {
 
 }
+
+void InResoMenuState::unsubscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
+{
+	// manager.Unsubscribe(SDL_KEYUP);
+}

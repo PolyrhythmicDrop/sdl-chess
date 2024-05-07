@@ -17,6 +17,11 @@ void SceneEscMenu::subscribeToEventManager(EventManager& manager)
 	_currentState->subscribeToEventManager(manager, this);
 }
 
+void SceneEscMenu::unsubscribeToEventManager(EventManager& manager)
+{
+	_currentState->unsubscribeToEventManager(manager, this);
+}
+
 void SceneEscMenu::changeState()
 {
 	_currentState->changeState(this);

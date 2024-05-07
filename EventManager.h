@@ -26,8 +26,14 @@ public:
 	/// Subscribe to the event manager and listen for a specific event.
 	/// </summary>
 	/// <param name="type">The event type to listen for.</param>
-	/// <param name="callback">The callback function to use when the event is heard.</param>
+	/// <param name="callback">The callback function pointer for the format of the function that should be called when this event is heard.</param>
 	void Subscribe(SDL_EventType type, eventCallback callback);
+
+	/// <summary>
+	/// Stop listening for a specific event, aka remove the item from the subscribedCallbacks map.
+	/// </summary>
+	/// <param name="type">The event type to stop listening for.</param>
+	void Unsubscribe(SDL_EventType type);
 
 	/// <summary>
 	/// Publishes the event for consumption.

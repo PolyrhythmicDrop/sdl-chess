@@ -37,3 +37,8 @@ void InExitConfirmState::subscribeToEventManager(EventManager& manager, SceneEsc
 {
 
 }
+
+void InExitConfirmState::unsubscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
+{
+	// manager.Unsubscribe(SDL_KEYUP);
+}

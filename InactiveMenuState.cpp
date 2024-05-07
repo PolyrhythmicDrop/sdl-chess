@@ -14,6 +14,7 @@ void InactiveMenuState::changeState(SceneEscMenu* menuScene, std::string eventSt
 
 void InactiveMenuState::exit(SceneEscMenu* menuScene)
 {
+	unsubscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
 	std::cout << "Inactive menu state exited!\n";
 }
 
@@ -36,4 +37,9 @@ void InactiveMenuState::subscribeToEventManager(EventManager& manager, SceneEscM
 			changeState(menuScene, "");
 		}
 		});
+}
+
+void InactiveMenuState::unsubscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
+{
+	manager.Unsubscribe(SDL_KEYUP);
 }

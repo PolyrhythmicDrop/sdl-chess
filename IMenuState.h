@@ -15,5 +15,6 @@ public:
 	virtual void buildMenu(SceneEscMenu* menuScene) = 0;
 
 	virtual void subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene) = 0;
+	virtual void unsubscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene) = 0;
 };
 

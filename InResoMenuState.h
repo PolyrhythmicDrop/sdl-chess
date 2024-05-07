@@ -18,6 +18,7 @@ public:
 	void buildMenu(SceneEscMenu* menuScene);
 
 	void subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene);
+	void unsubscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene);
 
 };
 
