@@ -21,7 +21,7 @@ public:
 	SceneEscMenu();
 	~SceneEscMenu();
 
-	std::vector<GameObject*> _currentMenuObjects;
+	std::map<int, GameObject*> _currentMenuObjects;
 
 	// Event handler functions
 	

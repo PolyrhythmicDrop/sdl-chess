@@ -17,12 +17,15 @@ public:
 	void exit(SceneEscMenu* menuScene);
 	static IMenuState& getInstance();
 
-	// State-specific functions
+	// Menu build and destroy functions
 	void buildMenu(SceneEscMenu* menuScene);
 	void destroyMenu(SceneEscMenu* menuScene);
 
+	// Event manager functions
 	void subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene);
 	void unsubscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene);
+
+	void onMouseClick(SceneEscMenu* menuScene);
 
 };
 

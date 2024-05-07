@@ -11,7 +11,11 @@ void InEscMenuState::enter(SceneEscMenu* menuScene)
 
 void InEscMenuState::changeState(SceneEscMenu* menuScene, std::string eventString)
 {
-	menuScene->setMenuState(InactiveMenuState::getInstance());
+	if (eventString == "Esc" || eventString == "BackClick")
+	{
+		menuScene->setMenuState(InactiveMenuState::getInstance());
+	}
+
 }
 
 void InEscMenuState::exit(SceneEscMenu* menuScene)
@@ -61,38 +65,35 @@ void InEscMenuState::buildMenu(SceneEscMenu* menuScene)
 	menuScene->addObject(backButton, backButton->getGraphicsComponent()->getSdlTexture());
 	menuScene->addObject(exitButton, exitButton->getGraphicsComponent()->getSdlTexture());
 
-	menuScene->_currentMenuObjects.push_back(escMenuBg);
-	menuScene->_currentMenuObjects.push_back(optionsButton);
-	menuScene->_currentMenuObjects.push_back(backButton);
-	menuScene->_currentMenuObjects.push_back(exitButton);
+	menuScene->_currentMenuObjects.insert({ escMenuBg->getZ(), escMenuBg });
+	menuScene->_currentMenuObjects.insert({ optionsButton->getZ(), optionsButton });
+	menuScene->_currentMenuObjects.insert({ backButton->getZ(), backButton });
+	menuScene->_currentMenuObjects.insert({ exitButton->getZ(), exitButton });
 
 
 	// Add the scene map to the render map in the Graphics Service
 	ServiceLocator::getGraphics().addToRenderMap(menuScene->getObjectMap());
 }
 
-void InEscMenuState::destroyMenu(SceneEscMenu* menuScene)
+void InEscMenuState::onMouseClick(SceneEscMenu* menuScene)
 {
-	// Create vector of Z-values in the current menu objects
-	std::vector<int> zValues;
-	for (GameObject* obj : menuScene->_currentMenuObjects)
+	// Find the Back button (Z-value 102) and set the iterator to it
+	auto backItr = menuScene->_currentMenuObjects.find(102);
+	// Get the dimensions for the Back button
+	SDL_Rect* backDimensions = backItr->second->getDimensions();
+	std::string buttonClicked = "";
+
+	// Get the current mouse coordinates
+	int mouseX, mouseY;
+	SDL_GetMouseState(&mouseX, &mouseY);
+
+	// Determine whether or not a button was clicked.
+	if ((mouseX > backDimensions->x) && (mouseX < backDimensions->x + backDimensions->w) && (mouseY > backDimensions->y) && (mouseY < backDimensions->y + backDimensions->h))
 	{
-		zValues.push_back(obj->getZ());
+		buttonClicked = "BackClick";
 	}
 
-	// Remove the objects from the render map using the Z values as the key
-	ServiceLocator::getGraphics().removeFromRenderMap(zValues);
-	
-	// Destroy the game objects
-	for (GameObject* obj : menuScene->_currentMenuObjects)
-	{
-		obj->~GameObject();
-	}
-
-	// Remove the vector of game current menu objects
-	menuScene->_currentMenuObjects.clear();
-	zValues.clear();
-	
+	changeState(menuScene, buttonClicked);
 }
 
 void InEscMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
@@ -101,12 +102,40 @@ void InEscMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu
 	manager.Subscribe(SDL_KEYUP, [this, menuScene](SDL_Event const& event) {
 		if (event.key.keysym.sym == SDLK_ESCAPE && menuScene->getCurrentState() == this)
 		{
-			changeState(menuScene, "");
+			changeState(menuScene, "Esc");
 		}
+		});
+	manager.Subscribe(SDL_MOUSEBUTTONUP, [this, menuScene](SDL_Event const& event) {
+		onMouseClick(menuScene);
 		});
 }
 
 void InEscMenuState::unsubscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
 {
 	manager.Unsubscribe(SDL_KEYUP);
+	manager.Unsubscribe(SDL_MOUSEBUTTONUP);
 }
+
+void InEscMenuState::destroyMenu(SceneEscMenu* menuScene)
+{
+	auto itr = menuScene->_currentMenuObjects.begin();
+	// Create vector of Z-values in the current menu objects
+	std::vector<int> zValues;
+	
+
+	for (int i = 0; i < menuScene->_currentMenuObjects.size(); i++)
+	{
+		zValues.push_back(itr->second->getZ());
+		itr->second->~GameObject();
+		++itr;
+	}
+
+	// Remove the objects from the render map and scene using the Z values as the key
+	ServiceLocator::getGraphics().removeFromRenderMap(zValues);
+
+	// Remove the vector of game current menu objects
+	menuScene->_currentMenuObjects.clear();
+	zValues.clear();
+
+}
+

@@ -129,6 +129,9 @@
     <ClCompile Include="MenuInputComponent.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
+    <ClCompile Include="ButtonInputComponent.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -204,6 +207,9 @@
       <Filter>Header Files\Input</Filter>
     </ClInclude>
     <ClInclude Include="MenuInputComponent.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonInputComponent.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
   </ItemGroup>
