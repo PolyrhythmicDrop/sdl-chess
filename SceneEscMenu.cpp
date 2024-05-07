@@ -19,7 +19,7 @@ void SceneEscMenu::subscribeToEventManager(EventManager& manager)
 
 void SceneEscMenu::changeState()
 {
-	_currentState->changeState(this, "Esc");
+	_currentState->changeState(this);
 }
 
 void SceneEscMenu::setMenuState(IMenuState& newState)

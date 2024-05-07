@@ -14,6 +14,7 @@ private:
 	/// -InExitConfirmation
 	/// </summary>
 	IMenuState* _currentState;
+	
 
 public:
 
