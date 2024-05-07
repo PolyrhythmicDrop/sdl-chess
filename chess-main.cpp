@@ -120,7 +120,7 @@ int main( int argc, char* args[] )
 
 		
 	// Initialize the event manager
-	EventManager eManager;			
+	EventManager& eManager = EventManager::getEventManagerInstance();			
 
 	// Scene building test
 	

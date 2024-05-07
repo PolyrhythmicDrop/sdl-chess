@@ -7,7 +7,7 @@ void InResoMenuState::enter(SceneEscMenu* menuScene)
 	std::cout << "In Resolution Menu state entered!\n";
 }
 
-void InResoMenuState::changeState(SceneEscMenu* menuScene)
+void InResoMenuState::changeState(SceneEscMenu* menuScene, std::string eventString)
 {
 	// If Esc key is pressed:
 	// menuScene->setMenuState(InactiveMenuState::getInstance());
@@ -36,6 +36,11 @@ IMenuState& InResoMenuState::getInstance()
 }
 
 void InResoMenuState::buildMenu(SceneEscMenu* menuScene)
+{
+
+}
+
+void InResoMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
 {
 
 }

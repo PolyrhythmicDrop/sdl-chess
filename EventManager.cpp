@@ -33,9 +33,19 @@ void EventManager::Publish(SDL_Event event)
 	{
 		cb(e);
 	}
+	if (event.key.keysym.sym == SDLK_ESCAPE)
+	{
+		std::cout << "Escape key pressed!\n";
+	}
 }
 
 void EventManager::Event()
 {
 	Publish(e);
+}
+
+EventManager& EventManager::getEventManagerInstance()
+{
+	static EventManager eventManager;
+	return eventManager;
 }

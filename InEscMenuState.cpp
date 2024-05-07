@@ -4,13 +4,21 @@
 
 void InEscMenuState::enter(SceneEscMenu* menuScene)
 {
+	subscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
 	std::cout << "In Escape Menu state entered!";
 	buildMenu(menuScene);
 }
 
-void InEscMenuState::changeState(SceneEscMenu* menuScene)
+void InEscMenuState::changeState(SceneEscMenu* menuScene, std::string eventString)
 {
-	menuScene->setMenuState(InactiveMenuState::getInstance());
+	if (eventString == "Esc")
+	{
+		menuScene->setMenuState(InactiveMenuState::getInstance());
+	}
+	else
+	{
+		std::cout << "Could not change state! Please supply an appropriate event string.\n";
+	}
 }
 
 void InEscMenuState::exit(SceneEscMenu* menuScene)
@@ -61,4 +69,15 @@ void InEscMenuState::buildMenu(SceneEscMenu* menuScene)
 
 	// Add the scene map to the render map in the Graphics Service
 	ServiceLocator::getGraphics().addToRenderMap(menuScene->getObjectMap());
+}
+
+void InEscMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
+{
+	// Subscribe to listen for the Escape key to be released, then change the state.
+	manager.Subscribe(SDL_KEYUP, [menuScene, this](SDL_Event const& event) {
+		if (event.key.keysym.sym == SDLK_ESCAPE)
+		{
+			changeState(menuScene, "Esc");
+		}
+		});
 }

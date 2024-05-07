@@ -1,10 +1,7 @@
 #pragma once
-#include <vector>
-#include "Decoration.h"
 #include "Button.h"
-#include <functional>
+#include "Decoration.h"
 #include <map>
-#include <vector>
 
 /// <summary>
 /// Abstract class for building scenes.
@@ -27,7 +24,7 @@ public:
 	/// Build the scene up by adding objects and constructing the draw vector with those objects.
 	/// </summary>
 	/// <returns></returns>
-	virtual void buildScene() = 0;
+	virtual void buildMenu() = 0;
 
 	/// <summary>
 	/// Adds an object to the back of to the scene object vector.

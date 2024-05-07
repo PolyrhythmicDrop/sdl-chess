@@ -1,6 +1,5 @@
 #pragma once
 #include "Scene.h"
-#include "IMenuState.h"
 
 class IMenuState;
 
@@ -23,6 +22,10 @@ public:
 	SceneEscMenu(InputComponent* input);
 	~SceneEscMenu();
 
+	// Event handler functions
+	void subscribeToEventManager(EventManager& manager);
+
+	// State functions
 	inline IMenuState* getCurrentState() { return _currentState; };
 	void changeState();
 	void setMenuState(IMenuState& newState);

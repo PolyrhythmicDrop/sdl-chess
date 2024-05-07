@@ -1,6 +1,9 @@
 #pragma once
 #include "SDLfunc.h"
 
+// forward declarations
+// class PlayerInputComponent;
+// class MenuInputComponent;
 
 // Input Component interface
 class InputComponent

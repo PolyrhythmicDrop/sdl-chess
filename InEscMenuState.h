@@ -13,12 +13,14 @@ public:
 
 	// State machine functions
 	void enter(SceneEscMenu* menuScene);
-	void changeState(SceneEscMenu* menuScene);
+	void changeState(SceneEscMenu* menuScene, std::string eventString);
 	void exit(SceneEscMenu* menuScene);
 	static IMenuState& getInstance();
 
 	// State-specific functions
 	void buildMenu(SceneEscMenu* menuScene);
+
+	void subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene);
 
 };
 

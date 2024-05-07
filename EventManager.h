@@ -37,6 +37,8 @@ public:
 
 	void Event();
 
+	static EventManager& getEventManagerInstance();
+
 private:
 	/// <summary>
 	/// Subscriber list, in the form of a map: <SDL_EventType, list of callback functions (eventCallback)>.

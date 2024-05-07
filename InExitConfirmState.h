@@ -10,11 +10,13 @@ private:
 
 public:
 	void enter(SceneEscMenu* menuScene);
-	void changeState(SceneEscMenu* menuScene);
+	void changeState(SceneEscMenu* menuScene, std::string eventString);
 	void exit(SceneEscMenu* menuScene);
 
 	static IMenuState& getInstance();
 
 	void buildMenu(SceneEscMenu* menuScene);
+
+	void subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene);
 };
 

@@ -3,12 +3,21 @@
 
 void InactiveMenuState::enter(SceneEscMenu* menuScene)
 {
+
+	subscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
 	std::cout << "Inactive menu state entered!";
 }
 
-void InactiveMenuState::changeState(SceneEscMenu* menuScene)
+void InactiveMenuState::changeState(SceneEscMenu* menuScene, std::string eventString)
 {
-	menuScene->setMenuState(InEscMenuState::getInstance());
+	if (eventString == "Esc")
+	{
+		menuScene->setMenuState(InEscMenuState::getInstance());
+	}
+	else
+	{
+		std::cout << "Could not change state! Please supply an appropriate event string.\n";
+	}
 }
 
 void InactiveMenuState::exit(SceneEscMenu* menuScene)
@@ -18,11 +27,21 @@ void InactiveMenuState::exit(SceneEscMenu* menuScene)
 
 IMenuState& InactiveMenuState::getInstance()
 {
-	static InactiveMenuState singleton;
-	return singleton;
+	static InactiveMenuState inactiveState;
+	return inactiveState;
 }
 
 void InactiveMenuState::buildMenu(SceneEscMenu* menuScene)
 {
 
+}
+
+void InactiveMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
+{
+	manager.Subscribe(SDL_KEYUP, [menuScene, this](SDL_Event const& event) {
+		if (event.key.keysym.sym == SDLK_ESCAPE)
+		{
+			changeState(menuScene, "Esc");
+		}
+		});
 }

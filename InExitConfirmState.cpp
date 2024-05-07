@@ -5,7 +5,7 @@ void InExitConfirmState::enter(SceneEscMenu* menuScene)
 	std::cout << "In Exit Confirmation state entered!\n";
 }
 
-void InExitConfirmState::changeState(SceneEscMenu* menuScene)
+void InExitConfirmState::changeState(SceneEscMenu* menuScene, std::string eventString)
 {
 	// If Esc key is pressed:
 	// menuScene->setMenuState(InEscMenuState::getInstance());
@@ -29,6 +29,11 @@ IMenuState& InExitConfirmState::getInstance()
 }
 
 void InExitConfirmState::buildMenu(SceneEscMenu* menuScene)
+{
+
+}
+
+void InExitConfirmState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
 {
 
 }
