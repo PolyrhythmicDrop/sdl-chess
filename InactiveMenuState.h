@@ -11,7 +11,7 @@ private:
 
 public:
 	void enter(SceneEscMenu* menuScene);
-	void changeState(SceneEscMenu* menuScene, std::string eventString);
+	void changeState(SceneEscMenu* menuScene, std::string eventString = 0);
 	void exit(SceneEscMenu* menuScene);
 
 	static IMenuState& getInstance();
