@@ -15,11 +15,9 @@ private:
 	/// </summary>
 	IMenuState* _currentState;
 
-	InputComponent* _input;
-
 public:
 
-	SceneEscMenu(InputComponent* input);
+	SceneEscMenu();
 	~SceneEscMenu();
 
 	// Event handler functions
@@ -29,8 +27,6 @@ public:
 	inline IMenuState* getCurrentState() { return _currentState; };
 	void changeState();
 	void setMenuState(IMenuState& newState);
-
-	InputComponent* getInputComponent();
 
 	void buildMenu();
 };

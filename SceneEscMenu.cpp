@@ -1,8 +1,7 @@
 #include "SceneEscMenu.h"
 #include "InactiveMenuState.h"
 
-SceneEscMenu::SceneEscMenu(InputComponent* input) :
-	_input(input)
+SceneEscMenu::SceneEscMenu()
 {
 	_currentState = &InactiveMenuState::getInstance();
 	_currentState->enter(this);
@@ -28,11 +27,6 @@ void SceneEscMenu::setMenuState(IMenuState& newState)
 	_currentState->exit(this);
 	_currentState = &newState;
 	_currentState->enter(this);
-}
-
-InputComponent* SceneEscMenu::getInputComponent()
-{
-	return _input->getInputComponent();
 }
 
 void SceneEscMenu::buildMenu()

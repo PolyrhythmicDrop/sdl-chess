@@ -124,7 +124,7 @@ int main( int argc, char* args[] )
 	EventManager& eManager = EventManager::getEventManagerInstance();
 
 	// Scene building test
-	SceneEscMenu escMenu(new MenuInputComponent());
+	SceneEscMenu escMenu;
 	
 	
 
