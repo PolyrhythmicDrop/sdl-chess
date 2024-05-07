@@ -5,7 +5,7 @@ SceneEscMenu::SceneEscMenu(InputComponent* input) :
 	_input(input)
 {
 	_currentState = &InactiveMenuState::getInstance();
-	setMenuState(InactiveMenuState::getInstance());
+	_currentState->enter(this);
 }
 
 SceneEscMenu::~SceneEscMenu()

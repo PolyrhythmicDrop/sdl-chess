@@ -19,7 +19,7 @@ void InExitConfirmState::changeState(SceneEscMenu* menuScene, std::string eventS
 
 void InExitConfirmState::exit(SceneEscMenu* menuScene)
 {
-	std::cout << "In ExitConfirmation state exited!\n";
+	std::cout << "In Exit Confirmation state exited!\n";
 }
 
 IMenuState& InExitConfirmState::getInstance()
