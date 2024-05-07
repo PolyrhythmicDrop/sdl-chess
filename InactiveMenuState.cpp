@@ -3,7 +3,6 @@
 
 void InactiveMenuState::enter(SceneEscMenu* menuScene)
 {
-
 	subscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
 	std::cout << "Inactive menu state entered!";
 }

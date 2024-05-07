@@ -5,6 +5,7 @@ SceneEscMenu::SceneEscMenu(InputComponent* input) :
 	_input(input)
 {
 	_currentState = &InactiveMenuState::getInstance();
+	setMenuState(InactiveMenuState::getInstance());
 }
 
 SceneEscMenu::~SceneEscMenu()
@@ -19,7 +20,7 @@ void SceneEscMenu::subscribeToEventManager(EventManager& manager)
 
 void SceneEscMenu::changeState()
 {
-	_currentState->changeState(this, "");
+	_currentState->changeState(this, "Esc");
 }
 
 void SceneEscMenu::setMenuState(IMenuState& newState)

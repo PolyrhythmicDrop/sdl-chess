@@ -2,6 +2,7 @@
 #include "GameContext.h"
 #include "GraphicsService.h"
 #include "SceneEscMenu.h"
+#include "MenuInputComponent.h"
 
 
 /// <summary>
@@ -120,9 +121,10 @@ int main( int argc, char* args[] )
 
 		
 	// Initialize the event manager
-	EventManager& eManager = EventManager::getEventManagerInstance();			
+	EventManager& eManager = EventManager::getEventManagerInstance();
 
 	// Scene building test
+	SceneEscMenu escMenu(new MenuInputComponent());
 	
 	
 
