@@ -1,7 +1,7 @@
 #pragma once
 #include "IMenuState.h"
 
-class InResoMenuState :  public IMenuState
+class InResoMenuState : public IMenuState
 {
 private:
 	InResoMenuState() {};

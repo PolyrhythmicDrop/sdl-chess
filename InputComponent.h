@@ -10,7 +10,7 @@ class InputComponent
 {
 
 public:
-	
+
 	virtual ~InputComponent() {};
 
 	virtual InputComponent* getInputComponent() = 0;

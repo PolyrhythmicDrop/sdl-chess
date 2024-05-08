@@ -1,6 +1,5 @@
 #pragma once
-#include "Button.h"
-#include "Decoration.h"
+#include "GameObject.h"
 #include <map>
 
 /// <summary>
@@ -9,11 +8,11 @@
 class Scene
 {
 protected:
-	
+
 	/// <summary>
 	/// Map containing all the objects in the scene, plus their associated textures.
 	/// </summary>
-	std::map<int, std::pair<GameObject*, SDL_Texture*>> _sceneMap;	
+	std::map<int, std::pair<GameObject*, SDL_Texture*>> _sceneMap;
 
 public:
 
@@ -32,7 +31,7 @@ public:
 	/// <param name="object">The object to add to the vector.</param>
 	virtual void addObject(GameObject* object, SDL_Texture* texture);
 
-	const std::map<int, std::pair<GameObject*, SDL_Texture*>> getObjectMap();	
+	const std::map<int, std::pair<GameObject*, SDL_Texture*>> getObjectMap();
 
 };
 

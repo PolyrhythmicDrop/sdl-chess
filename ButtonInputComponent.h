@@ -1,7 +1,11 @@
 #pragma once
 #include "InputComponent.h"
+#include "IMenuState.h"
+
 class ButtonInputComponent : public InputComponent
 {
+public:
+
 	ButtonInputComponent() {};
 	~ButtonInputComponent() {};
 

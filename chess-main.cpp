@@ -2,7 +2,6 @@
 #include "GameContext.h"
 #include "GraphicsService.h"
 #include "SceneEscMenu.h"
-#include "MenuInputComponent.h"
 
 
 /// <summary>

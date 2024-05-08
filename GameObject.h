@@ -16,12 +16,12 @@ protected:
 
 	// Keeps track of the current number of game objects.
 	int static gameObjectCount;
-	
+
 
 public:
-	
+
 	GameObject(std::string name = "");
-	
+
 	~GameObject();
 
 	virtual std::string getName();

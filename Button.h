@@ -3,7 +3,7 @@
 #include "GraphicsComponent.h"
 #include "InputComponent.h"
 
-class Button: public GameObject
+class Button : public GameObject
 {
 private:
 	GraphicsComponent* _graphics;

@@ -28,15 +28,15 @@
      inkscape:deskcolor="#505050"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="583.71665"
-     inkscape:cy="334.10795"
+     inkscape:zoom="1"
+     inkscape:cx="447.49999"
+     inkscape:cy="628.49998"
      inkscape:window-width="2560"
      inkscape:window-height="1417"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g7">
+     inkscape:current-layer="g23">
     <inkscape:grid
        id="grid1"
        units="mm"
@@ -142,10 +142,10 @@
        inkscape:collect="always"
        style="color-interpolation-filters:sRGB"
        id="filter18"
-       x="-0.0061571336"
-       y="-0.086134414"
-       width="1.0123143"
-       height="1.1722688">
+       x="-0.0039940536"
+       y="-0.055874327"
+       width="1.0079881"
+       height="1.1117487">
       <feGaussianBlur
          inkscape:collect="always"
          stdDeviation="0.046658824"
@@ -375,6 +375,35 @@
        y1="13.229165"
        x2="79.342388"
        y2="13.229165" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3"
+       id="radialGradient18"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(2.2638207,0,0,0.74027602,-397.04156,183.96093)"
+       cx="251.35416"
+       cy="73.167404"
+       fx="251.35416"
+       fy="73.167404"
+       r="52.990559" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient32"
+       id="linearGradient21"
+       gradientUnits="userSpaceOnUse"
+       x1="0.032601237"
+       y1="13.229165"
+       x2="79.342388"
+       y2="13.229165" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient32"
+       id="linearGradient23"
+       gradientUnits="userSpaceOnUse"
+       x1="0.032601237"
+       y1="13.229165"
+       x2="79.342388"
+       y2="13.229165" />
   </defs>
   <g
      inkscape:groupmode="layer"
@@ -389,6 +418,99 @@
        height="130.70929"
        x="199.17659"
        y="7.812758" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="g18"
+     inkscape:label="ConfirmExitBG"
+     inkscape:highlight-color="#a07fac"
+     style="display:inline">
+    <g
+       id="g19">
+      <rect
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:url(#radialGradient18);fill-opacity:1;stroke:#000000;stroke-width:1.88369;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         id="rect13"
+         width="236.2413"
+         height="77.49131"
+         x="53.858509"
+         y="199.37933" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:7.7611px;line-height:normal;font-family:'Akira Expanded';-inkscape-font-specification:'Akira Expanded, Normal';text-align:center;text-decoration-color:#000000;letter-spacing:1.32292px;text-anchor:middle;display:inline;fill:#8de8fb;fill-opacity:1;stroke:#000000;stroke-width:0.264583"
+       x="172.64061"
+       y="219.94992"
+       id="text18"><tspan
+         sodipodi:role="line"
+         id="tspan18"
+         style="fill:#8de8fb;fill-opacity:1;stroke-width:0.264583"
+         x="0"
+         y="0">Are you sure you want</tspan><tspan
+         sodipodi:role="line"
+         style="fill:#8de8fb;fill-opacity:1;stroke-width:0.264583"
+         x="0"
+         y="0"
+         id="tspan19"> to exit the game?</tspan></text>
+  </g>
+  <g
+     inkscape:label="button-yes"
+     inkscape:groupmode="layer"
+     id="g21"
+     transform="translate(-113.77082,109.49436)"
+     style="display:inline"
+     inkscape:highlight-color="#f32190">
+    <g
+       id="g20"
+       transform="translate(189.39581,129.71396)">
+      <rect
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:url(#linearGradient21);fill-opacity:1;stroke:#000000;stroke-width:1.25545;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;paint-order:normal;stop-color:#000000;stop-opacity:1"
+         id="rect19"
+         width="78.119553"
+         height="25.202883"
+         x="0.62772501"
+         y="-0.038940307" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.7611px;line-height:normal;font-family:'Akira Expanded';-inkscape-font-specification:'Akira Expanded, Normal';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:center;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:1.32292px;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:middle;white-space:normal;display:inline;opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+         x="39.6875"
+         y="15.112902"
+         id="text20"><tspan
+           sodipodi:role="line"
+           id="tspan20"
+           style="stroke-width:0.264583;stroke-dasharray:none"
+           x="40.348961"
+           y="15.112902">Yes</tspan></text>
+    </g>
+  </g>
+  <g
+     inkscape:label="button-no"
+     inkscape:groupmode="layer"
+     id="g23"
+     transform="translate(-113.77082,109.49436)"
+     style="display:inline"
+     inkscape:highlight-color="#f32190">
+    <g
+       id="g22"
+       transform="translate(305.02353,129.71396)">
+      <rect
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:url(#linearGradient23);fill-opacity:1;stroke:#000000;stroke-width:1.25545;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;paint-order:normal;stop-color:#000000;stop-opacity:1"
+         id="rect21"
+         width="78.119553"
+         height="25.202883"
+         x="0.62772501"
+         y="-0.038940307" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.7611px;line-height:normal;font-family:'Akira Expanded';-inkscape-font-specification:'Akira Expanded, Normal';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:center;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:1.32292px;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:middle;white-space:normal;display:inline;opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+         x="39.687489"
+         y="15.112902"
+         id="text22"><tspan
+           sodipodi:role="line"
+           style="stroke-width:0.264583;stroke-dasharray:none"
+           x="40.348949"
+           y="15.112902"
+           id="tspan23">NO</tspan></text>
+    </g>
   </g>
   <g
      inkscape:label="button-options"

@@ -6,7 +6,7 @@ class Decoration : public GameObject
 {
 private:
 
-	GraphicsComponent* _graphics;	
+	GraphicsComponent* _graphics;
 
 public:
 
@@ -22,7 +22,7 @@ public:
 	/// <param name="type">The type of decoration</param>
 	Decoration(DecorationType type);
 
-	~Decoration();	
+	~Decoration();
 
 	GraphicsComponent* getGraphicsComponent();
 

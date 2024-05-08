@@ -1,9 +1,11 @@
 #pragma once
 #include "Scene.h"
+#include "Button.h"
+#include "Decoration.h"
 
 class IMenuState;
 
-class SceneEscMenu :  public Scene
+class SceneEscMenu : public Scene
 {
 private:
 	/// <summary>
@@ -14,7 +16,7 @@ private:
 	/// -InExitConfirmation
 	/// </summary>
 	IMenuState* _currentState;
-	
+
 
 public:
 
@@ -24,7 +26,7 @@ public:
 	std::map<int, GameObject*> _currentMenuObjects;
 
 	// Event handler functions
-	
+
 	// Subscribes to a specified SDL_EventType and then calls a function (made using a lambda function) in response. Be sure to UNSUBSCRIBE from the event after you no longer need to listen for the event.
 	void subscribeToEventManager(EventManager& manager);
 	// Unsubscribes for the event manager. Should be called at some point after every subscribeToEventManager call, when you no longer want to "listen" for the event.

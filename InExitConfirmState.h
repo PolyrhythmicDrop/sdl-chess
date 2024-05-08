@@ -1,7 +1,7 @@
 #pragma once
 #include "IMenuState.h"
 
-class InExitConfirmState :  public IMenuState
+class InExitConfirmState : public IMenuState
 {
 private:
 	InExitConfirmState() {};
