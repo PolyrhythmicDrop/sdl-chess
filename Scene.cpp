@@ -18,6 +18,11 @@ void Scene::addObject(GameObject* object, SDL_Texture* texture)
 	_sceneMap.insert({object->getZ(), std::pair<GameObject*, SDL_Texture*>(object, texture) });
 }
 
+void Scene::removeObject(GameObject* object)
+{
+	_sceneMap.erase(object->getZ());
+}
+
 const std::map<int, std::pair<GameObject*, SDL_Texture*>> Scene::getObjectMap()
 {
 	return _sceneMap;

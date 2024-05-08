@@ -2,10 +2,10 @@
 #include "InactiveMenuState.h"
 
 SceneEscMenu::SceneEscMenu() :
-	_escMenuBg(NULL),
-	_optionsButton(NULL),
-	_backButton(NULL),
-	_exitButton(NULL)
+	_escMenuBg(nullptr),
+	_optionsButton(nullptr),
+	_backButton(nullptr),
+	_exitButton(nullptr)
 {
 	_currentState = &InactiveMenuState::getInstance();
 	_currentState->enter(this);

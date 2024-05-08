@@ -89,8 +89,8 @@ void InEscMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu
 		});
 	//Subscribe the buttons
 	manager.Subscribe(SDL_MOUSEBUTTONUP, [this, menuScene](SDL_Event const& event) {
-		menuScene->_optionsButton->getInputComponent()->handleInput(event, *menuScene->_optionsButton, this, menuScene);
 		menuScene->_exitButton->getInputComponent()->handleInput(event, *menuScene->_exitButton, this, menuScene);
+		menuScene->_optionsButton->getInputComponent()->handleInput(event, *menuScene->_optionsButton, this, menuScene);
 		menuScene->_backButton->getInputComponent()->handleInput(event, *menuScene->_backButton, this, menuScene);		
 		});
 }
@@ -107,21 +107,29 @@ void InEscMenuState::destroyMenu(SceneEscMenu* menuScene)
 	std::vector<int> zValues;
 	
 	// Add Z-values to the z vector for removal from the render map.
-	if (menuScene->_escMenuBg != NULL)
+	if (menuScene->_escMenuBg != nullptr)
 	{
 		zValues.push_back(menuScene->_escMenuBg->getZ());
+		menuScene->removeObject(menuScene->_escMenuBg);
+		menuScene->_escMenuBg->~Decoration();
 	}
-	if (menuScene->_optionsButton != NULL)
+	if (menuScene->_optionsButton != nullptr)
 	{
 		zValues.push_back(menuScene->_optionsButton->getZ());
+		menuScene->removeObject(menuScene->_optionsButton);
+		menuScene->_optionsButton->~Button();
 	}
-	if (menuScene->_backButton != NULL)
+	if (menuScene->_backButton != nullptr)
 	{
 		zValues.push_back(menuScene->_backButton->getZ());
+		menuScene->removeObject(menuScene->_backButton);
+		menuScene->_backButton->~Button();
 	}
-	if (menuScene->_exitButton != NULL)
+	if (menuScene->_exitButton != nullptr)
 	{
 		zValues.push_back(menuScene->_exitButton->getZ());
+		menuScene->removeObject(menuScene->_exitButton);
+		menuScene->_exitButton->~Button();
 	}
 
 	// Remove the objects from the render map and scene using the Z values as the key
