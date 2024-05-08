@@ -1,8 +1,9 @@
 #include "Button.h"
+#include "ButtonInputComponent.h"
 
 // Constructor, initialize values
-Button::Button(ButtonType bType, InputComponent* input) :
-	_graphics(new GraphicsComponent()), _input(input), type(OPTIONS)
+Button::Button(ButtonType bType) :
+	_graphics(new GraphicsComponent()), _input(new ButtonInputComponent()), type(bType)
 {
 	// Sets the button's name and texture path, depending on the type of button it is.
 	switch (bType)
@@ -17,8 +18,8 @@ Button::Button(ButtonType bType, InputComponent* input) :
 			_name = "Back Button";
 			_graphics->setImgPath("images/esc-menu_button-back.png");
 			break;
-		case EXIT_GAME:
-			type = EXIT_GAME;
+		case EXITGAME:
+			type = EXITGAME;
 			_name = "Exit Game Button";
 			_graphics->setImgPath("images/esc-menu_button-exit.png");
 			break;
@@ -43,7 +44,7 @@ GraphicsComponent* Button::getGraphicsComponent()
 	return _graphics->getGraphicsComponent();
 }
 
-InputComponent* Button::getInputComponent()
+ButtonInputComponent* Button::getInputComponent()
 {
-	return _input->getInputComponent();
+	return this->_input;
 }

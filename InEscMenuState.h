@@ -5,7 +5,7 @@
 class InEscMenuState : public IMenuState
 {
 private:
-	InEscMenuState() {};
+	InEscMenuState();
 	InEscMenuState(const InEscMenuState& other);
 	InEscMenuState& operator=(const InEscMenuState& other);
 
@@ -24,8 +24,6 @@ public:
 	// Event manager functions
 	void subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene);
 	void unsubscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene);
-
-	void onMouseClick(SceneEscMenu* menuScene);
 
 };
 

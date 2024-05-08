@@ -1,17 +1,21 @@
 #include "InEscMenuState.h"
 #include "InactiveMenuState.h"
 #include "ButtonInputComponent.h"
+InEscMenuState::InEscMenuState()
+{
+	
+}
 
 void InEscMenuState::enter(SceneEscMenu* menuScene)
 {
-	subscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
-	std::cout << "In Escape Menu state entered!\n";
 	buildMenu(menuScene);
+	subscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
+	std::cout << "In Escape Menu state entered!\n";	
 }
 
 void InEscMenuState::changeState(SceneEscMenu* menuScene, std::string eventString)
 {
-	if (eventString == "Esc" || eventString == "BackClick")
+	if (eventString == "Esc" || eventString == "Back")
 	{
 		menuScene->setMenuState(InactiveMenuState::getInstance());
 	}
@@ -34,66 +38,40 @@ IMenuState& InEscMenuState::getInstance()
 void InEscMenuState::buildMenu(SceneEscMenu* menuScene)
 {
 	// Instantiate the buttons and backgrounds	
-	Decoration* escMenuBg = new Decoration(Decoration::ESC_MENU_BG);
-	Button* optionsButton = new Button(Button::OPTIONS, new ButtonInputComponent());
-	Button* backButton = new Button(Button::BACK, new ButtonInputComponent());
-	Button* exitButton = new Button(Button::EXIT_GAME, new ButtonInputComponent());
+	menuScene->_escMenuBg = new Decoration(Decoration::ESC_MENU_BG);
+	menuScene->_optionsButton = new Button(Button::OPTIONS);
+	menuScene->_backButton = new Button(Button::BACK);
+	menuScene->_exitButton = new Button(Button::EXITGAME);
+	
+	// Set the Z-values
+	menuScene->_escMenuBg->setZ(100);
+	menuScene->_optionsButton->setZ(101);
+	menuScene->_backButton->setZ(102);
+	menuScene->_exitButton->setZ(103);
 
 	// Get window variables
 	int windowW;
 	int windowH;
 	ServiceLocator::getGraphics().getWindow()->getWindowSize(&windowW, &windowH);
 
-	// Set the Z-values
-	escMenuBg->setZ(100);
-	optionsButton->setZ(101);
-	backButton->setZ(102);
-	exitButton->setZ(103);
-
 	// Set the positions
-	escMenuBg->setPosition((windowW / 2) - (escMenuBg->getWidth() / 2), (windowH / 2) - (escMenuBg->getHeight() / 2));
+	menuScene->_escMenuBg->setPosition((windowW / 2) - (menuScene->_escMenuBg->getWidth() / 2), (windowH / 2) - (menuScene->_escMenuBg->getHeight() / 2));
 
-	optionsButton->setPosition((windowW / 2) - (optionsButton->getWidth() / 2), (escMenuBg->getDimensions()->y + (optionsButton->getHeight() / 2)));
+	menuScene->_optionsButton->setPosition((windowW / 2) - (menuScene->_optionsButton->getWidth() / 2), (menuScene->_escMenuBg->getDimensions()->y + (menuScene->_optionsButton->getHeight() / 2)));
 
-	backButton->setPosition((windowW / 2) - (backButton->getWidth() / 2), ((escMenuBg->getDimensions()->y) + (escMenuBg->getHeight() / 2)) - (backButton->getHeight() / 2));
+	menuScene->_backButton->setPosition((windowW / 2) - (menuScene->_backButton->getWidth() / 2), ((menuScene->_escMenuBg->getDimensions()->y) + (menuScene->_escMenuBg->getHeight() / 2)) - (menuScene->_backButton->getHeight() / 2));
 
-	exitButton->setPosition((windowW / 2) - (exitButton->getWidth() / 2), (escMenuBg->getDimensions()->y + escMenuBg->getHeight() - exitButton->getHeight()) - (exitButton->getHeight() / 2));
+	menuScene->_exitButton->setPosition((windowW / 2) - (menuScene->_exitButton->getWidth() / 2), (menuScene->_escMenuBg->getDimensions()->y + menuScene->_escMenuBg->getHeight() - menuScene->_exitButton->getHeight()) - (menuScene->_exitButton->getHeight() / 2));
 
 	// Add the objects to the scene map
-	menuScene->addObject(escMenuBg, escMenuBg->getGraphicsComponent()->getSdlTexture());
-	menuScene->addObject(optionsButton, optionsButton->getGraphicsComponent()->getSdlTexture());
-	menuScene->addObject(backButton, backButton->getGraphicsComponent()->getSdlTexture());
-	menuScene->addObject(exitButton, exitButton->getGraphicsComponent()->getSdlTexture());
-
-	menuScene->_currentMenuObjects.insert({ escMenuBg->getZ(), escMenuBg });
-	menuScene->_currentMenuObjects.insert({ optionsButton->getZ(), optionsButton });
-	menuScene->_currentMenuObjects.insert({ backButton->getZ(), backButton });
-	menuScene->_currentMenuObjects.insert({ exitButton->getZ(), exitButton });
+	menuScene->addObject(menuScene->_escMenuBg, menuScene->_escMenuBg->getGraphicsComponent()->getSdlTexture());
+	menuScene->addObject(menuScene->_optionsButton, menuScene->_optionsButton->getGraphicsComponent()->getSdlTexture());
+	menuScene->addObject(menuScene->_backButton, menuScene->_backButton->getGraphicsComponent()->getSdlTexture());
+	menuScene->addObject(menuScene->_exitButton, menuScene->_exitButton->getGraphicsComponent()->getSdlTexture());
 
 
 	// Add the scene map to the render map in the Graphics Service
 	ServiceLocator::getGraphics().addToRenderMap(menuScene->getObjectMap());
-}
-
-void InEscMenuState::onMouseClick(SceneEscMenu* menuScene)
-{
-	// Find the Back button (Z-value 102) and set the iterator to it
-	auto backItr = menuScene->_currentMenuObjects.find(102);
-	// Get the dimensions for the Back button
-	SDL_Rect* backDimensions = backItr->second->getDimensions();
-	std::string buttonClicked = "";
-
-	// Get the current mouse coordinates
-	int mouseX, mouseY;
-	SDL_GetMouseState(&mouseX, &mouseY);
-
-	// Determine whether or not a button was clicked.
-	if ((mouseX > backDimensions->x) && (mouseX < backDimensions->x + backDimensions->w) && (mouseY > backDimensions->y) && (mouseY < backDimensions->y + backDimensions->h))
-	{
-		buttonClicked = "BackClick";
-	}
-
-	changeState(menuScene, buttonClicked);
 }
 
 void InEscMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
@@ -105,8 +83,11 @@ void InEscMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu
 			changeState(menuScene, "Esc");
 		}
 		});
-	manager.Subscribe(SDL_MOUSEBUTTONUP, [this, menuScene](SDL_Event const& event) {
-		onMouseClick(menuScene);
+	//Subscribe the buttons
+	EventManager::getEventManagerInstance().Subscribe(SDL_MOUSEBUTTONUP, [this, menuScene](SDL_Event const& event) {
+		menuScene->_optionsButton->getInputComponent()->handleInput(event, *menuScene->_optionsButton, this, menuScene);
+		menuScene->_backButton->getInputComponent()->handleInput(event, *menuScene->_backButton, this, menuScene);
+		menuScene->_exitButton->getInputComponent()->handleInput(event, *menuScene->_exitButton, this, menuScene);
 		});
 }
 
@@ -118,23 +99,29 @@ void InEscMenuState::unsubscribeToEventManager(EventManager& manager, SceneEscMe
 
 void InEscMenuState::destroyMenu(SceneEscMenu* menuScene)
 {
-	auto itr = menuScene->_currentMenuObjects.begin();
 	// Create vector of Z-values in the current menu objects
 	std::vector<int> zValues;
 	
-
-	for (int i = 0; i < menuScene->_currentMenuObjects.size(); i++)
+	// Add Z-values to the z vector for removal from the render map.
+	if (menuScene->_escMenuBg != NULL)
 	{
-		zValues.push_back(itr->second->getZ());
-		itr->second->~GameObject();
-		++itr;
+		zValues.push_back(menuScene->_escMenuBg->getZ());
+	}
+	if (menuScene->_optionsButton != NULL)
+	{
+		zValues.push_back(menuScene->_optionsButton->getZ());
+	}
+	if (menuScene->_backButton != NULL)
+	{
+		zValues.push_back(menuScene->_backButton->getZ());
+	}
+	if (menuScene->_exitButton != NULL)
+	{
+		zValues.push_back(menuScene->_exitButton->getZ());
 	}
 
 	// Remove the objects from the render map and scene using the Z values as the key
 	ServiceLocator::getGraphics().removeFromRenderMap(zValues);
-
-	// Remove the vector of game current menu objects
-	menuScene->_currentMenuObjects.clear();
 	zValues.clear();
 
 }

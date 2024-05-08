@@ -1,32 +1,31 @@
 #pragma once
 #include "GameObject.h"
 #include "GraphicsComponent.h"
-#include "InputComponent.h"
+
+class ButtonInputComponent;
 
 class Button : public GameObject
 {
 private:
 	GraphicsComponent* _graphics;
-	InputComponent* _input;
+	ButtonInputComponent* _input;
 
 public:
 
 	const enum ButtonType {
 		OPTIONS,
 		BACK,
-		EXIT_GAME,
+		EXITGAME,
 		RESOLUTION
 	};
 
-	// Constructors
-	Button(ButtonType type, InputComponent* input);
-
+	Button(ButtonType type);
 	~Button();
 
 	ButtonType type;
 
 	GraphicsComponent* getGraphicsComponent();
-	InputComponent* getInputComponent();
+	ButtonInputComponent* getInputComponent();
 
 
 };

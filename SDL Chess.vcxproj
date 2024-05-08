@@ -153,7 +153,6 @@
     <ClCompile Include="InExitConfirmState.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="InResoMenuState.cpp" />
-    <ClCompile Include="MenuInputComponent.cpp" />
     <ClCompile Include="NullGraphicsService.cpp" />
     <ClCompile Include="PlayerInputComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -181,7 +180,6 @@
     <ClInclude Include="InExitConfirmState.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="InResoMenuState.h" />
-    <ClInclude Include="MenuInputComponent.h" />
     <ClInclude Include="NullGraphicsService.h" />
     <ClInclude Include="PlayerInputComponent.h" />
     <ClInclude Include="Renderer.h" />

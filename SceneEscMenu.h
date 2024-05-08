@@ -17,15 +17,20 @@ private:
 	/// </summary>
 	IMenuState* _currentState;
 
-
 public:
+	// Buttons and objects
+	Decoration* _escMenuBg;
+	Button* _optionsButton;
+	Button* _backButton;
+	Button* _exitButton;
+
 
 	SceneEscMenu();
 	~SceneEscMenu();
 
 	std::map<int, GameObject*> _currentMenuObjects;
 
-	// Event handler functions
+	// ** Event handler functions **
 
 	// Subscribes to a specified SDL_EventType and then calls a function (made using a lambda function) in response. Be sure to UNSUBSCRIBE from the event after you no longer need to listen for the event.
 	void subscribeToEventManager(EventManager& manager);

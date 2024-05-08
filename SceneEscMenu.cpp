@@ -1,7 +1,11 @@
 #include "SceneEscMenu.h"
 #include "InactiveMenuState.h"
 
-SceneEscMenu::SceneEscMenu()
+SceneEscMenu::SceneEscMenu() :
+	_escMenuBg(NULL),
+	_optionsButton(NULL),
+	_backButton(NULL),
+	_exitButton(NULL)
 {
 	_currentState = &InactiveMenuState::getInstance();
 	_currentState->enter(this);
