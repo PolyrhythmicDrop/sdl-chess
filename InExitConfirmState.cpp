@@ -33,6 +33,11 @@ void InExitConfirmState::buildMenu(SceneEscMenu* menuScene)
 
 }
 
+void InExitConfirmState::destroyMenu(SceneEscMenu* menuScene)
+{
+
+}
+
 void InExitConfirmState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
 {
 

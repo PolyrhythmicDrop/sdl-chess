@@ -5,7 +5,8 @@ SceneEscMenu::SceneEscMenu() :
 	_escMenuBg(nullptr),
 	_optionsButton(nullptr),
 	_backButton(nullptr),
-	_exitButton(nullptr)
+	_exitButton(nullptr),
+	_previousState(nullptr)
 {
 	_currentState = &InactiveMenuState::getInstance();
 	_currentState->enter(this);
@@ -33,6 +34,10 @@ void SceneEscMenu::changeState()
 
 void SceneEscMenu::setMenuState(IMenuState& newState)
 {
+	if (_previousState != _currentState)
+	{
+		_previousState = _currentState;
+	}
 	_currentState->exit(this);
 	_currentState = &newState;
 	_currentState->enter(this);

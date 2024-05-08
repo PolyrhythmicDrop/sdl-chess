@@ -17,6 +17,7 @@ public:
 	static IMenuState& getInstance();
 
 	void buildMenu(SceneEscMenu* menuScene);
+	void destroyMenu(SceneEscMenu* menuScene);
 
 	void subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene);
 	void unsubscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene);

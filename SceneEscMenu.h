@@ -17,6 +17,8 @@ private:
 	/// </summary>
 	IMenuState* _currentState;
 
+	IMenuState* _previousState;
+
 public:
 	// Buttons and objects
 	Decoration* _escMenuBg;
@@ -39,6 +41,8 @@ public:
 
 	// State functions
 	inline IMenuState* getCurrentState() { return _currentState; };
+	inline IMenuState* getPreviousState() { return _previousState; };
+
 	void changeState();
 	void setMenuState(IMenuState& newState);
 

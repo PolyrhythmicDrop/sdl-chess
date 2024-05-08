@@ -1,5 +1,6 @@
 #include "InEscMenuState.h"
 #include "InactiveMenuState.h"
+#include "InExitConfirmState.h"
 #include "ButtonInputComponent.h"
 InEscMenuState::InEscMenuState()
 {
@@ -8,6 +9,12 @@ InEscMenuState::InEscMenuState()
 
 void InEscMenuState::enter(SceneEscMenu* menuScene)
 {
+	if (menuScene->getPreviousState() != nullptr)
+	{
+		menuScene->getPreviousState()->unsubscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
+		menuScene->getPreviousState()->destroyMenu(menuScene);
+	}
+
 	buildMenu(menuScene);
 	subscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
 	std::cout << "In Escape Menu state entered!\n";	
@@ -15,21 +22,21 @@ void InEscMenuState::enter(SceneEscMenu* menuScene)
 
 void InEscMenuState::changeState(SceneEscMenu* menuScene, std::string eventString)
 {
+	// Deactivate the menu if the Escape key is pressed or the Back button is clicked.
 	if (eventString == "Esc" || eventString == "Back")
 	{
 		menuScene->setMenuState(InactiveMenuState::getInstance());
 	}
+	// Move to the exit confirmation dialog if the exit button is pressed.
 	if (eventString == "ExitGame")
 	{
-		std::cout << eventString << " was passed!";
+		menuScene->setMenuState(InExitConfirmState::getInstance());
 	}
 
 }
 
 void InEscMenuState::exit(SceneEscMenu* menuScene)
 {
-	unsubscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
-	destroyMenu(menuScene);
 	std::cout << "In Escape Menu state exited!\n";
 }
 

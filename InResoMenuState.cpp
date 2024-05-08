@@ -40,6 +40,11 @@ void InResoMenuState::buildMenu(SceneEscMenu* menuScene)
 
 }
 
+void InResoMenuState::destroyMenu(SceneEscMenu* menuScene)
+{
+
+}
+
 void InResoMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
 {
 

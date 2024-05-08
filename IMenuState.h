@@ -13,6 +13,7 @@ public:
 	virtual void exit(SceneEscMenu* menuScene) = 0;
 
 	virtual void buildMenu(SceneEscMenu* menuScene) = 0;
+	virtual void destroyMenu(SceneEscMenu* menuScene) = 0;
 
 	virtual void subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene) = 0;
 	virtual void unsubscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene) = 0;
