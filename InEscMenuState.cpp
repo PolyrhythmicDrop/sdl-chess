@@ -19,6 +19,10 @@ void InEscMenuState::changeState(SceneEscMenu* menuScene, std::string eventStrin
 	{
 		menuScene->setMenuState(InactiveMenuState::getInstance());
 	}
+	if (eventString == "ExitGame")
+	{
+		std::cout << eventString << " was passed!";
+	}
 
 }
 
@@ -84,10 +88,10 @@ void InEscMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu
 		}
 		});
 	//Subscribe the buttons
-	EventManager::getEventManagerInstance().Subscribe(SDL_MOUSEBUTTONUP, [this, menuScene](SDL_Event const& event) {
+	manager.Subscribe(SDL_MOUSEBUTTONUP, [this, menuScene](SDL_Event const& event) {
 		menuScene->_optionsButton->getInputComponent()->handleInput(event, *menuScene->_optionsButton, this, menuScene);
-		menuScene->_backButton->getInputComponent()->handleInput(event, *menuScene->_backButton, this, menuScene);
 		menuScene->_exitButton->getInputComponent()->handleInput(event, *menuScene->_exitButton, this, menuScene);
+		menuScene->_backButton->getInputComponent()->handleInput(event, *menuScene->_backButton, this, menuScene);		
 		});
 }
 
