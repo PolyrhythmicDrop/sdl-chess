@@ -1,5 +1,7 @@
 #include "InExitConfirmState.h"
-#include "InactiveMenuState.h"
+#include "InEscMenuState.h"
+#include "ButtonInputComponent.h"
+
 
 void InExitConfirmState::enter(SceneEscMenu* menuScene)
 {
@@ -19,11 +21,15 @@ void InExitConfirmState::changeState(SceneEscMenu* menuScene, std::string eventS
 	
 	if (eventString == "Esc" || eventString == "No")
 	{
-		menuScene->setMenuState(InactiveMenuState::getInstance());
+		menuScene->setMenuState(InEscMenuState::getInstance());
+	}
+	if (eventString == "Yes")
+	{		 
+		SDL_Event e;
+		e.type = SDL_QUIT;
+		SDL_PushEvent(&e);
 	}
 
-	// If No button is pressed:
-	// menuScene->setMenuState(InEscMenuState::getInstance());
 
 	// If Yes button is pressed:
 	// exit game
@@ -90,7 +96,32 @@ void InExitConfirmState::buildMenu(SceneEscMenu* menuScene)
 
 void InExitConfirmState::destroyMenu(SceneEscMenu* menuScene)
 {
+	// Create vector of Z-values in the current menu objects
+	std::vector<int> zValues;
 
+	// Add Z-values to the z vector for removal from the render map.
+	if (menuScene->_exitConfirmMenuBg != nullptr)
+	{
+		zValues.push_back(menuScene->_exitConfirmMenuBg->getZ());
+		menuScene->removeObject(menuScene->_exitConfirmMenuBg);
+		menuScene->_exitConfirmMenuBg->~Decoration();
+	}
+	if (menuScene->_yes != nullptr)
+	{
+		zValues.push_back(menuScene->_yes->getZ());
+		menuScene->removeObject(menuScene->_yes);
+		menuScene->_yes->~Button();
+	}
+	if (menuScene->_no != nullptr)
+	{
+		zValues.push_back(menuScene->_no->getZ());
+		menuScene->removeObject(menuScene->_no);
+		menuScene->_no->~Button();
+	}
+
+	// Remove the objects from the render map and scene using the Z values as the key
+	ServiceLocator::getGraphics().removeFromRenderMap(zValues);
+	zValues.clear();
 }
 
 void InExitConfirmState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
@@ -102,7 +133,13 @@ void InExitConfirmState::subscribeToEventManager(EventManager& manager, SceneEsc
 			changeState(menuScene, "Esc");
 		}
 		});
-	manager.Subscribe(SDL_MOUSEBUTTONUP, [this, menuScene](SDL_Event const& event) {});
+	manager.Subscribe(SDL_MOUSEBUTTONUP, [this, menuScene](SDL_Event const& event) {
+		if (menuScene->getCurrentState() == this)
+		{
+			menuScene->_yes->getInputComponent()->handleInput(event, *menuScene->_yes, this, menuScene);
+			menuScene->_no->getInputComponent()->handleInput(event, *menuScene->_no, this, menuScene);
+		}
+		});
 
 	// Listen for mouse clicks
 

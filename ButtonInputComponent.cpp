@@ -46,6 +46,12 @@ void ButtonInputComponent::onClick(Button& button, IMenuState* state, SceneEscMe
 	case 3:
 		state->changeState(scene, "Resolution");
 		break;
+	case 4:
+		state->changeState(scene, "Yes");
+		break;
+	case 5:
+		state->changeState(scene, "No");
+		break;
 	}
 }
 
