@@ -3,6 +3,8 @@
 void InExitConfirmState::enter(SceneEscMenu* menuScene)
 {
 	std::cout << "In Exit Confirmation state entered!\n";
+
+	menuScene->subscribeToEventManager(EventManager::getEventManagerInstance());
 }
 
 void InExitConfirmState::changeState(SceneEscMenu* menuScene, std::string eventString)

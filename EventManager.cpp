@@ -29,14 +29,14 @@ void EventManager::Subscribe(SDL_EventType type, eventCallback callback)
 
 void EventManager::Unsubscribe(SDL_EventType type)
 {
-	_subscribedCallbacks.erase(type);
+	_subscribedCallbacks[type].clear();
 }
 
 void EventManager::Publish(SDL_Event event)
 {	
 	for (auto& cb : _subscribedCallbacks[static_cast<SDL_EventType>(event.type)])
 	{
-		cb(e);
+		cb(event);
 	}
 	if (event.type == SDL_KEYUP && event.key.keysym.sym == SDLK_ESCAPE)
 	{
