@@ -13,6 +13,9 @@ Decoration::Decoration(DecorationType type)	:
 		_name = "Resolution Menu Background";
 		_graphics->setImgPath("images/esc-menu_bg-resolution-menu.png");
 		break;
+	case EXIT_CONFIRM_BG:
+		_name = "Exit Confirmation Menu Background";
+		_graphics->setImgPath("images/exit-confirm-menu_ConfirmExitBG.png");
 	}
 	// Load the texture using the image path in the constructor's switch statement
 	_graphics->loadTexture();

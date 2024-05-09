@@ -6,14 +6,15 @@ class Decoration : public GameObject
 {
 private:
 
-	GraphicsComponent* _graphics;	
+	GraphicsComponent* _graphics;
 
 public:
 
 	const enum DecorationType
 	{
 		ESC_MENU_BG,
-		RESO_MENU_BG
+		RESO_MENU_BG,
+		EXIT_CONFIRM_BG
 	};
 
 	/// <summary>
@@ -22,7 +23,7 @@ public:
 	/// <param name="type">The type of decoration</param>
 	Decoration(DecorationType type);
 
-	~Decoration();	
+	~Decoration();
 
 	GraphicsComponent* getGraphicsComponent();
 

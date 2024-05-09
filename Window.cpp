@@ -46,9 +46,23 @@ void Window::freeWindow()
 
 void Window::ResizeWindow(SDL_Renderer* renderer, int w, int h)
 {
+	/*
+	// Scaling values 
+	float x, y, width, height;
+
+	// current width and height converted to float
+	width = (float)_windowWidth;
+	height = (float)_windowHeight;
+
+	x = (float)w / width;
+	y = (float)h / height;
+	*/
+	
 	SDL_SetWindowSize(_window, w, h);
 	_windowWidth = w;
-	_windowHeight = h;	
-	SDL_RenderPresent(renderer);
+	_windowHeight = h;		
+	
+	// SDL_RenderSetScale(renderer, x, y);
+	// SDL_RenderSetLogicalSize(renderer, w, h);
 	std::cout << "Window resized!\n";
 }

@@ -28,7 +28,7 @@ public:
 
 	virtual void addToRenderMap(std::map<int, std::pair<GameObject*, SDL_Texture*>> map);
 
-	virtual void removeFromQueue();
+	virtual void removeFromRenderMap(std::vector<int> zValues);
 
 	virtual void render();
 

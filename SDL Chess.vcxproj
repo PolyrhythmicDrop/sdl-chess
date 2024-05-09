@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ButtonInputComponent.cpp" />
     <ClCompile Include="chess-main.cpp" />
     <ClCompile Include="GraphicsComponent.cpp" />
     <ClCompile Include="GraphicsService.cpp" />
@@ -147,33 +148,47 @@
     <ClCompile Include="GameContext.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="IDrawable.cpp" />
+    <ClCompile Include="IMenuState.cpp" />
+    <ClCompile Include="InactiveMenuState.cpp" />
+    <ClCompile Include="InExitConfirmState.cpp" />
+    <ClCompile Include="InputComponent.cpp" />
+    <ClCompile Include="InResoMenuState.cpp" />
     <ClCompile Include="NullGraphicsService.cpp" />
+    <ClCompile Include="PlayerInputComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneEscMenu.cpp" />
     <ClCompile Include="SDLfunc.cpp" />
     <ClCompile Include="Decoration.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
+    <ClCompile Include="InEscMenuState.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonInputComponent.h" />
     <ClInclude Include="GraphicsComponent.h" />
     <ClInclude Include="GraphicsService.h" />
-    <ClInclude Include="IClickable.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameContext.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="IDrawable.h" />
     <ClInclude Include="IGraphics.h" />
+    <ClInclude Include="IMenuState.h" />
+    <ClInclude Include="InactiveMenuState.h" />
+    <ClInclude Include="InExitConfirmState.h" />
+    <ClInclude Include="InputComponent.h" />
+    <ClInclude Include="InResoMenuState.h" />
     <ClInclude Include="NullGraphicsService.h" />
+    <ClInclude Include="PlayerInputComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneEscMenu.h" />
     <ClInclude Include="SDLfunc.h" />
     <ClInclude Include="Decoration.h" />
     <ClInclude Include="ServiceLocator.h" />
+    <ClInclude Include="InEscMenuState.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
@@ -187,6 +202,12 @@
     <Image Include="images\esc-menu_button-exit.png" />
     <Image Include="images\esc-menu_button-options.png" />
     <Image Include="images\esc-menu_button-resolution.png" />
+    <Image Include="images\exit-confirm-menu_button-no.png" />
+    <Image Include="images\exit-confirm-menu_button-yes.png" />
+    <Image Include="images\exit-confirm-menu_ConfirmExitBG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

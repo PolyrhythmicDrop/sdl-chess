@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Button" Collapsed="true">
+    <Position X="1.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAIAAAAAAAAAAAAAAAABAAACAAACAAEABAA=</HashCode>
+      <FileName>Button.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ButtonInputComponent" Collapsed="true">
+    <Position X="1.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIAAAAIAAAAAAAAAAAAQAAAAAAAAAgAAAAACAQAAAAA=</HashCode>
+      <FileName>ButtonInputComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Decoration" Collapsed="true">
+    <Position X="4" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAAAAACAAAAACAABAA=</HashCode>
+      <FileName>Decoration.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EventManager" Collapsed="true">
+    <Position X="12.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAEAQAAAAAgACACACQAAAAAEAAAA=</HashCode>
+      <FileName>EventManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameContext" Collapsed="true">
+    <Position X="14" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAACAAAEAIAAAAAAAAAAAA=</HashCode>
+      <FileName>GameContext.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObject" Collapsed="true">
+    <Position X="3" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QBAIKAAAAAAAAAAAAAAQAAACAAABQAAKAAAEgAIBAAA=</HashCode>
+      <FileName>GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicsComponent" Collapsed="true">
+    <Position X="9.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAABAABAAAEAAAAAAAAAAEAAAAAgCAAACAABAA=</HashCode>
+      <FileName>GraphicsComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicsService" Collapsed="true">
+    <Position X="9" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAEAAAghAAAAAAAAAAABAEAAAAAAQABAgAAAQAAA=</HashCode>
+      <FileName>GraphicsService.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IDrawable" Collapsed="true">
+    <Position X="9.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAABAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IDrawable.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IGraphics" Collapsed="true">
+    <Position X="8" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAEAAAAgAAAAAAAAAAAAAAABAAAAAAAAgAAAQAAA=</HashCode>
+      <FileName>IGraphics.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IMenuState" Collapsed="true">
+    <Position X="5.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABACAAAAAQAAAAAAAAUAAAAAAAAAAAAABAAAACAAAAA=</HashCode>
+      <FileName>IMenuState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InactiveMenuState" Collapsed="true">
+    <Position X="4.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABACAAAAAQAAAAAAAAQAAAAQAAAAAAQABAAgACAAAAA=</HashCode>
+      <FileName>InactiveMenuState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InEscMenuState" Collapsed="true">
+    <Position X="6.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABACAAAAAQAAAAAAAAQAAAAAAAAAAAQABAAgACAAAQA=</HashCode>
+      <FileName>InEscMenuState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InExitConfirmState" Collapsed="true">
+    <Position X="8.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABACAAAAAQAAAAAAAAQQAAAAAAAAAAQABAAgACAAAAA=</HashCode>
+      <FileName>InExitConfirmState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputComponent" Collapsed="true">
+    <Position X="3" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAIAAAAAAAAAAAABAAAAAAAAAgAAAAACAQAAAAA=</HashCode>
+      <FileName>InputComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InResoMenuState" Collapsed="true">
+    <Position X="2" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABACAAAAAQAAQAAAAAQAAAAAAAAAAAQABAAgACAAAAA=</HashCode>
+      <FileName>InResoMenuState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NullGraphicsService" Collapsed="true">
+    <Position X="6.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAEAAAAgAAAAAAAAAAAAAAAAAAAAAAAAgAAAQAAA=</HashCode>
+      <FileName>NullGraphicsService.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerInputComponent" Collapsed="true">
+    <Position X="4" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAIAABAIAAAAAAAAAAAAAAAAAgAAAAACAQAAAAA=</HashCode>
+      <FileName>PlayerInputComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Renderer" Collapsed="true">
+    <Position X="15.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAACAgAACAAAAAAAA=</HashCode>
+      <FileName>Renderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scene" Collapsed="true">
+    <Position X="6.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAgAAECCAAQAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Scene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SceneEscMenu" Collapsed="true">
+    <Position X="6.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAEQAAAQAGADQAAAAAAAAAAAACAACCCACIAhA=</HashCode>
+      <FileName>SceneEscMenu.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SDLfunc" Collapsed="true">
+    <Position X="12.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAEAABAACAAIAAAAAAAAAAAAACJASCggA=</HashCode>
+      <FileName>SDLfunc.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ServiceLocator" Collapsed="true">
+    <Position X="14" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAIIAAAAAAAAAAAAEAAAAAABAAAgBAAAAAAAAAAAA=</HashCode>
+      <FileName>ServiceLocator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Texture" Collapsed="true">
+    <Position X="15.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAggAAAAAAAAAAAAAIAAAEAAIAAAAAAAA=</HashCode>
+      <FileName>Texture.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Window" Collapsed="true">
+    <Position X="12.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIAAAAAAAgCAAAACAAAAAAAAAQAAAAAAAGAACAAAAQA=</HashCode>
+      <FileName>Window.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

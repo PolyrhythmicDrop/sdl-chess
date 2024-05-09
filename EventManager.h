@@ -5,14 +5,9 @@
 
 class EventManager
 {
-private:
-	/// <summary>
-	/// Subscriber list, in the form of a map: <string name, list of callback functions>.
-	/// </summary>
-	std::map< std::string, std::list<std::function<void(SDL_Renderer*, int, int)>>> m_subscribers;
-
-	std::string _eventName;
 public: 
+	using eventCallback = std::function<void(SDL_Event const&)>;
+
 	SDL_Event e;
 
 	/// <summary>
@@ -21,22 +16,39 @@ public:
 	EventManager();
 
 	/// <summary>
-	/// Controls the event loop of polling for events.
+	/// Polls the SDL event queue for events, then calls the Event Manager's Event() function.
 	/// </summary>
 	/// <param name="e">The event variable to use in the event queue</param>
 	/// <param name="quit">Flag to quit the whole program and the event loop.</param>
-	void EventLoop(bool* quit);
+	void HandleEvents(bool* quit);
 
 	/// <summary>
 	/// Subscribe to the event manager and listen for a specific event.
 	/// </summary>
-	/// <param name="event">The event to listen for.</param>
-	/// <param name="callback">The callback function to when the event is heard.</param>
-	void Subscribe(const std::string event, std::function<void(SDL_Renderer*, int, int)> callback);
+	/// <param name="type">The event type to listen for.</param>
+	/// <param name="callback">The callback function pointer for the format of the function that should be called when this event is heard.</param>
+	void Subscribe(SDL_EventType type, eventCallback callback);
 
-	void Publish(std::string event);
+	/// <summary>
+	/// Stop listening for a specific event, aka remove the item from the subscribedCallbacks map.
+	/// </summary>
+	/// <param name="type">The event type to stop listening for.</param>
+	void Unsubscribe(SDL_EventType type);
+
+	/// <summary>
+	/// Publishes the event for consumption.
+	/// </summary>
+	/// <param name="event"></param>
+	void Publish(SDL_Event event);
 
 	void Event();
 
+	static EventManager& getEventManagerInstance();
+
+private:
+	/// <summary>
+	/// Subscriber list, in the form of a map: <SDL_EventType, list of callback functions (eventCallback)>.
+	/// </summary>
+	std::map< SDL_EventType, std::vector<eventCallback>> _subscribedCallbacks;
 };
 

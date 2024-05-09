@@ -120,14 +120,11 @@ int main( int argc, char* args[] )
 
 		
 	// Initialize the event manager
-	EventManager eManager;		
-	// ** Event subscriptions **			
-	eManager.Subscribe("E", std::bind(&Window::ResizeWindow, &window, ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 1920, 1080));
-	eManager.Subscribe("Q", std::bind(&Window::ResizeWindow, &window, ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 1024, 768));		
+	EventManager& eManager = EventManager::getEventManagerInstance();
 
 	// Scene building test
 	SceneEscMenu escMenu;
-	escMenu.buildScene();
+	
 	
 
 		
@@ -138,7 +135,7 @@ int main( int argc, char* args[] )
 			// While the application is running...
 			while (!quit)
 			{
-				eManager.EventLoop(&quit);
+				eManager.HandleEvents(&quit);
 				
 				
 				// Attempt the render command to render the escape menu scene

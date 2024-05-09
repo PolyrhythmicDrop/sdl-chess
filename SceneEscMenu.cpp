@@ -1,8 +1,21 @@
 #include "SceneEscMenu.h"
+#include "InactiveMenuState.h"
 
-SceneEscMenu::SceneEscMenu()
+SceneEscMenu::SceneEscMenu() :
+	_escMenuBg(nullptr),
+	_optionsButton(nullptr),
+	_backButton(nullptr),
+	_exitButton(nullptr),
+	_previousState(nullptr),
+	_exitConfirmMenuBg(nullptr),
+	_yes(nullptr),
+	_no(nullptr),
+	_resoMenuBg(nullptr),
+	_1024(nullptr),
+	_1920(nullptr)
 {
-	
+	_currentState = &InactiveMenuState::getInstance();
+	_currentState->enter(this);
 }
 
 SceneEscMenu::~SceneEscMenu()
@@ -10,43 +23,30 @@ SceneEscMenu::~SceneEscMenu()
 
 }
 
-void SceneEscMenu::buildScene()
+void SceneEscMenu::subscribeToEventManager(EventManager& manager)
 {
-	// Instantiate the buttons and backgrounds	
-	Decoration* escMenuBg = new Decoration(Decoration::ESC_MENU_BG);	
-	Button* optionsButton = new Button(Button::OPTIONS);
-	Button* backButton = new Button(Button::BACK);
-	Button* exitButton = new Button(Button::EXIT_GAME);
+	_currentState->subscribeToEventManager(manager, this);
+}
 
-	// Get window variables
-	int windowW;
-	int windowH;
-	ServiceLocator::getGraphics().getWindow()->getWindowSize(&windowW, &windowH);
-	
-	// Set the Z-values
-	escMenuBg->setZ(100);
-	optionsButton->setZ(101);
-	backButton->setZ(102);
-	exitButton->setZ(103);
+void SceneEscMenu::unsubscribeToEventManager(EventManager& manager)
+{
+	_currentState->unsubscribeToEventManager(manager, this);
+}
 
-	// Set the positions
-	escMenuBg->setPosition(	(windowW / 2) - (escMenuBg->getWidth() / 2), (windowH / 2) - (escMenuBg->getHeight() / 2) );
+void SceneEscMenu::changeState()
+{
+	_currentState->changeState(this);
+}
 
-	optionsButton->setPosition((windowW / 2) - (optionsButton->getWidth() / 2), (escMenuBg->getDimensions()->y + (optionsButton->getHeight() / 2)));
+void SceneEscMenu::setMenuState(IMenuState& newState)
+{
+	_previousState = _currentState;
+	_currentState->exit(this);
+	_currentState = &newState;
+	_currentState->enter(this);
+}
 
-	backButton->setPosition((windowW / 2) - (backButton->getWidth() / 2), ((escMenuBg->getDimensions()->y) + (escMenuBg->getHeight() / 2)) - (backButton->getHeight() / 2));
-
-	exitButton->setPosition((windowW / 2) - (exitButton->getWidth() / 2), (escMenuBg->getDimensions()->y + escMenuBg->getHeight() - exitButton->getHeight()) - (exitButton->getHeight() / 2));
-
-	// Add the objects to the scene map
-	addObject(escMenuBg, escMenuBg->getGraphicsComponent()->getSdlTexture());
-	addObject(optionsButton, optionsButton->getGraphicsComponent()->getSdlTexture());
-	addObject(backButton, backButton->getGraphicsComponent()->getSdlTexture());
-	addObject(exitButton, exitButton->getGraphicsComponent()->getSdlTexture());
-	
-
-	// Add the scene map to the render map in the Graphics Service
-	ServiceLocator::getGraphics().addToRenderMap(_sceneMap);
-
-
+void SceneEscMenu::buildMenu()
+{
+	_currentState->buildMenu(this);
 }
