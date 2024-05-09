@@ -16,7 +16,7 @@ public:
 
 	void onClick();
 	void onClick(Button& button);
-	// Overload for states.
+	// Overload for the menu scene and menu buttons
 	void onClick(Button& button, IMenuState* state, SceneEscMenu* scene);
 
 	void onHover();

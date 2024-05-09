@@ -20,15 +20,24 @@ private:
 	IMenuState* _previousState;
 
 public:
-	// Buttons and objects
+	// ** Buttons and objects **
+
+	// Escape Menu Objects
 	Decoration* _escMenuBg;
 	Button* _optionsButton;
+	// Back button, can be reused for other menus
 	Button* _backButton;
 	Button* _exitButton;
 
+	// Exit Confirmation Menu Objects
 	Decoration* _exitConfirmMenuBg;
 	Button* _yes;
 	Button* _no;
+
+	// Resolution Menu Objects
+	Decoration* _resoMenuBg;
+	Button* _1024;
+	Button* _1920;
 
 
 	SceneEscMenu();

@@ -71,9 +71,17 @@ void InEscMenuState::buildMenu(SceneEscMenu* menuScene)
 	ServiceLocator::getGraphics().getWindow()->getWindowSize(&windowW, &windowH);
 
 	// Set the positions
-	menuScene->_escMenuBg->setPosition((windowW / 2) - (menuScene->_escMenuBg->getWidth() / 2), (windowH / 2) - (menuScene->_escMenuBg->getHeight() / 2));
+	menuScene->_escMenuBg->setPosition(
+		// X position
+		(windowW / 2) - (menuScene->_escMenuBg->getWidth() / 2),
+		// Y position
+		(windowH / 2) - (menuScene->_escMenuBg->getHeight() / 2));
 
-	menuScene->_optionsButton->setPosition((windowW / 2) - (menuScene->_optionsButton->getWidth() / 2), (menuScene->_escMenuBg->getDimensions()->y + (menuScene->_optionsButton->getHeight() / 2)));
+	menuScene->_optionsButton->setPosition(
+		// X position
+		(windowW / 2) - (menuScene->_optionsButton->getWidth() / 2),
+		// Y position
+		(menuScene->_escMenuBg->getDimensions()->y + (menuScene->_optionsButton->getHeight() / 2)));
 
 	menuScene->_backButton->setPosition((windowW / 2) - (menuScene->_backButton->getWidth() / 2), ((menuScene->_escMenuBg->getDimensions()->y) + (menuScene->_escMenuBg->getHeight() / 2)) - (menuScene->_backButton->getHeight() / 2));
 

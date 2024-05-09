@@ -28,6 +28,16 @@ Button::Button(ButtonType bType) :
 			_name = "Resolution Button";
 			_graphics->setImgPath("images/esc-menu_button-resolution.png");
 			break;
+		case TENTWENTYFOUR:
+			type = TENTWENTYFOUR;
+			_name = "1024x768";
+			_graphics->setImgPath("images/esc-menu_1024.png");
+			break;
+		case NINETEENTWENTY:
+			type = NINETEENTWENTY;
+			_name = "1920x1080";
+			_graphics->setImgPath("images/esc-menu_1920.png");
+			break;
 		case YES:
 			type = YES;
 			_name = "Yes Button";

@@ -44,13 +44,19 @@ void ButtonInputComponent::onClick(Button& button, IMenuState* state, SceneEscMe
 		state->changeState(scene, "ExitGame");
 		break;
 	case 3:
-		state->changeState(scene, "Resolution");
-		break;
-	case 4:
 		state->changeState(scene, "Yes");
 		break;
-	case 5:
+	case 4:
 		state->changeState(scene, "No");
+		break;
+	case 5:
+		state->changeState(scene, "Resolution");
+		break;
+	case 6:
+		state->changeState(scene, "1024");
+		break;
+	case 7:
+		state->changeState(scene, "1920");
 		break;
 	}
 }

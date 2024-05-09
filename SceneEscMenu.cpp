@@ -9,7 +9,10 @@ SceneEscMenu::SceneEscMenu() :
 	_previousState(nullptr),
 	_exitConfirmMenuBg(nullptr),
 	_yes(nullptr),
-	_no(nullptr)
+	_no(nullptr),
+	_resoMenuBg(nullptr),
+	_1024(nullptr),
+	_1920(nullptr)
 {
 	_currentState = &InactiveMenuState::getInstance();
 	_currentState->enter(this);
