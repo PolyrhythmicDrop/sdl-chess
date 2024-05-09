@@ -26,6 +26,10 @@ public:
 	Button* _backButton;
 	Button* _exitButton;
 
+	Decoration* _resoMenuBg;
+	Button* _yes;
+	Button* _no;
+
 
 	SceneEscMenu();
 	~SceneEscMenu();

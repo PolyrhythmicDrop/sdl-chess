@@ -1,6 +1,7 @@
 #include "InEscMenuState.h"
 #include "InactiveMenuState.h"
 #include "InExitConfirmState.h"
+#include "InResoMenuState.h"
 #include "ButtonInputComponent.h"
 InEscMenuState::InEscMenuState()
 {
@@ -11,12 +12,11 @@ void InEscMenuState::enter(SceneEscMenu* menuScene)
 {
 	if (menuScene->getPreviousState() != nullptr)
 	{
-		menuScene->getPreviousState()->unsubscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
 		menuScene->getPreviousState()->destroyMenu(menuScene);
 	}
 
 	buildMenu(menuScene);
-	subscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
+	menuScene->subscribeToEventManager(EventManager::getEventManagerInstance());
 	std::cout << "In Escape Menu state entered!\n";	
 }
 
@@ -32,11 +32,16 @@ void InEscMenuState::changeState(SceneEscMenu* menuScene, std::string eventStrin
 	{
 		menuScene->setMenuState(InExitConfirmState::getInstance());
 	}
+	if (eventString == "Options")
+	{
+		menuScene->setMenuState(InResoMenuState::getInstance());
+	}
 
 }
 
 void InEscMenuState::exit(SceneEscMenu* menuScene)
 {
+	menuScene->unsubscribeToEventManager(EventManager::getEventManagerInstance());
 	std::cout << "In Escape Menu state exited!\n";
 }
 
@@ -96,16 +101,19 @@ void InEscMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu
 		});
 	//Subscribe the buttons
 	manager.Subscribe(SDL_MOUSEBUTTONUP, [this, menuScene](SDL_Event const& event) {
-		menuScene->_exitButton->getInputComponent()->handleInput(event, *menuScene->_exitButton, this, menuScene);
-		menuScene->_optionsButton->getInputComponent()->handleInput(event, *menuScene->_optionsButton, this, menuScene);
-		menuScene->_backButton->getInputComponent()->handleInput(event, *menuScene->_backButton, this, menuScene);		
+		if (event.type == SDL_MOUSEBUTTONUP && menuScene->getCurrentState() == this)
+		{
+			menuScene->_exitButton->getInputComponent()->handleInput(event, *menuScene->_exitButton, this, menuScene);
+			menuScene->_optionsButton->getInputComponent()->handleInput(event, *menuScene->_optionsButton, this, menuScene);
+			menuScene->_backButton->getInputComponent()->handleInput(event, *menuScene->_backButton, this, menuScene);
+		}
 		});
 }
 
 void InEscMenuState::unsubscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
 {
-	manager.Unsubscribe(SDL_KEYUP);
 	manager.Unsubscribe(SDL_MOUSEBUTTONUP);
+	manager.Unsubscribe(SDL_KEYUP);	
 }
 
 void InEscMenuState::destroyMenu(SceneEscMenu* menuScene)

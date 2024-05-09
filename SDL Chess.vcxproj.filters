@@ -126,9 +126,6 @@
     <ClCompile Include="PlayerInputComponent.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
-    <ClCompile Include="MenuInputComponent.cpp">
-      <Filter>Source Files\Input</Filter>
-    </ClCompile>
     <ClCompile Include="ButtonInputComponent.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
@@ -206,9 +203,6 @@
     <ClInclude Include="PlayerInputComponent.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="MenuInputComponent.h">
-      <Filter>Header Files\Input</Filter>
-    </ClInclude>
     <ClInclude Include="ButtonInputComponent.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
@@ -239,6 +233,15 @@
       <Filter>Source Files\Images</Filter>
     </Image>
     <Image Include="images\esc-menu_bg-resolution-menu.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\exit-confirm-menu_button-no.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\exit-confirm-menu_button-yes.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\exit-confirm-menu_ConfirmExitBG.png">
       <Filter>Source Files\Images</Filter>
     </Image>
   </ItemGroup>

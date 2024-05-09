@@ -13,7 +13,8 @@ public:
 	const enum DecorationType
 	{
 		ESC_MENU_BG,
-		RESO_MENU_BG
+		RESO_MENU_BG,
+		EXIT_CONFIRM_BG
 	};
 
 	/// <summary>

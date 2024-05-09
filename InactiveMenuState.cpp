@@ -4,11 +4,10 @@
 void InactiveMenuState::enter(SceneEscMenu* menuScene)
 {
 	if (menuScene->getPreviousState() != nullptr)
-	{
-		menuScene->getPreviousState()->unsubscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
+	{		
 		menuScene->getPreviousState()->destroyMenu(menuScene);
 	}
-	subscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
+	menuScene->subscribeToEventManager(EventManager::getEventManagerInstance());
 	std::cout << "Inactive menu state entered!\n";
 }
 
@@ -19,6 +18,7 @@ void InactiveMenuState::changeState(SceneEscMenu* menuScene, std::string eventSt
 
 void InactiveMenuState::exit(SceneEscMenu* menuScene)
 {
+	menuScene->unsubscribeToEventManager(EventManager::getEventManagerInstance());
 	std::cout << "Inactive menu state exited!\n";
 }
 

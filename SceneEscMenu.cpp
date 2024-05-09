@@ -6,7 +6,10 @@ SceneEscMenu::SceneEscMenu() :
 	_optionsButton(nullptr),
 	_backButton(nullptr),
 	_exitButton(nullptr),
-	_previousState(nullptr)
+	_previousState(nullptr),
+	_resoMenuBg(nullptr),
+	_yes(nullptr),
+	_no(nullptr)
 {
 	_currentState = &InactiveMenuState::getInstance();
 	_currentState->enter(this);

@@ -4,6 +4,15 @@
 
 void InResoMenuState::enter(SceneEscMenu* menuScene)
 {
+	if (menuScene->getPreviousState() != nullptr)
+	{
+		//menuScene->getPreviousState()->unsubscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
+		menuScene->getPreviousState()->destroyMenu(menuScene);
+	}
+
+	buildMenu(menuScene);
+	subscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
+	
 	std::cout << "In Resolution Menu state entered!\n";
 }
 

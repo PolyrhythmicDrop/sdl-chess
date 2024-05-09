@@ -202,6 +202,9 @@
     <Image Include="images\esc-menu_button-exit.png" />
     <Image Include="images\esc-menu_button-options.png" />
     <Image Include="images\esc-menu_button-resolution.png" />
+    <Image Include="images\exit-confirm-menu_button-no.png" />
+    <Image Include="images\exit-confirm-menu_button-yes.png" />
+    <Image Include="images\exit-confirm-menu_ConfirmExitBG.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram2.cd" />

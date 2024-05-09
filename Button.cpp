@@ -28,6 +28,14 @@ Button::Button(ButtonType bType) :
 			_name = "Resolution Button";
 			_graphics->setImgPath("images/esc-menu_button-resolution.png");
 			break;
+		case YES:
+			type = YES;
+			_name = "Yes Button";
+			_graphics->setImgPath("images/exit-confirm-menu_button-yes.png");
+		case NO:
+			type = NO;
+			_name = "No Button";
+			_graphics->setImgPath("images/exit-confirm-menu_button-no.png");
 	}
 	_graphics->loadTexture();
 	setScaleFromTexture(_graphics->getSdlTexture());

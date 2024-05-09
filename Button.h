@@ -16,7 +16,9 @@ public:
 		OPTIONS,
 		BACK,
 		EXITGAME,
-		RESOLUTION
+		RESOLUTION,
+		YES,
+		NO
 	};
 
 	Button(ButtonType type);
