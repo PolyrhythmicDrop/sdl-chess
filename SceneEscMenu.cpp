@@ -7,7 +7,7 @@ SceneEscMenu::SceneEscMenu() :
 	_backButton(nullptr),
 	_exitButton(nullptr),
 	_previousState(nullptr),
-	_resoMenuBg(nullptr),
+	_exitConfirmMenuBg(nullptr),
 	_yes(nullptr),
 	_no(nullptr)
 {

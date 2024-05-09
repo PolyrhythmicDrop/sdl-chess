@@ -26,7 +26,7 @@ public:
 	Button* _backButton;
 	Button* _exitButton;
 
-	Decoration* _resoMenuBg;
+	Decoration* _exitConfirmMenuBg;
 	Button* _yes;
 	Button* _no;
 

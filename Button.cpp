@@ -32,10 +32,12 @@ Button::Button(ButtonType bType) :
 			type = YES;
 			_name = "Yes Button";
 			_graphics->setImgPath("images/exit-confirm-menu_button-yes.png");
+			break;
 		case NO:
 			type = NO;
 			_name = "No Button";
 			_graphics->setImgPath("images/exit-confirm-menu_button-no.png");
+			break;
 	}
 	_graphics->loadTexture();
 	setScaleFromTexture(_graphics->getSdlTexture());
