@@ -50,7 +50,10 @@ Button::Button(ButtonType bType) :
 			break;
 	}
 	_graphics->loadTexture();
+	// Set dimensions
 	setScaleFromTexture(_graphics->getSdlTexture());
+	
+
 	std::cout << "Button " << _name << " created!\n";
 }
 

@@ -124,44 +124,35 @@ int main( int argc, char* args[] )
 
 	// Scene building test
 	SceneEscMenu escMenu;
-	
-	
 
+	// Constants for the game loop
+	const int fps = 60;
+	const int skipTicks = 1000 / fps;
+	Uint32 nextGameTick = SDL_GetTicks64();
+
+	int sleepTime = 0;
+	
 		
 			// Main quit flag for the loop
 			bool quit = false;				
 
-
 			// While the application is running...
 			while (!quit)
 			{
+				// Handle events
 				eManager.HandleEvents(&quit);
 				
 				
-				// Attempt the render command to render the escape menu scene
+				// Render graphics
 				ServiceLocator::getGraphics().render();
+
+				nextGameTick += skipTicks;
+				sleepTime = nextGameTick - SDL_GetTicks64();
+				if (sleepTime >= 0)
+				{
+					SDL_Delay(sleepTime);
+				}
 		
-
-
-	
-				
-								
-				
-				// Fill the screen with white
-				//SDL_SetRenderDrawColor(gc.getSdlRenderer(), 100, 100, 100, 255);
-
-				//SDL_RenderClear(gc.getSdlRenderer());
-
-				// Commenting out to stop rendering
-				// SDL_RenderCopy(gc.getSdlRenderer(), optionsTexture, NULL, &destRect);
-
-				// Substitute this with an image of a chessboard, it'll be easier to work with!
-				// drawChessboard(window, mainRenderer);								
-			
-
-				// Update screen
-				//SDL_RenderPresent(gc.getSdlRenderer());
-				
 			}
 		
 

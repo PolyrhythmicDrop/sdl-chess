@@ -59,10 +59,14 @@ void Window::ResizeWindow(SDL_Renderer* renderer, int w, int h)
 	*/
 	
 	SDL_SetWindowSize(_window, w, h);
-	_windowWidth = w;
-	_windowHeight = h;		
-	
+
+	int width, height;
+
+	getWindowSize(&width, &height);
+	_windowWidth = width;
+	_windowHeight = height;
+
 	// SDL_RenderSetScale(renderer, x, y);
-	// SDL_RenderSetLogicalSize(renderer, w, h);
+	//SDL_RenderSetLogicalSize(renderer, w, h);
 	std::cout << "Window resized!\n";
 }

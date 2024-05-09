@@ -161,10 +161,21 @@ void InResoMenuState::subscribeToEventManager(EventManager& manager, SceneEscMen
 			menuScene->_backButton->getInputComponent()->handleInput(event, *menuScene->_backButton, this, menuScene);
 		}
 		});
+	// Subscribe to window resize events, redraw the menu and positions when this occurs.
+	manager.Subscribe(SDL_WINDOWEVENT, [this, menuScene](SDL_Event const& event) {
+		if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+		{
+			this->destroyMenu(menuScene);
+			// SDL_RenderSetLogicalSize(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), event.window.data1, event.window.data2);
+			this->buildMenu(menuScene);
+		}		
+		});
+	
 }
 
 void InResoMenuState::unsubscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
 {
 	manager.Unsubscribe(SDL_MOUSEBUTTONUP);
 	manager.Unsubscribe(SDL_KEYUP);
+	manager.Unsubscribe(SDL_WINDOWEVENT);
 }
