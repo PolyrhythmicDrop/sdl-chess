@@ -40,10 +40,7 @@ void SceneEscMenu::changeState()
 
 void SceneEscMenu::setMenuState(IMenuState& newState)
 {
-	if (_previousState != _currentState)
-	{
-		_previousState = _currentState;
-	}
+	_previousState = _currentState;
 	_currentState->exit(this);
 	_currentState = &newState;
 	_currentState->enter(this);

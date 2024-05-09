@@ -29,11 +29,14 @@ void InResoMenuState::changeState(SceneEscMenu* menuScene, std::string eventStri
 	}
 	if (eventString == "1024")
 	{
+		// Doesn't quite work. Resizes the window, but doesn't adjust button positions or behavior. Consider re-entering the state after this is done?
 		ServiceLocator::getGraphics().getWindow()->ResizeWindow(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 1024, 768);
+		menuScene->setMenuState(InResoMenuState::getInstance());
 	}
 	if (eventString == "1920")
 	{
 		ServiceLocator::getGraphics().getWindow()->ResizeWindow(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 1920, 1080);
+		menuScene->setMenuState(InResoMenuState::getInstance());
 	}
 }
 
