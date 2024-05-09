@@ -24,20 +24,19 @@ void EventManager::HandleEvents(bool* quit)
 void EventManager::Subscribe(SDL_EventType type, eventCallback callback)
 {
 	// Add an event type and an associated callback function to the subscriber list.
-	EventManager::_subscribedCallbacks[type].push_back(callback);
+	_subscribedCallbacks[type].push_back(callback);
 }
 
 void EventManager::Unsubscribe(SDL_EventType type)
 {
-	EventManager::_subscribedCallbacks[type].clear();
-	EventManager::_subscribedCallbacks.erase(type);
+	_subscribedCallbacks[type].clear();
 }
 
 void EventManager::Publish(SDL_Event event)
 {	
 	for (auto& cb : _subscribedCallbacks[static_cast<SDL_EventType>(event.type)])
 	{
-		cb(e);
+		cb(event);
 	}
 }
 
