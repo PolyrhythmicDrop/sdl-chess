@@ -1,5 +1,6 @@
 #include "Button.h"
 #include "ButtonInputComponent.h"
+#include "easylogging++.h"
 
 // Constructor, initialize values
 Button::Button(ButtonType bType) :
@@ -50,13 +51,16 @@ Button::Button(ButtonType bType) :
 			break;
 	}
 	_graphics->loadTexture();
+	// Set dimensions
 	setScaleFromTexture(_graphics->getSdlTexture());
-	std::cout << "Button " << _name << " created!\n";
+	
+
+	LOG(INFO) << "Button " << _name << " created!\n";
 }
 
 Button::~Button()
 {
-	std::cout << "Button " << _name << " destructed!\n";
+	LOG(INFO) << "Button " << _name << " destructed!\n";
 }
 
 GraphicsComponent* Button::getGraphicsComponent()

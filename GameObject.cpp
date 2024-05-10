@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "easylogging++.h"
 
 GameObject::GameObject(std::string name) :
 	_name(name),
@@ -6,13 +7,13 @@ GameObject::GameObject(std::string name) :
 	_zIndex(0)
 {
 	gameObjectCount++;
-	std::cout << "Object created! Game object count: " << gameObjectCount << "\n";
+	LOG(INFO) << "Object created! Game object count: " << gameObjectCount << "\n";
 }
 
 GameObject::~GameObject()
 {
 	gameObjectCount--;
-	std::cout << "Object destroyed! Game object count: " << gameObjectCount << "\n";
+	LOG(INFO) << "Object destroyed! Game object count: " << gameObjectCount << "\n";
 }
 
 std::string GameObject::getName()
@@ -62,7 +63,7 @@ void GameObject::setScaleFromTexture(SDL_Texture* texture)
 	int w;
 	int h;
 	// Query loaded texture to get the width and height of the texture and set them to w & h variables
-	SDL_QueryTexture(texture, NULL, NULL, &w, &h);
+	SDL_QueryTexture(texture, NULL, NULL, &w, &h);	
 	this->setScale(w, h);
 }
 

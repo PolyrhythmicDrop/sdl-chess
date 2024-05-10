@@ -1,13 +1,14 @@
 #include "ServiceLocator.h"
+#include "easylogging++.h"
 
 ServiceLocator::ServiceLocator()
 {
-	std::cout << "Service Locator constructed!\n";
+	LOG(INFO) << "Service Locator constructed!\n";
 }
 
 ServiceLocator::~ServiceLocator()
 {
-	std::cout << "Service Locator destructed!\n";
+	LOG(INFO) << "Service Locator destructed!\n";
 }
 
 void ServiceLocator::initialize()
@@ -28,7 +29,7 @@ void ServiceLocator::provide(IGraphics* graphicsService)
 	{
 		// Revert to the null service
 		_graphicsService = &_nullGraphicsService;
-		std::cout << "Loading null graphics service! Check your code.";
+		LOG(INFO) << "Loading null graphics service! Check your code.";
 	}
 	else
 	{

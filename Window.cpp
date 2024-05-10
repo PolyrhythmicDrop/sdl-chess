@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "easylogging++.h"
 
 /// <summary>
 ///  Default constructor for a window. Set width and height with default value, then everything else gets initialized.
@@ -10,13 +11,13 @@ Window::Window(int width, int height)
 	_windowHeight{ height }
 {
 	_window = NULL;
-	std::cout << "Window wrapper initialized!\n";
+	LOG(INFO) << "Window wrapper initialized!\n";
 }
 
 Window::~Window()
 {
 	freeWindow();
-	std::cout << "Window wrapper destructed!\n";
+	LOG(INFO) << "Window wrapper destructed!\n";
 }
 
 void Window::initWindow()
@@ -59,10 +60,14 @@ void Window::ResizeWindow(SDL_Renderer* renderer, int w, int h)
 	*/
 	
 	SDL_SetWindowSize(_window, w, h);
-	_windowWidth = w;
-	_windowHeight = h;		
-	
+
+	int width, height;
+
+	getWindowSize(&width, &height);
+	_windowWidth = width;
+	_windowHeight = height;
+
 	// SDL_RenderSetScale(renderer, x, y);
-	// SDL_RenderSetLogicalSize(renderer, w, h);
-	std::cout << "Window resized!\n";
+	//SDL_RenderSetLogicalSize(renderer, w, h);
+	LOG(INFO) << "Window resized!\n";
 }

@@ -1,12 +1,13 @@
 #include "GameContext.h"
+#include "easylogging++.h"
 
 GameContext::GameContext()
 {	
 	// Asserts that there are no existing instances of the Graphics Service
 	assert(!_instantiated);
 	_instantiated = true;
-	_gameObjects.reserve(50);
-	std::cout << "Game context initialized!\n"; 
+	_gameObjects.reserve(5);
+	LOG(INFO) << "Game context initialized!\n"; 
 }
 
-GameContext::~GameContext() { std::cout << "Game context destructed!\n"; };
+GameContext::~GameContext() { LOG(INFO) << "Game context destructed!\n"; };

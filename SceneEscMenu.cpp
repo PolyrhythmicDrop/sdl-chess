@@ -12,10 +12,10 @@ SceneEscMenu::SceneEscMenu() :
 	_no(nullptr),
 	_resoMenuBg(nullptr),
 	_1024(nullptr),
-	_1920(nullptr)
+	_1920(nullptr),
+	_currentState(nullptr),
+	active(false)
 {
-	_currentState = &InactiveMenuState::getInstance();
-	_currentState->enter(this);
 }
 
 SceneEscMenu::~SceneEscMenu()
@@ -33,6 +33,29 @@ void SceneEscMenu::unsubscribeToEventManager(EventManager& manager)
 	_currentState->unsubscribeToEventManager(manager, this);
 }
 
+bool SceneEscMenu::getStatus()
+{
+	return this->active;
+}
+
+void SceneEscMenu::addListener(bool active, activeCallback callback)
+{
+	_listenerList[active].push_back(callback);
+}
+
+void SceneEscMenu::removeListener(bool active)
+{
+	_listenerList[active].clear();
+}
+
+void SceneEscMenu::sendStatus(bool active)
+{
+	for (auto& cb : _listenerList[active])
+	{
+		cb(active);
+	}
+}
+
 void SceneEscMenu::changeState()
 {
 	_currentState->changeState(this);
@@ -40,8 +63,11 @@ void SceneEscMenu::changeState()
 
 void SceneEscMenu::setMenuState(IMenuState& newState)
 {
-	_previousState = _currentState;
-	_currentState->exit(this);
+	if (_currentState != nullptr)
+	{
+		_previousState = _currentState;
+		_currentState->exit(this);
+	}
 	_currentState = &newState;
 	_currentState->enter(this);
 }

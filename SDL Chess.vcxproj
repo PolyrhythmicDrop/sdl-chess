@@ -142,15 +142,20 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonInputComponent.cpp" />
     <ClCompile Include="chess-main.cpp" />
+    <ClCompile Include="easylogging++.cc" />
+    <ClCompile Include="GameStateMachine.cpp" />
     <ClCompile Include="GraphicsComponent.cpp" />
     <ClCompile Include="GraphicsService.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameContext.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="IdleGameState.cpp" />
     <ClCompile Include="IDrawable.cpp" />
+    <ClCompile Include="IGameState.cpp" />
     <ClCompile Include="IMenuState.cpp" />
     <ClCompile Include="InactiveMenuState.cpp" />
     <ClCompile Include="InExitConfirmState.cpp" />
+    <ClCompile Include="InMenuGameState.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="InResoMenuState.cpp" />
     <ClCompile Include="NullGraphicsService.cpp" />
@@ -168,16 +173,21 @@
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonInputComponent.h" />
+    <ClInclude Include="easylogging++.h" />
+    <ClInclude Include="GameStateMachine.h" />
     <ClInclude Include="GraphicsComponent.h" />
     <ClInclude Include="GraphicsService.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameContext.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="IdleGameState.h" />
     <ClInclude Include="IDrawable.h" />
+    <ClInclude Include="IGameState.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="IMenuState.h" />
     <ClInclude Include="InactiveMenuState.h" />
     <ClInclude Include="InExitConfirmState.h" />
+    <ClInclude Include="InMenuGameState.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="InResoMenuState.h" />
     <ClInclude Include="NullGraphicsService.h" />
@@ -208,6 +218,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="chess-log.log" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,18 +1,20 @@
 #include "Renderer.h"
+#include "easylogging++.h"
 
 Renderer::Renderer(Window* window) 
 {
 	int w, h;
-	SDL_Renderer* renderer = SDL_CreateRenderer(window->getWindow(), -1, SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	SDL_Renderer* renderer = SDL_CreateRenderer(window->getWindow(), -1, SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC);
 	window->getWindowSize(&w, &h);
+	SDL_SetHint(SDL_HINT_RENDER_LOGICAL_SIZE_MODE, "1");
 	SDL_RenderSetLogicalSize(renderer, w, h);
 	_sdlRenderer = renderer;
-	std::cout << "Renderer initialized!\n";
+	LOG(INFO) << "Renderer initialized!\n";
 }
 
 Renderer::~Renderer()
 {
-	std::cout << "Renderer destructed!\n";
+	LOG(INFO) << "Renderer destructed!\n";
 }
 
 SDL_Renderer* Renderer::GetRenderer()
