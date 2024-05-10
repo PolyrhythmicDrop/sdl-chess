@@ -118,14 +118,12 @@ int main( int argc, char* args[] )
 
 	// Set the service locator to provide the graphics service
 	locator.provide(&graphics);
-
-
 		
 	// Initialize the event manager
 	EventManager& eManager = EventManager::getEventManagerInstance();
 
-	// Scene building test
-	SceneEscMenu escMenu;
+	// Initialize the game state machine
+	GameStateMachine gsm;
 
 	// Constants for the game loop
 	const int fps = 60;

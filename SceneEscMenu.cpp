@@ -12,10 +12,9 @@ SceneEscMenu::SceneEscMenu() :
 	_no(nullptr),
 	_resoMenuBg(nullptr),
 	_1024(nullptr),
-	_1920(nullptr)
+	_1920(nullptr),
+	_currentState(nullptr)
 {
-	_currentState = &InactiveMenuState::getInstance();
-	_currentState->enter(this);
 }
 
 SceneEscMenu::~SceneEscMenu()
@@ -40,8 +39,11 @@ void SceneEscMenu::changeState()
 
 void SceneEscMenu::setMenuState(IMenuState& newState)
 {
-	_previousState = _currentState;
-	_currentState->exit(this);
+	if (_currentState != nullptr)
+	{
+		_previousState = _currentState;
+		_currentState->exit(this);
+	}
 	_currentState = &newState;
 	_currentState->enter(this);
 }

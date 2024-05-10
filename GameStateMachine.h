@@ -1,5 +1,6 @@
 #pragma once
 #include "IdleGameState.h"
+#include "SceneEscMenu.h"
 #include <cassert>
 
 class IGameState;
@@ -9,10 +10,11 @@ class GameStateMachine
 private:
 
 	IGameState* _currentState;
-
 	IGameState* _previousState;
 
 	static bool _instantiated;
+
+	SceneEscMenu* _escMenu;
 
 public:
 
@@ -29,6 +31,9 @@ public:
 	void subscribeToEventManager(EventManager& manager);
 	// Unsubscribes for the event manager. Should be called at some point after every subscribeToEventManager call, when you no longer want to "listen" for the event.
 	void unsubscribeToEventManager(EventManager& manager);
+
+	inline SceneEscMenu* getEscMenu() { return _escMenu; };
+	inline void createEscMenu() { _escMenu = new SceneEscMenu; };
 
 	
 

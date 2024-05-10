@@ -1,5 +1,6 @@
 #pragma once
 #include "IGameState.h"
+#include "GameStateMachine.h"
 
 class InMenuGameState :  public IGameState
 {
@@ -11,7 +12,7 @@ public:
 	static IGameState& getInstance();
 
 	virtual void enter(GameStateMachine* gsm);
-	virtual void changeState(GameStateMachine* gsm);
+	virtual void changeState(GameStateMachine* gsm, std::string eventString);
 	virtual void exit(GameStateMachine* gsm);
 
 	virtual void subscribeToEventManager(EventManager& manager, GameStateMachine* gsm);
