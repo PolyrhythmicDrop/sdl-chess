@@ -3,6 +3,7 @@
 #include "GraphicsService.h"
 #include "SceneEscMenu.h"
 #include "GameStateMachine.h"
+#include "easylogging++.h"
 
 
 /// <summary>
@@ -78,6 +79,7 @@
 }*/
 
 // Initialize static variables
+INITIALIZE_EASYLOGGINGPP;
 int GameObject::gameObjectCount = 0;
 bool GameContext::_instantiated = false;
 bool GameStateMachine::_instantiated = false;
@@ -90,11 +92,16 @@ NullGraphicsService ServiceLocator::_nullGraphicsService;
 
 int main( int argc, char* args[] )
 {	
+	// Logging configurations
+	el::Configurations defaultConf;
+	defaultConf.setToDefault();
+	defaultConf.set(el::Level::Info, el::ConfigurationType::Format, "%datetime | %func \n%msg");
+	defaultConf.set(el::Level::Info, el::ConfigurationType::ToFile, "true");
+	defaultConf.set(el::Level::Info, el::ConfigurationType::Filename, "chess-log.log");
+	el::Loggers::reconfigureLogger("default", defaultConf);
 
 	// Initialize the game context
 	GameContext gc;
-	std::vector<GameObject*> gameObjects;
-	gameObjects.reserve(50);
 	
 	// Initialize the SDL Engine
 	SDLfunc sdlEngine{};

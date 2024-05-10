@@ -147,6 +147,9 @@
     <ClCompile Include="GameStateMachine.cpp">
       <Filter>Source Files\States\GameStates</Filter>
     </ClCompile>
+    <ClCompile Include="easylogging++.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -236,6 +239,9 @@
     <ClInclude Include="GameStateMachine.h">
       <Filter>Header Files\States\GameStates</Filter>
     </ClInclude>
+    <ClInclude Include="easylogging++.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\esc-menu_1024.png">
@@ -277,5 +283,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="chess-log.log">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

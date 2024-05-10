@@ -3,6 +3,8 @@
 #include "InExitConfirmState.h"
 #include "InResoMenuState.h"
 #include "ButtonInputComponent.h"
+#include "easylogging++.h"
+
 InEscMenuState::InEscMenuState()
 {
 	
@@ -17,7 +19,7 @@ void InEscMenuState::enter(SceneEscMenu* menuScene)
 	menuScene->active = true;
 	buildMenu(menuScene);
 	menuScene->subscribeToEventManager(EventManager::getEventManagerInstance());
-	std::cout << "In Escape Menu state entered!\n";	
+	LOG(INFO) << "In Escape Menu state entered!\n";	
 }
 
 void InEscMenuState::changeState(SceneEscMenu* menuScene, std::string eventString)
