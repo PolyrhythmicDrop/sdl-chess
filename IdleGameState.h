@@ -2,13 +2,18 @@
 #include "IGameState.h"
 class IdleGameState :  public IGameState
 {
-	virtual ~IdleGameState() {};
+public:
 
-	virtual void enter();
-	virtual void changeState();
-	virtual void exit();
+	IdleGameState();
+	~IdleGameState() {};
 
-	virtual void subscribeToEventManager(EventManager& manager);
-	virtual void unsubscribeToEventManager(EventManager& manager);
+	static IGameState& getInstance();
+
+	virtual void enter(GameStateMachine* gsm);
+	virtual void changeState(GameStateMachine* gsm);
+	virtual void exit(GameStateMachine* gsm);
+
+	virtual void subscribeToEventManager(EventManager& manager, GameStateMachine* gsm);
+	virtual void unsubscribeToEventManager(EventManager& manager, GameStateMachine* gsm);
 };
 

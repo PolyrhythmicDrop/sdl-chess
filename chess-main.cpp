@@ -2,6 +2,7 @@
 #include "GameContext.h"
 #include "GraphicsService.h"
 #include "SceneEscMenu.h"
+#include "GameStateMachine.h"
 
 
 /// <summary>
@@ -79,6 +80,7 @@
 // Initialize static variables
 int GameObject::gameObjectCount = 0;
 bool GameContext::_instantiated = false;
+bool GameStateMachine::_instantiated = false;
 bool GraphicsService::_instantiated = false;
 IGraphics* ServiceLocator::_graphicsService;
 NullGraphicsService ServiceLocator::_nullGraphicsService;
@@ -128,7 +130,7 @@ int main( int argc, char* args[] )
 	// Constants for the game loop
 	const int fps = 60;
 	const int skipTicks = 1000 / fps;
-	Uint32 nextGameTick = SDL_GetTicks64();
+	Uint64 nextGameTick = SDL_GetTicks64();
 
 	int sleepTime = 0;
 	
@@ -141,11 +143,11 @@ int main( int argc, char* args[] )
 			{
 				// Handle events
 				eManager.HandleEvents(&quit);
-				
-				
+								
 				// Render graphics
 				ServiceLocator::getGraphics().render();
 
+				// Adjust time step
 				nextGameTick += skipTicks;
 				sleepTime = nextGameTick - SDL_GetTicks64();
 				if (sleepTime >= 0)
@@ -155,8 +157,6 @@ int main( int argc, char* args[] )
 		
 			}
 		
-
-	
 		sdlEngine.Close();
 
 	return 0;

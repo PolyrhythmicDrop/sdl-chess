@@ -144,6 +144,9 @@
     <ClCompile Include="InMenuGameState.cpp">
       <Filter>Source Files\States\GameStates</Filter>
     </ClCompile>
+    <ClCompile Include="GameStateMachine.cpp">
+      <Filter>Source Files\States\GameStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -228,6 +231,9 @@
       <Filter>Header Files\States\GameStates</Filter>
     </ClInclude>
     <ClInclude Include="InMenuGameState.h">
+      <Filter>Header Files\States\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateMachine.h">
       <Filter>Header Files\States\GameStates</Filter>
     </ClInclude>
   </ItemGroup>

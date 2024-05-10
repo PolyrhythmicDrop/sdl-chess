@@ -1,18 +1,25 @@
 #include "IdleGameState.h"
 
-IdleGameState::IdleGameState(){}
-
-void IdleGameState::enter()
+IdleGameState::IdleGameState()
 {}
 
-void IdleGameState::changeState()
+IGameState& IdleGameState::getInstance()
+{
+	static IdleGameState idleGameState;
+	return idleGameState;
+}
+
+void IdleGameState::enter(GameStateMachine* gsm)
 {}
 
-void IdleGameState::exit()
+void IdleGameState::changeState(GameStateMachine* gsm)
 {}
 
-void IdleGameState::subscribeToEventManager(EventManager & manager)
+void IdleGameState::exit(GameStateMachine* gsm)
 {}
 
-void IdleGameState::unsubscribeToEventManager(EventManager& manager)
+void IdleGameState::subscribeToEventManager(EventManager & manager, GameStateMachine* gsm)
+{}
+
+void IdleGameState::unsubscribeToEventManager(EventManager& manager, GameStateMachine* gsm)
 {}

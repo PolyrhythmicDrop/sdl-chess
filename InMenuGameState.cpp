@@ -2,17 +2,23 @@
 
 InMenuGameState::InMenuGameState() {}
 
-void InMenuGameState::enter()
+IGameState& InMenuGameState::getInstance()
+{
+	static InMenuGameState inMenuGameState;
+	return inMenuGameState;
+}
+
+void InMenuGameState::enter(GameStateMachine* gsm)
 {}
 
-void InMenuGameState::changeState()
+void InMenuGameState::changeState(GameStateMachine* gsm)
 {}
 
-void InMenuGameState::exit()
+void InMenuGameState::exit(GameStateMachine* gsm)
 {}
 
-void InMenuGameState::subscribeToEventManager(EventManager& manager)
+void InMenuGameState::subscribeToEventManager(EventManager& manager, GameStateMachine* gsm)
 {}
 
-void InMenuGameState::unsubscribeToEventManager(EventManager& manager)
+void InMenuGameState::unsubscribeToEventManager(EventManager& manager, GameStateMachine* gsm)
 {}
