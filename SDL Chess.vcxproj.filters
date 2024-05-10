@@ -52,6 +52,12 @@
     <Filter Include="Header Files\Input">
       <UniqueIdentifier>{522b8807-eac5-41c2-ad4b-f63f8eabaff5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\States\GameStates">
+      <UniqueIdentifier>{81f82137-3062-4b7b-9955-860525a79715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States\GameStates">
+      <UniqueIdentifier>{912fcfa0-13e3-488b-be23-76ca8785225a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chess-main.cpp">
@@ -128,6 +134,15 @@
     </ClCompile>
     <ClCompile Include="ButtonInputComponent.cpp">
       <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="IGameState.cpp">
+      <Filter>Source Files\States\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleGameState.cpp">
+      <Filter>Source Files\States\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="InMenuGameState.cpp">
+      <Filter>Source Files\States\GameStates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +221,15 @@
     <ClInclude Include="ButtonInputComponent.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
+    <ClInclude Include="IGameState.h">
+      <Filter>Header Files\States\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleGameState.h">
+      <Filter>Header Files\States\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="InMenuGameState.h">
+      <Filter>Header Files\States\GameStates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\esc-menu_1024.png">
@@ -246,6 +270,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram2.cd" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

@@ -163,11 +163,10 @@ void InResoMenuState::subscribeToEventManager(EventManager& manager, SceneEscMen
 		});
 	// Subscribe to window resize events, redraw the menu and positions when this occurs.
 	manager.Subscribe(SDL_WINDOWEVENT, [this, menuScene](SDL_Event const& event) {
-		if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-		{
-			this->destroyMenu(menuScene);
-			// SDL_RenderSetLogicalSize(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), event.window.data1, event.window.data2);
-			this->buildMenu(menuScene);
+		if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED || event.window.event == SDL_WINDOWEVENT_RESIZED)
+		{	
+			SDL_RenderSetLogicalSize(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), event.window.data1, event.window.data2);
+			SDL_RenderClear(ServiceLocator::getGraphics().getRenderer()->GetRenderer());
 		}		
 		});
 	
