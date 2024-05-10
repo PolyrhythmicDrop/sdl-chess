@@ -1,6 +1,7 @@
 #include "InExitConfirmState.h"
 #include "InEscMenuState.h"
 #include "ButtonInputComponent.h"
+#include "easylogging++.h"
 
 
 void InExitConfirmState::enter(SceneEscMenu* menuScene)
@@ -13,7 +14,7 @@ void InExitConfirmState::enter(SceneEscMenu* menuScene)
 	buildMenu(menuScene);
 	menuScene->subscribeToEventManager(EventManager::getEventManagerInstance());	
 
-	std::cout << "In Exit Confirmation state entered!\n";
+	LOG(INFO) << "In Exit Confirmation state entered!\n";
 }
 
 void InExitConfirmState::changeState(SceneEscMenu* menuScene, std::string eventString)
@@ -38,7 +39,7 @@ void InExitConfirmState::changeState(SceneEscMenu* menuScene, std::string eventS
 void InExitConfirmState::exit(SceneEscMenu* menuScene)
 {
 	menuScene->unsubscribeToEventManager(EventManager::getEventManagerInstance());
-	std::cout << "In Exit Confirmation state exited!\n";
+	LOG(INFO) << "In Exit Confirmation state exited!\n";
 }
 
 IMenuState& InExitConfirmState::getInstance()

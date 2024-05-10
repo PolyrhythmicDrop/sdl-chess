@@ -1,4 +1,5 @@
 #include "ButtonInputComponent.h"
+#include "easylogging++.h"
 
 InputComponent* ButtonInputComponent::getInputComponent()
 {
@@ -30,7 +31,7 @@ void ButtonInputComponent::onClick(Button& button)
 
 void ButtonInputComponent::onClick(Button& button, IMenuState* state, SceneEscMenu* scene)
 {
-	std::cout << "Button " << button.type << " clicked!\n";
+	LOG(INFO) << "Button " << button.type << " clicked!\n";
 	// Send the button type back to the state
 	switch (button.type)
 	{

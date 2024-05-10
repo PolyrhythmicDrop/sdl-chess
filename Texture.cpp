@@ -1,4 +1,5 @@
 #include "Texture.h"
+#include "easylogging++.h"
 
 /// <summary>
 /// Default constructor for the texture wrapper
@@ -10,7 +11,7 @@ Texture::Texture()
 Texture::~Texture()
 {
 	freeTexture();
-	std::cout << "Texture destructed!\n";
+	LOG(INFO) << "Texture destructed!\n";
 }
 
 

@@ -44,7 +44,7 @@ void InEscMenuState::changeState(SceneEscMenu* menuScene, std::string eventStrin
 void InEscMenuState::exit(SceneEscMenu* menuScene)
 {
 	menuScene->unsubscribeToEventManager(EventManager::getEventManagerInstance());
-	std::cout << "In Escape Menu state exited!\n";
+	LOG(INFO) << "In Escape Menu state exited!\n";
 }
 
 IMenuState& InEscMenuState::getInstance()

@@ -1,4 +1,5 @@
 #include "GraphicsService.h"
+#include "easylogging++.h"
 
 GraphicsService::GraphicsService(Window* window) :	
 
@@ -7,13 +8,13 @@ GraphicsService::GraphicsService(Window* window) :
 	// Asserts that there are no existing instances of the Graphics Service
 	assert(!_instantiated);
 	_instantiated = true;
-	std::cout << "Graphics Service initialized!\n";
+	LOG(INFO) << "Graphics Service initialized!\n";
 }
 
 GraphicsService::~GraphicsService()
 {
 	_instantiated = false;
-	std::cout << "Graphics Service destructed!\n";
+	LOG(INFO) << "Graphics Service destructed!\n";
 }
 
 Window* GraphicsService::getWindow()
@@ -34,7 +35,7 @@ void GraphicsService::addToRenderMap(std::map<int, std::pair<GameObject*, SDL_Te
 	std::map<int, std::pair<GameObject*, SDL_Texture*>>::iterator itr;
 	for (itr = _renderMap.begin(); itr != _renderMap.end(); ++itr)
 	{
-		std::cout << "Object name " << itr->second.first->getName() << " has been inserted into the render map!\n";
+		LOG(INFO) << "Object name " << itr->second.first->getName() << " has been inserted into the render map!\n";
 	}
 
 }

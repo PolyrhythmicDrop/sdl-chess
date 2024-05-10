@@ -1,4 +1,5 @@
 #include "GameContext.h"
+#include "easylogging++.h"
 
 GameContext::GameContext()
 {	
@@ -6,7 +7,7 @@ GameContext::GameContext()
 	assert(!_instantiated);
 	_instantiated = true;
 	_gameObjects.reserve(5);
-	std::cout << "Game context initialized!\n"; 
+	LOG(INFO) << "Game context initialized!\n"; 
 }
 
-GameContext::~GameContext() { std::cout << "Game context destructed!\n"; };
+GameContext::~GameContext() { LOG(INFO) << "Game context destructed!\n"; };

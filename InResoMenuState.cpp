@@ -2,6 +2,7 @@
 #include "InactiveMenuState.h"
 #include "InEscMenuState.h"
 #include "ButtonInputComponent.h"
+#include "easylogging++.h"
 
 void InResoMenuState::enter(SceneEscMenu* menuScene)
 {
@@ -14,7 +15,7 @@ void InResoMenuState::enter(SceneEscMenu* menuScene)
 	buildMenu(menuScene);
 	subscribeToEventManager(EventManager::getEventManagerInstance(), menuScene);
 	
-	std::cout << "In Resolution Menu state entered!\n";
+	LOG(INFO) << "In Resolution Menu state entered!\n";
 }
 
 void InResoMenuState::changeState(SceneEscMenu* menuScene, std::string eventString)
@@ -43,7 +44,7 @@ void InResoMenuState::changeState(SceneEscMenu* menuScene, std::string eventStri
 void InResoMenuState::exit(SceneEscMenu* menuScene)
 {
 	menuScene->unsubscribeToEventManager(EventManager::getEventManagerInstance());
-	std::cout << "In Resolution Menu state exited!\n";
+	LOG(INFO) << "In Resolution Menu state exited!\n";
 }
 
 IMenuState& InResoMenuState::getInstance()

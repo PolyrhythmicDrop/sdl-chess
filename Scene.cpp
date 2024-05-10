@@ -1,14 +1,15 @@
 #include "Scene.h"
+#include "easylogging++.h"
 
 Scene::Scene() :
 	_sceneMap({})
 {
-	std::cout << "Scene created!\n";
+	LOG(INFO) << "Scene created!\n";
 }
 
 Scene::~Scene()
 {
-	std::cout << "Scene destructed!\n";
+	LOG(INFO) << "Scene destructed!\n";
 }
 
 void Scene::addObject(GameObject* object, SDL_Texture* texture)

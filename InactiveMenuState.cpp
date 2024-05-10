@@ -1,5 +1,6 @@
 #include "InactiveMenuState.h"
 #include "InEscMenuState.h"
+#include "easylogging++.h"
 
 void InactiveMenuState::enter(SceneEscMenu* menuScene)
 {
@@ -21,7 +22,7 @@ void InactiveMenuState::enter(SceneEscMenu* menuScene)
 	SDL_PushEvent(&e);
 	*/
 
-	std::cout << "Inactive menu state entered!\n";
+	LOG(INFO) << "Inactive menu state entered!\n";
 }
 
 void InactiveMenuState::changeState(SceneEscMenu* menuScene, std::string eventString)
@@ -32,7 +33,7 @@ void InactiveMenuState::changeState(SceneEscMenu* menuScene, std::string eventSt
 void InactiveMenuState::exit(SceneEscMenu* menuScene)
 {
 	//menuScene->unsubscribeToEventManager(EventManager::getEventManagerInstance());
-	std::cout << "Inactive menu state exited!\n";
+	LOG(INFO) << "Inactive menu state exited!\n";
 }
 
 IMenuState& InactiveMenuState::getInstance()

@@ -1,4 +1,5 @@
 #include "Decoration.h"
+#include "easylogging++.h"
 
 Decoration::Decoration(DecorationType type)	:
 	_graphics(new GraphicsComponent())
@@ -21,12 +22,12 @@ Decoration::Decoration(DecorationType type)	:
 	_graphics->loadTexture();
 	// Set the initial dimensions for the decoration using the texture
 	setScaleFromTexture(_graphics->getSdlTexture());
-	std::cout << "Decoration " << _name << " created!\n";
+	LOG(INFO) << "Decoration " << _name << " created!\n";
 }
 
 Decoration::~Decoration()
 {
-	std::cout << _name << " destructed!\n";
+	LOG(INFO) << _name << " destructed!\n";
 }
 
 GraphicsComponent* Decoration::getGraphicsComponent()
