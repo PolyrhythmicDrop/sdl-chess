@@ -7,19 +7,12 @@ class IMenuState;
 
 class SceneEscMenu : public Scene
 {
-private:
-	/// <summary>
-	/// The current state of the escape menu scene. The states it can be in are:
-	/// -InactiveMenuState 
-	/// -InEscMenuState
-	/// -InResoMenu
-	/// -InExitConfirmation
-	/// </summary>
-	IMenuState* _currentState;
-
-	IMenuState* _previousState;
 
 public:
+	using activeCallback = std::function<void(bool const)>;
+	
+	bool active;
+	
 	// ** Buttons and objects **
 
 	// Escape Menu Objects
@@ -52,6 +45,12 @@ public:
 	// Unsubscribes for the event manager. Should be called at some point after every subscribeToEventManager call, when you no longer want to "listen" for the event.
 	void unsubscribeToEventManager(EventManager& manager);
 
+	// Gets the state of the active flag
+	bool getStatus();
+	void addListener(bool active, activeCallback callback);
+	void removeListener(bool active);
+	void sendStatus(bool active);
+
 	// State functions
 	inline IMenuState* getCurrentState() { return _currentState; };
 	inline IMenuState* getPreviousState() { return _previousState; };
@@ -60,5 +59,20 @@ public:
 	void setMenuState(IMenuState& newState);
 
 	void buildMenu();
+
+private:
+	/// <summary>
+	/// The current state of the escape menu scene. The states it can be in are:
+	/// -InactiveMenuState 
+	/// -InEscMenuState
+	/// -InResoMenu
+	/// -InExitConfirmation
+	/// </summary>
+	IMenuState* _currentState;
+
+	IMenuState* _previousState;
+
+	// List of listeners
+	std::map<bool, std::vector<activeCallback>> _listenerList;
 };
 

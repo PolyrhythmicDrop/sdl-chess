@@ -14,6 +14,7 @@ void InEscMenuState::enter(SceneEscMenu* menuScene)
 	{
 		menuScene->getPreviousState()->destroyMenu(menuScene);
 	}
+	menuScene->active = true;
 	buildMenu(menuScene);
 	menuScene->subscribeToEventManager(EventManager::getEventManagerInstance());
 	std::cout << "In Escape Menu state entered!\n";	

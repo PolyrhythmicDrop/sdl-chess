@@ -13,7 +13,8 @@ SceneEscMenu::SceneEscMenu() :
 	_resoMenuBg(nullptr),
 	_1024(nullptr),
 	_1920(nullptr),
-	_currentState(nullptr)
+	_currentState(nullptr),
+	active(false)
 {
 }
 
@@ -30,6 +31,29 @@ void SceneEscMenu::subscribeToEventManager(EventManager& manager)
 void SceneEscMenu::unsubscribeToEventManager(EventManager& manager)
 {
 	_currentState->unsubscribeToEventManager(manager, this);
+}
+
+bool SceneEscMenu::getStatus()
+{
+	return this->active;
+}
+
+void SceneEscMenu::addListener(bool active, activeCallback callback)
+{
+	_listenerList[active].push_back(callback);
+}
+
+void SceneEscMenu::removeListener(bool active)
+{
+	_listenerList[active].clear();
+}
+
+void SceneEscMenu::sendStatus(bool active)
+{
+	for (auto& cb : _listenerList[active])
+	{
+		cb(active);
+	}
 }
 
 void SceneEscMenu::changeState()

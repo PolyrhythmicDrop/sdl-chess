@@ -28,21 +28,26 @@ void InMenuGameState::changeState(GameStateMachine* gsm, std::string eventString
 void InMenuGameState::exit(GameStateMachine* gsm)
 {
 	// gsm->getEscMenu()->setMenuState(InactiveMenuState::getInstance());
-	gsm->getEscMenu()->~SceneEscMenu();
 	unsubscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
+	gsm->getEscMenu()->~SceneEscMenu();
+	
 }
 
 void InMenuGameState::subscribeToEventManager(EventManager& manager, GameStateMachine* gsm)
 {
-	manager.Subscribe(SDL_USEREVENT, [this, gsm](SDL_Event const& event) {
-		if (event.user.code == 20)
+	
+	gsm->getEscMenu()->addListener(false, [this, gsm](bool active)
 		{
-			changeState(gsm, "ClearMenu");
-		}
+			if (active != true)
+			{
+				changeState(gsm, "ClearMenu");
+			}
 		});
+	
 }
 
 void InMenuGameState::unsubscribeToEventManager(EventManager& manager, GameStateMachine* gsm)
 {
 	manager.Unsubscribe(SDL_USEREVENT);
+	gsm->getEscMenu()->removeListener(false);
 }

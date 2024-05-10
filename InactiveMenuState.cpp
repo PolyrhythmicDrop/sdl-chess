@@ -9,11 +9,17 @@ void InactiveMenuState::enter(SceneEscMenu* menuScene)
 	}
 	//menuScene->subscribeToEventManager(EventManager::getEventManagerInstance());
 
+	menuScene->active = false;
+	menuScene->sendStatus(menuScene->active);
+	
+	/*
+	// Create an event that is published when the menu inactive state is entered, which is heard by the Game State Machine
 	int menuExit = SDL_RegisterEvents(1);
 	SDL_Event e;
 	e.user.type = menuExit;
 	e.user.code = 15 + 5;	
 	SDL_PushEvent(&e);
+	*/
 
 	std::cout << "Inactive menu state entered!\n";
 }
