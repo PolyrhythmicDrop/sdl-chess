@@ -168,6 +168,8 @@
     <ClCompile Include="Decoration.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="InEscMenuState.cpp" />
+    <ClCompile Include="Square.cpp" />
+    <ClCompile Include="SquareGraphicsComponent.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -201,6 +203,8 @@
     <ClInclude Include="Decoration.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="InEscMenuState.h" />
+    <ClInclude Include="Square.h" />
+    <ClInclude Include="SquareGraphicsComponent.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

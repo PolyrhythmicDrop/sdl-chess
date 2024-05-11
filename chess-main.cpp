@@ -5,6 +5,7 @@
 #include "GameStateMachine.h"
 #include "easylogging++.h"
 #include "Chessboard.h"
+#include "SquareGraphicsComponent.h"
 
 
 /// <summary>
@@ -143,31 +144,37 @@ int main( int argc, char* args[] )
 	// Test the chessboard
 	Chessboard chessboard;
 	chessboard.buildChessboard();
+
+	// Square overlay testing
+	Square testSquare;
+	testSquare._drawOverlay = true;
+
+	
 	
 		
-			// Main quit flag for the loop
-			bool quit = false;				
+	// Main quit flag for the loop
+	bool quit = false;				
 
-			// While the application is running...
-			while (!quit)
-			{
-				// Handle events
-				eManager.HandleEvents(&quit);
+	// While the application is running...
+	while (!quit)
+	{
+		// Handle events
+		eManager.HandleEvents(&quit);
 								
-				// Render graphics
-				ServiceLocator::getGraphics().render();
+		// Render graphics
+		ServiceLocator::getGraphics().render();
 
-				// Adjust time step
-				nextGameTick += skipTicks;
-				sleepTime = nextGameTick - SDL_GetTicks64();
-				if (sleepTime >= 0)
-				{
-					SDL_Delay(sleepTime);
-				}
+		// Adjust time step
+		nextGameTick += skipTicks;
+		sleepTime = nextGameTick - SDL_GetTicks64();
+		if (sleepTime >= 0)
+		{
+			SDL_Delay(sleepTime);
+		}
 		
-			}
+	}
 		
-		sdlEngine.Close();
+sdlEngine.Close();
 
 	return 0;
 };

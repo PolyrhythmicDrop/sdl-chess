@@ -262,17 +262,7 @@ void Chessboard::buildChessboard()
 	_boardGrid.push_back(row1Vect);
 	
 	
-		for (int i = 0; i < _boardGrid.size(); i++) 
-		{
-			for (auto& row : _boardGrid[i])
-			{
-				std::cout << "\n";
-				for (auto& square : row)
-				{
-					std::cout << "[" << square.first << "]";
-				}
-			}
-		}
+		
 	
 
 }
