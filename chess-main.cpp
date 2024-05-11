@@ -4,6 +4,7 @@
 #include "SceneEscMenu.h"
 #include "GameStateMachine.h"
 #include "easylogging++.h"
+#include "Chessboard.h"
 
 
 /// <summary>
@@ -138,6 +139,10 @@ int main( int argc, char* args[] )
 	Uint64 nextGameTick = SDL_GetTicks64();
 
 	int sleepTime = 0;
+
+	// Test the chessboard
+	Chessboard chessboard;
+	chessboard.buildChessboard();
 	
 		
 			// Main quit flag for the loop
