@@ -23,7 +23,7 @@ public:
 	void setMoveOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 	void setTakeOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
-	// void drawOverlay(Square* square);
+	void drawOverlay(Square* square);
 
 };
 

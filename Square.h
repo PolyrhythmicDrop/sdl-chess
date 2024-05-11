@@ -7,6 +7,8 @@ class SquareGraphicsComponent;
 // A square on the chessboard.
 class Square
 {
+	friend SquareGraphicsComponent;
+
 private:
 
 	SDL_Rect _rect;
