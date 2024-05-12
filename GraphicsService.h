@@ -13,8 +13,6 @@ private:
 
 	std::map<int, std::pair<GameObject*, SDL_Texture*>> _renderMap;
 
-	std::vector<Square*> _squareDrawV;
-
 	static bool _instantiated;
 
 
