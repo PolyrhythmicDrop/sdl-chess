@@ -24,6 +24,8 @@ public:
 
 	~GameObject();
 
+	bool _draw;
+
 	virtual std::string getName();
 
 	/// <summary>

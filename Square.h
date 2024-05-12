@@ -1,40 +1,39 @@
 #pragma once
 #include "sdlfunc.h"
+#include "GameObject.h"
 
+// class SquareGraphicsComponent;
 
-class SquareGraphicsComponent;
+struct Color {
+	Uint8 r, g, b, a;
+};
 
 // A square on the chessboard.
-class Square
+class Square : public GameObject
 {
-	friend SquareGraphicsComponent;
 
 private:
-
-	SDL_Rect _rect;
-
-	SquareGraphicsComponent* _graphics;
+	Color _moveOverlayColor;
+	Color _takeOverlayColor;
 
 public:
 	// True if the square is occupied, false if empty. If occupied, the square will use the take overlay. If empty, the square will use the move overlay.
 	bool _occupied;
-	// Whether or not to render the overlay. Usually false, unless a piece is selected.
-	bool _drawOverlay;
-	// Chess notation of the square
-	std::string _notation;
 
 	Square();
 	~Square();
 
-	inline const std::string* getNotation() { return &_notation; };
-
-	inline const SDL_Rect* getRect() { return &_rect; };
-
-	inline SquareGraphicsComponent* getGraphics() { return _graphics; };
-
-	inline void setPos(int x, int y) { _rect.x = x; _rect.y = y; };
+	// inline SquareGraphicsComponent* getGraphics() { return _graphics; };
 
 	inline void setOccupied(bool occupied) { _occupied = occupied; };
+
+	inline const Color* getMoveOverlayColor() { return &_moveOverlayColor; };
+	inline const Color* getTakeOverlayColor() { return &_takeOverlayColor; };
+
+	void setMoveOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+	void setTakeOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+
+	void drawOverlay();
 
 
 

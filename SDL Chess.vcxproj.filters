@@ -159,10 +159,10 @@
     <ClCompile Include="Chessboard.cpp">
       <Filter>Source Files\Board</Filter>
     </ClCompile>
-    <ClCompile Include="Square.cpp">
-      <Filter>Source Files\Board</Filter>
-    </ClCompile>
     <ClCompile Include="SquareGraphicsComponent.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Square.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -257,14 +257,14 @@
     <ClInclude Include="easylogging++.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Square.h">
-      <Filter>Header Files\Board</Filter>
-    </ClInclude>
     <ClInclude Include="Chessboard.h">
       <Filter>Header Files\Board</Filter>
     </ClInclude>
     <ClInclude Include="SquareGraphicsComponent.h">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Square.h">
+      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

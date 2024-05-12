@@ -1,3 +1,5 @@
+/*
+
 #include "SquareGraphicsComponent.h"
 #include "ServiceLocator.h"
 SquareGraphicsComponent::SquareGraphicsComponent() :
@@ -18,6 +20,7 @@ void SquareGraphicsComponent::setTakeOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uin
 	_takeOverlayColor = { r, g, b, a };
 }
 
+/*
 void SquareGraphicsComponent::drawOverlay(Square* square)
 {
 	SDL_Renderer* renderer = ServiceLocator::getGraphics().getRenderer()->GetRenderer();
@@ -41,3 +44,4 @@ void SquareGraphicsComponent::drawOverlay(Square* square)
 		SDL_RenderFillRect(renderer, square->getRect());
 	}
 }
+*/

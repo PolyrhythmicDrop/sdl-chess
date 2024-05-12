@@ -62,13 +62,6 @@ void GraphicsService::render()
 	{
 		SDL_RenderCopy(renderer, it->second.second, NULL, it->second.first->getDimensions());
 	}
-	for (auto& square : _squareDrawV)
-	{
-		if (square->_drawOverlay = true)
-		{
-			
-		}
-	}
 	
 	SDL_RenderPresent(renderer);
 }

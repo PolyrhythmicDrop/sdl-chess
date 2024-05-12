@@ -1,6 +1,8 @@
 #pragma once
-#include "Square.h"
 
+// This class is currently not associated with anything, as all these functions are in the Square class until I can find a better implementation of them (if possible)
+
+/*
 struct Color {
 	Uint8 r, g, b, a;
 };
@@ -23,7 +25,8 @@ public:
 	void setMoveOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 	void setTakeOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
-	void drawOverlay(Square* square);
+	// void drawOverlay(Square* square);
 
 };
+*/
 

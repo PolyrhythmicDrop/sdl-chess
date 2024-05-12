@@ -51,6 +51,7 @@ Button::Button(ButtonType bType) :
 			break;
 	}
 	_graphics->loadTexture();
+	_draw = true;
 	// Set dimensions
 	setScaleFromTexture(_graphics->getSdlTexture());
 	

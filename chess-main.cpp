@@ -146,8 +146,8 @@ int main( int argc, char* args[] )
 	chessboard.buildChessboard();
 
 	// Square overlay testing
-	Square testSquare;
-	testSquare._drawOverlay = true;
+	
+	
 
 	
 	
