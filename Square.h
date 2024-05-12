@@ -11,21 +11,13 @@ struct Color {
 // A square on the chessboard.
 class Square : public GameObject
 {
-
-private:
-	Color _moveOverlayColor;
-	Color _takeOverlayColor;
-	GraphicsComponent* _graphics;
-
+public:
 	enum Overlay {
 		NONE,
 		MOVE,
 		TAKE
 	};
 
-	Overlay _overlay;
-
-public:
 	// True if the square is occupied, false if empty. If occupied, the square will use the take overlay. If empty, the square will use the move overlay.
 	bool _occupied;
 
@@ -46,6 +38,12 @@ public:
 
 	// void drawOverlay();
 
+private:
+	Color _moveOverlayColor;
+	Color _takeOverlayColor;
+	GraphicsComponent* _graphics;
+
+	Overlay _overlay;
 
 
 };

@@ -10,9 +10,9 @@ Square::Square(std::string notation) :
 {
 	_name = notation;
 	_dimensions = {0, 0, 125, 125 };
-	_zIndex = 0;
+	_zIndex = 1;
 	_draw = false;
-	_graphics->setImgPath("images\squareOverlay.png");
+	_graphics->setImgPath("images/squareOverlay.png");
 	_graphics->loadTexture();
 	setMoveOverlayColor(81, 224, 240, 255);
 	setTakeOverlayColor(240, 121, 81, 255);
@@ -46,12 +46,12 @@ void Square::setOverlayType(Overlay overlay)
 		break;
 	case MOVE:
 		SDL_SetTextureBlendMode(_graphics->getSdlTexture(), SDL_BLENDMODE_ADD);
-		SDL_SetTextureAlphaMod(_graphics->getSdlTexture(), 255);
+		SDL_SetTextureAlphaMod(_graphics->getSdlTexture(), 200);
 		SDL_SetTextureColorMod(_graphics->getSdlTexture(), _moveOverlayColor.r, _moveOverlayColor.g, _moveOverlayColor.b);
 		break;
 	case TAKE:
 		SDL_SetTextureBlendMode(_graphics->getSdlTexture(), SDL_BLENDMODE_ADD);
-		SDL_SetTextureAlphaMod(_graphics->getSdlTexture(), 255);
+		SDL_SetTextureAlphaMod(_graphics->getSdlTexture(), 200);
 		SDL_SetTextureColorMod(_graphics->getSdlTexture(), _takeOverlayColor.r, _takeOverlayColor.g, _takeOverlayColor.b);
 		break;
 	}

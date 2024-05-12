@@ -5,7 +5,7 @@
 #include "GameStateMachine.h"
 #include "easylogging++.h"
 #include "Chessboard.h"
-#include "SquareGraphicsComponent.h"
+#include "Square.h"
 
 
 /// <summary>
@@ -146,8 +146,13 @@ int main( int argc, char* args[] )
 	chessboard.buildChessboard();
 
 	// Square overlay testing
+	Square testSquare("Test");
+	testSquare.setOverlayType(Square::MOVE);
+	testSquare._draw = true;
+	std::map<int, std::pair<GameObject*, SDL_Texture*>> testSquareMap;
 	
-	
+	testSquareMap.insert({ testSquare.getZ(), std::pair<GameObject*, SDL_Texture*>(&testSquare, testSquare.getGraphicsComponent()->getSdlTexture())});
+	ServiceLocator::getGraphics().addToRenderMap(testSquareMap);
 
 	
 	
