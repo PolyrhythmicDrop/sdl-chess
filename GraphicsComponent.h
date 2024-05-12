@@ -10,6 +10,7 @@ private:
 	std::string _imgPath;
 	
 
+
 public:
 	
 	GraphicsComponent();

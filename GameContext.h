@@ -1,6 +1,5 @@
 #pragma once
 #include "GameObject.h"
-#include "Square.h"
 #include <cassert>
 #include <vector>
 
