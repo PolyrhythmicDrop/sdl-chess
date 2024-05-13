@@ -20,11 +20,80 @@ Chessboard::Chessboard(BoardSkin skin) :
 	LOG(INFO) << "Chessboard constructed!";
 }
 
+// Copy constructor for deep copy
+Chessboard::Chessboard(const Chessboard& board)
+{
+	_skin = board._skin;
+	_graphics = new GraphicsComponent();
+	*_graphics = *(board._graphics);
+	_boardDimensions = board._boardDimensions;
+	_boardGrid = board._boardGrid;
+	LOG(INFO) << "Chessboard deep copy constructor called!";
+}
+
+
 Chessboard::~Chessboard()
 {
 	LOG(INFO) << "Chessboard destructed!";
 }
 
+void const Chessboard::buildChessboard()
+{
+	// Set the position of the chessboard
+	int windowW;
+	int windowH;
+	ServiceLocator::getGraphics().getWindow()->getWindowSize(&windowW, &windowH);
+	_boardDimensions.x = (windowW / 2) - (_boardDimensions.w / 2);
+	_boardDimensions.y = (windowH / 2) - (_boardDimensions.h / 2);
+
+	// The point at the bottom left of the board, A1 square
+	SDL_Point boardBottomLeft = { _boardDimensions.x, (_boardDimensions.y + _boardDimensions.h) };
+	//
+	int squareSideSize = _boardDimensions.w / 8;
+
+	// Number of rows and columns in board grid
+	int num_col = 8;
+	int num_row = 8;
+
+	// Create the first row of squares
+	Square a1("a1");
+	Square b1("b1");
+	Square c1("c1");
+	Square d1("d1");
+	Square e1("e1");
+	Square f1("f1");
+	Square g1("g1");
+	Square h1("h1");
+
+	// Set the size of each square
+	std::vector<Square> row1Vect = { a1, b1, c1, d1, e1, f1, g1, h1 };
+	LOG(INFO) << "Squares added to Row 1 Vector!";
+	for (Square square : row1Vect)
+	{
+		square.setScale(squareSideSize, squareSideSize);
+		square.setOverlayType(Square::MOVE);
+		square._draw = true;
+		for (int i = 0; i < row1Vect.size(); ++i)
+		{
+			row1Vect[i].setZ(2 + i);
+		}
+	}
+	LOG(INFO) << "Scale and overlay of squares in Row 1 vector set!";
+
+	// Set the positions for the first row of squares
+	row1Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - row1Vect[0].getWidth());
+	LOG(INFO) << "Position for " << row1Vect[0].getName() << " is set to X: " << row1Vect[0].getX() << " and Y: " << row1Vect[0].getY() << " and Z: " << row1Vect[0].getZ();
+	row1Vect[1].setPosition(boardBottomLeft.x + row1Vect[0].getWidth(), row1Vect[0].getY());
+	LOG(INFO) << "Position for " << row1Vect[1].getName() << " is set to X: " << row1Vect[1].getX() << " and Y: " << row1Vect[1].getY() << " and Z: " << row1Vect[1].getZ();
+	row1Vect[2].setPosition(row1Vect[1].getX() + row1Vect[1].getWidth(), row1Vect[1].getY());
+	LOG(INFO) << "Position for " << row1Vect[2].getName() << " is set to X: " << row1Vect[2].getX() << " and Y: " << row1Vect[2].getY() << " and Z: " << row1Vect[2].getZ();
+
+	// Add the row vectors to the board grid vector
+	this->_boardGrid.push_back(row1Vect);
+
+
+}
+/*
 void Chessboard::buildChessboard()
 {
 	// Set the position of the chessboard
@@ -266,3 +335,4 @@ void Chessboard::buildChessboard()
 	
 
 }
+*/

@@ -1,5 +1,5 @@
 #pragma once
-#include "GraphicsComponent.h"
+#include "Square.h"
 #include <vector>
 
 class Chessboard
@@ -15,20 +15,24 @@ private:
 	BoardSkin _skin;
 	SDL_Rect _boardDimensions;
 
-	// A vector of vectors (2D vector) that contains the board grid, with rows and columns and a string name for each rectangle
-	std::vector<std::vector<std::map<std::string, SDL_Rect>>> _boardGrid;
+	// Grid that contains all the squares on the board
+	std::vector<std::vector<Square>> _boardGrid;
 
 
 public:
 
 	Chessboard(BoardSkin skin = STANDARD);
+	// Copy constructor for deep copy
+	Chessboard(const Chessboard& board);
+
 	~Chessboard();
 
 	inline SDL_Rect getBoardDimensions() const { return _boardDimensions; };
+	inline std::vector<std::vector<Square>> getBoardGrid() { return _boardGrid; };
 
 	inline GraphicsComponent* getGraphics() const { return _graphics; };
 
-	void buildChessboard();
+	void const buildChessboard();
 	
 };
 

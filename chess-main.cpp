@@ -141,18 +141,30 @@ int main( int argc, char* args[] )
 
 	int sleepTime = 0;
 
-	// Test the chessboard
-	Chessboard chessboard;
-	chessboard.buildChessboard();
-
 	// Square overlay testing
-	Square testSquare("Test");
-	testSquare.setOverlayType(Square::MOVE);
-	testSquare._draw = true;
-	std::map<int, std::pair<GameObject*, SDL_Texture*>> testSquareMap;
+	Chessboard board;
+	board.buildChessboard();
+	SDL_Rect boardDim = board.getBoardDimensions();
+	LOG(INFO) << "Board X: " << boardDim.x << " Board Y: " << boardDim.y << " Board W: " << boardDim.w << " Board H: " << boardDim.h;
 	
-	testSquareMap.insert({ testSquare.getZ(), std::pair<GameObject*, SDL_Texture*>(&testSquare, testSquare.getGraphicsComponent()->getSdlTexture())});
-	ServiceLocator::getGraphics().addToRenderMap(testSquareMap);
+	
+	SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), board.getGraphics()->getSdlTexture(), NULL, &boardDim);
+
+	// Test adding objects to render queue
+	std::map<int, std::pair<GameObject*, SDL_Texture*>> testMap;
+	std::vector<std::vector<Square>> boardGrid = board.getBoardGrid();
+
+	LOG(INFO) << "BoardGrid 0.0 " << boardGrid[0][0].getName() << " Dimensions:\nX : " << boardGrid[0][0].getDimensions()->x << "\n"
+		<< "Y: " << boardGrid[0][0].getDimensions()->y << "\n"
+		<< "W: " << boardGrid[0][0].getDimensions()->w << "\n"
+		<< "H: " << boardGrid[0][0].getDimensions()->h << "\n";
+
+	for (int i = 0; i < boardGrid[0].size(); ++i)
+	{
+		testMap.insert({ boardGrid[0][i].getZ(), std::pair<GameObject*, SDL_Texture*>(&boardGrid[0][i], boardGrid[0][i].getGraphicsComponent()->getSdlTexture()) });
+	}	
+	
+	ServiceLocator::getGraphics().addToRenderMap(testMap);
 
 	
 	

@@ -1,5 +1,6 @@
 #include "Square.h"
 #include "ServiceLocator.h"
+#include "easylogging++.h"
 
 Square::Square(std::string notation) :
 	_occupied(false),
@@ -17,6 +18,29 @@ Square::Square(std::string notation) :
 	setMoveOverlayColor(81, 224, 240, 255);
 	setTakeOverlayColor(240, 121, 81, 255);
 	setOverlayType(NONE);
+}
+
+// Deep copy constructor
+Square::Square(const Square& square)
+{
+	_name = square._name;
+	_dimensions = square._dimensions;
+	_zIndex = square._zIndex;
+	_draw = square._draw;
+	_occupied = square._occupied;
+	_moveOverlayColor = square._moveOverlayColor;
+	_takeOverlayColor = square._takeOverlayColor;
+	_graphics = new GraphicsComponent();
+	*_graphics = *(square._graphics);
+	_overlay = square._overlay;
+
+	LOG(INFO) << "Deep copy constructor called!";
+}
+
+Square& Square::operator=(const Square& other)
+{
+	LOG(INFO) << "Assignment operator called!";
+	return *this;
 }
 
 Square::~Square()

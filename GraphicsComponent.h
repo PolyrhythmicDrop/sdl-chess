@@ -7,9 +7,7 @@ class GraphicsComponent: public IDrawable
 private:
 	Texture* _textureLoader;
 	SDL_Texture* _sdlTexture;
-	std::string _imgPath;
-	
-
+	std::string _imgPath;	
 
 public:
 	

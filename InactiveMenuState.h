@@ -6,7 +6,9 @@ class InactiveMenuState : public IMenuState
 {
 private:
 	InactiveMenuState() {};
+	// Copy constructor
 	InactiveMenuState(const InactiveMenuState& other);
+	// Assignment operator
 	InactiveMenuState& operator=(const InactiveMenuState& other);
 
 public:

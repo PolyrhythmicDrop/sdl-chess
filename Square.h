@@ -21,7 +21,13 @@ public:
 	// True if the square is occupied, false if empty. If occupied, the square will use the take overlay. If empty, the square will use the move overlay.
 	bool _occupied;
 
+	// Default constructor
 	Square(std::string name);
+	// Deep copy constructor
+	Square(const Square& square);
+	// Assignment operator
+	Square& operator=(const Square& other);
+
 	~Square();
 
 	// inline SquareGraphicsComponent* getGraphics() { return _graphics; };
