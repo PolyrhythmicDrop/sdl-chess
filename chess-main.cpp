@@ -158,9 +158,11 @@ int main( int argc, char* args[] )
 	
 	testMap.emplace(board.getZ(), std::pair<GameObject*, SDL_Texture*>(&board, board.getGraphics()->getSdlTexture()));
 
-	for (int i = 0; i < boardGrid[0].size(); ++i)
+	LOG(INFO) << "The size of the board grid is: " << boardGrid.size() << " rows and " << boardGrid[0].size() << " columns.";
+	for (int row = 0; row < boardGrid.size(); ++row)
 	{
-		testMap.insert({ boardGrid[0][i].getZ(), std::pair<GameObject*, SDL_Texture*>(&boardGrid[0][i], boardGrid[0][i].getGraphicsComponent()->getSdlTexture()) });
+		for (int column = 0; column < boardGrid[row].size(); ++column)
+		testMap.insert({ boardGrid[row][column].getZ(), std::pair<GameObject*, SDL_Texture*>(&boardGrid[row][column], boardGrid[row][column].getGraphicsComponent()->getSdlTexture()) });
 	}	
 	
 	ServiceLocator::getGraphics().addToRenderMap(testMap);

@@ -4,8 +4,6 @@
 
 Square::Square(std::string notation) :
 	_occupied(false),
-	_moveOverlayColor({ 81, 224, 240, 125 }),
-	_takeOverlayColor({ 240, 121, 81, 125 }),
 	_graphics(new GraphicsComponent()),
 	_overlay(NONE)
 {
@@ -70,12 +68,12 @@ void Square::setOverlayType(Overlay overlay)
 		break;
 	case MOVE:
 		SDL_SetTextureBlendMode(_graphics->getSdlTexture(), SDL_BLENDMODE_ADD);
-		SDL_SetTextureAlphaMod(_graphics->getSdlTexture(), 200);
+		SDL_SetTextureAlphaMod(_graphics->getSdlTexture(), 220);
 		SDL_SetTextureColorMod(_graphics->getSdlTexture(), _moveOverlayColor.r, _moveOverlayColor.g, _moveOverlayColor.b);
 		break;
 	case TAKE:
 		SDL_SetTextureBlendMode(_graphics->getSdlTexture(), SDL_BLENDMODE_ADD);
-		SDL_SetTextureAlphaMod(_graphics->getSdlTexture(), 200);
+		SDL_SetTextureAlphaMod(_graphics->getSdlTexture(), 220);
 		SDL_SetTextureColorMod(_graphics->getSdlTexture(), _takeOverlayColor.r, _takeOverlayColor.g, _takeOverlayColor.b);
 		break;
 	}
