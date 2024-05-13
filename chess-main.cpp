@@ -144,9 +144,7 @@ int main( int argc, char* args[] )
 	// Square overlay testing
 	Chessboard board;
 	board.buildChessboard();
-	SDL_Rect boardDim = board.getBoardDimensions();
-	LOG(INFO) << "Board X: " << boardDim.x << " Board Y: " << boardDim.y << " Board W: " << boardDim.w << " Board H: " << boardDim.h;
-		
+			
 	// Test adding objects to render queue
 	std::map<int, std::pair<GameObject*, SDL_Texture*>> testMap;
 	std::vector<std::vector<Square>> boardGrid = board.getBoardGrid();

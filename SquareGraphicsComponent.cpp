@@ -54,42 +54,51 @@ void SquareGraphicsComponent::sumImage(Square* square)
 	// Clear the sum texture
 	SDL_SetRenderDrawColor(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 255, 255, 255, 255);
 	SDL_RenderClear(ServiceLocator::getGraphics().getRenderer()->GetRenderer());
+
 	// Set the blend mode for the sum texture
 	SDL_SetTextureBlendMode(_sdlTexture, SDL_BLENDMODE_NONE);
 	SDL_SetTextureAlphaMod(_sdlTexture, 255);
 
-	// Set the blend mode for the tile texture
+	// Set the blend mode for the square texture
 	SDL_SetTextureBlendMode(_squareTexture, SDL_BLENDMODE_NONE);
-	SDL_SetTextureAlphaMod(_squareTexture, 255);
 	// Set the color for light and dark squares
-
-	if (square->getTileType() == Square::DARK)
+	switch (square->getTileType())
 	{
+	case Square::DARK:
 		SDL_SetTextureColorMod(_squareTexture, square->getDarkTileColor()->r, square->getDarkTileColor()->g, square->getDarkTileColor()->b);
-	}
-	else if (square->getTileType() == Square::LIGHT)
-	{
+		SDL_SetTextureAlphaMod(_squareTexture, 255);
+		break;
+	case Square::LIGHT:
 		SDL_SetTextureColorMod(_squareTexture, square->getLightTileColor()->r, square->getLightTileColor()->g, square->getLightTileColor()->b);
+		SDL_SetTextureAlphaMod(_squareTexture, 255);
+		break;
 	}
-
 	SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _squareTexture, NULL, NULL);
 
-	SDL_SetTextureBlendMode(_overlayTexture, SDL_BLENDMODE_BLEND);
-	SDL_SetTextureAlphaMod(_overlayTexture, 200);
 	// Overlay color setting
 	switch (square->getOverlayType())
 	{
 	case Square::NONE:
+		SDL_SetTextureBlendMode(_overlayTexture, SDL_BLENDMODE_BLEND);
 		SDL_SetTextureAlphaMod(_overlayTexture, 0);
+		SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _overlayTexture, NULL, NULL);
 		break;
 	case Square::MOVE:
+		SDL_SetTextureBlendMode(_overlayTexture, SDL_BLENDMODE_BLEND);
+		SDL_SetTextureAlphaMod(_overlayTexture, 200);
 		SDL_SetTextureColorMod(_overlayTexture, square->getMoveOverlayColor()->r, square->getMoveOverlayColor()->g, square->getMoveOverlayColor()->b);
+		SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _overlayTexture, NULL, NULL);
 		break;
 	case Square::TAKE:
-		SDL_SetTextureColorMod(_overlayTexture, square->getTakeOverlayColor()->r, square->getTakeOverlayColor()->g, square->getTakeOverlayColor()->b);		
+		SDL_SetTextureBlendMode(_overlayTexture, SDL_BLENDMODE_BLEND);
+		SDL_SetTextureAlphaMod(_overlayTexture, 200);
+		SDL_SetTextureColorMod(_overlayTexture, square->getTakeOverlayColor()->r, square->getTakeOverlayColor()->g, square->getTakeOverlayColor()->b);	
+		SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _overlayTexture, NULL, NULL);
 		break;
 	}
-	SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _overlayTexture, NULL, NULL);	
+	// Render the square texture and the overlay texture to the sum texture
+	
+		
 	
 	// Set the render target back to the window
 	SDL_SetRenderTarget(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), NULL);

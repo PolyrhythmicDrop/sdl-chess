@@ -59,13 +59,13 @@ SquareGraphicsComponent* Square::getGraphicsComponent()
 void Square::setMoveOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	_moveOverlayColor = { r, g, b, a };
-	getGraphicsComponent()->sumImage(this);
+	_graphics->sumImage(this);
 }
 
 void Square::setTakeOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	_takeOverlayColor = { r, g, b, a };
-	getGraphicsComponent()->sumImage(this);
+	_graphics->sumImage(this);
 }
 
 void Square::setOverlayType(Overlay overlay)
@@ -77,7 +77,6 @@ void Square::setOverlayType(Overlay overlay)
 void Square::setLightTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	_lightTileColor = { r, g, b, a };
-	getGraphicsComponent()->sumImage(this);
 }
 
 void Square::setDarkTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
