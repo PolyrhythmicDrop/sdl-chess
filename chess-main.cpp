@@ -146,10 +146,7 @@ int main( int argc, char* args[] )
 	board.buildChessboard();
 	SDL_Rect boardDim = board.getBoardDimensions();
 	LOG(INFO) << "Board X: " << boardDim.x << " Board Y: " << boardDim.y << " Board W: " << boardDim.w << " Board H: " << boardDim.h;
-	
-	
-	SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), board.getGraphics()->getSdlTexture(), NULL, &boardDim);
-
+		
 	// Test adding objects to render queue
 	std::map<int, std::pair<GameObject*, SDL_Texture*>> testMap;
 	std::vector<std::vector<Square>> boardGrid = board.getBoardGrid();
@@ -158,6 +155,8 @@ int main( int argc, char* args[] )
 		<< "Y: " << boardGrid[0][0].getDimensions()->y << "\n"
 		<< "W: " << boardGrid[0][0].getDimensions()->w << "\n"
 		<< "H: " << boardGrid[0][0].getDimensions()->h << "\n";
+	
+	testMap.emplace(board.getZ(), std::pair<GameObject*, SDL_Texture*>(&board, board.getGraphics()->getSdlTexture()));
 
 	for (int i = 0; i < boardGrid[0].size(); ++i)
 	{

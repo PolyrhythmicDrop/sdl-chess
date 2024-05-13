@@ -2,7 +2,7 @@
 #include "Square.h"
 #include <vector>
 
-class Chessboard
+class Chessboard : public GameObject
 {
 private:
 
@@ -13,7 +13,6 @@ private:
 	};
 
 	BoardSkin _skin;
-	SDL_Rect _boardDimensions;
 
 	// Grid that contains all the squares on the board
 	std::vector<std::vector<Square>> _boardGrid;
@@ -27,7 +26,7 @@ public:
 
 	~Chessboard();
 
-	inline SDL_Rect getBoardDimensions() const { return _boardDimensions; };
+	inline SDL_Rect getBoardDimensions() const { return _dimensions; };
 	inline std::vector<std::vector<Square>> getBoardGrid() { return _boardGrid; };
 
 	inline GraphicsComponent* getGraphics() const { return _graphics; };

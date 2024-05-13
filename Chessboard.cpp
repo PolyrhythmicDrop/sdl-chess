@@ -4,8 +4,7 @@
 
 Chessboard::Chessboard(BoardSkin skin) :
 	_graphics(new GraphicsComponent()),
-	_skin(skin),
-	_boardDimensions({ 0, 0, 0, 0 })
+	_skin(skin)
 {
 	switch(_skin)
 	{case STANDARD:
@@ -15,8 +14,8 @@ Chessboard::Chessboard(BoardSkin skin) :
 	_graphics->loadTexture();
 	int w, h;
 	SDL_QueryTexture(_graphics->getSdlTexture(), NULL, NULL, &w, &h);
-	_boardDimensions.w = w;
-	_boardDimensions.h = h;	
+	setScaleFromTexture(_graphics->getSdlTexture());
+	_zIndex = 1;
 	LOG(INFO) << "Chessboard constructed!";
 }
 
@@ -26,7 +25,8 @@ Chessboard::Chessboard(const Chessboard& board)
 	_skin = board._skin;
 	_graphics = new GraphicsComponent();
 	*_graphics = *(board._graphics);
-	_boardDimensions = board._boardDimensions;
+	_dimensions = board._dimensions;
+	_zIndex = board._zIndex;
 	_boardGrid = board._boardGrid;
 	LOG(INFO) << "Chessboard deep copy constructor called!";
 }
@@ -43,13 +43,13 @@ void const Chessboard::buildChessboard()
 	int windowW;
 	int windowH;
 	ServiceLocator::getGraphics().getWindow()->getWindowSize(&windowW, &windowH);
-	_boardDimensions.x = (windowW / 2) - (_boardDimensions.w / 2);
-	_boardDimensions.y = (windowH / 2) - (_boardDimensions.h / 2);
+	_dimensions.x = (windowW / 2) - (_dimensions.w / 2);
+	_dimensions.y = (windowH / 2) - (_dimensions.h / 2);
 
 	// The point at the bottom left of the board, A1 square
-	SDL_Point boardBottomLeft = { _boardDimensions.x, (_boardDimensions.y + _boardDimensions.h) };
+	SDL_Point boardBottomLeft = { _dimensions.x, (_dimensions.y + _dimensions.h) };
 	//
-	int squareSideSize = _boardDimensions.w / 8;
+	int squareSideSize = _dimensions.w / 8;
 
 	// Number of rows and columns in board grid
 	int num_col = 8;
