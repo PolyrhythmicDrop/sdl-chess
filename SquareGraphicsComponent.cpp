@@ -1,47 +1,73 @@
-/*
-
+#pragma once
 #include "SquareGraphicsComponent.h"
-#include "ServiceLocator.h"
+#include "easylogging++.h"
+
 SquareGraphicsComponent::SquareGraphicsComponent() :
-	_moveOverlayColor({ 81, 224, 240, 125 }),
-	_takeOverlayColor({ 240, 121, 81, 125 })
-{}
+	_squareImgPath(""),
+	_overlayImgPath(""),
+	_textureLoader(new Texture()),
+	_sdlTexture(SDL_CreateTexture(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, 125, 125)),
+	_squareTexture(NULL),
+	_overlayTexture(NULL)
+{
+	LOG(INFO) << "Square graphics component constructed!";
+}
 
 SquareGraphicsComponent::~SquareGraphicsComponent()
-{}
-
-void SquareGraphicsComponent::setMoveOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
-	_moveOverlayColor = { r, g, b, a };
+	_textureLoader->~Texture();
+	LOG(INFO) << "Square graphics component destructed!";
 }
 
-void SquareGraphicsComponent::setTakeOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+void SquareGraphicsComponent::loadTexture()
 {
-	_takeOverlayColor = { r, g, b, a };
+	_squareTexture = _textureLoader->loadTextureFromImage(_squareImgPath);
+	_overlayTexture = _textureLoader->loadTextureFromImage(_overlayImgPath);
 }
 
-/*
-void SquareGraphicsComponent::drawOverlay(Square* square)
+SDL_Texture* SquareGraphicsComponent::getSquareTexture()
 {
-	SDL_Renderer* renderer = ServiceLocator::getGraphics().getRenderer()->GetRenderer();
-	if (square->_drawOverlay = true)
-	{
-		if (square->_occupied = false)
-		{
-			SDL_SetRenderDrawColor(renderer, _moveOverlayColor.r, _moveOverlayColor.g, _moveOverlayColor.b, _moveOverlayColor.a);
-			SDL_RenderFillRect(renderer, square->getRect());
-		}
-		else
-		{
-			SDL_SetRenderDrawColor(renderer, _takeOverlayColor.r, _takeOverlayColor.g, _takeOverlayColor.b, _takeOverlayColor.a);
-			SDL_RenderFillRect(renderer, square->getRect());
-		}
-	}
-	else
-	{
-		// If _drawOverlay is false, clear the rect
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		SDL_RenderFillRect(renderer, square->getRect());
-	}
+	return _squareTexture;
 }
-*/
+
+SDL_Texture* SquareGraphicsComponent::getOverlayTexture()
+{
+	return _overlayTexture;
+}
+
+void SquareGraphicsComponent::setSquareImgPath(std::string path)
+{
+	_squareImgPath = path;
+}
+
+void SquareGraphicsComponent::setOverlayImgPath(std::string path)
+{
+	_overlayImgPath = path;
+}
+
+void SquareGraphicsComponent::sumImage()
+{
+	// Set the sum texture as the render target
+	SDL_SetRenderTarget(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _sdlTexture);
+
+	// Clear the sum texture
+	SDL_SetRenderDrawColor(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), 255, 255, 255, 255);
+	SDL_RenderClear(ServiceLocator::getGraphics().getRenderer()->GetRenderer());
+
+	// Sum the overlay texture and the square texture into the sum texture
+	SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _squareTexture, NULL, NULL);
+	SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _overlayTexture, NULL, NULL);
+
+	// Set the render target back to the window
+	SDL_SetRenderTarget(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), NULL);
+}
+
+SDL_Texture* SquareGraphicsComponent::getSdlTexture()
+{
+	return _sdlTexture;
+}
+
+SquareGraphicsComponent* SquareGraphicsComponent::getGraphicsComponent()
+{
+	return this;
+}

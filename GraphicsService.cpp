@@ -53,6 +53,7 @@ void GraphicsService::render()
 	// Set renderer variable
 	SDL_Renderer* renderer = _renderer->GetRenderer();
 
+	SDL_SetRenderTarget(renderer, NULL);
 	// Set the background color and clear the renderer
 	SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
 	SDL_RenderClear(renderer);
@@ -60,7 +61,10 @@ void GraphicsService::render()
 	std::map<int, std::pair<GameObject*, SDL_Texture*>>::iterator it = _renderMap.begin();
 	for (it; it != _renderMap.end(); it++)
 	{
-		SDL_RenderCopy(renderer, it->second.second, NULL, it->second.first->getDimensions());
+		if (it->second.first->_draw == true)
+		{
+			SDL_RenderCopy(renderer, it->second.second, NULL, it->second.first->getDimensions());
+		}
 	}
 	
 	SDL_RenderPresent(renderer);

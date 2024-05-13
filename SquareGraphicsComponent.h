@@ -1,32 +1,43 @@
 #pragma once
 
-// This class is currently not associated with anything, as all these functions are in the Square class until I can find a better implementation of them (if possible)
+#include "IDrawable.h"
+#include "Texture.h"
 
-/*
-struct Color {
-	Uint8 r, g, b, a;
-};
-
-class SquareGraphicsComponent
+class SquareGraphicsComponent : public IDrawable
 {
-protected:
+private:
+	Texture* _textureLoader;
 
-	Color _moveOverlayColor;
-	Color _takeOverlayColor;
+	SDL_Texture* _sdlTexture;
+	SDL_Texture* _squareTexture;
+	SDL_Texture* _overlayTexture;
+
+	std::string _squareImgPath;
+	std::string _overlayImgPath;
 
 public:
 
 	SquareGraphicsComponent();
 	~SquareGraphicsComponent();
 
-	inline const Color* getMoveOverlayColor() { return &_moveOverlayColor; };
-	inline const Color* getTakeOverlayColor() { return &_takeOverlayColor; };
+	// IDrawable functions
 
-	void setMoveOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-	void setTakeOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+	void loadTexture();
+	SDL_Texture* getSdlTexture();
 
-	// void drawOverlay(Square* square);
+	// Get the textures for the overlay and the square to edit their colors individually
+	SDL_Texture* getSquareTexture();
+	SDL_Texture* getOverlayTexture();
+
+	void setSquareImgPath(std::string path);
+	void setOverlayImgPath(std::string path);
+
+	// Combines the square texture and the overlay texture into a single texture for rendering
+	void sumImage();
+
+	SquareGraphicsComponent* getGraphicsComponent();
 
 };
-*/
+
+
 

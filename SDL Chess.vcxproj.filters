@@ -156,13 +156,13 @@
     <ClCompile Include="easylogging++.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Chessboard.cpp">
-      <Filter>Source Files\Board</Filter>
-    </ClCompile>
     <ClCompile Include="SquareGraphicsComponent.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Square.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Chessboard.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -257,13 +257,13 @@
     <ClInclude Include="easylogging++.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Chessboard.h">
-      <Filter>Header Files\Board</Filter>
-    </ClInclude>
     <ClInclude Include="SquareGraphicsComponent.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Square.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Chessboard.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -308,6 +308,9 @@
       <Filter>Source Files\Images</Filter>
     </Image>
     <Image Include="images\squareOverlay.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\squareSquare.png">
       <Filter>Source Files\Images</Filter>
     </Image>
   </ItemGroup>

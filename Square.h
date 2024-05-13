@@ -1,8 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "GraphicsComponent.h"
-
-// class SquareGraphicsComponent;
+#include "SquareGraphicsComponent.h"
 
 struct Color {
 	Uint8 r, g, b, a;
@@ -18,6 +16,11 @@ public:
 		TAKE
 	};
 
+	enum TileColor {
+		LIGHT,
+		DARK
+	};
+
 	// True if the square is occupied, false if empty. If occupied, the square will use the take overlay. If empty, the square will use the move overlay.
 	bool _occupied;
 
@@ -30,27 +33,38 @@ public:
 
 	~Square();
 
-	// inline SquareGraphicsComponent* getGraphics() { return _graphics; };
-	GraphicsComponent* getGraphicsComponent();
+	SquareGraphicsComponent* getGraphicsComponent();
 
+	// Sets the square's occupied flag
 	inline void setOccupied(bool occupied) { _occupied = occupied; };
+
+	// Overlay functions
 
 	inline const Color* getMoveOverlayColor() { return &_moveOverlayColor; };
 	inline const Color* getTakeOverlayColor() { return &_takeOverlayColor; };
 	void setMoveOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 	void setTakeOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-
 	void setOverlayType(Overlay overlay);
-
-	// void drawOverlay();
+	
+	// Tile color functions
+	inline const Color* getLightTileColor() { return &_lightTileColor; };
+	inline const Color* getDarkTileColor() { return &_darkTileColor; };
+	inline const TileColor getTileType() { return _tileType; };
+	void setLightTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+	void setDarkTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+	void setTileType(TileColor type);
 
 private:
 	Color _moveOverlayColor;
 	Color _takeOverlayColor;
-	GraphicsComponent* _graphics;
+
+	Color _lightTileColor;
+	Color _darkTileColor;
+
+	SquareGraphicsComponent* _graphics;
 
 	Overlay _overlay;
-
+	TileColor _tileType;
 
 };
 

@@ -4,18 +4,24 @@
 
 Square::Square(std::string notation) :
 	_occupied(false),
-	_graphics(new GraphicsComponent()),
-	_overlay(NONE)
+	_graphics(new SquareGraphicsComponent()),
+	_overlay(NONE),
+	_tileType(DARK)
 {
 	_name = notation;
 	_dimensions = {0, 0, 125, 125 };
 	_zIndex = 1;
 	_draw = false;
-	_graphics->setImgPath("images/squareOverlay.png");
+	_graphics->setSquareImgPath("images/squareSquare.png");
+	_graphics->setOverlayImgPath("images/squareOverlay.png");
 	_graphics->loadTexture();
 	setMoveOverlayColor(81, 224, 240, 255);
 	setTakeOverlayColor(240, 121, 81, 255);
+	setLightTileColor(250, 237, 215, 255);
+	setDarkTileColor(80, 59, 22, 255);
 	setOverlayType(NONE);
+	setTileType(DARK);
+	_graphics->sumImage();
 }
 
 // Deep copy constructor
@@ -28,7 +34,10 @@ Square::Square(const Square& square)
 	_occupied = square._occupied;
 	_moveOverlayColor = square._moveOverlayColor;
 	_takeOverlayColor = square._takeOverlayColor;
-	_graphics = new GraphicsComponent();
+	_lightTileColor = square._lightTileColor;
+	_darkTileColor = square._darkTileColor;
+	_tileType = square._tileType;
+	_graphics = new SquareGraphicsComponent();
 	*_graphics = *(square._graphics);
 	_overlay = square._overlay;
 
@@ -44,7 +53,7 @@ Square& Square::operator=(const Square& other)
 Square::~Square()
 {}
 
-GraphicsComponent* Square::getGraphicsComponent()
+SquareGraphicsComponent* Square::getGraphicsComponent()
 {
 	return _graphics;
 }
@@ -64,44 +73,43 @@ void Square::setOverlayType(Overlay overlay)
 	switch (overlay)
 	{
 	case NONE:
-		SDL_SetTextureAlphaMod(_graphics->getSdlTexture(), 0);
+		SDL_SetTextureAlphaMod(_graphics->getOverlayTexture(), 0);
 		break;
 	case MOVE:
-		SDL_SetTextureBlendMode(_graphics->getSdlTexture(), SDL_BLENDMODE_BLEND);
-		SDL_SetTextureAlphaMod(_graphics->getSdlTexture(), 220);
-		SDL_SetTextureColorMod(_graphics->getSdlTexture(), _moveOverlayColor.r, _moveOverlayColor.g, _moveOverlayColor.b);
+		SDL_SetTextureBlendMode(_graphics->getOverlayTexture(), SDL_BLENDMODE_BLEND);
+		SDL_SetTextureAlphaMod(_graphics->getOverlayTexture(), 220);
+		SDL_SetTextureColorMod(_graphics->getOverlayTexture(), _moveOverlayColor.r, _moveOverlayColor.g, _moveOverlayColor.b);
 		break;
 	case TAKE:
-		SDL_SetTextureBlendMode(_graphics->getSdlTexture(), SDL_BLENDMODE_BLEND);
-		SDL_SetTextureAlphaMod(_graphics->getSdlTexture(), 220);
-		SDL_SetTextureColorMod(_graphics->getSdlTexture(), _takeOverlayColor.r, _takeOverlayColor.g, _takeOverlayColor.b);
+		SDL_SetTextureBlendMode(_graphics->getOverlayTexture(), SDL_BLENDMODE_BLEND);
+		SDL_SetTextureAlphaMod(_graphics->getOverlayTexture(), 220);
+		SDL_SetTextureColorMod(_graphics->getOverlayTexture(), _takeOverlayColor.r, _takeOverlayColor.g, _takeOverlayColor.b);
 		break;
 	}
+	_graphics->sumImage();
 	_overlay = overlay;
 }
 
-/*
-void Square::drawOverlay()
+void Square::setLightTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
-	SDL_Renderer* renderer = ServiceLocator::getGraphics().getRenderer()->GetRenderer();
-	if (_draw = true)
+	_lightTileColor = { r, g, b, a };
+}
+
+void Square::setDarkTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+{
+	_darkTileColor = { r, g, b, a };
+}
+
+void Square::setTileType(TileColor type)
+{
+	_tileType = type;
+	if (_tileType == DARK)
 	{
-		if (_occupied = false)
-		{
-			SDL_SetRenderDrawColor(renderer, _moveOverlayColor.r, _moveOverlayColor.g, _moveOverlayColor.b, _moveOverlayColor.a);
-			SDL_RenderFillRect(renderer, getDimensions());
-		}
-		else
-		{
-			SDL_SetRenderDrawColor(renderer, _takeOverlayColor.r, _takeOverlayColor.g, _takeOverlayColor.b, _takeOverlayColor.a);
-			SDL_RenderFillRect(renderer, getDimensions());
-		}
+		SDL_SetTextureColorMod(_graphics->getSquareTexture(), _darkTileColor.r, _darkTileColor.g, _darkTileColor.b);
 	}
 	else
 	{
-		// If _draw is false, clear the rect
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		SDL_RenderFillRect(renderer, getDimensions());
+		SDL_SetTextureColorMod(_graphics->getSquareTexture(), _lightTileColor.r, _lightTileColor.g, _lightTileColor.b);
 	}
+	_graphics->sumImage();
 }
-*/

@@ -1,5 +1,6 @@
 #pragma once
 #include "Square.h"
+#include "GraphicsComponent.h"
 #include <vector>
 
 class Chessboard : public GameObject
