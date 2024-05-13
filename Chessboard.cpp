@@ -51,10 +51,6 @@ void const Chessboard::buildChessboard()
 	//
 	int squareSideSize = _dimensions.w / 8;
 
-	// Number of rows and columns in board grid
-	int num_col = 8;
-	int num_row = 8;
-
 	// *** //
 	// Create the first row of squares
 	Square a1("a1");
@@ -69,18 +65,18 @@ void const Chessboard::buildChessboard()
 	// Set the size of each square
 	std::vector<Square> row1Vect = { a1, b1, c1, d1, e1, f1, g1, h1 };
 	LOG(INFO) << "Squares added to Row 1 Vector!";
-	/*
-	for (int i = 1; i < row1Vect.size(); i + 2)
+	
+	for (int i = 1; i < row1Vect.size(); ++i)
 	{
 		row1Vect[i].setTileType(Square::LIGHT);
+		++i;
 	}
-	*/
+	
 
 	for (Square square : row1Vect)
 	{
 		square.setScale(squareSideSize, squareSideSize);
-		square.setOverlayType(Square::NONE);
-		square.setTileType(Square::DARK);
+		square.setOverlayType(Square::MOVE);
 		square._draw = true;
 		for (int i = 0; i < row1Vect.size(); ++i)
 		{

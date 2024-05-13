@@ -313,6 +313,9 @@
     <Image Include="images\squareSquare.png">
       <Filter>Source Files\Images</Filter>
     </Image>
+    <Image Include="images\square_Overlay.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

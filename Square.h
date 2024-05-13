@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
-#include "SquareGraphicsComponent.h"
+
+class SquareGraphicsComponent;
 
 struct Color {
 	Uint8 r, g, b, a;
@@ -45,6 +46,7 @@ public:
 	void setMoveOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 	void setTakeOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 	void setOverlayType(Overlay overlay);
+	inline Overlay getOverlayType() { return _overlay; };
 	
 	// Tile color functions
 	inline const Color* getLightTileColor() { return &_lightTileColor; };

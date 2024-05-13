@@ -1,7 +1,7 @@
 #pragma once
-
 #include "IDrawable.h"
 #include "Texture.h"
+#include "Square.h"
 
 class SquareGraphicsComponent : public IDrawable
 {
@@ -33,7 +33,7 @@ public:
 	void setOverlayImgPath(std::string path);
 
 	// Combines the square texture and the overlay texture into a single texture for rendering
-	void sumImage();
+	void sumImage(Square* square);
 
 	SquareGraphicsComponent* getGraphicsComponent();
 

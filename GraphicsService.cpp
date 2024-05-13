@@ -61,10 +61,7 @@ void GraphicsService::render()
 	std::map<int, std::pair<GameObject*, SDL_Texture*>>::iterator it = _renderMap.begin();
 	for (it; it != _renderMap.end(); it++)
 	{
-		if (it->second.first->_draw == true)
-		{
-			SDL_RenderCopy(renderer, it->second.second, NULL, it->second.first->getDimensions());
-		}
+		SDL_RenderCopy(renderer, it->second.second, NULL, it->second.first->getDimensions());
 	}
 	
 	SDL_RenderPresent(renderer);

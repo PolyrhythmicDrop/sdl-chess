@@ -5,7 +5,7 @@
 #include "GameStateMachine.h"
 #include "easylogging++.h"
 #include "Chessboard.h"
-#include "Square.h"
+#include "SquareGraphicsComponent.h"
 
 
 /// <summary>
