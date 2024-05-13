@@ -150,8 +150,6 @@ int main( int argc, char* args[] )
 	// Test adding objects to render queue
 	std::map<int, std::pair<GameObject*, SDL_Texture*>> testMap;
 	std::vector<std::vector<Square>> boardGrid = board.getBoardGrid();
-	
-	testMap.emplace(board.getZ(), std::pair<GameObject*, SDL_Texture*>(&board, board.getGraphics()->getSdlTexture()));
 
 	LOG(INFO) << "The size of the board grid is: " << boardGrid.size() << " rows and " << boardGrid[0].size() << " columns.";
 
@@ -174,8 +172,6 @@ int main( int argc, char* args[] )
 	}	
 
 	ServiceLocator::getGraphics().addToRenderMap(testMap);
-
-	boardGrid[2][5].setOverlayType(Square::TAKE);
 	
 		
 	// Main quit flag for the loop

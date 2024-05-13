@@ -66,23 +66,23 @@ void const Chessboard::buildChessboard()
 	std::vector<Square> row1Vect = { a1, b1, c1, d1, e1, f1, g1, h1 };
 	LOG(INFO) << "Squares added to Row 1 Vector!";
 	
+	// Alternate the tile type, depending on the row
 	for (int i = 1; i < row1Vect.size(); ++i)
 	{
 		row1Vect[i].setTileType(Square::LIGHT);
 		++i;
 	}
-	
 
 	for (Square square : row1Vect)
 	{
 		square.setScale(squareSideSize, squareSideSize);
-		square.setOverlayType(Square::MOVE);
 		square._draw = true;
 		for (int i = 0; i < row1Vect.size(); ++i)
 		{
 			row1Vect[i].setZ(2 + i);
 		}
 	}
+
 	LOG(INFO) << "Scale and overlay of squares in Row 1 vector set!";
 
 	std::vector<Square>::iterator itr;
@@ -111,10 +111,17 @@ void const Chessboard::buildChessboard()
 	// Set the size of each square
 	std::vector<Square> row2Vect = { a2, b2, c2, d2, e2, f2, g2, h2 };
 	LOG(INFO) << "Squares added to Row 2 Vector!";
+
+	// Alternate the tile type, depending on the row
+	for (int i = 0; i < row2Vect.size(); ++i)
+	{
+		row2Vect[i].setTileType(Square::LIGHT);
+		++i;
+	}
+
 	for (Square square : row2Vect)
 	{
 		square.setScale(squareSideSize, squareSideSize);
-		square.setOverlayType(Square::MOVE);
 		square._draw = true;
 		for (int i = 0; i < row2Vect.size(); ++i)
 		{
@@ -148,11 +155,18 @@ void const Chessboard::buildChessboard()
 
 	// Set the size of each square
 	std::vector<Square> row3Vect = { a3, b3, c3, d3, e3, f3, g3, h3 };
-	LOG(INFO) << "Squares added to Row 2 Vector!";
+	LOG(INFO) << "Squares added to Row 3 Vector!";
+
+	// Alternate the tile type, depending on the row
+	for (int i = 1; i < row3Vect.size(); ++i)
+	{
+		row3Vect[i].setTileType(Square::LIGHT);
+		++i;
+	}
+
 	for (Square square : row3Vect)
 	{
 		square.setScale(squareSideSize, squareSideSize);
-		square.setOverlayType(Square::MOVE);
 		square._draw = true;
 		for (int i = 0; i < row3Vect.size(); ++i)
 		{
@@ -165,13 +179,15 @@ void const Chessboard::buildChessboard()
 	itr = row3Vect.begin();
 	itr = itr + 2;
 	// Set the positions for the first row of squares
-	row3Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row3Vect[0].getHeight() * 3));
+	row3Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row3Vect[0].getWidth() * 3));
 	row3Vect[1].setPosition(boardBottomLeft.x + row3Vect[0].getWidth(), row3Vect[0].getY());
 	for (int i = 2; i < row3Vect.size(); ++i)
 	{
 		row3Vect[i].setPosition(row3Vect[i - 1].getX() + row3Vect[i - 1].getWidth(), row3Vect[i - 1].getY());
 	}
 	// *** //
+
+
 
 	// *** //
 	// Create the fourth row of squares
