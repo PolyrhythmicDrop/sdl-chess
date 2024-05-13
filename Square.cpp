@@ -67,12 +67,12 @@ void Square::setOverlayType(Overlay overlay)
 		SDL_SetTextureAlphaMod(_graphics->getSdlTexture(), 0);
 		break;
 	case MOVE:
-		SDL_SetTextureBlendMode(_graphics->getSdlTexture(), SDL_BLENDMODE_ADD);
+		SDL_SetTextureBlendMode(_graphics->getSdlTexture(), SDL_BLENDMODE_BLEND);
 		SDL_SetTextureAlphaMod(_graphics->getSdlTexture(), 220);
 		SDL_SetTextureColorMod(_graphics->getSdlTexture(), _moveOverlayColor.r, _moveOverlayColor.g, _moveOverlayColor.b);
 		break;
 	case TAKE:
-		SDL_SetTextureBlendMode(_graphics->getSdlTexture(), SDL_BLENDMODE_ADD);
+		SDL_SetTextureBlendMode(_graphics->getSdlTexture(), SDL_BLENDMODE_BLEND);
 		SDL_SetTextureAlphaMod(_graphics->getSdlTexture(), 220);
 		SDL_SetTextureColorMod(_graphics->getSdlTexture(), _takeOverlayColor.r, _takeOverlayColor.g, _takeOverlayColor.b);
 		break;

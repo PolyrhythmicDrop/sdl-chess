@@ -150,24 +150,32 @@ int main( int argc, char* args[] )
 	// Test adding objects to render queue
 	std::map<int, std::pair<GameObject*, SDL_Texture*>> testMap;
 	std::vector<std::vector<Square>> boardGrid = board.getBoardGrid();
-
-	LOG(INFO) << "BoardGrid 0.0 " << boardGrid[0][0].getName() << " Dimensions:\nX : " << boardGrid[0][0].getDimensions()->x << "\n"
-		<< "Y: " << boardGrid[0][0].getDimensions()->y << "\n"
-		<< "W: " << boardGrid[0][0].getDimensions()->w << "\n"
-		<< "H: " << boardGrid[0][0].getDimensions()->h << "\n";
 	
 	testMap.emplace(board.getZ(), std::pair<GameObject*, SDL_Texture*>(&board, board.getGraphics()->getSdlTexture()));
 
 	LOG(INFO) << "The size of the board grid is: " << boardGrid.size() << " rows and " << boardGrid[0].size() << " columns.";
+
+	// Debug: get the coordinates for each item in the grid and put them in the log
+	for (int row = 0; row < boardGrid.size(); ++row)
+	{
+		LOG(INFO) << "";
+		for (int column = 0; column < boardGrid[row].size(); ++column)
+		{
+			LOG(INFO) << "[ " << boardGrid[row][column].getName() << " ]\nX: " << boardGrid[row][column].getX() << "\nY: " << boardGrid[row][column].getY() << "\nZ: " << boardGrid[row][column].getZ() << "\nW: " << boardGrid[row][column].getWidth() << "\nH: " << boardGrid[row][column].getHeight();
+		}
+	}
+	//
+
+
 	for (int row = 0; row < boardGrid.size(); ++row)
 	{
 		for (int column = 0; column < boardGrid[row].size(); ++column)
 		testMap.insert({ boardGrid[row][column].getZ(), std::pair<GameObject*, SDL_Texture*>(&boardGrid[row][column], boardGrid[row][column].getGraphicsComponent()->getSdlTexture()) });
 	}	
-	
+
 	ServiceLocator::getGraphics().addToRenderMap(testMap);
 
-	
+	boardGrid[2][5].setOverlayType(Square::TAKE);
 	
 		
 	// Main quit flag for the loop
