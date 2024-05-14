@@ -160,8 +160,8 @@ int main( int argc, char* args[] )
 			LOG(INFO) << "[ " << boardGrid[row][column].getName() << " ]\nX: " << boardGrid[row][column].getX() << "\nY: " << boardGrid[row][column].getY() << "\nZ: " << boardGrid[row][column].getZ() << "\nW: " << boardGrid[row][column].getWidth() << "\nH: " << boardGrid[row][column].getHeight();
 		}
 	}
-	//
-
+	
+	
 
 	for (int row = 0; row < boardGrid.size(); ++row)
 	{

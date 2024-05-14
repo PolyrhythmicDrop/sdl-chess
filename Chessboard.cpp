@@ -76,20 +76,17 @@ void const Chessboard::buildChessboard()
 	for (Square square : row1Vect)
 	{
 		square.setScale(squareSideSize, squareSideSize);
-		square._draw = true;
-		for (int i = 0; i < row1Vect.size(); ++i)
-		{
-			row1Vect[i].setZ(2 + i);
-		}
+		square._draw = true;	
+	}
+	for (int i = 0; i < row1Vect.size(); ++i)
+	{
+		row1Vect[i].setZ(2 + i);
 	}
 
 	LOG(INFO) << "Scale and overlay of squares in Row 1 vector set!";
-
-	std::vector<Square>::iterator itr;
-	itr = row1Vect.begin();
-	itr = itr + 2;
+	
 	// Set the positions for the first row of squares
-	row1Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - row1Vect[0].getWidth());
+	row1Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - row1Vect[0].getHeight());
 	row1Vect[1].setPosition(boardBottomLeft.x + row1Vect[0].getWidth(), row1Vect[0].getY());
 	for (int i = 2; i < row1Vect.size(); ++i)
 	{
@@ -116,25 +113,25 @@ void const Chessboard::buildChessboard()
 	for (int i = 0; i < row2Vect.size(); ++i)
 	{
 		row2Vect[i].setTileType(Square::LIGHT);
+		LOG(INFO) << "The value of i is: " << i;
 		++i;
+		LOG(INFO) << "The value of i is: " << i;
 	}
 
 	for (Square square : row2Vect)
 	{
 		square.setScale(squareSideSize, squareSideSize);
 		square._draw = true;
-		for (int i = 0; i < row2Vect.size(); ++i)
-		{
-			// Set the Z value for each square. Don't forget to increase this by 8 for each row of squares, so every Z-value is unique.
-			row2Vect[i].setZ(10 + i);
-		}
+	}
+	for (int i = 0; i < row2Vect.size(); ++i)
+	{
+		// Set the Z value for each square. Don't forget to increase this by 8 for each row of squares, so every Z-value is unique.
+		row2Vect[i].setZ(10 + i);
 	}
 	LOG(INFO) << "Scale and overlay of squares in Row 2 vector set!";
 
-	itr = row2Vect.begin();
-	itr = itr + 2;
 	// Set the positions for the first row of squares
-	row2Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row2Vect[0].getWidth() * 2));
+	row2Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row2Vect[0].getHeight() * 2));
 	row2Vect[1].setPosition(boardBottomLeft.x + row2Vect[0].getWidth(), row2Vect[0].getY());
 	for (int i = 2; i < row2Vect.size(); ++i)
 	{
@@ -157,22 +154,32 @@ void const Chessboard::buildChessboard()
 	std::vector<Square> row3Vect = { a3, b3, c3, d3, e3, f3, g3, h3 };
 	LOG(INFO) << "Squares added to Row 3 Vector!";
 
+
+	// Alternate the tile type, depending on the row
+	for (int i = 1; i < row3Vect.size(); i += 2)
+	{
+		row3Vect[i].setTileType(Square::LIGHT);
+		LOG(INFO) << "The value of i is: " << i;
+	}
+
 	for (Square square : row3Vect)
 	{
 		square.setScale(squareSideSize, squareSideSize);
+		
 		square._draw = true;
-		for (int i = 0; i < row3Vect.size(); ++i)
-		{
-			// Set the Z value for each square. Don't forget to increase this by 8 for each row of squares, so every Z-value is unique.
-			row3Vect[i].setZ(18 + i);
-		}
 	}
+	for (int i = 0; i < row3Vect.size(); ++i)
+	{
+		// Set the Z value for each square. Don't forget to increase this by 8 for each row of squares, so every Z-value is unique.
+		row3Vect[i].setZ(-1800 + i);
+		LOG(INFO) << "The tile color for square " << row3Vect[i].getName() << " is " << row3Vect[i].getDarkTileColor();
+	}
+
 	LOG(INFO) << "Scale and overlay of squares in Row 3 vector set!";
 
-	itr = row3Vect.begin();
-	itr = itr + 2;
+
 	// Set the positions for the first row of squares
-	row3Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row3Vect[0].getWidth() * 3));
+	row3Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row3Vect[0].getHeight() * 3));
 	row3Vect[1].setPosition(boardBottomLeft.x + row3Vect[0].getWidth(), row3Vect[0].getY());
 	for (int i = 2; i < row3Vect.size(); ++i)
 	{
@@ -205,17 +212,16 @@ void const Chessboard::buildChessboard()
 	{
 		square.setScale(squareSideSize, squareSideSize);
 		square._draw = true;
-		for (int i = 0; i < row4Vect.size(); ++i)
-		{
-			// Set the Z value for each square. Don't forget to increase th is by 8 for each row of squares, so every Z-value is unique.
-			row4Vect[i].setZ(26 + i);
-		}
+	}
+	for (int i = 0; i < row4Vect.size(); ++i)
+	{
+		// Set the Z value for each square. Don't forget to increase th is by 8 for each row of squares, so every Z-value is unique.
+		row4Vect[i].setZ(26 + i);
 	}
 
 	LOG(INFO) << "Scale and overlay of squares in Row 3 vector set!";
 
-	itr = row4Vect.begin();
-	itr = itr + 2;
+
 	// Set the positions for the fourth row of squares
 	row4Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row4Vect[0].getHeight() * 4));
 	row4Vect[1].setPosition(boardBottomLeft.x + row4Vect[0].getWidth(), row4Vect[0].getY());
@@ -251,16 +257,15 @@ void const Chessboard::buildChessboard()
 	{
 		square.setScale(squareSideSize, squareSideSize);
 		square._draw = true;
-		for (int i = 0; i < row5Vect.size(); ++i)
-		{
-			// Set the Z value for each square. Don't forget to increase this by 8 for each row of squares, so every Z-value is unique.
-			row5Vect[i].setZ(34 + i);
-		}
+	}
+	for (int i = 0; i < row5Vect.size(); ++i)
+	{
+		// Set the Z value for each square. Don't forget to increase this by 8 for each row of squares, so every Z-value is unique.
+		row5Vect[i].setZ(34 + i);
 	}
 	LOG(INFO) << "Scale and overlay of squares in Row 3 vector set!";
 
-	itr = row5Vect.begin();
-	itr = itr + 2;
+
 	// Set the positions for the first row of squares
 	row5Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row5Vect[0].getHeight() * 5));
 	row5Vect[1].setPosition(boardBottomLeft.x + row5Vect[0].getWidth(), row5Vect[0].getY());
@@ -295,17 +300,15 @@ void const Chessboard::buildChessboard()
 	for (Square square : row6Vect)
 	{
 		square.setScale(squareSideSize, squareSideSize);
-		square._draw = true;
-		for (int i = 0; i < row6Vect.size(); ++i)
-		{
-			// Set the Z value for each square. Don't forget to increase this by 8 for each row of squares, so every Z-value is unique.
-			row6Vect[i].setZ(42 + i);
-		}
+		square._draw = true;		
+	}
+	for (int i = 0; i < row6Vect.size(); ++i)
+	{
+		// Set the Z value for each square. Don't forget to increase this by 8 for each row of squares, so every Z-value is unique.
+		row6Vect[i].setZ(42 + i);
 	}
 	LOG(INFO) << "Scale and overlay of squares in Row 6 vector set!";
 
-	itr = row6Vect.begin();
-	itr = itr + 2;
 	// Set the positions for the first row of squares
 	row6Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row6Vect[0].getHeight() * 6));
 	row6Vect[1].setPosition(boardBottomLeft.x + row6Vect[0].getWidth(), row6Vect[0].getY());
@@ -341,16 +344,15 @@ void const Chessboard::buildChessboard()
 	{
 		square.setScale(squareSideSize, squareSideSize);
 		square._draw = true;
-		for (int i = 0; i < row7Vect.size(); ++i)
-		{
-			// Set the Z value for each square. Don't forget to increase this by 8 for each row of squares, so every Z-value is unique.
-			row7Vect[i].setZ(50 + i);
-		}
+		
+	}
+	for (int i = 0; i < row7Vect.size(); ++i)
+	{
+		// Set the Z value for each square. Don't forget to increase this by 8 for each row of squares, so every Z-value is unique.
+		row7Vect[i].setZ(50 + i);
 	}
 	LOG(INFO) << "Scale and overlay of squares in Row 7 vector set!";
 
-	itr = row7Vect.begin();
-	itr = itr + 2;
 	// Set the positions for the first row of squares
 	row7Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row7Vect[0].getHeight() * 7));
 	row7Vect[1].setPosition(boardBottomLeft.x + row7Vect[0].getWidth(), row7Vect[0].getY());
@@ -386,16 +388,15 @@ void const Chessboard::buildChessboard()
 	{
 		square.setScale(squareSideSize, squareSideSize);
 		square._draw = true;
-		for (int i = 0; i < row8Vect.size(); ++i)
-		{
-			// Set the Z value for each square. Don't forget to increase this by 8 for each row of squares, so every Z-value is unique.
-			row8Vect[i].setZ(58 + i);
-		}
 	}
-	LOG(INFO) << "Scale and overlay of squares in Row 6 vector set!";
 
-	itr = row8Vect.begin();
-	itr = itr + 2;
+	for (int i = 0; i < row8Vect.size(); ++i)
+	{
+		// Set the Z value for each square. Don't forget to increase this by 8 for each row of squares, so every Z-value is unique.
+		row8Vect[i].setZ(58 + i);
+	}
+	LOG(INFO) << "Scale and overlay of squares in Row 8 vector set!";
+
 	// Set the positions for the first row of squares
 	row8Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row8Vect[0].getHeight() * 8));
 	row8Vect[1].setPosition(boardBottomLeft.x + row8Vect[0].getWidth(), row8Vect[0].getY());

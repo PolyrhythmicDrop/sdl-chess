@@ -7,7 +7,11 @@ Square::Square(std::string notation) :
 	_occupied(false),
 	_graphics(new SquareGraphicsComponent()),
 	_tileType(DARK),
-	_overlay(NONE)
+	_overlay(NONE),
+	_moveOverlayColor({ 81, 224, 240, 255 }),
+	_takeOverlayColor({ 240, 121, 81, 255 }),
+	_lightTileColor({ 240, 218, 225, 255 }),
+	_darkTileColor({ 70, 16, 33, 255 })
 {
 	_name = notation;
 	_dimensions = {0, 0, 125, 125 };
@@ -16,10 +20,7 @@ Square::Square(std::string notation) :
 	_graphics->setSquareImgPath("images/squareSquare.png");
 	_graphics->setOverlayImgPath("images/square_Overlay.png");
 	_graphics->loadTexture();
-	setMoveOverlayColor(81, 224, 240, 255);
-	setTakeOverlayColor(240, 121, 81, 255);
-	setLightTileColor(240, 218, 225, 255);
-	setDarkTileColor(70, 16, 33, 255);
+	_graphics->sumImage(this);
 }
 
 // Deep copy constructor

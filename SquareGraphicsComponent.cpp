@@ -65,20 +65,29 @@ void SquareGraphicsComponent::sumImage(Square* square)
 	switch (square->getTileType())
 	{
 	case Square::DARK:
-		SDL_SetTextureColorMod(_squareTexture, square->getDarkTileColor()->r, square->getDarkTileColor()->g, square->getDarkTileColor()->b);
+		// SDL_SetTextureColorMod(_squareTexture, square->getDarkTileColor()->r, square->getDarkTileColor()->g, square->getDarkTileColor()->b);
+		/*SDL_SetTextureColorMod(_squareTexture, 255, 0, 0);
 		SDL_SetTextureAlphaMod(_squareTexture, 255);
+		SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _squareTexture, NULL, NULL);*/
+		SDL_SetRenderDrawColor(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), square->getDarkTileColor()->r, square->getDarkTileColor()->g, square->getDarkTileColor()->b, 255);
+		SDL_RenderClear(ServiceLocator::getGraphics().getRenderer()->GetRenderer());
+
 		break;
 	case Square::LIGHT:
-		SDL_SetTextureColorMod(_squareTexture, square->getLightTileColor()->r, square->getLightTileColor()->g, square->getLightTileColor()->b);
+		/*SDL_SetTextureColorMod(_squareTexture, square->getLightTileColor()->r, square->getLightTileColor()->g, square->getLightTileColor()->b);
 		SDL_SetTextureAlphaMod(_squareTexture, 255);
+		SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _squareTexture, NULL, NULL);*/
+		SDL_SetRenderDrawColor(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), square->getLightTileColor()->r, square->getLightTileColor()->g, square->getLightTileColor()->b, 255);
+		SDL_RenderClear(ServiceLocator::getGraphics().getRenderer()->GetRenderer());
 		break;
 	}
-	SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _squareTexture, NULL, NULL);
+	
 
 	// Overlay color setting
 	switch (square->getOverlayType())
 	{
 	case Square::NONE:
+		LOG(INFO) << "The name of this square is " << square->getName();
 		SDL_SetTextureBlendMode(_overlayTexture, SDL_BLENDMODE_BLEND);
 		SDL_SetTextureAlphaMod(_overlayTexture, 0);
 		SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _overlayTexture, NULL, NULL);
@@ -97,8 +106,6 @@ void SquareGraphicsComponent::sumImage(Square* square)
 		break;
 	}
 	// Render the square texture and the overlay texture to the sum texture
-	
-		
 	
 	// Set the render target back to the window
 	SDL_SetRenderTarget(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), NULL);
