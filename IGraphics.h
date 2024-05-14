@@ -8,7 +8,13 @@ class IGraphics
 {	
 
 public:
-	
+	enum Layer {
+		BG,
+		BOARD,
+		PIECES,
+		UI,
+		MENU
+	};
 
 	~IGraphics() {};
 
@@ -16,9 +22,9 @@ public:
 
 	virtual Renderer* getRenderer() = 0;
 
-	virtual void addToRenderMap(std::map<int, std::pair<GameObject*, SDL_Texture*>> map) = 0;
+	virtual void addToRenderMap(std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>> map) = 0;
 
-	virtual void removeFromRenderMap(std::vector<int> zValues) = 0;
+	virtual void removeFromRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects) = 0;
 
 	virtual void render() = 0;
 
