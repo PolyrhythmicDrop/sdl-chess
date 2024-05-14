@@ -24,6 +24,8 @@ public:
 
 	~GameObject();
 
+	bool _draw;
+
 	virtual std::string getName();
 
 	/// <summary>
@@ -57,6 +59,8 @@ public:
 	/// <param name="x"></param>
 	/// <param name="y"></param>
 	virtual void setPosition(int x, int y);
+	virtual inline int getX() { return _dimensions.x; };
+	virtual inline int getY() { return _dimensions.y; };
 
 	virtual void setScaleFromTexture(SDL_Texture* texture);
 };

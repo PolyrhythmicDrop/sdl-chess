@@ -53,6 +53,7 @@ void GraphicsService::render()
 	// Set renderer variable
 	SDL_Renderer* renderer = _renderer->GetRenderer();
 
+	SDL_SetRenderTarget(renderer, NULL);
 	// Set the background color and clear the renderer
 	SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
 	SDL_RenderClear(renderer);

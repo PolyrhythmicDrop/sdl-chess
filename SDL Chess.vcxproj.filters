@@ -58,6 +58,12 @@
     <Filter Include="Source Files\States\GameStates">
       <UniqueIdentifier>{912fcfa0-13e3-488b-be23-76ca8785225a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Board">
+      <UniqueIdentifier>{59ccb136-54a6-4bd5-95df-9f3e9da2c679}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Board">
+      <UniqueIdentifier>{a22416ff-988c-45aa-8f2a-2abab2043207}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chess-main.cpp">
@@ -149,6 +155,15 @@
     </ClCompile>
     <ClCompile Include="easylogging++.cc">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SquareGraphicsComponent.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Square.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Chessboard.cpp">
+      <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +257,15 @@
     <ClInclude Include="easylogging++.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SquareGraphicsComponent.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Square.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Chessboard.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\esc-menu_1024.png">
@@ -278,6 +302,18 @@
       <Filter>Source Files\Images</Filter>
     </Image>
     <Image Include="images\exit-confirm-menu_ConfirmExitBG.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\chessboard-compressed.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\squareOverlay.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\squareSquare.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\square_Overlay.png">
       <Filter>Source Files\Images</Filter>
     </Image>
   </ItemGroup>

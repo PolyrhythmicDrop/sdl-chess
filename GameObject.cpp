@@ -4,7 +4,8 @@
 GameObject::GameObject(std::string name) :
 	_name(name),
 	_dimensions({0, 0, 0, 0}),
-	_zIndex(0)
+	_zIndex(0),
+	_draw(false)
 {
 	gameObjectCount++;
 	LOG(INFO) << "Object created! Game object count: " << gameObjectCount << "\n";

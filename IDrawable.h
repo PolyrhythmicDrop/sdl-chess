@@ -12,6 +12,7 @@ protected:
 public:
 
 	virtual ~IDrawable() {};
+
 	virtual void loadTexture() = 0;
 	virtual SDL_Texture* getSdlTexture() = 0;
 };

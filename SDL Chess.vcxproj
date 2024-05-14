@@ -142,6 +142,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonInputComponent.cpp" />
     <ClCompile Include="chess-main.cpp" />
+    <ClCompile Include="Chessboard.cpp" />
     <ClCompile Include="easylogging++.cc" />
     <ClCompile Include="GameStateMachine.cpp" />
     <ClCompile Include="GraphicsComponent.cpp" />
@@ -167,12 +168,15 @@
     <ClCompile Include="Decoration.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="InEscMenuState.cpp" />
+    <ClCompile Include="Square.cpp" />
+    <ClCompile Include="SquareGraphicsComponent.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonInputComponent.h" />
+    <ClInclude Include="Chessboard.h" />
     <ClInclude Include="easylogging++.h" />
     <ClInclude Include="GameStateMachine.h" />
     <ClInclude Include="GraphicsComponent.h" />
@@ -199,10 +203,13 @@
     <ClInclude Include="Decoration.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="InEscMenuState.h" />
+    <ClInclude Include="Square.h" />
+    <ClInclude Include="SquareGraphicsComponent.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="images\chessboard-compressed.png" />
     <Image Include="images\chessboard.png" />
     <Image Include="images\esc-menu_1024.png" />
     <Image Include="images\esc-menu_1920.png" />
@@ -215,6 +222,9 @@
     <Image Include="images\exit-confirm-menu_button-no.png" />
     <Image Include="images\exit-confirm-menu_button-yes.png" />
     <Image Include="images\exit-confirm-menu_ConfirmExitBG.png" />
+    <Image Include="images\squareOverlay.png" />
+    <Image Include="images\squareSquare.png" />
+    <Image Include="images\square_Overlay.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
