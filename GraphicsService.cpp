@@ -98,12 +98,58 @@ void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject
 
 void GraphicsService::removeFromRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects)
 {
-	std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>>::iterator itr;
-
-	for (itr = _renderMap.begin(); itr != _renderMap.end(); ++itr)
+	// We want to determine whether the std::pair objects are in the render map (on any layer), and then remove them.
+	/*std::pair<GameObject*, SDL_Texture*> target = objects.at(0);
+	int cnt = std::count(_renderMap[Layer::MENU].begin(), _renderMap[Layer::MENU].end(), target);
+	if (cnt > 0)
 	{
-		itr->second.erase(objects.begin(), objects.end());
+		LOG(INFO) << "Object found in render map when trying to remove! Success!";
 	}
+	else
+	{
+		LOG(INFO) << "Object not found in render map!";
+	}*/
+
+	std::pair<GameObject*, SDL_Texture*> target;
+	int cnt = 0;
+	for (int i = 0; i < objects.size(); ++i)
+	{
+		target = objects.at(i);
+		cnt = std::count(_renderMap[Layer::MENU].begin(), _renderMap[Layer::MENU].end(), target);
+		if (cnt > 0)
+		{
+			LOG(INFO) << "Target found! Attempting to find its position in render queue...";
+			std::vector<std::pair<GameObject*, SDL_Texture*>>::const_iterator iVect = std::find(_renderMap[Layer::MENU].begin(), _renderMap[Layer::MENU].end(), target);
+			if (iVect != _renderMap[Layer::MENU].end())
+			{
+				_renderMap[Layer::MENU].erase(iVect);
+				LOG(INFO) << "Object erased from render queue!";
+			}
+		}
+		else
+		{
+			LOG(INFO) << "Object not found in render map!";
+		}
+	}
+
+	//// Set an iterator for the vector
+	//std::vector<std::pair<GameObject*, SDL_Texture*>>::iterator itr;
+	//// For every pair of GameObjects and SDL_Textures in the objects vector...
+	//for (std::pair<GameObject*, SDL_Texture*> pair : objects)
+	//{
+	//	for (int layer = 0; layer < _renderMap.size(); layer++)
+	//	{
+	//		// Search each layer for the pair
+	//		itr = std::find(_renderMap[(Layer)layer].begin(), _renderMap[(Layer)layer].end(), pair);
+	//		if (itr != objects.end())
+	//		{
+	//			// If found, erase the pair from the render map.
+	//			_renderMap[(Layer)layer].erase(itr);
+	//		}
+	//		// Continue through the loop until all layers have been searched
+	//	}
+	//}
+	//}
 
 }
 
