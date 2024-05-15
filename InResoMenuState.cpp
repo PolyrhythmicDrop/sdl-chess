@@ -62,10 +62,7 @@ void InResoMenuState::buildMenu(SceneEscMenu* menuScene)
 	menuScene->_backButton = new Button(Button::BACK);
 
 	// Set the Z-values
-	menuScene->_resoMenuBg->setZ(100);
-	menuScene->_1024->setZ(101);
-	menuScene->_1920->setZ(102);
-	menuScene->_backButton->setZ(103);
+	menuScene->_resoMenuBg->setZ(-1);
 
 	// Get window variables
 	int windowW;
@@ -97,7 +94,7 @@ void InResoMenuState::buildMenu(SceneEscMenu* menuScene)
 		// Y position
 		menuScene->_resoMenuBg->getDimensions()->y + (menuScene->_backButton->getDimensions()->h * 4)
 	);
-
+	
 	// Add to scene map
 	menuScene->addObject(menuScene->_resoMenuBg, menuScene->_resoMenuBg->getGraphicsComponent()->getSdlTexture());
 	menuScene->addObject(menuScene->_1024, menuScene->_1024->getGraphicsComponent()->getSdlTexture());
@@ -105,43 +102,40 @@ void InResoMenuState::buildMenu(SceneEscMenu* menuScene)
 	menuScene->addObject(menuScene->_backButton, menuScene->_backButton->getGraphicsComponent()->getSdlTexture());
 
 	// Add to render queue
-	ServiceLocator::getGraphics().addToRenderMap(menuScene->getObjectMap());
+	ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());
+
 }
 
 void InResoMenuState::destroyMenu(SceneEscMenu* menuScene)
 {
-	// Create vector of Z-values in the current menu objects
-	std::vector<int> zValues;
+	// Remove the menuScene menu vector objects from the render map
+	ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());
 
-	// Add Z-values to the z vector for removal from the render map.
 	if (menuScene->_resoMenuBg != nullptr)
 	{
-		zValues.push_back(menuScene->_resoMenuBg->getZ());
-		menuScene->removeObject(menuScene->_resoMenuBg);
+		menuScene->removeObject(menuScene->_resoMenuBg, menuScene->_resoMenuBg->getGraphicsComponent()->getSdlTexture());
 		menuScene->_resoMenuBg->~Decoration();
 	}
 	if (menuScene->_1024 != nullptr)
 	{
-		zValues.push_back(menuScene->_1024->getZ());
-		menuScene->removeObject(menuScene->_1024);
+		menuScene->removeObject(menuScene->_1024, menuScene->_1024->getGraphicsComponent()->getSdlTexture());
 		menuScene->_1024->~Button();
 	}
 	if (menuScene->_1920 != nullptr)
 	{
-		zValues.push_back(menuScene->_1920->getZ());
-		menuScene->removeObject(menuScene->_1920);
+		menuScene->removeObject(menuScene->_1920, menuScene->_1920->getGraphicsComponent()->getSdlTexture());
 		menuScene->_1920->~Button();
 	}
 	if (menuScene->_backButton != nullptr)
 	{
-		zValues.push_back(menuScene->_backButton->getZ());
-		menuScene->removeObject(menuScene->_backButton);
+		menuScene->removeObject(menuScene->_backButton, menuScene->_backButton->getGraphicsComponent()->getSdlTexture());
 		menuScene->_backButton->~Button();
 	}
-
-	// Remove the objects from the render map and scene using the Z values as the key
-	ServiceLocator::getGraphics().removeFromRenderMap(zValues);
-	zValues.clear();
+	// Clear the menu vector if it is not empty
+	if (!menuScene->getObjectMap().empty())
+	{
+		menuScene->getObjectMap().clear();
+	}
 }
 
 void InResoMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)

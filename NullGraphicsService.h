@@ -10,9 +10,11 @@ public:
 
 	virtual Renderer* getRenderer();
 
-	virtual void addToRenderMap(std::map<int, std::pair<GameObject*, SDL_Texture*>> map);
+	virtual void addToRenderMap(int layer, std::vector<std::pair<GameObject*, SDL_Texture*>> pairs);
 
-	virtual void removeFromRenderMap(std::vector<int> zValues);
+	virtual void removeFromRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects);
+
+	virtual std::vector<std::pair<GameObject*, SDL_Texture*>> findInRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects);
 
 	virtual void render();
 };

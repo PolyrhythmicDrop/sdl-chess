@@ -7,30 +7,43 @@
 /// </summary>
 class GraphicsService: public IGraphics
 {
-private:
-	Renderer* _renderer;
-	Window* _window;
-
-	std::map<int, std::pair<GameObject*, SDL_Texture*>> _renderMap;
-
-	static bool _instantiated;
-
 
 public:
-
+	
 	GraphicsService(Window* window);
 
 	~GraphicsService();
 
-	virtual Window* getWindow();
+	// Custom comparator for render map
+	bool compareZ(std::pair<GameObject*, SDL_Texture*> a, std::pair<GameObject*, SDL_Texture*> b);
 
-	virtual Renderer* getRenderer();
+	Window* getWindow();
 
-	virtual void addToRenderMap(std::map<int, std::pair<GameObject*, SDL_Texture*>> map);
+	/// <summary>
+	/// Returns the renderer wrapper class.
+	/// </summary>
+	/// <returns></returns>
+	Renderer* getRenderer();
 
-	virtual void removeFromRenderMap(std::vector<int> zValues);
+	void addToRenderMap(int layer, std::vector<std::pair<GameObject*, SDL_Texture*>> pairs);
 
-	virtual void render();
+	void removeFromRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects);
+
+	std::vector<std::pair<GameObject*, SDL_Texture*>> findInRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects);
+
+	void render();
+
+private:
+	
+	Renderer* _renderer;
+	Window* _window;
+
+	/// <summary>
+	/// Map containing all the objects and textures to render. These objects are ordered by layer within the map, and by Z within the object vector.
+	/// </summary>
+	std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>> _renderMap;
+
+	static bool _instantiated;
 
 };
 

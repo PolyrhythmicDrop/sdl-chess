@@ -17,6 +17,7 @@ Decoration::Decoration(DecorationType type)	:
 	case EXIT_CONFIRM_BG:
 		_name = "Exit Confirmation Menu Background";
 		_graphics->setImgPath("images/exit-confirm-menu_ConfirmExitBG.png");
+		break;
 	}
 	_draw = true;
 	// Load the texture using the image path in the constructor's switch statement

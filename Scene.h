@@ -10,9 +10,9 @@ class Scene
 protected:
 
 	/// <summary>
-	/// Map containing all the objects in the scene, plus their associated textures.
+	/// Vector containing all the objects in the scene for a menu.
 	/// </summary>
-	std::map<int, std::pair<GameObject*, SDL_Texture*>> _sceneMap;
+	std::vector<std::pair<GameObject*, SDL_Texture*>> _menuVect;
 
 public:
 
@@ -31,9 +31,9 @@ public:
 	/// <param name="object">The object to add to the vector.</param>
 	virtual void addObject(GameObject* object, SDL_Texture* texture);
 
-	virtual void removeObject(GameObject* object);
+	virtual void removeObject(GameObject* object, SDL_Texture* texture);
 
-	const std::map<int, std::pair<GameObject*, SDL_Texture*>> getObjectMap();
+	std::vector<std::pair<GameObject*, SDL_Texture*>> getObjectMap();
 
 };
 
