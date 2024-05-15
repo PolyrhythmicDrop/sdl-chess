@@ -160,6 +160,7 @@
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="InResoMenuState.cpp" />
     <ClCompile Include="NullGraphicsService.cpp" />
+    <ClCompile Include="Piece.cpp" />
     <ClCompile Include="PlayerInputComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="InResoMenuState.h" />
     <ClInclude Include="NullGraphicsService.h" />
+    <ClInclude Include="Piece.h" />
     <ClInclude Include="PlayerInputComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />

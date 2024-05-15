@@ -48,7 +48,7 @@ public:
 	int getZ();
 
 	/// <summary>
-	/// Sets the Z-value for this object. WARNING: Z-values must be unique. Consider putting some kind of check to make sure no other objects have this Z value.
+	/// Sets the Z-value for this object.
 	/// </summary>
 	/// <param name="z"></param>
 	void setZ(int z);

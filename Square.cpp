@@ -13,7 +13,8 @@ Square::Square(std::string notation, Chessboard* board) :
 	_takeOverlayColor({ 240, 121, 81, 255 }),
 	_lightTileColor({ 240, 218, 225, 255 }),
 	_darkTileColor({ 70, 16, 33, 255 }),
-	_chessboard(board)
+	_chessboard(board),
+	_currentPiece(nullptr)
 {
 	_name = notation;
 	_dimensions = {0, 0, this->_chessboard->getDimensions()->w / 8, this->_chessboard->getDimensions()->h / 8 };
@@ -89,7 +90,7 @@ void Square::setDarkTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 	getGraphicsComponent()->sumImage(this);
 }
 
-void Square::setTileType(TileColor type)
+void Square::setTileType(TileType type)
 {
 	_tileType = type;
 	getGraphicsComponent()->sumImage(this);
