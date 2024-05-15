@@ -17,27 +17,31 @@ public:
 	// Custom comparator for render map
 	bool compareZ(std::pair<GameObject*, SDL_Texture*> a, std::pair<GameObject*, SDL_Texture*> b);
 
-	virtual Window* getWindow();
+	Window* getWindow();
 
-	virtual Renderer* getRenderer();
+	/// <summary>
+	/// Returns the renderer wrapper class.
+	/// </summary>
+	/// <returns></returns>
+	Renderer* getRenderer();
 
-	virtual void addToRenderMap(int layer, std::vector<std::pair<GameObject*, SDL_Texture*>> pairs);
+	void addToRenderMap(int layer, std::vector<std::pair<GameObject*, SDL_Texture*>> pairs);
 
-	virtual void removeFromRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects);
+	void removeFromRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects);
 
-	virtual std::vector<std::pair<GameObject*, SDL_Texture*>> findInRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects);
+	std::vector<std::pair<GameObject*, SDL_Texture*>> findInRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects);
 
-	virtual void render();
+	void render();
 
 private:
 	
 	Renderer* _renderer;
 	Window* _window;
 
-	// New render map. Layer = key. Each layer has a vector of pairs, which should be organized by Z.
+	/// <summary>
+	/// Map containing all the objects and textures to render. These objects are ordered by layer within the map, and by Z within the object vector.
+	/// </summary>
 	std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>> _renderMap;
-
-	// std::map<int, std::pair<GameObject*, SDL_Texture*>> _renderMap;
 
 	static bool _instantiated;
 

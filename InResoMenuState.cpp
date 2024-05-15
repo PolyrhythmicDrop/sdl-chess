@@ -62,10 +62,7 @@ void InResoMenuState::buildMenu(SceneEscMenu* menuScene)
 	menuScene->_backButton = new Button(Button::BACK);
 
 	// Set the Z-values
-	menuScene->_resoMenuBg->setZ(100);
-	menuScene->_1024->setZ(101);
-	menuScene->_1920->setZ(102);
-	menuScene->_backButton->setZ(103);
+	menuScene->_resoMenuBg->setZ(-1);
 
 	// Get window variables
 	int windowW;

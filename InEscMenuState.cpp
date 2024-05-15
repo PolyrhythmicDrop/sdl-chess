@@ -61,13 +61,6 @@ void InEscMenuState::buildMenu(SceneEscMenu* menuScene)
 	menuScene->_backButton = new Button(Button::BACK);
 	menuScene->_exitButton = new Button(Button::EXITGAME);
 
-
-	// Set the Z-values
-	menuScene->_escMenuBg->setZ(100);
-	menuScene->_optionsButton->setZ(101);
-	menuScene->_backButton->setZ(102);
-	menuScene->_exitButton->setZ(103);
-
 	// Get window variables
 	int windowW;
 	int windowH;

@@ -56,10 +56,8 @@ void InExitConfirmState::buildMenu(SceneEscMenu* menuScene)
 	menuScene->_no = new Button(Button::NO);
 
 	// Set the Z-values
-	menuScene->_exitConfirmMenuBg->setZ(100);
-	menuScene->_yes->setZ(101);
-	menuScene->_no->setZ(102);
-
+	menuScene->_exitConfirmMenuBg->setZ(-1);
+	
 	// Get window variables
 	int windowW;
 	int windowH;
