@@ -10,7 +10,7 @@ Renderer* NullGraphicsService::getRenderer()
 	return NULL;
 }
 
-void NullGraphicsService::addToRenderMap(std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>> map)
+void NullGraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject*, SDL_Texture*>> pairs)
 {
 
 }

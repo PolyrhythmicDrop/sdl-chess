@@ -91,38 +91,36 @@ void InExitConfirmState::buildMenu(SceneEscMenu* menuScene)
 	menuScene->addObject(menuScene->_no, menuScene->_no->getGraphicsComponent()->getSdlTexture());
 
 	// Add to render queue
-	ServiceLocator::getGraphics().addToRenderMap(menuScene->getObjectMap());
+	ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());
 
 }
 
 void InExitConfirmState::destroyMenu(SceneEscMenu* menuScene)
 {
-	// Create vector of Z-values in the current menu objects
-	std::vector<int> zValues;
+	// Remove the objects from the render map
+	ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());
 
-	// Add Z-values to the z vector for removal from the render map.
 	if (menuScene->_exitConfirmMenuBg != nullptr)
 	{
-		zValues.push_back(menuScene->_exitConfirmMenuBg->getZ());
-		menuScene->removeObject(menuScene->_exitConfirmMenuBg);
+		menuScene->removeObject(menuScene->_exitConfirmMenuBg, menuScene->_exitConfirmMenuBg->getGraphicsComponent()->getSdlTexture());
 		menuScene->_exitConfirmMenuBg->~Decoration();
 	}
 	if (menuScene->_yes != nullptr)
 	{
-		zValues.push_back(menuScene->_yes->getZ());
-		menuScene->removeObject(menuScene->_yes);
+		menuScene->removeObject(menuScene->_yes, menuScene->_yes->getGraphicsComponent()->getSdlTexture());
 		menuScene->_yes->~Button();
 	}
 	if (menuScene->_no != nullptr)
 	{
-		zValues.push_back(menuScene->_no->getZ());
-		menuScene->removeObject(menuScene->_no);
+		menuScene->removeObject(menuScene->_no, menuScene->_no->getGraphicsComponent()->getSdlTexture());
 		menuScene->_no->~Button();
 	}
-
-	// Remove the objects from the render map and scene using the Z values as the key
-	ServiceLocator::getGraphics().removeFromRenderMap(zValues);
-	zValues.clear();
+	
+	// Clear the menu vector if it is not empty
+	if (!menuScene->getObjectMap().empty())
+	{
+		menuScene->getObjectMap().clear();
+	}
 }
 
 void InExitConfirmState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)

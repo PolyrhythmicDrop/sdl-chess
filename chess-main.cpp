@@ -146,7 +146,7 @@ int main( int argc, char* args[] )
 	board.buildChessboard();
 			
 	// Test adding objects to render queue
-	std::map<int, std::pair<GameObject*, SDL_Texture*>> testMap;
+	std::vector<std::pair<GameObject*, SDL_Texture*>> testVect;
 	std::vector<std::vector<Square>> boardGrid = board.getBoardGrid();
 
 	LOG(INFO) << "The size of the board grid is: " << boardGrid.size() << " rows and " << boardGrid[0].size() << " columns.";
@@ -166,10 +166,10 @@ int main( int argc, char* args[] )
 	for (int row = 0; row < boardGrid.size(); ++row)
 	{
 		for (int column = 0; column < boardGrid[row].size(); ++column)
-		testMap.insert({ boardGrid[row][column].getZ(), std::pair<GameObject*, SDL_Texture*>(&boardGrid[row][column], boardGrid[row][column].getGraphicsComponent()->getSdlTexture()) });
+		testVect.push_back(std::pair<GameObject*, SDL_Texture*>(&boardGrid[row][column], boardGrid[row][column].getGraphicsComponent()->getSdlTexture()));
 	}	
 
-	ServiceLocator::getGraphics().addToRenderMap(testMap);
+	ServiceLocator::getGraphics().addToRenderMap(1, testVect);
 	
 		
 	// Main quit flag for the loop

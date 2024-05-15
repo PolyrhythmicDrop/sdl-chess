@@ -1,5 +1,6 @@
 #include "GraphicsService.h"
 #include "easylogging++.h"
+#include <stdexcept>
 
 GraphicsService::GraphicsService(Window* window) :	
 
@@ -32,10 +33,44 @@ bool GraphicsService::compareZ(std::pair<GameObject*, SDL_Texture*> a, std::pair
 	return a.first->getZ() < b.first->getZ();
 }
 
-void GraphicsService::addToRenderMap(std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>> map)
+void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject*, SDL_Texture*>> pairs)
 {
+
+	// Translate the supplied integer to the layer enumeration
+	if (layer > 4)
+		throw std::invalid_argument("Layer argument must be a valid layer!");
+	Layer rendLayer;
+	try {
+		switch (layer)
+		{
+		case 0:
+			rendLayer = Layer::BG;
+			break;
+		case 1:
+			rendLayer = Layer::BOARD;
+			break;
+		case 2:
+			rendLayer = Layer::PIECES;
+			break;
+		case 3:
+			rendLayer = Layer::UI;
+			break;
+		case 4:
+			rendLayer = Layer::MENU;
+			break;
+		}
+	}
+	catch (std::invalid_argument& e)
+	{
+		LOG(ERROR) << e.what() << "\n";
+		SDL_QUIT;
+	}
+
+	// Create a new map that includes the vector of pairs at the layer.
+	std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>> map;
+	map[rendLayer] = pairs;
+
 	_renderMap.insert(map.begin(), map.end());
-	
 
 	// Sort the render map by Z-value
 	std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>>::iterator mItr;
@@ -82,41 +117,49 @@ void GraphicsService::render()
 	SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
 	SDL_RenderClear(renderer);
 
-	// Render Layer 0
-	std::vector<std::pair<GameObject*, SDL_Texture*>>::iterator vItr;
-	vItr = _renderMap[GraphicsService::BG].begin();
-	for (vItr; vItr != _renderMap[GraphicsService::BG].end(); vItr++)
+	std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>>::iterator mapItr = _renderMap.begin();
+	for (mapItr; mapItr != _renderMap.end(); mapItr++)
 	{
-		SDL_RenderCopy(renderer, vItr->second, NULL, vItr->first->getDimensions());
+		for (auto vItr = mapItr->second.begin(); vItr != mapItr->second.end(); vItr++)
+		{
+			SDL_RenderCopy(renderer, vItr->second, NULL, vItr->first->getDimensions());
+		}
 	}
 
-	// Render Layer 1
-	vItr = _renderMap[GraphicsService::BOARD].begin();
-	for (vItr; vItr != _renderMap[GraphicsService::BOARD].end(); vItr++)
-	{
-		SDL_RenderCopy(renderer, vItr->second, NULL, vItr->first->getDimensions());
-	}
 
-	// Render Layer 2
-	vItr = _renderMap[GraphicsService::PIECES].begin();
-	for (vItr; vItr != _renderMap[GraphicsService::PIECES].end(); vItr++)
-	{
-		SDL_RenderCopy(renderer, vItr->second, NULL, vItr->first->getDimensions());
-	}
+	//// Render Layer 0
+	//std::vector<std::pair<GameObject*, SDL_Texture*>>::iterator vItr;
+	//vItr = _renderMap[GraphicsService::BG].begin();
+	//for (vItr; vItr != _renderMap[GraphicsService::BG].end(); vItr++)
+	//{
+	//	SDL_RenderCopy(renderer, vItr->second, NULL, vItr->first->getDimensions());
+	//}
 
-	// Render Layer 3
-	vItr = _renderMap[GraphicsService::UI].begin();
-	for (vItr; vItr != _renderMap[GraphicsService::BG].end(); vItr++)
-	{
-		SDL_RenderCopy(renderer, vItr->second, NULL, vItr->first->getDimensions());
-	}
+	//// Render Layer 1
+	//vItr = _renderMap[GraphicsService::BOARD].begin();
+	//for (vItr; vItr != _renderMap[GraphicsService::BOARD].end(); vItr++)
+	//{
+	//	SDL_RenderCopy(renderer, vItr->second, NULL, vItr->first->getDimensions());
+	//}
 
-	// Render Layer 4
-	vItr = _renderMap[GraphicsService::MENU].begin();
-	for (vItr; vItr != _renderMap[GraphicsService::BG].end(); vItr++)
-	{
-		SDL_RenderCopy(renderer, vItr->second, NULL, vItr->first->getDimensions());
-	}
+	//// Render Layer 2
+	//vItr = _renderMap[GraphicsService::PIECES].begin();
+	//for (vItr; vItr != _renderMap[GraphicsService::PIECES].end(); vItr++)
+	//{
+	//	SDL_RenderCopy(renderer, vItr->second, NULL, vItr->first->getDimensions());
+	//}
+
+	//// Render Layer 3
+	//for (auto uiItr = _renderMap[GraphicsService::UI].begin(); uiItr != _renderMap[GraphicsService::BG].end(); uiItr++)
+	//{
+	//	SDL_RenderCopy(renderer, uiItr->second, NULL, uiItr->first->getDimensions());
+	//}
+
+	//// Render Layer 4
+	//for (auto menuItr = _renderMap[GraphicsService::MENU].begin(); menuItr != _renderMap[GraphicsService::BG].end(); menuItr++)
+	//{
+	//	SDL_RenderCopy(renderer, menuItr->second, NULL, menuItr->first->getDimensions());
+	//}
 
 	SDL_RenderPresent(renderer);
 

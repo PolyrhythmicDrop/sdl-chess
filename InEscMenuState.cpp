@@ -98,7 +98,7 @@ void InEscMenuState::buildMenu(SceneEscMenu* menuScene)
 
 
 	// Add the scene map to the render map in the Graphics Service
-	ServiceLocator::getGraphics().addToRenderMap(menuScene->getObjectMap());
+	ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());
 }
 
 void InEscMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
@@ -129,38 +129,36 @@ void InEscMenuState::unsubscribeToEventManager(EventManager& manager, SceneEscMe
 
 void InEscMenuState::destroyMenu(SceneEscMenu* menuScene)
 {
-	// Create vector of Z-values in the current menu objects
-	std::vector<int> zValues;
+	// Remove the objects from the render map
+	ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());
 	
-	// Add Z-values to the z vector for removal from the render map.
+	
 	if (menuScene->_escMenuBg != nullptr)
 	{
-		zValues.push_back(menuScene->_escMenuBg->getZ());
-		menuScene->removeObject(menuScene->_escMenuBg);
+		menuScene->removeObject(menuScene->_escMenuBg, menuScene->_escMenuBg->getGraphicsComponent()->getSdlTexture());
 		menuScene->_escMenuBg->~Decoration();
 	}
 	if (menuScene->_optionsButton != nullptr)
 	{
-		zValues.push_back(menuScene->_optionsButton->getZ());
-		menuScene->removeObject(menuScene->_optionsButton);
+		menuScene->removeObject(menuScene->_optionsButton, menuScene->_optionsButton->getGraphicsComponent()->getSdlTexture());
 		menuScene->_optionsButton->~Button();
 	}
 	if (menuScene->_backButton != nullptr)
 	{
-		zValues.push_back(menuScene->_backButton->getZ());
-		menuScene->removeObject(menuScene->_backButton);
+		menuScene->removeObject(menuScene->_backButton, menuScene->_backButton->getGraphicsComponent()->getSdlTexture());
 		menuScene->_backButton->~Button();
 	}
 	if (menuScene->_exitButton != nullptr)
 	{
-		zValues.push_back(menuScene->_exitButton->getZ());
-		menuScene->removeObject(menuScene->_exitButton);
+		menuScene->removeObject(menuScene->_exitButton, menuScene->_exitButton->getGraphicsComponent()->getSdlTexture());
 		menuScene->_exitButton->~Button();
 	}
 
-	// Remove the objects from the render map and scene using the Z values as the key
-	ServiceLocator::getGraphics().removeFromRenderMap(zValues);
-	zValues.clear();
+	// Clear the menu vector if it is not empty
+	if (!menuScene->getObjectMap().empty())
+	{
+		menuScene->getObjectMap().clear();
+	}
 
 }
 

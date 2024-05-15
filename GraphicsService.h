@@ -21,7 +21,7 @@ public:
 
 	virtual Renderer* getRenderer();
 
-	virtual void addToRenderMap(std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>> map);
+	virtual void addToRenderMap(int layer, std::vector<std::pair<GameObject*, SDL_Texture*>> pairs);
 
 	virtual void removeFromRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects);
 

@@ -8,6 +8,7 @@ class IGraphics
 {	
 
 public:
+	// Layer for the object to be rendered in.
 	enum Layer {
 		BG,
 		BOARD,
@@ -22,7 +23,7 @@ public:
 
 	virtual Renderer* getRenderer() = 0;
 
-	virtual void addToRenderMap(std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>> map) = 0;
+	virtual void addToRenderMap(int layer, std::vector<std::pair<GameObject*, SDL_Texture*>> pairs) = 0;
 
 	virtual void removeFromRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects) = 0;
 
