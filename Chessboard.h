@@ -9,19 +9,12 @@ private:
 
 	GraphicsComponent* _graphics;
 
-	enum BoardSkin {
-		STANDARD
-	};
-
-	BoardSkin _skin;
-
 	// Grid that contains all the squares on the board
 	std::vector<std::vector<Square>> _boardGrid;
 
-
 public:
 
-	Chessboard(BoardSkin skin = STANDARD);
+	Chessboard();
 	// Copy constructor for deep copy
 	Chessboard(const Chessboard& board);
 

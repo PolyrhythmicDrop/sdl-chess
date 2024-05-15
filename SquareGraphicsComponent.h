@@ -21,8 +21,8 @@ public:
 	~SquareGraphicsComponent();
 
 	// IDrawable functions
-
 	void loadTexture();
+	void loadTexture(Square* square);
 	SDL_Texture* getSdlTexture();
 
 	// Get the textures for the overlay and the square to edit their colors individually

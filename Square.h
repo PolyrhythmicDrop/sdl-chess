@@ -2,6 +2,7 @@
 #include "GameObject.h"
 
 class SquareGraphicsComponent;
+class Chessboard;
 
 struct Color {
 	Uint8 r, g, b, a;
@@ -26,7 +27,7 @@ public:
 	bool _occupied;
 
 	// Default constructor
-	Square(std::string name);
+	Square(std::string name, Chessboard* board);
 	// Deep copy constructor
 	Square(const Square& square);
 	// Assignment operator
@@ -57,6 +58,8 @@ public:
 	void setTileType(TileColor type);
 
 private:
+	Chessboard* _chessboard;
+
 	Color _moveOverlayColor;
 	Color _takeOverlayColor;
 

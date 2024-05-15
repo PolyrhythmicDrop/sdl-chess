@@ -2,8 +2,9 @@
 #include "ServiceLocator.h"
 #include "easylogging++.h"
 #include "SquareGraphicsComponent.h"
+#include "Chessboard.h"
 
-Square::Square(std::string notation) :
+Square::Square(std::string notation, Chessboard* board) :
 	_occupied(false),
 	_graphics(new SquareGraphicsComponent()),
 	_tileType(DARK),
@@ -11,15 +12,16 @@ Square::Square(std::string notation) :
 	_moveOverlayColor({ 81, 224, 240, 255 }),
 	_takeOverlayColor({ 240, 121, 81, 255 }),
 	_lightTileColor({ 240, 218, 225, 255 }),
-	_darkTileColor({ 70, 16, 33, 255 })
+	_darkTileColor({ 70, 16, 33, 255 }),
+	_chessboard(board)
 {
 	_name = notation;
-	_dimensions = {0, 0, 125, 125 };
+	_dimensions = {0, 0, this->_chessboard->getDimensions()->w / 8, this->_chessboard->getDimensions()->h / 8 };
 	_zIndex = 1;
 	_draw = false;
 	_graphics->setSquareImgPath("images/squareSquare.png");
 	_graphics->setOverlayImgPath("images/square_Overlay.png");
-	_graphics->loadTexture();
+	_graphics->loadTexture(this);
 	_graphics->sumImage(this);
 }
 
@@ -38,6 +40,7 @@ Square::Square(const Square& square)
 	_tileType = square._tileType;
 	_graphics = new SquareGraphicsComponent();
 	*_graphics = *(square._graphics);
+	_chessboard = (square._chessboard);
 	_overlay = square._overlay;
 
 	LOG(INFO) << "Deep copy constructor called!";

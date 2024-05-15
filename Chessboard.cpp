@@ -1,20 +1,12 @@
 #include "Chessboard.h"
 #include "easylogging++.h"
 #include "ServiceLocator.h"
+#include <algorithm>
 
-Chessboard::Chessboard(BoardSkin skin) :
-	_graphics(new GraphicsComponent()),
-	_skin(skin)
+Chessboard::Chessboard() :
+	_graphics(new GraphicsComponent())
 {
-	switch(_skin)
-	{case STANDARD:
-		_graphics->setImgPath("images/chessboard-compressed.png");
-		break;
-	}
-	_graphics->loadTexture();
-	int w, h;
-	SDL_QueryTexture(_graphics->getSdlTexture(), NULL, NULL, &w, &h);
-	setScaleFromTexture(_graphics->getSdlTexture());
+	_dimensions = { 0, 0, 1000, 1000 };
 	_zIndex = -1;
 	LOG(INFO) << "Chessboard constructed!";
 }
@@ -22,7 +14,6 @@ Chessboard::Chessboard(BoardSkin skin) :
 // Copy constructor for deep copy
 Chessboard::Chessboard(const Chessboard& board)
 {
-	_skin = board._skin;
 	_graphics = new GraphicsComponent();
 	*_graphics = *(board._graphics);
 	_dimensions = board._dimensions;
@@ -43,40 +34,47 @@ void const Chessboard::buildChessboard()
 	int windowW;
 	int windowH;
 	ServiceLocator::getGraphics().getWindow()->getWindowSize(&windowW, &windowH);
+	// Set the board side length to the 2/3rds the size of the minimum dimension of the window size
+	int minWindowDimension = (((windowW) < (windowH)) ? (windowW) : (windowH));
+
+	_dimensions.w = (minWindowDimension * 5/6);
+	_dimensions.h = (minWindowDimension * 5/6);
+
 	_dimensions.x = (windowW / 2) - (_dimensions.w / 2);
 	_dimensions.y = (windowH / 2) - (_dimensions.h / 2);
 
 	// The point at the bottom left of the board, A1 square
 	SDL_Point boardBottomLeft = { _dimensions.x, (_dimensions.y + _dimensions.h) };
 	//
-	int squareSideSize = _dimensions.w / 8;
+	int squareSideSize = _dimensions.h / 8;
 
 	// *** //
 	// Create the first row of squares
-	Square a1("a1");
-	Square b1("b1");
-	Square c1("c1");
-	Square d1("d1");
-	Square e1("e1");
-	Square f1("f1");
-	Square g1("g1");
-	Square h1("h1");
+	Square a1("a1", this);
+	Square b1("b1", this);
+	Square c1("c1", this);
+	Square d1("d1", this);
+	Square e1("e1", this);
+	Square f1("f1", this);
+	Square g1("g1", this);
+	Square h1("h1", this);
 
 	// Set the size of each square
 	std::vector<Square> row1Vect = { a1, b1, c1, d1, e1, f1, g1, h1 };
 	LOG(TRACE) << "Squares added to Row 1 Vector!";
 	
 	// Alternate the tile type, depending on the row
+	for (Square square : row1Vect)
+	{
+		square.setScale(squareSideSize, squareSideSize);
+		square._draw = true;
+		square.setOverlayType(Square::TAKE);
+	}
+
 	for (int i = 1; i < row1Vect.size(); ++i)
 	{
 		row1Vect[i].setTileType(Square::LIGHT);
 		++i;
-	}
-
-	for (Square square : row1Vect)
-	{
-		square.setScale(squareSideSize, squareSideSize);
-		square._draw = true;	
 	}
 	
 	// Set the positions for the first row of squares
@@ -90,14 +88,14 @@ void const Chessboard::buildChessboard()
 
 	// *** //
 	// Create the second row of squares
-	Square a2("a2");
-	Square b2("b2");
-	Square c2("c2");
-	Square d2("d2");
-	Square e2("e2");
-	Square f2("f2");
-	Square g2("g2");
-	Square h2("h2");
+	Square a2("a2", this);
+	Square b2("b2", this);
+	Square c2("c2", this);
+	Square d2("d2", this);
+	Square e2("e2", this);
+	Square f2("f2", this);
+	Square g2("g2", this);
+	Square h2("h2", this);
 
 	// Set the size of each square
 	std::vector<Square> row2Vect = { a2, b2, c2, d2, e2, f2, g2, h2 };
@@ -127,14 +125,14 @@ void const Chessboard::buildChessboard()
 
 	// *** //
 	// Create the third row of squares
-	Square a3("a3");
-	Square b3("b3");
-	Square c3("c3");
-	Square d3("d3");
-	Square e3("e3");
-	Square f3("f3");
-	Square g3("g3");
-	Square h3("h3");
+	Square a3("a3", this);
+	Square b3("b3", this);
+	Square c3("c3", this);
+	Square d3("d3", this);
+	Square e3("e3", this);
+	Square f3("f3", this);
+	Square g3("g3", this);
+	Square h3("h3", this);
 
 	// Set the size of each square
 	std::vector<Square> row3Vect = { a3, b3, c3, d3, e3, f3, g3, h3 };
@@ -164,14 +162,14 @@ void const Chessboard::buildChessboard()
 
 	// *** //
 	// Create the fourth row of squares
-	Square a4("a4");
-	Square b4("b4");
-	Square c4("c4");
-	Square d4("d4");
-	Square e4("e4");
-	Square f4("f4");
-	Square g4("g4");
-	Square h4("h4");
+	Square a4("a4", this);
+	Square b4("b4", this);
+	Square c4("c4", this);
+	Square d4("d4", this);
+	Square e4("e4", this);
+	Square f4("f4", this);
+	Square g4("g4", this);
+	Square h4("h4", this);
 
 	// Set the size of each square
 	std::vector<Square> row4Vect = { a4, b4, c4, d4, e4, f4, g4, h4 };
@@ -201,14 +199,14 @@ void const Chessboard::buildChessboard()
 
 	// *** //
 	// Create the fifth row of squares
-	Square a5("a5");
-	Square b5("b5");
-	Square c5("c5");
-	Square d5("d5");
-	Square e5("e5");
-	Square f5("f5");
-	Square g5("g5");
-	Square h5("h5");
+	Square a5("a5", this);
+	Square b5("b5", this);
+	Square c5("c5", this);
+	Square d5("d5", this);
+	Square e5("e5", this);
+	Square f5("f5", this);
+	Square g5("g5", this);
+	Square h5("h5", this);
 
 	// Set the size of each square
 	std::vector<Square> row5Vect = { a5, b5, c5, d5, e5, f5, g5, h5 };
@@ -239,14 +237,14 @@ void const Chessboard::buildChessboard()
 
 	// *** //
 	// Create the sixth row of squares
-	Square a6("a6");
-	Square b6("b6");
-	Square c6("c6");
-	Square d6("d6");
-	Square e6("e6");
-	Square f6("f6");
-	Square g6("g6");
-	Square h6("h6");
+	Square a6("a6", this);
+	Square b6("b6", this);
+	Square c6("c6", this);
+	Square d6("d6", this);
+	Square e6("e6", this);
+	Square f6("f6", this);
+	Square g6("g6", this);
+	Square h6("h6", this);
 
 	// Set the size of each square
 	std::vector<Square> row6Vect = { a6, b6, c6, d6, e6, f6, g6, h6 };
@@ -276,14 +274,14 @@ void const Chessboard::buildChessboard()
 
 	// *** //
 	// Create the seventh row of squares
-	Square a7("a7");
-	Square b7("b7");
-	Square c7("c7");
-	Square d7("d7");
-	Square e7("e7");
-	Square f7("f7");
-	Square g7("g7");
-	Square h7("h7");
+	Square a7("a7", this);
+	Square b7("b7", this);
+	Square c7("c7", this);
+	Square d7("d7", this);
+	Square e7("e7", this);
+	Square f7("f7", this);
+	Square g7("g7", this);
+	Square h7("h7", this);
 
 	// Set the size of each square
 	std::vector<Square> row7Vect = { a7, b7, c7, d7, e7, f7, g7, h7 };
@@ -314,14 +312,14 @@ void const Chessboard::buildChessboard()
 
 	// *** //
 	// Create the eigth row of squares
-	Square a8("a8");
-	Square b8("b8");
-	Square c8("c8");
-	Square d8("d8");
-	Square e8("e8");
-	Square f8("f8");
-	Square g8("g8");
-	Square h8("h8");
+	Square a8("a8", this);
+	Square b8("b8", this);
+	Square c8("c8", this);
+	Square d8("d8", this);
+	Square e8("e8", this);
+	Square f8("f8", this);
+	Square g8("g8", this);
+	Square h8("h8", this);
 
 	// Set the size of each square
 	std::vector<Square> row8Vect = { a8, b8, c8, d8, e8, f8, g8, h8 };
