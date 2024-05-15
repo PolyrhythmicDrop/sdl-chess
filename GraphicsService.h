@@ -25,6 +25,8 @@ public:
 
 	virtual void removeFromRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects);
 
+	virtual std::vector<std::pair<GameObject*, SDL_Texture*>> findInRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects);
+
 	virtual void render();
 
 private:
