@@ -99,6 +99,7 @@ void InEscMenuState::buildMenu(SceneEscMenu* menuScene)
 
 	// Add the scene map to the render map in the Graphics Service
 	ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());
+	
 }
 
 void InEscMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)

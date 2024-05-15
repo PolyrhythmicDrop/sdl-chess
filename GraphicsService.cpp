@@ -35,10 +35,9 @@ bool GraphicsService::compareZ(std::pair<GameObject*, SDL_Texture*> a, std::pair
 
 void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject*, SDL_Texture*>> pairs)
 {
-
 	// Translate the supplied integer to the layer enumeration
 	if (layer > 4)
-		throw std::invalid_argument("Layer argument must be a valid layer!");
+		throw std::invalid_argument("Layer argument must be a valid layer!\n");
 	Layer rendLayer;
 	try {
 		switch (layer)
@@ -63,7 +62,7 @@ void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject
 		}
 		if (rendLayer >= (Layer)5)
 		{
-			throw std::invalid_argument("Layer argument must be a valid layer!");
+			throw std::invalid_argument("Layer argument must be a valid layer!\n");
 		}
 	}
 	catch (std::invalid_argument& e)
@@ -72,40 +71,27 @@ void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject
 		SDL_QUIT;
 	}
 
-	// TODO: Check to see if the objects are already in the render queue
-
-	// Insert elements in render queue according to their chosen layer
-	// TODO: finish this logic for every layer. This was a test to make sure this actually worked!
-	switch (rendLayer)
+	if (findInRenderMap(pairs).size() == 0)
 	{
-	case Layer::MENU:
-		_renderMap[Layer::MENU].insert(_renderMap[Layer::MENU].begin(), pairs.begin(), pairs.end());
-		break;
-	}
-	
-
-	// Sort the render map by Z-value
-	std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>>::iterator mItr;
-	std::vector<std::pair<GameObject*, SDL_Texture*>>::iterator vItr;
-	
-	for (mItr = _renderMap.begin(); mItr != _renderMap.end(); ++mItr)
-	{
-		std::sort(mItr->second.begin(), mItr->second.end(),
-			// Lamba defining the comparator
-			[](std::pair<GameObject*, SDL_Texture*> a, std::pair<GameObject*, SDL_Texture*> b)
-			{ return a.first->getZ() < b.first->getZ(); });
-	}
+		// Add objects to the render map if they are not already in the render map
+		_renderMap[rendLayer].insert(_renderMap[rendLayer].begin(), pairs.begin(), pairs.end());
+		LOG(TRACE) << "Objects added to render map!\n";
 		
-
-	// Debug to make sure objects are being added to the map
-	for (const auto &m : _renderMap )
-	{
-		for (const auto &v : m.second )
+		// Sort the render map by Z-value
+		std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>>::iterator mItr;
+		std::vector<std::pair<GameObject*, SDL_Texture*>>::iterator vItr;
+		for (mItr = _renderMap.begin(); mItr != _renderMap.end(); ++mItr)
 		{
-			LOG(TRACE) << "Object name " << v.first->getName() << " has been inserted into the render map!";
+			std::sort(mItr->second.begin(), mItr->second.end(),
+				// Lamba defining the comparator
+				[](std::pair<GameObject*, SDL_Texture*> a, std::pair<GameObject*, SDL_Texture*> b)
+				{ return a.first->getZ() < b.first->getZ(); });
 		}
 	}
-
+	else
+	{
+		LOG(TRACE) << "Objects already in render map!\n";
+	}
 }
 
 void GraphicsService::removeFromRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects)
@@ -122,11 +108,11 @@ void GraphicsService::removeFromRenderMap(std::vector<std::pair<GameObject*, SDL
 			if (iVect != _renderMap[(Layer)layer].end())
 			{
 				_renderMap[(Layer)layer].erase(iVect);
-				LOG(TRACE) << "Object erased from render queue layer " << (Layer)layer << "!\n";
+				LOG(TRACE) << "Object erased from render layer " << (Layer)layer << "!\n";
 			}
 		}
 	}
-	LOG(TRACE) << "No more objects to erase in render queue!";
+	LOG(TRACE) << "No more objects to erase in render queue!\n";
 
 }
 
@@ -135,8 +121,7 @@ std::vector<std::pair<GameObject*, SDL_Texture*>> GraphicsService::findInRenderM
 	// Initialize the target and the count
 	std::pair<GameObject*, SDL_Texture*> target;
 	int cnt = 0;
-	// single "found" boolean
-	bool found = false;
+	
 	// vector of booleans to be returned
 	std::vector<std::pair<GameObject*, SDL_Texture*>> foundVect;
 	// Containing loop, set iterations to 0 and use the size of the objects vector to limit the loops
@@ -152,14 +137,8 @@ std::vector<std::pair<GameObject*, SDL_Texture*>> GraphicsService::findInRenderM
 			if (cnt > 0)
 			{
 				LOG(TRACE) << "Target found in render layer " << (Layer)layer << "!\n";
-				found = true;
 				foundVect.push_back(target);
 				LOG(TRACE) << "Target added to found objects vector!";				
-			}
-			else
-			{
-				LOG(TRACE) << "Object not found in render layer " << (Layer)layer << "!\n";
-				found = false;
 			}
 		}
 	}
