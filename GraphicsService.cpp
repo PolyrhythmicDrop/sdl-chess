@@ -111,27 +111,36 @@ void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject
 void GraphicsService::removeFromRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects)
 {
 
-	// This needs to be finished! Right now it only works for the MENU layer.
+	// TODO: This needs to be finished! Right now it only works for the MENU layer.
 	// Can probably find a way to trim it down and have it run for all the layers without iterator conflicts.
+
+	// Initialize the target and the count
 	std::pair<GameObject*, SDL_Texture*> target;
 	int cnt = 0;
+	// Containing loop, set iterations to 0 and use the size of the objects vector to limit the loops
 	for (int i = 0; i < objects.size(); ++i)
 	{
+		// Set the target to the pair in the objects vector at the iteration count
 		target = objects.at(i);
-		cnt = std::count(_renderMap[Layer::MENU].begin(), _renderMap[Layer::MENU].end(), target);
-		if (cnt > 0)
+		// Loop for every Layer value in the render map
+		for (int layer = 0; layer < _renderMap.size(); ++layer)
+			// Start the loop
 		{
-			LOG(INFO) << "Target found! Attempting to find its position in render queue...";
-			std::vector<std::pair<GameObject*, SDL_Texture*>>::const_iterator iVect = std::find(_renderMap[Layer::MENU].begin(), _renderMap[Layer::MENU].end(), target);
-			if (iVect != _renderMap[Layer::MENU].end())
+			cnt = std::count(_renderMap[(Layer)layer].begin(), _renderMap[(Layer)layer].end(), target);
+			if (cnt > 0)
 			{
-				_renderMap[Layer::MENU].erase(iVect);
-				LOG(INFO) << "Object erased from render queue!";
+				LOG(INFO) << "Target found! Attempting to find its position in render queue...\n";
+				std::vector<std::pair<GameObject*, SDL_Texture*>>::const_iterator iVect = std::find(_renderMap[(Layer)layer].begin(), _renderMap[(Layer)layer].end(), target);
+				if (iVect != _renderMap[(Layer)layer].end())
+				{
+					_renderMap[(Layer)layer].erase(iVect);
+					LOG(INFO) << "Object erased from render queue!\n";
+				}
 			}
-		} 
-		else
-		{
-			LOG(INFO) << "Object not found in render map!";
+			else
+			{
+				LOG(INFO) << "Object not found in render layer " << (Layer)layer << " !\n";
+			}
 		}
 	}
 
