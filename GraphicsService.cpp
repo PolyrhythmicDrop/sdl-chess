@@ -111,9 +111,6 @@ void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject
 void GraphicsService::removeFromRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects)
 {
 
-	// TODO: This needs to be finished! Right now it only works for the MENU layer.
-	// Can probably find a way to trim it down and have it run for all the layers without iterator conflicts.
-
 	// Initialize the target and the count
 	std::pair<GameObject*, SDL_Texture*> target;
 	int cnt = 0;
