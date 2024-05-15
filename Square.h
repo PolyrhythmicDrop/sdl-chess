@@ -37,8 +37,9 @@ public:
 
 	SquareGraphicsComponent* getGraphicsComponent();
 
-	// Sets the square's occupied flag
+	// Sets and gets the square's occupied flag
 	inline void setOccupied(bool occupied) { _occupied = occupied; };
+	inline bool getOccupied() const { return _occupied; };
 
 	// Overlay functions
 
@@ -50,11 +51,13 @@ public:
 	inline Overlay getOverlayType() { return _overlay; };
 	
 	// Tile color functions
+
 	inline const Color* getLightTileColor() { return &_lightTileColor; };
 	inline const Color* getDarkTileColor() { return &_darkTileColor; };
 	inline const TileColor getTileType() { return _tileType; };
 	void setLightTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 	void setDarkTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+
 	void setTileType(TileColor type);
 
 private:
