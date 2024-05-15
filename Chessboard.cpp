@@ -68,7 +68,6 @@ void const Chessboard::buildChessboard()
 	{
 		square.setScale(squareSideSize, squareSideSize);
 		square._draw = true;
-		square.setOverlayType(Square::TAKE);
 	}
 
 	for (int i = 1; i < row1Vect.size(); ++i)

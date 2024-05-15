@@ -163,8 +163,6 @@ int main( int argc, char* args[] )
 			LOG(INFO) << "[ " << boardGrid[row][column].getName() << " ]\nX: " << boardGrid[row][column].getX() << "\nY: " << boardGrid[row][column].getY() << "\nZ: " << boardGrid[row][column].getZ() << "\nW: " << boardGrid[row][column].getWidth() << "\nH: " << boardGrid[row][column].getHeight();
 		}
 	}
-	
-	
 
 	for (int row = 0; row < boardGrid.size(); ++row)
 	{
@@ -173,7 +171,6 @@ int main( int argc, char* args[] )
 	}	
 
 	ServiceLocator::getGraphics().addToRenderMap(1, testVect);
-	
 		
 	// Main quit flag for the loop
 	bool quit = false;				
