@@ -58,6 +58,12 @@ void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject
 		case 4:
 			rendLayer = Layer::MENU;
 			break;
+		default:
+			rendLayer = (Layer)5;
+		}
+		if (rendLayer >= (Layer)5)
+		{
+			throw std::invalid_argument("Layer argument must be a valid layer!");
 		}
 	}
 	catch (std::invalid_argument& e)
@@ -66,11 +72,17 @@ void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject
 		SDL_QUIT;
 	}
 
-	// Create a new map that includes the vector of pairs at the layer.
-	std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>> map;
-	map[rendLayer] = pairs;
+	// TODO: Check to see if the objects are already in the render queue
 
-	_renderMap.insert(map.begin(), map.end());
+	// Insert elements in render queue according to their chosen layer
+	// TODO: finish this logic for every layer. This was a test to make sure this actually worked!
+	switch (rendLayer)
+	{
+	case Layer::MENU:
+		_renderMap[Layer::MENU].insert(_renderMap[Layer::MENU].begin(), pairs.begin(), pairs.end());
+		break;
+	}
+	
 
 	// Sort the render map by Z-value
 	std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>>::iterator mItr;
@@ -98,18 +110,9 @@ void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject
 
 void GraphicsService::removeFromRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects)
 {
-	// We want to determine whether the std::pair objects are in the render map (on any layer), and then remove them.
-	/*std::pair<GameObject*, SDL_Texture*> target = objects.at(0);
-	int cnt = std::count(_renderMap[Layer::MENU].begin(), _renderMap[Layer::MENU].end(), target);
-	if (cnt > 0)
-	{
-		LOG(INFO) << "Object found in render map when trying to remove! Success!";
-	}
-	else
-	{
-		LOG(INFO) << "Object not found in render map!";
-	}*/
 
+	// This needs to be finished! Right now it only works for the MENU layer.
+	// Can probably find a way to trim it down and have it run for all the layers without iterator conflicts.
 	std::pair<GameObject*, SDL_Texture*> target;
 	int cnt = 0;
 	for (int i = 0; i < objects.size(); ++i)
@@ -125,31 +128,13 @@ void GraphicsService::removeFromRenderMap(std::vector<std::pair<GameObject*, SDL
 				_renderMap[Layer::MENU].erase(iVect);
 				LOG(INFO) << "Object erased from render queue!";
 			}
-		}
+		} 
 		else
 		{
 			LOG(INFO) << "Object not found in render map!";
 		}
 	}
 
-	//// Set an iterator for the vector
-	//std::vector<std::pair<GameObject*, SDL_Texture*>>::iterator itr;
-	//// For every pair of GameObjects and SDL_Textures in the objects vector...
-	//for (std::pair<GameObject*, SDL_Texture*> pair : objects)
-	//{
-	//	for (int layer = 0; layer < _renderMap.size(); layer++)
-	//	{
-	//		// Search each layer for the pair
-	//		itr = std::find(_renderMap[(Layer)layer].begin(), _renderMap[(Layer)layer].end(), pair);
-	//		if (itr != objects.end())
-	//		{
-	//			// If found, erase the pair from the render map.
-	//			_renderMap[(Layer)layer].erase(itr);
-	//		}
-	//		// Continue through the loop until all layers have been searched
-	//	}
-	//}
-	//}
 
 }
 
@@ -172,6 +157,7 @@ void GraphicsService::render()
 		}
 	}
 
+	SDL_RenderPresent(renderer);
 
 	//// Render Layer 0
 	//std::vector<std::pair<GameObject*, SDL_Texture*>>::iterator vItr;
@@ -207,7 +193,7 @@ void GraphicsService::render()
 	//	SDL_RenderCopy(renderer, menuItr->second, NULL, menuItr->first->getDimensions());
 	//}
 
-	SDL_RenderPresent(renderer);
+	
 
 	//std::map<int, std::pair<GameObject*, SDL_Texture*>>::iterator it = _renderMap.begin();
 	//for (it; it != _renderMap.end(); it++)

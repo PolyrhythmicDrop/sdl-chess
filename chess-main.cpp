@@ -169,7 +169,7 @@ int main( int argc, char* args[] )
 		testVect.push_back(std::pair<GameObject*, SDL_Texture*>(&boardGrid[row][column], boardGrid[row][column].getGraphicsComponent()->getSdlTexture()));
 	}	
 
-	ServiceLocator::getGraphics().addToRenderMap(1, testVect);
+	// ServiceLocator::getGraphics().addToRenderMap(1, testVect);
 	
 		
 	// Main quit flag for the loop
