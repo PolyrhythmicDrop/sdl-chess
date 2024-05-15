@@ -20,6 +20,11 @@ void NullGraphicsService::removeFromRenderMap(std::vector<std::pair<GameObject*,
 
 }
 
+std::vector<std::pair<GameObject*, SDL_Texture*>> NullGraphicsService::findInRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects)
+{
+	return std::vector<std::pair<GameObject*, SDL_Texture*>>(NULL);
+}
+
 void NullGraphicsService::render()
 {
 

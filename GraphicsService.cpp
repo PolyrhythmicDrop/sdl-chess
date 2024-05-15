@@ -102,7 +102,7 @@ void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject
 	{
 		for (const auto &v : m.second )
 		{
-			LOG(INFO) << "Object name " << v.first->getName() << " has been inserted into the render map!";
+			LOG(TRACE) << "Object name " << v.first->getName() << " has been inserted into the render map!";
 		}
 	}
 
@@ -122,45 +122,12 @@ void GraphicsService::removeFromRenderMap(std::vector<std::pair<GameObject*, SDL
 			if (iVect != _renderMap[(Layer)layer].end())
 			{
 				_renderMap[(Layer)layer].erase(iVect);
-				LOG(INFO) << "Object erased from render queue layer " << (Layer)layer << "!\n";
+				LOG(TRACE) << "Object erased from render queue layer " << (Layer)layer << "!\n";
 			}
 		}
 	}
-	LOG(INFO) << "No more objects to erase in render queue!";
-	
-	//// Initialize the target and the count
-	//std::pair<GameObject*, SDL_Texture*> target;
-	//int cnt = 0;
-	//// Containing loop, set iterations to 0 and use the size of the objects vector to limit the loops
-	//for (int i = 0; i < objects.size(); ++i)
-	//{
-	//	// Set the target to the pair in the objects vector at the iteration count
-	//	target = objects.at(i);
-	//	// Loop for every Layer value in the render map
-	//	for (int layer = 0; layer < _renderMap.size(); ++layer)
-	//		// Start the loop
-	//	{
-	//		cnt = std::count(_renderMap[(Layer)layer].begin(), _renderMap[(Layer)layer].end(), target);
-	//		if (cnt > 0)
-	//		{
-	//			LOG(INFO) << "Target found! Attempting to find its position in render queue...\n";
-	//			std::vector<std::pair<GameObject*, SDL_Texture*>>::const_iterator iVect = std::find(_renderMap[(Layer)layer].begin(), _renderMap[(Layer)layer].end(), target);
-	//			if (iVect != _renderMap[(Layer)layer].end())
-	//			{
-	//				_renderMap[(Layer)layer].erase(iVect);
-	//				LOG(INFO) << "Object erased from render queue!\n";
-	//			}
-	//			else
-	//			{
-	//				break;
-	//			}
-	//		}
-	//		else
-	//		{
-	//			LOG(INFO) << "Object not found in render layer " << (Layer)layer << " !\n";
-	//		}
-	//	}
-	//}
+	LOG(TRACE) << "No more objects to erase in render queue!";
+
 }
 
 std::vector<std::pair<GameObject*, SDL_Texture*>> GraphicsService::findInRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects)
@@ -184,14 +151,14 @@ std::vector<std::pair<GameObject*, SDL_Texture*>> GraphicsService::findInRenderM
 			cnt = std::count(_renderMap[(Layer)layer].begin(), _renderMap[(Layer)layer].end(), target);
 			if (cnt > 0)
 			{
-				LOG(INFO) << "Target found in render layer " << (Layer)layer << "!\n";
+				LOG(TRACE) << "Target found in render layer " << (Layer)layer << "!\n";
 				found = true;
 				foundVect.push_back(target);
-				LOG(INFO) << "Target added to found objects vector!";				
+				LOG(TRACE) << "Target added to found objects vector!";				
 			}
 			else
 			{
-				LOG(INFO) << "Object not found in render layer " << (Layer)layer << "!\n";
+				LOG(TRACE) << "Object not found in render layer " << (Layer)layer << "!\n";
 				found = false;
 			}
 		}

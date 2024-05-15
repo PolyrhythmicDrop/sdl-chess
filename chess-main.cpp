@@ -98,8 +98,11 @@ int main( int argc, char* args[] )
 	el::Configurations defaultConf;
 	defaultConf.setToDefault();
 	defaultConf.set(el::Level::Info, el::ConfigurationType::Format, "%datetime | %func \n%msg");
+	defaultConf.set(el::Level::Trace, el::ConfigurationType::Format, "%fbase | %line \n%msg");
 	defaultConf.set(el::Level::Info, el::ConfigurationType::ToFile, "true");
+	defaultConf.set(el::Level::Trace, el::ConfigurationType::ToFile, "true");
 	defaultConf.set(el::Level::Info, el::ConfigurationType::Filename, "chess-log.log");
+	defaultConf.set(el::Level::Trace, el::ConfigurationType::Filename, "chess-log.log");
 	el::Loggers::reconfigureLogger("default", defaultConf);
 
 	// Initialize the game context
