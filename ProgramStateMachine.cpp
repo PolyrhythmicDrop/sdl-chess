@@ -1,22 +1,22 @@
-#include "GameStateMachine.h"
+#include "ProgramStateMachine.h"
 
-GameStateMachine::GameStateMachine() :
+ProgramStateMachine::ProgramStateMachine() :
 	_currentState(nullptr),
 	_previousState(nullptr),
 	_escMenu(nullptr)
 {
 	assert(!_instantiated);
 	_instantiated = true;
-	_currentState = &IdleGameState::getInstance();
+	_currentState = &IdleProgramState::getInstance();
 	_currentState->enter(this);
 }
 
-void GameStateMachine::changeState()
+void ProgramStateMachine::changeState()
 {
 	_currentState->changeState(this);
 }
 
-void GameStateMachine::setGameState(IGameState& newState)
+void ProgramStateMachine::setProgramState(IProgramState& newState)
 {
 	_previousState = _currentState;
 	_currentState->exit(this);
@@ -24,12 +24,12 @@ void GameStateMachine::setGameState(IGameState& newState)
 	_currentState->enter(this);
 }
 
-void GameStateMachine::subscribeToEventManager(EventManager& manager)
+void ProgramStateMachine::subscribeToEventManager(EventManager& manager)
 {
 	_currentState->subscribeToEventManager(manager, this);
 }
 
-void GameStateMachine::unsubscribeToEventManager(EventManager& manager)
+void ProgramStateMachine::unsubscribeToEventManager(EventManager& manager)
 {
 	_currentState->unsubscribeToEventManager(manager, this);
 }

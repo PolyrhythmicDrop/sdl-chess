@@ -2,7 +2,7 @@
 #include "GameContext.h"
 #include "GraphicsService.h"
 #include "SceneEscMenu.h"
-#include "GameStateMachine.h"
+#include "ProgramStateMachine.h"
 #include "easylogging++.h"
 #include "Chessboard.h"
 #include "SquareGraphicsComponent.h"
@@ -84,7 +84,7 @@
 INITIALIZE_EASYLOGGINGPP;
 int GameObject::gameObjectCount = 0;
 bool GameContext::_instantiated = false;
-bool GameStateMachine::_instantiated = false;
+bool ProgramStateMachine::_instantiated = false;
 bool GraphicsService::_instantiated = false;
 IGraphics* ServiceLocator::_graphicsService;
 NullGraphicsService ServiceLocator::_nullGraphicsService;
@@ -135,7 +135,7 @@ int main( int argc, char* args[] )
 	EventManager& eManager = EventManager::getEventManagerInstance();
 
 	// Initialize the game state machine
-	GameStateMachine gsm;
+	ProgramStateMachine gsm;
 
 	// Constants for the game loop
 	const int fps = 60;

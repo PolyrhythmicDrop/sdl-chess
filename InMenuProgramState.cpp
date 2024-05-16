@@ -1,31 +1,31 @@
-#include "InMenuGameState.h"
+#include "InMenuProgramState.h"
 #include "InEscMenuState.h"
 #include "InactiveMenuState.h"
 
-InMenuGameState::InMenuGameState() {}
+InMenuProgramState::InMenuProgramState() {}
 
-IGameState& InMenuGameState::getInstance()
+IProgramState& InMenuProgramState::getInstance()
 {
-	static InMenuGameState inMenuGameState;
+	static InMenuProgramState inMenuGameState;
 	return inMenuGameState;
 }
 
-void InMenuGameState::enter(GameStateMachine* gsm)
+void InMenuProgramState::enter(ProgramStateMachine* gsm)
 {
 	gsm->createEscMenu();
 	gsm->getEscMenu()->setMenuState(InEscMenuState::getInstance());
 	subscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
 }
 
-void InMenuGameState::changeState(GameStateMachine* gsm, std::string eventString)
+void InMenuProgramState::changeState(ProgramStateMachine* gsm, std::string eventString)
 {
 	if (eventString == "ClearMenu")
 	{
-		gsm->setGameState(IdleGameState::getInstance());
+		gsm->setProgramState(IdleProgramState::getInstance());
 	}
 }
 
-void InMenuGameState::exit(GameStateMachine* gsm)
+void InMenuProgramState::exit(ProgramStateMachine* gsm)
 {
 	// gsm->getEscMenu()->setMenuState(InactiveMenuState::getInstance());
 	unsubscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
@@ -33,7 +33,7 @@ void InMenuGameState::exit(GameStateMachine* gsm)
 	
 }
 
-void InMenuGameState::subscribeToEventManager(EventManager& manager, GameStateMachine* gsm)
+void InMenuProgramState::subscribeToEventManager(EventManager& manager, ProgramStateMachine* gsm)
 {
 	
 	gsm->getEscMenu()->addListener(false, [this, gsm](bool active)
@@ -46,7 +46,7 @@ void InMenuGameState::subscribeToEventManager(EventManager& manager, GameStateMa
 	
 }
 
-void InMenuGameState::unsubscribeToEventManager(EventManager& manager, GameStateMachine* gsm)
+void InMenuProgramState::unsubscribeToEventManager(EventManager& manager, ProgramStateMachine* gsm)
 {
 	manager.Unsubscribe(SDL_USEREVENT);
 	gsm->getEscMenu()->removeListener(false);

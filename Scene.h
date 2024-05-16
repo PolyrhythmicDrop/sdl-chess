@@ -20,12 +20,6 @@ public:
 	~Scene();
 
 	/// <summary>
-	/// Build the scene up by adding objects and constructing the draw vector with those objects.
-	/// </summary>
-	/// <returns></returns>
-	virtual void buildMenu() = 0;
-
-	/// <summary>
 	/// Adds an object to the back of to the scene object vector.
 	/// </summary>
 	/// <param name="object">The object to add to the vector.</param>
