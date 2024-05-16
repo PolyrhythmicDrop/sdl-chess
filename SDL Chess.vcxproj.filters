@@ -168,6 +168,9 @@
     <ClCompile Include="Piece.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="PieceInputComponent.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -272,6 +275,9 @@
     <ClInclude Include="Piece.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="PieceInputComponent.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\esc-menu_1024.png">
@@ -320,6 +326,42 @@
       <Filter>Source Files\Images</Filter>
     </Image>
     <Image Include="images\square_Overlay.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\blkBishop.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\blkKing.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\blkKnight.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\blkPawn.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\blkQueen.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\blkRook.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\whtBishop.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\whtKing.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\whtKnight.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\whtPawn.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\whtQueen.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\whtRook.png">
       <Filter>Source Files\Images</Filter>
     </Image>
   </ItemGroup>

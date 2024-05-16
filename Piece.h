@@ -1,7 +1,8 @@
 #pragma once
 #include "GameObject.h"
-#include "InputComponent.h"
+#include "PieceInputComponent.h"
 #include "GraphicsComponent.h"
+#include <memory>
 
 class Square;
 
@@ -29,8 +30,8 @@ private:
 	bool _selected;
 	bool _alive;
 
-	InputComponent* _input;
-	GraphicsComponent* _graphics;
+	std::unique_ptr<PieceInputComponent> _input;
+	std::unique_ptr<GraphicsComponent> _graphics;
 
 public:
 
@@ -48,7 +49,7 @@ public:
 	inline bool getSelected() { return _selected; };
 
 	inline void setAlive(bool alive) { _alive = alive; };
-	inline bool isAlive() { return _alive; };
+	inline bool isAlive() const { return _alive; };
 
 
 

@@ -161,6 +161,7 @@
     <ClCompile Include="InResoMenuState.cpp" />
     <ClCompile Include="NullGraphicsService.cpp" />
     <ClCompile Include="Piece.cpp" />
+    <ClCompile Include="PieceInputComponent.cpp" />
     <ClCompile Include="PlayerInputComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="InResoMenuState.h" />
     <ClInclude Include="NullGraphicsService.h" />
     <ClInclude Include="Piece.h" />
+    <ClInclude Include="PieceInputComponent.h" />
     <ClInclude Include="PlayerInputComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
@@ -211,6 +213,12 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="images\blkBishop.png" />
+    <Image Include="images\blkKing.png" />
+    <Image Include="images\blkKnight.png" />
+    <Image Include="images\blkPawn.png" />
+    <Image Include="images\blkQueen.png" />
+    <Image Include="images\blkRook.png" />
     <Image Include="images\chessboard-compressed.png" />
     <Image Include="images\chessboard.png" />
     <Image Include="images\esc-menu_1024.png" />
@@ -227,6 +235,12 @@
     <Image Include="images\squareOverlay.png" />
     <Image Include="images\squareSquare.png" />
     <Image Include="images\square_Overlay.png" />
+    <Image Include="images\whtBishop.png" />
+    <Image Include="images\whtKing.png" />
+    <Image Include="images\whtKnight.png" />
+    <Image Include="images\whtPawn.png" />
+    <Image Include="images\whtQueen.png" />
+    <Image Include="images\whtRook.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
