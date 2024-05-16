@@ -8,7 +8,7 @@ class Square;
 
 class Piece : public GameObject
 {
-private:
+public:
 
 	enum PieceColor {
 		BLACK,
@@ -23,17 +23,6 @@ private:
 		QUEEN,
 		KING
 	};
-	
-	Square* _position;
-	PieceColor _pieceColor;
-	Figure _type;
-	bool _selected;
-	bool _alive;
-
-	std::unique_ptr<PieceInputComponent> _input;
-	std::unique_ptr<GraphicsComponent> _graphics;
-
-public:
 
 	Piece(Figure type, PieceColor color);
 	~Piece();
@@ -53,6 +42,17 @@ public:
 
 	inline PieceInputComponent* getInput() { return _input.get(); };
 	inline GraphicsComponent* getGraphics() { return _graphics.get(); };
+
+private:
+	
+	Square* _position;
+	PieceColor _pieceColor;
+	Figure _type;
+	bool _selected;
+	bool _alive;
+
+	std::unique_ptr<PieceInputComponent> _input;
+	std::unique_ptr<GraphicsComponent> _graphics;
 
 
 

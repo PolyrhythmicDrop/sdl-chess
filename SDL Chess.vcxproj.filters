@@ -189,6 +189,9 @@
     <ClCompile Include="InitGameState.cpp">
       <Filter>Source Files\States\GameStates</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -314,6 +317,9 @@
     <ClInclude Include="InitGameState.h">
       <Filter>Header Files\States\GameStates</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\esc-menu_1024.png">
@@ -403,6 +409,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="chess-log.log">

@@ -149,6 +149,7 @@
     <ClCompile Include="GameStateMachine.cpp" />
     <ClCompile Include="IGameState.cpp" />
     <ClCompile Include="InitGameState.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="ProgramStateMachine.cpp" />
     <ClCompile Include="GraphicsComponent.cpp" />
     <ClCompile Include="GraphicsService.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="GameStateMachine.h" />
     <ClInclude Include="IGameState.h" />
     <ClInclude Include="InitGameState.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="ProgramStateMachine.h" />
     <ClInclude Include="GraphicsComponent.h" />
     <ClInclude Include="GraphicsService.h" />
@@ -256,6 +258,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="chess-log.log" />
