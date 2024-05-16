@@ -6,6 +6,7 @@
 #include "easylogging++.h"
 #include "Chessboard.h"
 #include "SquareGraphicsComponent.h"
+#include "GameStateMachine.h"
 
 
 /// <summary>
@@ -86,6 +87,7 @@ int GameObject::gameObjectCount = 0;
 bool GameContext::_instantiated = false;
 bool ProgramStateMachine::_instantiated = false;
 bool GraphicsService::_instantiated = false;
+bool GameStateMachine::_instantiated = false;
 IGraphics* ServiceLocator::_graphicsService;
 NullGraphicsService ServiceLocator::_nullGraphicsService;
 

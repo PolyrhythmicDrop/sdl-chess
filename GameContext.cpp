@@ -3,7 +3,7 @@
 
 GameContext::GameContext()
 {	
-	// Asserts that there are no existing instances of the Graphics Service
+	// Asserts that there are no existing instances of the GameContext
 	assert(!_instantiated);
 	_instantiated = true;
 	_gameObjects.reserve(5);

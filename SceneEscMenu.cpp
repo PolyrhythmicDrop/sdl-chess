@@ -33,7 +33,7 @@ void SceneEscMenu::unsubscribeToEventManager(EventManager& manager)
 	_currentState->unsubscribeToEventManager(manager, this);
 }
 
-bool SceneEscMenu::getStatus()
+bool SceneEscMenu::getStatus() const
 {
 	return this->active;
 }

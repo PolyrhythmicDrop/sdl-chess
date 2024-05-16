@@ -12,7 +12,7 @@ protected:
 	/// <summary>
 	/// Vector containing all the objects in the scene for a menu.
 	/// </summary>
-	std::vector<std::pair<GameObject*, SDL_Texture*>> _menuVect;
+	std::vector<std::pair<GameObject*, SDL_Texture*>> _objVect;
 
 public:
 

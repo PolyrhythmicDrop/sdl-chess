@@ -41,15 +41,18 @@ public:
 	inline void setPosition(Square* square) { _position = square; };
 	inline Square* getPosition() { return _position; };
 
-	inline const PieceColor getPieceColor() { return _pieceColor; };
+	inline const PieceColor getPieceColor() const { return _pieceColor; };
 
 	void changeType(Figure type);
 
 	inline void setSelected(bool selected) { _selected = selected; };
-	inline bool getSelected() { return _selected; };
+	inline bool getSelected() const { return _selected; };
 
 	inline void setAlive(bool alive) { _alive = alive; };
 	inline bool isAlive() const { return _alive; };
+
+	inline PieceInputComponent* getInput() { return _input.get(); };
+	inline GraphicsComponent* getGraphics() { return _graphics.get(); };
 
 
 
