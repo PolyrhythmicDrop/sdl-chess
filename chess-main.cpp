@@ -135,7 +135,7 @@ int main( int argc, char* args[] )
 	EventManager& eManager = EventManager::getEventManagerInstance();
 
 	// Initialize the game state machine
-	ProgramStateMachine gsm;
+	ProgramStateMachine psm;
 
 	// Constants for the game loop
 	const int fps = 60;

@@ -10,11 +10,11 @@ public:
 
 	static IProgramState& getInstance();
 
-	virtual void enter(ProgramStateMachine* gsm);
-	virtual void changeState(ProgramStateMachine* gsm, std::string eventString);
-	virtual void exit(ProgramStateMachine* gsm);
+	virtual void enter(ProgramStateMachine* psm);
+	virtual void changeState(ProgramStateMachine* psm, std::string eventString);
+	virtual void exit(ProgramStateMachine* psm);
 
-	virtual void subscribeToEventManager(EventManager& manager, ProgramStateMachine* gsm);
-	virtual void unsubscribeToEventManager(EventManager& manager, ProgramStateMachine* gsm);
+	virtual void subscribeToEventManager(EventManager& manager, ProgramStateMachine* psm);
+	virtual void unsubscribeToEventManager(EventManager& manager, ProgramStateMachine* psm);
 };
 

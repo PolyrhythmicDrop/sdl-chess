@@ -10,44 +10,44 @@ IProgramState& InMenuProgramState::getInstance()
 	return inMenuGameState;
 }
 
-void InMenuProgramState::enter(ProgramStateMachine* gsm)
+void InMenuProgramState::enter(ProgramStateMachine* psm)
 {
-	gsm->createEscMenu();
-	gsm->getEscMenu()->setMenuState(InEscMenuState::getInstance());
-	subscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
+	psm->createEscMenu();
+	psm->getEscMenu()->setMenuState(InEscMenuState::getInstance());
+	subscribeToEventManager(EventManager::getEventManagerInstance(), psm);
 }
 
-void InMenuProgramState::changeState(ProgramStateMachine* gsm, std::string eventString)
+void InMenuProgramState::changeState(ProgramStateMachine* psm, std::string eventString)
 {
 	if (eventString == "ClearMenu")
 	{
-		gsm->setProgramState(IdleProgramState::getInstance());
+		psm->setProgramState(IdleProgramState::getInstance());
 	}
 }
 
-void InMenuProgramState::exit(ProgramStateMachine* gsm)
+void InMenuProgramState::exit(ProgramStateMachine* psm)
 {
-	// gsm->getEscMenu()->setMenuState(InactiveMenuState::getInstance());
-	unsubscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
-	gsm->getEscMenu()->~SceneEscMenu();
+	// psm->getEscMenu()->setMenuState(InactiveMenuState::getInstance());
+	unsubscribeToEventManager(EventManager::getEventManagerInstance(), psm);
+	psm->getEscMenu()->~SceneEscMenu();
 	
 }
 
-void InMenuProgramState::subscribeToEventManager(EventManager& manager, ProgramStateMachine* gsm)
+void InMenuProgramState::subscribeToEventManager(EventManager& manager, ProgramStateMachine* psm)
 {
 	
-	gsm->getEscMenu()->addListener(false, [this, gsm](bool active)
+	psm->getEscMenu()->addListener(false, [this, psm](bool active)
 		{
 			if (active != true)
 			{
-				changeState(gsm, "ClearMenu");
+				changeState(psm, "ClearMenu");
 			}
 		});
 	
 }
 
-void InMenuProgramState::unsubscribeToEventManager(EventManager& manager, ProgramStateMachine* gsm)
+void InMenuProgramState::unsubscribeToEventManager(EventManager& manager, ProgramStateMachine* psm)
 {
 	manager.Unsubscribe(SDL_USEREVENT);
-	gsm->getEscMenu()->removeListener(false);
+	psm->getEscMenu()->removeListener(false);
 }

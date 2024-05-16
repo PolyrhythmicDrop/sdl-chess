@@ -11,33 +11,33 @@ IProgramState& IdleProgramState::getInstance()
 	return idleGameState;
 }
 
-void IdleProgramState::enter(ProgramStateMachine* gsm)
+void IdleProgramState::enter(ProgramStateMachine* psm)
 {
-	gsm->subscribeToEventManager(EventManager::getEventManagerInstance());
+	psm->subscribeToEventManager(EventManager::getEventManagerInstance());
 }
 
-void IdleProgramState::changeState(ProgramStateMachine* gsm, std::string eventString)
+void IdleProgramState::changeState(ProgramStateMachine* psm, std::string eventString)
 {
 	if (eventString == "Esc")
 	{
-		gsm->setProgramState(InMenuProgramState::getInstance());
+		psm->setProgramState(InMenuProgramState::getInstance());
 	}
 }
 
-void IdleProgramState::exit(ProgramStateMachine* gsm)
+void IdleProgramState::exit(ProgramStateMachine* psm)
 {
-	gsm->unsubscribeToEventManager(EventManager::getEventManagerInstance());
+	psm->unsubscribeToEventManager(EventManager::getEventManagerInstance());
 }
 
-void IdleProgramState::subscribeToEventManager(EventManager & manager, ProgramStateMachine* gsm)
+void IdleProgramState::subscribeToEventManager(EventManager & manager, ProgramStateMachine* psm)
 {
-	manager.Subscribe(SDL_KEYUP, [this, gsm](SDL_Event const& event) {
-		if (event.key.keysym.sym == SDLK_ESCAPE && gsm->getCurrentState() == this)
+	manager.Subscribe(SDL_KEYUP, [this, psm](SDL_Event const& event) {
+		if (event.key.keysym.sym == SDLK_ESCAPE && psm->getCurrentState() == this)
 		{
-			changeState(gsm, "Esc");
+			changeState(psm, "Esc");
 		}
 		});
 }
 
-void IdleProgramState::unsubscribeToEventManager(EventManager& manager, ProgramStateMachine* gsm)
+void IdleProgramState::unsubscribeToEventManager(EventManager& manager, ProgramStateMachine* psm)
 {}
