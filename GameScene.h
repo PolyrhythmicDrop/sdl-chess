@@ -6,6 +6,7 @@
 #include "GameStateMachine.h"
 #include "Player.h"
 #include <memory>
+#include <cassert>
 
 class IGameState;
 class GameStateMachine;
@@ -25,6 +26,8 @@ private:
 	GameStateMachine* _gsm;
 
 public:
+	static bool _instantiated;
+
 	IGameState* _currentState;
 	IGameState* _previousState;
 
@@ -43,7 +46,7 @@ public:
 	inline IGameState* getPreviousState() const { return _previousState; };
 	inline void setCurrentState(IGameState& state) { _currentState = &state; };
 	inline void setPreviousState(IGameState& state) { _previousState = &state; };
-	inline void changeState() { _gsm->changeState(this); };
+	inline void setGameState(IGameState& state) { _gsm->setGameState(this, state); };
 
 
 };

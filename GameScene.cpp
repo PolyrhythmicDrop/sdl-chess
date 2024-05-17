@@ -12,5 +12,7 @@ GameScene::GameScene() :
 	_currentState(&InitGameState::getInstance()),
 	_previousState(nullptr)
 {
+	assert(!_instantiated);
+	_instantiated = true;
 	_pieces.reserve(32);
 }

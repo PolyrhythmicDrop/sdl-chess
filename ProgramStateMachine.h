@@ -1,6 +1,8 @@
 #pragma once
 #include "IdleProgramState.h"
 #include "SceneEscMenu.h"
+
+#include "GameScene.h"
 #include <cassert>
 
 class IProgramState;
@@ -15,6 +17,7 @@ private:
 	static bool _instantiated;
 
 	SceneEscMenu* _escMenu;
+	GameScene* _gameScene;
 
 public:
 
@@ -32,8 +35,13 @@ public:
 	// Unsubscribes for the event manager. Should be called at some point after every subscribeToEventManager call, when you no longer want to "listen" for the event.
 	void unsubscribeToEventManager(EventManager& manager);
 
+	// Escape Menu functions
 	inline SceneEscMenu* getEscMenu() { return _escMenu; };
 	inline void createEscMenu() { _escMenu = new SceneEscMenu; };
+
+	// Game scene functions
+	inline GameScene* getGameScene() { return _gameScene; };
+	inline void createGameScene() { _gameScene = new GameScene; };
 
 	
 

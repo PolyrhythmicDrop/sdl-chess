@@ -1,6 +1,8 @@
 #include "IdleProgramState.h"
 #include "ProgramStateMachine.h"
 #include "InMenuProgramState.h"
+#include "InGameProgramState.h"
+#include "easylogging++.h"
 
 IdleProgramState::IdleProgramState()
 {}
@@ -14,6 +16,7 @@ IProgramState& IdleProgramState::getInstance()
 void IdleProgramState::enter(ProgramStateMachine* psm)
 {
 	psm->subscribeToEventManager(EventManager::getEventManagerInstance());
+	LOG(TRACE) << "Idle Program State entered!";
 }
 
 void IdleProgramState::changeState(ProgramStateMachine* psm, std::string eventString)
@@ -22,11 +25,16 @@ void IdleProgramState::changeState(ProgramStateMachine* psm, std::string eventSt
 	{
 		psm->setProgramState(InMenuProgramState::getInstance());
 	}
+	if (eventString == "StartGame")
+	{
+		psm->setProgramState(InGameProgramState::getInstance());
+	}
 }
 
 void IdleProgramState::exit(ProgramStateMachine* psm)
 {
 	psm->unsubscribeToEventManager(EventManager::getEventManagerInstance());
+	LOG(TRACE) << "Idle Program State exited!";
 }
 
 void IdleProgramState::subscribeToEventManager(EventManager & manager, ProgramStateMachine* psm)
@@ -36,8 +44,14 @@ void IdleProgramState::subscribeToEventManager(EventManager & manager, ProgramSt
 		{
 			changeState(psm, "Esc");
 		}
+		else if (event.key.keysym.sym == SDLK_RETURN && psm->getCurrentState() == this)
+		{
+			changeState(psm, "StartGame");
+		}
 		});
 }
 
 void IdleProgramState::unsubscribeToEventManager(EventManager& manager, ProgramStateMachine* psm)
-{}
+{
+	manager.Unsubscribe(SDL_KEYUP);
+}

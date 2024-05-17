@@ -1,6 +1,8 @@
 #include "InMenuProgramState.h"
 #include "InEscMenuState.h"
 #include "InactiveMenuState.h"
+#include "InGameProgramState.h"
+#include "easylogging++.h"
 
 InMenuProgramState::InMenuProgramState() {}
 
@@ -12,6 +14,7 @@ IProgramState& InMenuProgramState::getInstance()
 
 void InMenuProgramState::enter(ProgramStateMachine* psm)
 {
+	LOG(TRACE) << "In Menu Program State entered!";
 	psm->createEscMenu();
 	psm->getEscMenu()->setMenuState(InEscMenuState::getInstance());
 	subscribeToEventManager(EventManager::getEventManagerInstance(), psm);
@@ -19,15 +22,19 @@ void InMenuProgramState::enter(ProgramStateMachine* psm)
 
 void InMenuProgramState::changeState(ProgramStateMachine* psm, std::string eventString)
 {
-	if (eventString == "ClearMenu")
+	if (eventString == "ClearMenu" && psm->getPreviousState() == &IdleProgramState::getInstance())
 	{
 		psm->setProgramState(IdleProgramState::getInstance());
+	}
+	if (eventString == "ClearMenu" && psm->getPreviousState() == &InGameProgramState::getInstance())
+	{
+		psm->setProgramState(InGameProgramState::getInstance());
 	}
 }
 
 void InMenuProgramState::exit(ProgramStateMachine* psm)
 {
-	// psm->getEscMenu()->setMenuState(InactiveMenuState::getInstance());
+	LOG(TRACE) << "In Menu Program State exited!";
 	unsubscribeToEventManager(EventManager::getEventManagerInstance(), psm);
 	psm->getEscMenu()->~SceneEscMenu();
 	
