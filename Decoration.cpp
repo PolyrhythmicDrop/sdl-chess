@@ -24,12 +24,12 @@ Decoration::Decoration(DecorationType type)	:
 	_graphics->loadTexture();
 	// Set the initial dimensions for the decoration using the texture
 	setScaleFromTexture(_graphics->getSdlTexture());
-	LOG(INFO) << "Decoration " << _name << " created!\n";
+	LOG(TRACE) << "Decoration " << _name << " created!";
 }
 
 Decoration::~Decoration()
 {
-	LOG(INFO) << _name << " destructed!\n";
+	LOG(TRACE) << _name << " destructed!";
 }
 
 GraphicsComponent* Decoration::getGraphicsComponent()

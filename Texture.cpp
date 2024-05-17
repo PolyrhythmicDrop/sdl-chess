@@ -11,7 +11,7 @@ Texture::Texture()
 Texture::~Texture()
 {
 	freeTexture();
-	LOG(INFO) << "Texture destructed!\n";
+	LOG(INFO) << "Texture destructed!";
 }
 
 

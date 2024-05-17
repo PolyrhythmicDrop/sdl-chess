@@ -7,7 +7,7 @@ GameContext::GameContext()
 	assert(!_instantiated);
 	_instantiated = true;
 	_gameObjects.reserve(5);
-	LOG(INFO) << "Game context initialized!\n"; 
+	LOG(TRACE) << "Game context initialized!"; 
 }
 
-GameContext::~GameContext() { LOG(INFO) << "Game context destructed!\n"; };
+GameContext::~GameContext() { LOG(TRACE) << "Game context destructed!"; };

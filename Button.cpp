@@ -56,12 +56,12 @@ Button::Button(ButtonType bType) :
 	setScaleFromTexture(_graphics->getSdlTexture());
 	
 
-	LOG(INFO) << "Button " << _name << " created!\n";
+	LOG(TRACE) << "Button " << _name << " created!";
 }
 
 Button::~Button()
 {
-	LOG(INFO) << "Button " << _name << " destructed!\n";
+	LOG(TRACE) << "Button " << _name << " destructed!";
 }
 
 GraphicsComponent* Button::getGraphicsComponent()

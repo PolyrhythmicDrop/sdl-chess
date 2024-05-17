@@ -6,6 +6,8 @@ InitGameState::InitGameState() {};
 
 void InitGameState::enter(GameStateMachine* gsm)
 {
+	// ** Chessboard Initialization ** //
+	// Build the chessboard squares and add the board grid to the render queue
 	LOG(TRACE) << "Initialize Game State entered!";
 	gsm->getGameScene()->getBoard()->buildChessboard();
 	LOG(TRACE) << "Chessboard squares and position constructed!";
@@ -13,6 +15,9 @@ void InitGameState::enter(GameStateMachine* gsm)
 	LOG(TRACE) << "Chessboard added to render queue!";
 	// Add the current square positions to the debug log
 	gsm->getGameScene()->getBoard()->printSquarePositions();
+	// ** End Chessboard Initialization ** //
+
+
 
 }
 

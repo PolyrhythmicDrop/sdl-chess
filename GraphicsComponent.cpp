@@ -5,13 +5,13 @@ GraphicsComponent::GraphicsComponent() :
 	_imgPath(""), _textureLoader(NULL), _sdlTexture(NULL)
 {
 	_textureLoader = new Texture();
-	LOG(INFO) << "Graphics component constructed!\n";
+	LOG(TRACE) << "Graphics component constructed!";
 }
 
 GraphicsComponent::~GraphicsComponent()
 {
 	_textureLoader->~Texture();
-	LOG(INFO) << "Graphics component destructed!\n";
+	LOG(TRACE) << "Graphics component destructed!";
 }
 
 void GraphicsComponent::loadTexture()

@@ -9,12 +9,12 @@ Renderer::Renderer(Window* window)
 	SDL_SetHint(SDL_HINT_RENDER_LOGICAL_SIZE_MODE, "1");
 	SDL_RenderSetLogicalSize(renderer, w, h);
 	_sdlRenderer = renderer;
-	LOG(INFO) << "Renderer initialized!\n";
+	LOG(INFO) << "Renderer initialized!";
 }
 
 Renderer::~Renderer()
 {
-	LOG(INFO) << "Renderer destructed!\n";
+	LOG(INFO) << "Renderer destructed!";
 }
 
 SDL_Renderer* Renderer::GetRenderer()

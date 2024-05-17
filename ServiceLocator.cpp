@@ -3,12 +3,12 @@
 
 ServiceLocator::ServiceLocator()
 {
-	LOG(INFO) << "Service Locator constructed!\n";
+	LOG(TRACE) << "Service Locator constructed!";
 }
 
 ServiceLocator::~ServiceLocator()
 {
-	LOG(INFO) << "Service Locator destructed!\n";
+	LOG(TRACE) << "Service Locator destructed!";
 }
 
 void ServiceLocator::initialize()
@@ -29,7 +29,7 @@ void ServiceLocator::provide(IGraphics* graphicsService)
 	{
 		// Revert to the null service
 		_graphicsService = &_nullGraphicsService;
-		LOG(INFO) << "Loading null graphics service! Check your code.";
+		LOG(DEBUG) << "Loading null graphics service because Graphics Service failed to initialize. Check your code!";
 	}
 	else
 	{

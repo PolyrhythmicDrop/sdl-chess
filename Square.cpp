@@ -20,7 +20,6 @@ Square::Square(std::string notation, Chessboard* board) :
 	_dimensions = {0, 0, this->_chessboard->getDimensions()->w / 8, this->_chessboard->getDimensions()->h / 8 };
 	_zIndex = 1;
 	_draw = false;
-	_graphics->setSquareImgPath("images/squareSquare.png");
 	_graphics->setOverlayImgPath("images/square_Overlay.png");
 	_graphics->loadTexture(this);
 	_graphics->sumImage(this);
@@ -34,6 +33,7 @@ Square::Square(const Square& square)
 	_zIndex = square._zIndex;
 	_draw = square._draw;
 	_occupied = square._occupied;
+	_currentPiece = square._currentPiece;
 	_moveOverlayColor = square._moveOverlayColor;
 	_takeOverlayColor = square._takeOverlayColor;
 	_lightTileColor = square._lightTileColor;
