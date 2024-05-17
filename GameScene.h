@@ -28,7 +28,6 @@ public:
 	IGameState* _currentState;
 	IGameState* _previousState;
 
-
 	GameScene();
 	~GameScene() {};
 

@@ -147,7 +147,9 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
+    <ClCompile Include="IdleGameState.cpp" />
     <ClCompile Include="IGameState.cpp" />
+    <ClCompile Include="InGameProgramState.cpp" />
     <ClCompile Include="InitGameState.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ProgramStateMachine.cpp" />
@@ -190,7 +192,9 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GameStateMachine.h" />
+    <ClInclude Include="IdleGameState.h" />
     <ClInclude Include="IGameState.h" />
+    <ClInclude Include="InGameProgramState.h" />
     <ClInclude Include="InitGameState.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ProgramStateMachine.h" />
@@ -255,10 +259,6 @@
     <Image Include="images\whtPawn.png" />
     <Image Include="images\whtQueen.png" />
     <Image Include="images\whtRook.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="chess-log.log" />
