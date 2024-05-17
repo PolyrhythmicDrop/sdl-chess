@@ -144,6 +144,7 @@
     <ClCompile Include="chess-main.cpp" />
     <ClCompile Include="Chessboard.cpp" />
     <ClCompile Include="easylogging++.cc" />
+    <ClCompile Include="EndGameState.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="IGameState.cpp" />
     <ClCompile Include="InGameProgramState.cpp" />
     <ClCompile Include="InitGameState.cpp" />
+    <ClCompile Include="PauseGameState.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ProgramStateMachine.cpp" />
     <ClCompile Include="GraphicsComponent.cpp" />
@@ -182,6 +184,8 @@
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="SquareGraphicsComponent.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TurnBlackGameState.cpp" />
+    <ClCompile Include="TurnWhiteGameState.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +193,7 @@
     <ClInclude Include="ButtonInputComponent.h" />
     <ClInclude Include="Chessboard.h" />
     <ClInclude Include="easylogging++.h" />
+    <ClInclude Include="EndGameState.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GameStateMachine.h" />
@@ -196,6 +201,7 @@
     <ClInclude Include="IGameState.h" />
     <ClInclude Include="InGameProgramState.h" />
     <ClInclude Include="InitGameState.h" />
+    <ClInclude Include="PauseGameState.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ProgramStateMachine.h" />
     <ClInclude Include="GraphicsComponent.h" />
@@ -228,6 +234,8 @@
     <ClInclude Include="Square.h" />
     <ClInclude Include="SquareGraphicsComponent.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TurnBlackGameState.h" />
+    <ClInclude Include="TurnWhiteGameState.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

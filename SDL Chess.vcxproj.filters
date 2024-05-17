@@ -198,6 +198,18 @@
     <ClCompile Include="InGameProgramState.cpp">
       <Filter>Source Files\States\ProgramStates</Filter>
     </ClCompile>
+    <ClCompile Include="PauseGameState.cpp">
+      <Filter>Source Files\States\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="TurnWhiteGameState.cpp">
+      <Filter>Source Files\States\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="TurnBlackGameState.cpp">
+      <Filter>Source Files\States\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="EndGameState.cpp">
+      <Filter>Source Files\States\GameStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -331,6 +343,18 @@
     </ClInclude>
     <ClInclude Include="InGameProgramState.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseGameState.h">
+      <Filter>Header Files\States\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnWhiteGameState.h">
+      <Filter>Header Files\States\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnBlackGameState.h">
+      <Filter>Header Files\States\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="EndGameState.h">
+      <Filter>Header Files\States\GameStates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
