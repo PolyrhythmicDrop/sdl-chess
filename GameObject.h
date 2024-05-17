@@ -1,7 +1,5 @@
 #pragma once
 #include <iostream>
-#include "SDLfunc.h"
-
 #include "EventManager.h"
 
 // Pure abstract class for game objects

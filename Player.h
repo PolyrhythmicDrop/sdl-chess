@@ -1,14 +1,13 @@
 #pragma once
-#include "Piece.h"
 
 class Player
 {
 public:
 
-	Player(Piece::PieceColor color);
+	Player() {};
 	~Player() {};
 
-	Piece::PieceColor const _playerColor;
+	// Piece::PieceColor const _playerColor;
 
 };
 

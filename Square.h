@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "Piece.h"
 
 class SquareGraphicsComponent;
 class Chessboard;
@@ -38,6 +38,8 @@ public:
 	// Sets and gets the square's occupied flag
 	inline void setOccupied(bool occupied) { _occupied = occupied; };
 	inline bool getOccupied() const { return _occupied; };
+	// Returns the piece that's on the square
+	Piece* getOccupant();
 
 	// Overlay functions
 

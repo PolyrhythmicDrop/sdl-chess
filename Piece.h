@@ -2,7 +2,6 @@
 #include "GameObject.h"
 #include "PieceInputComponent.h"
 #include "GraphicsComponent.h"
-#include <memory>
 
 class Square;
 
@@ -25,12 +24,18 @@ public:
 	};
 
 	Piece(Figure type, PieceColor color);
+	Piece(const Piece& piece);
+	Piece& operator=(const Piece& other);
+
 	~Piece();
 
-	inline void setPosition(Square* square) { _position = square; };
+	inline char getFenName() { return _fenName; };
+
+	void setPosition(Square* square);
 	inline Square* getPosition() { return _position; };
 
 	inline const PieceColor getPieceColor() const { return _pieceColor; };
+	inline const Figure getPieceType() const { return _type; };
 
 	void changeType(Figure type);
 
@@ -40,19 +45,22 @@ public:
 	inline void setAlive(bool alive) { _alive = alive; };
 	inline bool isAlive() const { return _alive; };
 
-	inline PieceInputComponent* getInput() { return _input.get(); };
-	inline GraphicsComponent* getGraphics() { return _graphics.get(); };
+	inline PieceInputComponent* getInput() { return _input; };
+	inline GraphicsComponent* getGraphics() { return _graphics; };
 
 private:
+
+	inline void setFenName(char fen) { _fenName = fen; };
 	
 	Square* _position;
 	PieceColor _pieceColor;
 	Figure _type;
+	char _fenName;
 	bool _selected;
 	bool _alive;
 
-	std::unique_ptr<PieceInputComponent> _input;
-	std::unique_ptr<GraphicsComponent> _graphics;
+	PieceInputComponent* _input;
+	GraphicsComponent* _graphics;
 
 
 

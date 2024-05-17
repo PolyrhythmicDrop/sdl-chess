@@ -1,10 +1,10 @@
 #pragma once
-#include "Scene.h"
 #include "Chessboard.h"
-#include "Rules.h"
 #include "GameManager.h"
 #include "GameStateMachine.h"
 #include "Player.h"
+#include "Rules.h"
+#include "Scene.h"
 
 class IGameState;
 class GameStateMachine;
@@ -14,7 +14,7 @@ class GameScene : public Scene
 private:
 
 	std::unique_ptr<Chessboard> _board;
-	std::vector<Piece*> _pieces;
+	std::vector<Piece> _pieces;
 	Player* _playerOne;
 	Player* _playerTwo;
 
@@ -30,10 +30,16 @@ public:
 	IGameState* _previousState;
 
 	GameScene();
-	~GameScene() {};
+	~GameScene();
 
 	inline Chessboard* getBoard() { return _board.get(); };
-	inline std::vector<Piece*> getPieces() { return _pieces; };
+
+	void initializePieces();
+
+	inline Piece* getPieceOnSquare(Square* square) { return square->getOccupant(); };
+	// Returns a pointer to the piece vector
+	inline std::vector<Piece>* getAllPieces() { return &_pieces; };
+
 	inline Player* getPlayerOne() { return _playerOne; };
 	inline Player* getPlayerTwo() { return _playerTwo; };
 

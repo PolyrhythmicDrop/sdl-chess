@@ -61,6 +61,19 @@ SquareGraphicsComponent* Square::getGraphicsComponent()
 	return _graphics;
 }
 
+Piece* Square::getOccupant()
+{
+	if (_occupied)
+	{
+		return _currentPiece;
+	}
+	else
+	{
+		return nullptr;
+	}
+
+}
+
 void Square::setMoveOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	_moveOverlayColor = { r, g, b, a };
