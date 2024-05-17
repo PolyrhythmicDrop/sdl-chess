@@ -1,5 +1,5 @@
 #include "GameScene.h"
-#include "InitGameState.h"
+#include "IdleGameState.h"
 
 GameScene::GameScene() :
 	_board(std::unique_ptr<Chessboard>(new Chessboard)),
@@ -9,10 +9,11 @@ GameScene::GameScene() :
 	_rules(std::unique_ptr<Rules>(new Rules)),
 	_manager(std::unique_ptr<GameManager>(new GameManager)),
 	_gsm(new GameStateMachine()),
-	_currentState(&InitGameState::getInstance()),
+	_currentState(&IdleGameState::getInstance()),
 	_previousState(nullptr)
 {
 	assert(!_instantiated);
 	_instantiated = true;
+	_gsm->setGameScene(this);
 	_pieces.reserve(32);
 }

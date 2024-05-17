@@ -1,6 +1,7 @@
 #pragma once
 #include "EventManager.h"
 #include <cassert>
+#include <memory>
 
 class GameScene;
 class IGameState;
@@ -12,10 +13,16 @@ private:
 
 	static bool _instantiated;
 
+	GameScene* _gameScene;
+
 public:
+	
 
 	GameStateMachine();
 	~GameStateMachine() {};
+
+	inline void setGameScene(GameScene* scene) { _gameScene = scene; };
+	inline GameScene* getGameScene() { return _gameScene; };
 
 	void enter(GameScene* scene);
 	void changeState(GameScene* scene);

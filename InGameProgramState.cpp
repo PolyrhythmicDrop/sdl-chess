@@ -6,6 +6,7 @@
 
 #include "GameScene.h"
 #include "IdleGameState.h"
+#include "InitGameState.h"
 #include "InMenuProgramState.h"
 #include <memory>
 
@@ -24,7 +25,7 @@ void InGameProgramState::enter(ProgramStateMachine* psm)
 	if (!GameScene::_instantiated)
 	{
 		psm->createGameScene();
-		psm->getGameScene()->setGameState(IdleGameState::getInstance());
+		psm->getGameScene()->setGameState(InitGameState::getInstance());
 	}
 	else
 	{

@@ -22,10 +22,12 @@ public:
 
 	inline SDL_Rect getBoardDimensions() const { return _dimensions; };
 	inline std::vector<std::vector<Square>> getBoardGrid() { return _boardGrid; };
+	void const printSquarePositions();
 
 	inline GraphicsComponent* getGraphics() const { return _graphics; };
 
 	void const buildChessboard();
+	void const addBoardToRender();
 	
 };
 

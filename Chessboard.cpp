@@ -1,6 +1,7 @@
 #include "Chessboard.h"
 #include "easylogging++.h"
 #include "ServiceLocator.h"
+#include "SquareGraphicsComponent.h"
 #include <algorithm>
 
 Chessboard::Chessboard() :
@@ -8,7 +9,7 @@ Chessboard::Chessboard() :
 {
 	_dimensions = { 0, 0, 1000, 1000 };
 	_zIndex = -1;
-	LOG(INFO) << "Chessboard constructed!";
+	LOG(INFO) << "Chessboard object constructed!";
 }
 
 // Copy constructor for deep copy
@@ -355,4 +356,32 @@ void const Chessboard::buildChessboard()
 	this->_boardGrid.push_back(row6Vect);
 	this->_boardGrid.push_back(row7Vect);
 	this->_boardGrid.push_back(row8Vect);
+}
+
+void const Chessboard::addBoardToRender()
+{
+	std::vector<std::pair<GameObject*, SDL_Texture*>> renderVect;
+
+	for (int row = 0; row < _boardGrid.size(); ++row)
+	{
+		for (int column = 0; column < _boardGrid[row].size(); ++column)
+			renderVect.push_back(std::pair<GameObject*, SDL_Texture*>(&_boardGrid[row][column], _boardGrid[row][column].getGraphicsComponent()->getSdlTexture()));
+	}
+
+	ServiceLocator::getGraphics().addToRenderMap(1, renderVect);
+}
+
+void const Chessboard::printSquarePositions()
+{
+	LOG(DEBUG) << "The size of the board grid is: " << _boardGrid.size() << " rows and " << _boardGrid[0].size() << " columns.";
+
+	// Debug: get the coordinates for each item in the grid and put them in the log
+	for (int row = 0; row < _boardGrid.size(); ++row)
+	{
+		LOG(DEBUG) << "";
+		for (int column = 0; column < _boardGrid[row].size(); ++column)
+		{
+			LOG(DEBUG) << "[ " << _boardGrid[row][column].getName() << " ]\nX: " << _boardGrid[row][column].getX() << "\nY: " << _boardGrid[row][column].getY() << "\nZ: " << _boardGrid[row][column].getZ() << "\nW: " << _boardGrid[row][column].getWidth() << "\nH: " << _boardGrid[row][column].getHeight();
+		}
+	}
 }

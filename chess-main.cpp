@@ -4,8 +4,6 @@
 #include "SceneEscMenu.h"
 #include "ProgramStateMachine.h"
 #include "easylogging++.h"
-#include "Chessboard.h"
-#include "SquareGraphicsComponent.h"
 #include "GameStateMachine.h"
 #include "GameScene.h"
 
@@ -21,21 +19,29 @@ bool GameScene::_instantiated = false;
 IGraphics* ServiceLocator::_graphicsService;
 NullGraphicsService ServiceLocator::_nullGraphicsService;
 
+void initializeLogging()
+{
+	// Logging configurations
+	el::Configurations defaultConf;
+	defaultConf.setToDefault();
+	defaultConf.set(el::Level::Info, el::ConfigurationType::Format, "%datetime | %func \n%msg\n");
+	defaultConf.set(el::Level::Trace, el::ConfigurationType::Format, "%fbase | %line \n%msg\n");
+	defaultConf.set(el::Level::Debug, el::ConfigurationType::Format, "%datetime | %fbase\n | %func \n | %line \n%msg");
+	defaultConf.set(el::Level::Info, el::ConfigurationType::ToFile, "true");
+	defaultConf.set(el::Level::Trace, el::ConfigurationType::ToFile, "true");
+	defaultConf.set(el::Level::Debug, el::ConfigurationType::ToFile, "true");
+	defaultConf.set(el::Level::Debug, el::ConfigurationType::ToStandardOutput, "false");
+	defaultConf.set(el::Level::Info, el::ConfigurationType::Filename, "chess-log.log");
+	defaultConf.set(el::Level::Trace, el::ConfigurationType::Filename, "chess-log.log");
+	defaultConf.set(el::Level::Debug, el::ConfigurationType::Filename, "chess-debug.log");
+	el::Loggers::reconfigureLogger("default", defaultConf);
+}
 
 // ** Main loop **
 
 int main( int argc, char* args[] )
 {	
-	// Logging configurations
-	el::Configurations defaultConf;
-	defaultConf.setToDefault();
-	defaultConf.set(el::Level::Info, el::ConfigurationType::Format, "%datetime | %func \n%msg");
-	defaultConf.set(el::Level::Trace, el::ConfigurationType::Format, "%fbase | %line \n%msg");
-	defaultConf.set(el::Level::Info, el::ConfigurationType::ToFile, "true");
-	defaultConf.set(el::Level::Trace, el::ConfigurationType::ToFile, "true");
-	defaultConf.set(el::Level::Info, el::ConfigurationType::Filename, "chess-log.log");
-	defaultConf.set(el::Level::Trace, el::ConfigurationType::Filename, "chess-log.log");
-	el::Loggers::reconfigureLogger("default", defaultConf);
+	initializeLogging();
 
 	// Initialize the game context
 	GameContext gc;
@@ -76,6 +82,8 @@ int main( int argc, char* args[] )
 
 	int sleepTime = 0;
 
+	/* 
+	******************************
 	// Square overlay testing
 	Chessboard board;
 	board.buildChessboard();
@@ -103,7 +111,9 @@ int main( int argc, char* args[] )
 	}	
 
 	ServiceLocator::getGraphics().addToRenderMap(1, testVect);
-		
+	*******************************
+	*/ 
+
 	// Main quit flag for the loop
 	bool quit = false;				
 

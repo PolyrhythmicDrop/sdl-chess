@@ -5,8 +5,6 @@
 #include "GameManager.h"
 #include "GameStateMachine.h"
 #include "Player.h"
-#include <memory>
-#include <cassert>
 
 class IGameState;
 class GameStateMachine;

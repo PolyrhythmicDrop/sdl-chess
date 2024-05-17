@@ -1,15 +1,28 @@
 #include "InitGameState.h"
+#include "easylogging++.h"
+#include "GameScene.h"
 
 InitGameState::InitGameState() {};
 
 void InitGameState::enter(GameStateMachine* gsm)
-{}
+{
+	LOG(TRACE) << "Initialize Game State entered!";
+	gsm->getGameScene()->getBoard()->buildChessboard();
+	LOG(TRACE) << "Chessboard squares and position constructed!";
+	gsm->getGameScene()->getBoard()->addBoardToRender();
+	LOG(TRACE) << "Chessboard added to render queue!";
+	// Add the current square positions to the debug log
+	gsm->getGameScene()->getBoard()->printSquarePositions();
+
+}
 
 void InitGameState::changeState(GameStateMachine* gsm)
 {}
 
 void InitGameState::exit(GameStateMachine* gsm)
-{}
+{
+	LOG(TRACE) << "Initialize Game State exited!";
+}
 
 IGameState& InitGameState::getInstance()
 {
