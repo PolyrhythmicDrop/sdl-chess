@@ -39,6 +39,7 @@ public:
 	inline Piece* getPieceOnSquare(Square* square) { return square->getOccupant(); };
 	// Returns a pointer to the piece vector
 	inline std::vector<Piece>* getAllPieces() { return &_pieces; };
+	std::vector<int> getPiecesByFEN(char fen);
 
 	inline Player* getPlayerOne() { return _playerOne; };
 	inline Player* getPlayerTwo() { return _playerTwo; };

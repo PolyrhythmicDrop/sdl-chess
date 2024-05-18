@@ -103,3 +103,32 @@ void GameScene::initializePieces()
 	LOG(TRACE) << _pieces.size() << " pieces added to Game Scene!";
 
 }
+
+std::vector<int> GameScene::getPiecesByFEN(char fen)
+{
+	
+	std::vector<int> foundPieceIndexes;
+	// Create an iterator for the Piece vector
+	std::vector<Piece>::iterator itr = _pieces.begin();
+
+	do
+	{
+		itr = std::find_if(itr, _pieces.end(), [&](Piece piece) {
+			return piece.getFenName() == fen;
+			});
+		if (itr != _pieces.end())
+		{
+			int index = std::distance(_pieces.begin(), itr);
+			foundPieceIndexes.push_back(index);
+			itr++;
+		}
+		else
+		{
+			break;
+		}
+	} while (itr != _pieces.end());
+
+	return foundPieceIndexes;
+
+
+}
