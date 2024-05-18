@@ -17,9 +17,9 @@ void InitGameState::enter(GameStateMachine* gsm)
 	gsm->getGameScene()->getBoard()->printSquarePositions();
 	// ** End Chessboard Initialization ** //
 
-	// Test adding things to game scene vector
-	LOG(TRACE) << "Getting piece from Init Game State: " << gsm->getGameScene()->getAllPieces()->at(0).getPieceType();
-
+	// ** Initial Piece Placement ** //
+	gsm->getGameScene()->getManager()->setUpGame();
+	// ** End Initial Piece Placement
 
 }
 
@@ -38,7 +38,9 @@ IGameState& InitGameState::getInstance()
 }
 
 void InitGameState::subscribeToEventManager(EventManager& manager, GameStateMachine* gsm)
-{}
+{
+	
+}
 
 void InitGameState::unsubscribeToEventManager(EventManager& manager, GameStateMachine* gsm)
 {}

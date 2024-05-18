@@ -25,7 +25,7 @@ public:
 	};
 
 	// Default constructor
-	Square(std::string name, Chessboard* board);
+	Square(std::string notation, Chessboard* board);
 	// Deep copy constructor
 	Square(const Square& square);
 	// Assignment operator
@@ -36,7 +36,7 @@ public:
 	SquareGraphicsComponent* getGraphicsComponent();
 
 	// Sets and gets the square's occupied flag
-	inline void setOccupied(bool occupied) { _occupied = occupied; };
+	void setOccupied(bool occupied, Piece* occupant);
 	inline bool getOccupied() const { return _occupied; };
 	// Returns the piece that's on the square
 	Piece* getOccupant();

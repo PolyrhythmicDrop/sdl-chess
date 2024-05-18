@@ -39,6 +39,7 @@ void Piece::setPosition(Square* square)
 {
 	_position = square;
 	_dimensions = *square->getDimensions();
+	square->setOccupied(true, this);
 }
 
 void Piece::changeType(Figure type)

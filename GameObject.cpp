@@ -17,7 +17,7 @@ GameObject::~GameObject()
 	LOG(TRACE) << "Object destroyed! Game object count: " << gameObjectCount;
 }
 
-std::string GameObject::getName()
+std::string const GameObject::getName()
 {
 	return _name;
 }

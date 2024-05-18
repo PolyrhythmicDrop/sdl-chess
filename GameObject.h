@@ -24,7 +24,7 @@ public:
 
 	bool _draw;
 
-	virtual std::string getName();
+	virtual const std::string getName();
 
 	/// <summary>
 	/// Get Rect (nerd). Returns the _dimensions of the game object, which is an SDL Rect.

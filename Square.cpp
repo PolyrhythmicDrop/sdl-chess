@@ -61,6 +61,19 @@ SquareGraphicsComponent* Square::getGraphicsComponent()
 	return _graphics;
 }
 
+void Square::setOccupied(bool occupied, Piece* occupant)
+{
+	if (_occupied != occupied)
+	{
+		_occupied = occupied;
+		_currentPiece = occupant;
+	}
+	else
+	{
+		LOG(TRACE) << "Square already occupied! Perform a Take move first.";
+	}
+}
+
 Piece* Square::getOccupant()
 {
 	if (_occupied)

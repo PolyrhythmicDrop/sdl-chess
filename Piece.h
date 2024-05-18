@@ -29,7 +29,7 @@ public:
 
 	~Piece();
 
-	inline char getFenName() { return _fenName; };
+	inline char getFenName() { if (_fenName != NULL) { return _fenName; } };
 
 	void setPosition(Square* square);
 	inline Square* getPosition() { return _position; };
