@@ -1,5 +1,6 @@
 #pragma once
 #include "IGameState.h"
+#include "GameScene.h"
 
 class TurnWhiteGameState : public IGameState
 {
@@ -19,5 +20,6 @@ public:
 	void unsubscribeToEventManager(EventManager& manager, GameStateMachine* gsm);
 
 	void detectClickOnObject(int x, int y, GameStateMachine* gsm);
+	void selectPiece(Piece* piece, GameStateMachine* gsm);
 };
 

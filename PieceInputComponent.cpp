@@ -20,3 +20,8 @@ void PieceInputComponent::onHover()
 
 void PieceInputComponent::onKeyPress()
 {}
+
+void PieceInputComponent::onSelected()
+{
+
+}

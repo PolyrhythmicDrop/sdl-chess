@@ -14,5 +14,6 @@ public:
 	void onClick();
 	void onHover();
 	void onKeyPress();
+	void onSelected();
 };
 

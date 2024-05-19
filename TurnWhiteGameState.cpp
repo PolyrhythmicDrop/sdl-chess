@@ -1,5 +1,4 @@
 #include "TurnWhiteGameState.h"
-#include "GameScene.h"
 #include "easylogging++.h"
 
 TurnWhiteGameState::TurnWhiteGameState() {};
@@ -51,26 +50,52 @@ void TurnWhiteGameState::detectClickOnObject(int x, int y, GameStateMachine* gsm
 	// Set the point to where the mouse was when clicked
 	SDL_Point clickPos = { x, y };
 	
-	// Testing of variables
-	LOG(DEBUG) << "getBoardGrid size at 0: " << gsm->getGameScene()->getBoard()->getBoardGrid()->at(0).size();
-
 
 	// Determine whether the point intersects with any squares.
 
-	// Iterate for every square in the grid:
-	
-	// For every row, starting at the start of the vector
 	for (int row = 0; row < gsm->getGameScene()->getBoard()->getBoardGrid()->size(); ++row)
 	{
 		for (int column = 0; column < gsm->getGameScene()->getBoard()->getBoardGrid()->at(row).size(); ++column)
 		{
 			if (SDL_PointInRect(&clickPos, gsm->getGameScene()->getBoard()->getBoardGrid()->at(row).at(column).getDimensions()))
 			{
-				// Send whether or not the square was clicked to the Debug log
-				LOG(DEBUG) << "Square " << gsm->getGameScene()->getBoard()->getBoardGrid()->at(row).at(column).getName() << " clicked!";
+				// Declare variable to simplify code
+				auto& square = gsm->getGameScene()->getBoard()->getBoardGrid()->at(row).at(column);
+				// Send the clicked square's name to the Debug log
+				LOG(DEBUG) << "Square " << square.getName() << " clicked!";
+				// Detect the piece on the clicked square. If it's a living white piece, call selectPiece(), if it's a black piece or dead, ignore it.
+				if (square.getOccupant() != nullptr
+					&& square.getOccupant()->getPieceColor() == 1
+					&& square.getOccupant()->isAlive())
+				{
+					selectPiece(square.getOccupant(), gsm);
+				}
 			}
 		}
-	}
-	
+	}	
 
+}
+
+void TurnWhiteGameState::selectPiece(Piece* piece, GameStateMachine* gsm)
+{
+	// If any other piece is selected, deselect it
+	for (int i = 0; i < gsm->getGameScene()->getAllPieces()->size(); ++i)
+	{
+		if (gsm->getGameScene()->getAllPieces()->at(i).getSelected())
+		{
+			gsm->getGameScene()->getAllPieces()->at(i).setSelected(false);
+			LOG(DEBUG) << "Piece " << gsm->getGameScene()->getAllPieces()->at(i).getFenName() << " has been deselected!";
+		}
+	}
+
+	// If the supplied piece is not already selected, select it. If it's already selected, deselect it.
+	if (!piece->getSelected())
+	{
+		piece->setSelected(true);
+	}
+	else
+	{
+		piece->setSelected(false);
+	}
+	LOG(DEBUG) << "Piece " << piece->getFenName() << " on " << piece->getPosition()->getName() << " selected!";
 }
