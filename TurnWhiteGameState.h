@@ -1,5 +1,6 @@
 #pragma once
 #include "IGameState.h"
+
 class TurnWhiteGameState : public IGameState
 {
 private:
@@ -14,8 +15,9 @@ public:
 	void exit(GameStateMachine* gsm);
 	static IGameState& getInstance();
 
-
 	void subscribeToEventManager(EventManager& manager, GameStateMachine* gsm);
 	void unsubscribeToEventManager(EventManager& manager, GameStateMachine* gsm);
+
+	void detectClickOnObject(int x, int y, GameStateMachine* gsm);
 };
 
