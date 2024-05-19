@@ -122,3 +122,17 @@ void Piece::changeType(Figure type)
 
 }
 
+void Piece::setSelected(bool selected)
+{
+	_selected = selected;
+
+	if (!_selected)
+	{
+
+	}
+	else
+	{
+		_graphics->addSelectedIcon(this);
+	}
+}
+

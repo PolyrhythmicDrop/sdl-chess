@@ -39,7 +39,7 @@ public:
 
 	void changeType(Figure type);
 
-	inline void setSelected(bool selected) { _selected = selected; };
+	void setSelected(bool selected);
 	inline bool getSelected() const { return _selected; };
 
 	inline void setAlive(bool alive) { _alive = alive; };

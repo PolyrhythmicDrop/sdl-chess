@@ -260,6 +260,7 @@
     <Image Include="images\exit-confirm-menu_button-no.png" />
     <Image Include="images\exit-confirm-menu_button-yes.png" />
     <Image Include="images\exit-confirm-menu_ConfirmExitBG.png" />
+    <Image Include="images\selected.png" />
     <Image Include="images\squareOverlay.png" />
     <Image Include="images\squareSquare.png" />
     <Image Include="images\square_Overlay.png" />

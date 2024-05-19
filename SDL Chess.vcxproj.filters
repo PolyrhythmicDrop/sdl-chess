@@ -448,6 +448,9 @@
     <Image Include="images\blkBishop.png">
       <Filter>Source Files\Images</Filter>
     </Image>
+    <Image Include="images\selected.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="chess-log.log">
