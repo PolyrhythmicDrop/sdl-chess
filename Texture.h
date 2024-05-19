@@ -13,6 +13,12 @@ public:
 	// Constructor
 	Texture();
 
+	// Deep copy constructor, for copying textures
+	Texture(const Texture& texture);
+
+	// Assignment operator
+	Texture& operator=(const Texture& other);
+
 	/// <summary>
 	/// Removes the class from memory and deallocates the texture. Runs Texture::freeTexture().
 	/// </summary>
