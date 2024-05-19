@@ -4,6 +4,7 @@
 
 GameManager::GameManager(GameScene* gameScene) :
 	_gameScene(gameScene),
+	_rules(std::unique_ptr<Rules>(new Rules)),
 	_history({}),
 	_textAction(""),
 	_textSetup("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"),

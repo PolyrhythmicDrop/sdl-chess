@@ -17,9 +17,12 @@ void InitGameState::enter(GameStateMachine* gsm)
 	gsm->getGameScene()->getBoard()->printSquarePositions();
 	// ** End Chessboard Initialization ** //
 
+	// ** Player Initialization ** //
+	std::cout << "Player One, enter your name:\n";
+	gsm->getGameScene()->getPlayerOne();
+
 	// ** Initial Piece Placement ** //
 	gsm->getGameScene()->getManager()->setUpGame();
-	// ** End Initial Piece Placement
 
 }
 

@@ -3,7 +3,6 @@
 #include "GameManager.h"
 #include "GameStateMachine.h"
 #include "Player.h"
-#include "Rules.h"
 #include "Scene.h"
 
 class IGameState;
@@ -18,7 +17,6 @@ private:
 	Player* _playerOne;
 	Player* _playerTwo;
 
-	std::unique_ptr<Rules> _rules;
 	std::unique_ptr<GameManager> _manager;
 	
 	GameStateMachine* _gsm;
@@ -44,7 +42,6 @@ public:
 	inline Player* getPlayerOne() { return _playerOne; };
 	inline Player* getPlayerTwo() { return _playerTwo; };
 
-	inline Rules* getRules() { return _rules.get(); };
 	inline GameManager* getManager() { return _manager.get(); };
 
 	inline IGameState* getCurrentState() const { return _currentState; };

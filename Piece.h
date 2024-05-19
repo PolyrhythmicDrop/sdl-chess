@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "PieceInputComponent.h"
-#include "GraphicsComponent.h"
+#include "PieceGraphicsComponent.h"
 
 class Square;
 
@@ -46,7 +46,7 @@ public:
 	inline bool isAlive() const { return _alive; };
 
 	inline PieceInputComponent* getInput() { return _input; };
-	inline GraphicsComponent* getGraphics() { return _graphics; };
+	inline PieceGraphicsComponent* getGraphics() { return _graphics; };
 
 private:
 
@@ -60,7 +60,7 @@ private:
 	bool _alive;
 
 	PieceInputComponent* _input;
-	GraphicsComponent* _graphics;
+	PieceGraphicsComponent* _graphics;
 
 
 

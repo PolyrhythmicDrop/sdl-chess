@@ -7,7 +7,6 @@ GameScene::GameScene() :
 	_pieces(),
 	_playerOne(nullptr),
 	_playerTwo(nullptr),
-	_rules(std::unique_ptr<Rules>(new Rules)),
 	_manager(nullptr),
 	_gsm(new GameStateMachine()),
 	_currentState(&IdleGameState::getInstance()),

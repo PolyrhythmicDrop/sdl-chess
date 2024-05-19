@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <memory>
+#include "Rules.h"
 
 class GameScene;
 
@@ -9,6 +11,7 @@ class GameManager
 private:
 
 	GameScene* _gameScene;
+	std::unique_ptr<Rules> _rules;
 
 	// Record of past moves, as strings
 	std::vector<std::string> _history;
@@ -26,6 +29,8 @@ public:
 
 	GameManager(GameScene* gameScene);
 	~GameManager() { };
+
+	inline Rules* getRules() { return _rules.get(); };
 
 	void parsePosition(std::string position);
 	void setUpGame();
