@@ -1,6 +1,7 @@
 #include "InitGameState.h"
 #include "easylogging++.h"
 #include "GameScene.h"
+#include "TurnWhiteGameState.h"
 
 InitGameState::InitGameState() {};
 
@@ -30,10 +31,14 @@ void InitGameState::enter(GameStateMachine* gsm)
 	// ** Initial Piece Placement ** //
 	gsm->getGameScene()->getManager()->setUpGame();
 
+	changeState(gsm);
+
 }
 
 void InitGameState::changeState(GameStateMachine* gsm)
-{}
+{
+	gsm->setGameState(gsm->getGameScene(), TurnWhiteGameState::getInstance());
+}
 
 void InitGameState::exit(GameStateMachine* gsm)
 {
