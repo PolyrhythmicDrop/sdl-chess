@@ -14,8 +14,8 @@ private:
 
 	std::unique_ptr<Chessboard> _board;
 	std::vector<Piece> _pieces;
-	Player* _playerOne;
-	Player* _playerTwo;
+	Player _playerOne;
+	Player _playerTwo;
 
 	std::unique_ptr<GameManager> _manager;
 	
@@ -39,8 +39,10 @@ public:
 	inline std::vector<Piece>* getAllPieces() { return &_pieces; };
 	std::vector<int> getPiecesByFEN(char fen);
 
-	inline Player* getPlayerOne() { return _playerOne; };
-	inline Player* getPlayerTwo() { return _playerTwo; };
+	inline Player* getPlayerOne() { return &_playerOne; };
+	inline Player* getPlayerTwo() { return &_playerTwo; };
+	inline void setPlayerOne(std::string name, char color) { _playerOne._name = name; _playerOne._color = color; };
+	inline void setPlayerTwo(std::string name, char color) { _playerTwo._name = name; _playerTwo._color = color; };
 
 	inline GameManager* getManager() { return _manager.get(); };
 

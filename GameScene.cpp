@@ -5,8 +5,8 @@
 GameScene::GameScene() :
 	_board(std::unique_ptr<Chessboard>(new Chessboard)),
 	_pieces(),
-	_playerOne(nullptr),
-	_playerTwo(nullptr),
+	_playerOne(Player("", ' ')),
+	_playerTwo(Player("", ' ')),
 	_manager(nullptr),
 	_gsm(new GameStateMachine()),
 	_currentState(&IdleGameState::getInstance()),

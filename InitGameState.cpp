@@ -6,6 +6,16 @@ InitGameState::InitGameState() {};
 
 void InitGameState::enter(GameStateMachine* gsm)
 {
+	// ** Player Initialization ** //
+	std::string p1Name, p2Name;
+	std::cout << "Player One, enter your name:\n";
+	std::cin >> p1Name;
+	std::cout << "Player Two, enter your name:\n";
+	std::cin >> p2Name;
+	// TODO: Let the players select their color. For now, hard-coding who goes first.
+	gsm->getGameScene()->setPlayerOne(p1Name, 'w');
+	gsm->getGameScene()->setPlayerTwo(p2Name, 'b');
+
 	// ** Chessboard Initialization ** //
 	// Build the chessboard squares and add the board grid to the render queue
 	LOG(TRACE) << "Initialize Game State entered!";
@@ -16,10 +26,6 @@ void InitGameState::enter(GameStateMachine* gsm)
 	// Add the current square positions to the debug log
 	gsm->getGameScene()->getBoard()->printSquarePositions();
 	// ** End Chessboard Initialization ** //
-
-	// ** Player Initialization ** //
-	std::cout << "Player One, enter your name:\n";
-	gsm->getGameScene()->getPlayerOne();
 
 	// ** Initial Piece Placement ** //
 	gsm->getGameScene()->getManager()->setUpGame();

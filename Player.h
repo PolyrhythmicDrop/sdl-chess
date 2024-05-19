@@ -5,7 +5,10 @@ class Player
 {
 public:
 
-	Player() {};
+	Player(std::string name, char color);
+	Player(const Player& player);
+	Player& operator=(const Player& other);
+
 	~Player() {};
 
 	std::string _name;
