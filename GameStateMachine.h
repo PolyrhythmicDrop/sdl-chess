@@ -16,7 +16,6 @@ private:
 	GameScene* _gameScene;
 
 public:
-	
 
 	GameStateMachine();
 	~GameStateMachine() {};

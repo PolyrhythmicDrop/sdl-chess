@@ -8,6 +8,7 @@ Piece::Piece(Figure type, PieceColor color) :
 	_fenName(' '),
 	_selected(false),
 	_alive(true),
+	_firstMove(true),
 	_position(nullptr),
 	_graphics(new PieceGraphicsComponent),
 	_input(new PieceInputComponent)
@@ -25,6 +26,7 @@ Piece::Piece(const Piece& piece)
 	_fenName = piece._fenName;
 	_selected = piece._selected;
 	_alive = piece._alive;
+	_firstMove = piece._firstMove;
 	_input = piece._input;
 	_graphics = new PieceGraphicsComponent();
 	*_graphics = *(piece._graphics);

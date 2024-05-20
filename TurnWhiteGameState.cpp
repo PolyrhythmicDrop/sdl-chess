@@ -64,9 +64,9 @@ void TurnWhiteGameState::detectClickOnObject(int x, int y, GameStateMachine* gsm
 				// Send the clicked square's name to the Debug log
 				LOG(DEBUG) << "Square " << square.getName() << " clicked!";
 				// Detect the piece on the clicked square. If it's a living white piece, call selectPiece(), if it's a black piece or dead, ignore it.
-				if (square.getOccupant() != nullptr
-					&& square.getOccupant()->getPieceColor() == 1
-					&& square.getOccupant()->isAlive())
+				if (square.getOccupant() != nullptr &&
+					square.getOccupant()->getPieceColor() == 1 &&
+					square.getOccupant()->isAlive())
 				{
 					selectPiece(square.getOccupant(), gsm);
 				}
@@ -98,4 +98,8 @@ void TurnWhiteGameState::selectPiece(Piece* piece, GameStateMachine* gsm)
 		piece->setSelected(false);
 	}
 	LOG(DEBUG) << "Piece " << piece->getFenName() << " on " << piece->getPosition()->getName() << " selected!";
+
+	// Pass the selected square/piece to the Game Manager so it can determine what possible moves the piece/square has.
+	gsm->getGameScene()->getManager()->highlightActionOptions(piece->getPosition());
+
 }

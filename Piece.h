@@ -45,6 +45,9 @@ public:
 	inline void setAlive(bool alive) { _alive = alive; };
 	inline bool isAlive() const { return _alive; };
 
+	inline void setFirstMove(bool first) { _firstMove = first; };
+	inline bool getFirstMove() const { return _firstMove; };
+
 	inline PieceInputComponent* getInput() { return _input; };
 	inline PieceGraphicsComponent* getGraphics() { return _graphics; };
 
@@ -56,6 +59,7 @@ private:
 	PieceColor _pieceColor;
 	Figure _type;
 	char _fenName;
+	bool _firstMove;
 	bool _selected;
 	bool _alive;
 

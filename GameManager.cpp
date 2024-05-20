@@ -13,7 +13,7 @@ GameManager::GameManager(GameScene* gameScene) :
 	LOG(TRACE) << "Game Manager instantiated!";
 }
 
-void GameManager::parsePosition(std::string position)
+void GameManager::parseFEN(std::string position)
 {
 
 }
@@ -107,5 +107,34 @@ void GameManager::setUpGame()
 
 	ServiceLocator::getGraphics().addToRenderMap(2, rendVect);
 	// ***********
+
+}
+
+void GameManager::highlightActionOptions(Square* square)
+{
+	Rules::RulePackage rules;
+	// Get the type of piece on the square and determine which rule evaluation set to use on it.
+	switch (square->getOccupant()->getFenName())
+	{
+	case 'P':
+		rules = _rules.get()->getWhtPawnRules(square->getOccupant());
+		break;
+	}
+
+	// Find out how far the piece can move, and highlight those squares on the board.
+
+	// Compute move distance
+	for (int iRow = 0; iRow <= rules.moveDistance.row; ++iRow)
+	{
+		for (int iCol = 0; iCol <= rules.moveDistance.column; ++iCol)
+		{
+			if (!_gameScene->getBoard()->getBoardGrid()->at(square->getBoardIndex().first + iRow).at(square->getBoardIndex().second + iCol).getOccupied())
+			{
+				_gameScene->getBoard()->getBoardGrid()->at(square->getBoardIndex().first + iRow).at(square->getBoardIndex().second + iCol).setOverlayType(Square::MOVE);
+			}
+		}
+	}
+	
+	
 
 }

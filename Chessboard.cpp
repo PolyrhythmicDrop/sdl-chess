@@ -64,13 +64,23 @@ void const Chessboard::buildChessboard()
 	std::vector<Square> row1Vect = { a1, b1, c1, d1, e1, f1, g1, h1 };
 	LOG(TRACE) << "Squares added to Row 1 Vector!";
 	
-	// Alternate the tile type, depending on the row
+
+	/*
+	// Set the square's index in the board vector
+	for (int i = 0; i < row1Vect.size(); ++i)
+	{
+		row1Vect.at(i).setBoardIndex(0, i);
+		LOG(DEBUG) << row1Vect.at(i).getName() << " board index: " << row1Vect.at(i).getBoardIndex().first << ", " << row1Vect.at(i).getBoardIndex().second;
+	}
+	*/
+
 	for (Square square : row1Vect)
 	{
 		square.setScale(squareSideSize, squareSideSize);
 		square._draw = true;
 	}
 
+	// Alternate the tile type, depending on the row
 	for (int i = 1; i < row1Vect.size(); ++i)
 	{
 		row1Vect[i].setTileType(Square::LIGHT);
@@ -356,6 +366,16 @@ void const Chessboard::buildChessboard()
 	this->_boardGrid.push_back(row6Vect);
 	this->_boardGrid.push_back(row7Vect);
 	this->_boardGrid.push_back(row8Vect);
+
+	// Set the board index for every square in the board
+	for (int row = 0; row < _boardGrid.size(); ++row)
+	{
+		for (int column = 0; column < _boardGrid[row].size(); ++column)
+		{
+			_boardGrid[row][column].setBoardIndex(row, column);
+		}
+	}
+
 }
 
 void const Chessboard::addBoardToRender()
@@ -381,7 +401,7 @@ void const Chessboard::printSquarePositions()
 		LOG(DEBUG) << "";
 		for (int column = 0; column < _boardGrid[row].size(); ++column)
 		{
-			LOG(DEBUG) << "[ " << _boardGrid[row][column].getName() << " ]\nX: " << _boardGrid[row][column].getX() << "\nY: " << _boardGrid[row][column].getY() << "\nZ: " << _boardGrid[row][column].getZ() << "\nW: " << _boardGrid[row][column].getWidth() << "\nH: " << _boardGrid[row][column].getHeight();
+			LOG(DEBUG) << "[ " << _boardGrid[row][column].getName() << " Index: [ " << _boardGrid[row][column].getBoardIndex().first << ", " << _boardGrid[row][column].getBoardIndex().second << " ] " << " ]\nX: " << _boardGrid[row][column].getX() << "\nY: " << _boardGrid[row][column].getY() << "\nZ: " << _boardGrid[row][column].getZ() << "\nW: " << _boardGrid[row][column].getWidth() << "\nH: " << _boardGrid[row][column].getHeight();
 		}
 	}
 }

@@ -5,6 +5,7 @@
 #include "Rules.h"
 
 class GameScene;
+class Square;
 
 class GameManager
 {
@@ -32,8 +33,10 @@ public:
 
 	inline Rules* getRules() { return _rules.get(); };
 
-	void parsePosition(std::string position);
+	void parseFEN(std::string position);
 	void setUpGame();
+
+	void highlightActionOptions(Square* square);
 
 };
 

@@ -33,6 +33,7 @@ Square::Square(const Square& square)
 	_zIndex = square._zIndex;
 	_draw = square._draw;
 	_occupied = square._occupied;
+	_boardIndex = square._boardIndex;
 	_currentPiece = square._currentPiece;
 	_moveOverlayColor = square._moveOverlayColor;
 	_takeOverlayColor = square._takeOverlayColor;

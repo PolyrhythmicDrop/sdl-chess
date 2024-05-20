@@ -41,6 +41,10 @@ public:
 	// Returns the piece that's on the square
 	Piece* getOccupant();
 
+	// Gets the square's position on the board
+	inline std::pair<int, int> getBoardIndex() { return _boardIndex; };
+	inline void setBoardIndex(int row, int column) { this->_boardIndex.first = row; this->_boardIndex.second = column; };
+
 	// Overlay functions
 
 	inline const Color* getMoveOverlayColor() { return &_moveOverlayColor; };
@@ -67,6 +71,8 @@ private:
 	bool _occupied;
 	// If occupied, the piece on the square
 	Piece* _currentPiece;
+
+	std::pair<int, int> _boardIndex;
 
 	Color _moveOverlayColor;
 	Color _takeOverlayColor;
