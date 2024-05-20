@@ -10,17 +10,11 @@ GameManager::GameManager(GameScene* gameScene) :
 	_textSetup("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"),
 	_textPlacement(_textSetup)
 {
-	this->setMediators();
 	LOG(TRACE) << "Game Manager instantiated!";
 }
 
 void GameManager::setMediators()
 {
-	// Add the GameManager as the mediator for all the pieces.
-	for (int i = 0; i < this->_gameScene->getAllPieces()->size(); ++i)
-	{
-		this->_gameScene->getAllPieces()->at(i).setMediator(this);
-	}
 
 	// Add the GameManager as the mediator for the chessboard.
 	this->_gameScene->getBoard()->setMediator(this);
@@ -33,11 +27,43 @@ void GameManager::setMediators()
 			this->_gameScene->getBoard()->getBoardGrid()->at(rowI).at(colI).setMediator(this);
 		}
 	}
+
+	// Add the GameManager as the mediator for all the pieces.
+	for (int i = 0; i < this->_gameScene->getAllPieces()->size(); ++i)
+	{
+		this->_gameScene->getAllPieces()->at(i).setMediator(this);
+	}
 	
 }
 
 void GameManager::notify(GameObject* object, std::string eString)
 {
+	// If statements controlling what happens on each event
+
+	// Piece notifications
+	// ********************
+	
+	// A piece has changed the square it's on
+	if (eString == "pieceMove")
+	{
+		LOG(DEBUG) << object->getName() << " has changed its position to square " << dynamic_cast <Piece*>(object)->getPosition()->getName();
+	}
+	else if (eString == "pieceSelected")
+	{
+		LOG(INFO) << object->getName() << " was selected!";
+	}
+	else if (eString == "pieceDeselected")
+	{
+		LOG(INFO) << object->getName() << " was deselected!";
+	}
+
+	// Square notifications
+	// *********************
+
+	if (eString == "squareOccupied")
+	{
+		LOG(DEBUG) << object->getName() << " has been occupied by " << dynamic_cast <Square*>(object)->getOccupant()->getFenName() << "!";
+	}
 	
 }
 
@@ -48,6 +74,9 @@ void GameManager::parseFEN(std::string position)
 
 void GameManager::setUpGame()
 {
+	// Add the Game Manager as the mediator for all the objects in the game scene
+	this->setMediators();
+
 	// *******************************
 	// Set WHITE
 	// Set the white pawns

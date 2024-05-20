@@ -37,6 +37,11 @@ public:
 	/// </summary>
 	void setMediators();
 
+	/// <summary>
+	/// Notify and its overloads
+	/// </summary>
+	/// <param name="sender"></param>
+	/// <param name="eString"></param>
 	void notify(GameObject* sender, std::string eString);
 
 	inline Rules* getRules() { return _rules.get(); };

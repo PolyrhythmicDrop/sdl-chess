@@ -38,6 +38,7 @@ public:
 	virtual void setMediator(IMediator* mediator);
 
 	virtual const std::string getName();
+	inline virtual void setName(std::string name) { _name = name; };
 
 	/// <summary>
 	/// Get Rect (nerd). Returns the _dimensions of the game object, which is an SDL Rect.
