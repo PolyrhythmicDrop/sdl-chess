@@ -14,6 +14,7 @@ private:
 
 	std::unique_ptr<Chessboard> _board;
 	std::vector<Piece> _pieces;
+
 	Player _playerOne;
 	Player _playerTwo;
 

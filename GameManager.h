@@ -3,11 +3,12 @@
 #include <iostream>
 #include <memory>
 #include "Rules.h"
+#include "IMediator.h"
 
 class GameScene;
 class Square;
 
-class GameManager
+class GameManager : public IMediator
 {
 private:
 
@@ -30,6 +31,13 @@ public:
 
 	GameManager(GameScene* gameScene);
 	~GameManager() { };
+
+	/// <summary>
+	/// Sets the mediator for every object in the GameManager's GameScene to this GameManager instance.
+	/// </summary>
+	void setMediators();
+
+	void notify(GameObject* sender, std::string eString);
 
 	inline Rules* getRules() { return _rules.get(); };
 

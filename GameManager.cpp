@@ -10,7 +10,35 @@ GameManager::GameManager(GameScene* gameScene) :
 	_textSetup("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"),
 	_textPlacement(_textSetup)
 {
+	this->setMediators();
 	LOG(TRACE) << "Game Manager instantiated!";
+}
+
+void GameManager::setMediators()
+{
+	// Add the GameManager as the mediator for all the pieces.
+	for (int i = 0; i < this->_gameScene->getAllPieces()->size(); ++i)
+	{
+		this->_gameScene->getAllPieces()->at(i).setMediator(this);
+	}
+
+	// Add the GameManager as the mediator for the chessboard.
+	this->_gameScene->getBoard()->setMediator(this);
+
+	// Add the GameManager as the mediator for every square on the chessboard
+	for (int rowI = 0; rowI < this->_gameScene->getBoard()->getBoardGrid()->size(); ++rowI)
+	{
+		for (int colI = 0; colI < this->_gameScene->getBoard()->getBoardGrid()->at(rowI).size(); ++colI)
+		{
+			this->_gameScene->getBoard()->getBoardGrid()->at(rowI).at(colI).setMediator(this);
+		}
+	}
+	
+}
+
+void GameManager::notify(GameObject* object, std::string eString)
+{
+	
 }
 
 void GameManager::parseFEN(std::string position)
