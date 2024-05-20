@@ -3,7 +3,7 @@
 #include <algorithm>
 
 Scene::Scene() :
-	_menuVect({})
+	_objVect({})
 {
 	LOG(INFO) << "Scene created!";
 }
@@ -17,7 +17,7 @@ void Scene::addObject(GameObject* object, SDL_Texture* texture)
 {
 	// _textureMap.insert(std::pair<GameObject*, SDL_Texture*>(object, texture));
 	//_sceneMap.insert({object->getZ(), std::pair<GameObject*, SDL_Texture*>(object, texture) });
-	_menuVect.push_back(std::pair<GameObject*, SDL_Texture*>(object, texture));
+	_objVect.push_back(std::pair<GameObject*, SDL_Texture*>(object, texture));
 }
 
 void Scene::removeObject(GameObject* object, SDL_Texture* texture)
@@ -26,10 +26,10 @@ void Scene::removeObject(GameObject* object, SDL_Texture* texture)
 	
 	// Find the element
 	std::vector<std::pair<GameObject*, SDL_Texture*>>::iterator itr;
-	itr = std::find(_menuVect.begin(), _menuVect.end(), std::pair<GameObject*, SDL_Texture*>(object, texture));
-	if (itr != _menuVect.end())
+	itr = std::find(_objVect.begin(), _objVect.end(), std::pair<GameObject*, SDL_Texture*>(object, texture));
+	if (itr != _objVect.end())
 	{
-		_menuVect.erase(itr);
+		_objVect.erase(itr);
 	}
 	else
 	{
@@ -40,5 +40,5 @@ void Scene::removeObject(GameObject* object, SDL_Texture* texture)
 
 std::vector<std::pair<GameObject*, SDL_Texture*>> Scene::getObjectMap()
 {
-	return _menuVect;
+	return _objVect;
 }

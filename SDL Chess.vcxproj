@@ -144,24 +144,38 @@
     <ClCompile Include="chess-main.cpp" />
     <ClCompile Include="Chessboard.cpp" />
     <ClCompile Include="easylogging++.cc" />
+    <ClCompile Include="EndGameState.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
+    <ClCompile Include="IdleGameState.cpp" />
+    <ClCompile Include="IGameState.cpp" />
+    <ClCompile Include="InGameProgramState.cpp" />
+    <ClCompile Include="InitGameState.cpp" />
+    <ClCompile Include="PauseGameState.cpp" />
+    <ClCompile Include="PieceGraphicsComponent.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ProgramStateMachine.cpp" />
     <ClCompile Include="GraphicsComponent.cpp" />
     <ClCompile Include="GraphicsService.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameContext.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="IdleGameState.cpp" />
+    <ClCompile Include="IdleProgramState.cpp" />
     <ClCompile Include="IDrawable.cpp" />
-    <ClCompile Include="IGameState.cpp" />
+    <ClCompile Include="IProgramState.cpp" />
     <ClCompile Include="IMenuState.cpp" />
     <ClCompile Include="InactiveMenuState.cpp" />
     <ClCompile Include="InExitConfirmState.cpp" />
-    <ClCompile Include="InMenuGameState.cpp" />
+    <ClCompile Include="InMenuProgramState.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="InResoMenuState.cpp" />
     <ClCompile Include="NullGraphicsService.cpp" />
+    <ClCompile Include="Piece.cpp" />
+    <ClCompile Include="PieceInputComponent.cpp" />
     <ClCompile Include="PlayerInputComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Rules.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneEscMenu.cpp" />
     <ClCompile Include="SDLfunc.cpp" />
@@ -171,6 +185,8 @@
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="SquareGraphicsComponent.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TurnBlackGameState.cpp" />
+    <ClCompile Include="TurnWhiteGameState.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -178,25 +194,39 @@
     <ClInclude Include="ButtonInputComponent.h" />
     <ClInclude Include="Chessboard.h" />
     <ClInclude Include="easylogging++.h" />
+    <ClInclude Include="EndGameState.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="GameStateMachine.h" />
+    <ClInclude Include="IdleGameState.h" />
+    <ClInclude Include="IGameState.h" />
+    <ClInclude Include="InGameProgramState.h" />
+    <ClInclude Include="InitGameState.h" />
+    <ClInclude Include="PauseGameState.h" />
+    <ClInclude Include="PieceGraphicsComponent.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="ProgramStateMachine.h" />
     <ClInclude Include="GraphicsComponent.h" />
     <ClInclude Include="GraphicsService.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameContext.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="IdleGameState.h" />
+    <ClInclude Include="IdleProgramState.h" />
     <ClInclude Include="IDrawable.h" />
-    <ClInclude Include="IGameState.h" />
+    <ClInclude Include="IProgramState.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="IMenuState.h" />
     <ClInclude Include="InactiveMenuState.h" />
     <ClInclude Include="InExitConfirmState.h" />
-    <ClInclude Include="InMenuGameState.h" />
+    <ClInclude Include="InMenuProgramState.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="InResoMenuState.h" />
     <ClInclude Include="NullGraphicsService.h" />
+    <ClInclude Include="Piece.h" />
+    <ClInclude Include="PieceInputComponent.h" />
     <ClInclude Include="PlayerInputComponent.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Rules.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneEscMenu.h" />
     <ClInclude Include="SDLfunc.h" />
@@ -206,9 +236,17 @@
     <ClInclude Include="Square.h" />
     <ClInclude Include="SquareGraphicsComponent.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TurnBlackGameState.h" />
+    <ClInclude Include="TurnWhiteGameState.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="images\blkBishop.png" />
+    <Image Include="images\blkKing.png" />
+    <Image Include="images\blkKnight.png" />
+    <Image Include="images\blkPawn.png" />
+    <Image Include="images\blkQueen.png" />
+    <Image Include="images\blkRook.png" />
     <Image Include="images\chessboard-compressed.png" />
     <Image Include="images\chessboard.png" />
     <Image Include="images\esc-menu_1024.png" />
@@ -222,12 +260,16 @@
     <Image Include="images\exit-confirm-menu_button-no.png" />
     <Image Include="images\exit-confirm-menu_button-yes.png" />
     <Image Include="images\exit-confirm-menu_ConfirmExitBG.png" />
+    <Image Include="images\selected.png" />
     <Image Include="images\squareOverlay.png" />
     <Image Include="images\squareSquare.png" />
     <Image Include="images\square_Overlay.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <Image Include="images\whtBishop.png" />
+    <Image Include="images\whtKing.png" />
+    <Image Include="images\whtKnight.png" />
+    <Image Include="images\whtPawn.png" />
+    <Image Include="images\whtQueen.png" />
+    <Image Include="images\whtRook.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="chess-log.log" />

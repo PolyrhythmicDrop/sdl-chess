@@ -13,13 +13,13 @@ Square::Square(std::string notation, Chessboard* board) :
 	_takeOverlayColor({ 240, 121, 81, 255 }),
 	_lightTileColor({ 240, 218, 225, 255 }),
 	_darkTileColor({ 70, 16, 33, 255 }),
-	_chessboard(board)
+	_chessboard(board),
+	_currentPiece(nullptr)
 {
 	_name = notation;
 	_dimensions = {0, 0, this->_chessboard->getDimensions()->w / 8, this->_chessboard->getDimensions()->h / 8 };
 	_zIndex = 1;
 	_draw = false;
-	_graphics->setSquareImgPath("images/squareSquare.png");
 	_graphics->setOverlayImgPath("images/square_Overlay.png");
 	_graphics->loadTexture(this);
 	_graphics->sumImage(this);
@@ -33,6 +33,8 @@ Square::Square(const Square& square)
 	_zIndex = square._zIndex;
 	_draw = square._draw;
 	_occupied = square._occupied;
+	_boardIndex = square._boardIndex;
+	_currentPiece = square._currentPiece;
 	_moveOverlayColor = square._moveOverlayColor;
 	_takeOverlayColor = square._takeOverlayColor;
 	_lightTileColor = square._lightTileColor;
@@ -58,6 +60,32 @@ Square::~Square()
 SquareGraphicsComponent* Square::getGraphicsComponent()
 {
 	return _graphics;
+}
+
+void Square::setOccupied(bool occupied, Piece* occupant)
+{
+	if (_occupied != occupied)
+	{
+		_occupied = occupied;
+		_currentPiece = occupant;
+	}
+	else
+	{
+		LOG(TRACE) << "Square already occupied! Perform a Take move first.";
+	}
+}
+
+Piece* Square::getOccupant()
+{
+	if (_occupied)
+	{
+		return _currentPiece;
+	}
+	else
+	{
+		return nullptr;
+	}
+
 }
 
 void Square::setMoveOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
@@ -89,7 +117,7 @@ void Square::setDarkTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 	getGraphicsComponent()->sumImage(this);
 }
 
-void Square::setTileType(TileColor type)
+void Square::setTileType(TileType type)
 {
 	_tileType = type;
 	getGraphicsComponent()->sumImage(this);

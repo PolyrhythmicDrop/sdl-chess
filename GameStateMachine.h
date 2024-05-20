@@ -1,43 +1,35 @@
 #pragma once
-#include "IdleGameState.h"
-#include "SceneEscMenu.h"
+#include "EventManager.h"
 #include <cassert>
+#include <memory>
 
+class GameScene;
 class IGameState;
+
 
 class GameStateMachine
 {
 private:
 
-	IGameState* _currentState;
-	IGameState* _previousState;
-
 	static bool _instantiated;
 
-	SceneEscMenu* _escMenu;
+	GameScene* _gameScene;
 
 public:
 
 	GameStateMachine();
 	~GameStateMachine() {};
 
-	// State functions
-	void changeState();
-	void setGameState(IGameState& newState);
-	inline IGameState* getCurrentState() { return _currentState; };
-	inline IGameState* getPreviousState() { return _previousState; };
+	inline void setGameScene(GameScene* scene) { _gameScene = scene; };
+	inline GameScene* getGameScene() { return _gameScene; };
 
-	// Subscribes to a specified SDL_EventType and then calls a function (made using a lambda function) in response. Be sure to UNSUBSCRIBE from the event after you no longer need to listen for the event.
-	void subscribeToEventManager(EventManager& manager);
-	// Unsubscribes for the event manager. Should be called at some point after every subscribeToEventManager call, when you no longer want to "listen" for the event.
-	void unsubscribeToEventManager(EventManager& manager);
+	void enter(GameScene* scene);
+	void changeState(GameScene* scene);
+	void exit(GameScene* scene);
 
-	inline SceneEscMenu* getEscMenu() { return _escMenu; };
-	inline void createEscMenu() { _escMenu = new SceneEscMenu; };
+	void setGameState(GameScene* scene, IGameState& newState);
 
-	
-
-	
-
+	void subscribeToEventManager(EventManager& manager, GameScene* scene);
+	void unsubscribeToEventManager(EventManager& manager, GameScene* scene);
 };
 

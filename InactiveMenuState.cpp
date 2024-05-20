@@ -8,19 +8,10 @@ void InactiveMenuState::enter(SceneEscMenu* menuScene)
 	{		
 		menuScene->getPreviousState()->destroyMenu(menuScene);
 	}
-	//menuScene->subscribeToEventManager(EventManager::getEventManagerInstance());
 
 	menuScene->active = false;
 	menuScene->sendStatus(menuScene->active);
 	
-	/*
-	// Create an event that is published when the menu inactive state is entered, which is heard by the Game State Machine
-	int menuExit = SDL_RegisterEvents(1);
-	SDL_Event e;
-	e.user.type = menuExit;
-	e.user.code = 15 + 5;	
-	SDL_PushEvent(&e);
-	*/
 
 	LOG(INFO) << "Inactive menu state entered!\n";
 }
@@ -54,19 +45,10 @@ void InactiveMenuState::destroyMenu(SceneEscMenu* menuScene)
 
 void InactiveMenuState::subscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
 {
-	// Moved the Esc key trigger to the Game State Machine to trigger the creation of the menu
-	/*
-	manager.Subscribe(SDL_KEYUP, [this, menuScene](SDL_Event const& event) {
-		if (event.key.keysym.sym == SDLK_ESCAPE && menuScene->getCurrentState() == this)
-		{
-			changeState(menuScene, "");
-		}
-		});
-	*/
+
 }
 
 void InactiveMenuState::unsubscribeToEventManager(EventManager& manager, SceneEscMenu* menuScene)
 {
-	// Do not need to unsubscribe now that we never subscribe
-	// manager.Unsubscribe(SDL_KEYUP);
+
 }

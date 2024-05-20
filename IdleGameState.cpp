@@ -1,43 +1,29 @@
 #include "IdleGameState.h"
-#include "GameStateMachine.h"
-#include "InMenuGameState.h"
+#include "easylogging++.h"
 
-IdleGameState::IdleGameState()
-{}
-
-IGameState& IdleGameState::getInstance()
-{
-	static IdleGameState idleGameState;
-	return idleGameState;
-}
+IdleGameState::IdleGameState() {};
 
 void IdleGameState::enter(GameStateMachine* gsm)
 {
-	gsm->subscribeToEventManager(EventManager::getEventManagerInstance());
+	LOG(TRACE) << "Idle Game State entered!";
 }
 
-void IdleGameState::changeState(GameStateMachine* gsm, std::string eventString)
-{
-	if (eventString == "Esc")
-	{
-		gsm->setGameState(InMenuGameState::getInstance());
-	}
-}
+void IdleGameState::changeState(GameStateMachine* gsm)
+{}
 
 void IdleGameState::exit(GameStateMachine* gsm)
 {
-	gsm->unsubscribeToEventManager(EventManager::getEventManagerInstance());
+	LOG(TRACE) << "Idle Game State exited!";
 }
 
-void IdleGameState::subscribeToEventManager(EventManager & manager, GameStateMachine* gsm)
+IGameState& IdleGameState::getInstance()
 {
-	manager.Subscribe(SDL_KEYUP, [this, gsm](SDL_Event const& event) {
-		if (event.key.keysym.sym == SDLK_ESCAPE && gsm->getCurrentState() == this)
-		{
-			changeState(gsm, "Esc");
-		}
-		});
+	static IdleGameState idleState;
+	return idleState;
 }
+
+void IdleGameState::subscribeToEventManager(EventManager& manager, GameStateMachine* gsm)
+{}
 
 void IdleGameState::unsubscribeToEventManager(EventManager& manager, GameStateMachine* gsm)
 {}

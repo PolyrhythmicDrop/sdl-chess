@@ -1,35 +1,46 @@
 #include "GameStateMachine.h"
+#include "InitGameState.h"
+#include "GameScene.h"
 
-GameStateMachine::GameStateMachine() :
-	_currentState(nullptr),
-	_previousState(nullptr),
-	_escMenu(nullptr)
+
+GameStateMachine::GameStateMachine()
 {
 	assert(!_instantiated);
 	_instantiated = true;
-	_currentState = &IdleGameState::getInstance();
-	_currentState->enter(this);
 }
 
-void GameStateMachine::changeState()
+void GameStateMachine::enter(GameScene* scene)
 {
-	_currentState->changeState(this);
+	scene->getCurrentState()->enter(this);
 }
 
-void GameStateMachine::setGameState(IGameState& newState)
+void GameStateMachine::changeState(GameScene* scene)
 {
-	_previousState = _currentState;
-	_currentState->exit(this);
-	_currentState = &newState;
-	_currentState->enter(this);
+	scene->getCurrentState()->changeState(this);
 }
 
-void GameStateMachine::subscribeToEventManager(EventManager& manager)
+void GameStateMachine::exit(GameScene* scene)
 {
-	_currentState->subscribeToEventManager(manager, this);
+	scene->getCurrentState()->exit(this);
 }
 
-void GameStateMachine::unsubscribeToEventManager(EventManager& manager)
+void GameStateMachine::setGameState(GameScene* scene, IGameState& newState)
 {
-	_currentState->unsubscribeToEventManager(manager, this);
+	if (scene->_currentState != nullptr)
+	{
+		scene->_previousState = scene->_currentState;
+		scene->_currentState->exit(this);
+	}
+	scene->_currentState = &newState;
+	scene->_currentState->enter(this);
+}
+
+void GameStateMachine::subscribeToEventManager(EventManager& manager, GameScene* scene)
+{
+	scene->getCurrentState()->subscribeToEventManager(manager, this);
+}
+
+void GameStateMachine::unsubscribeToEventManager(EventManager& manager, GameScene* scene)
+{
+	scene->getCurrentState()->unsubscribeToEventManager(manager, this);
 }

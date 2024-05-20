@@ -9,13 +9,13 @@ GraphicsService::GraphicsService(Window* window) :
 	// Asserts that there are no existing instances of the Graphics Service
 	assert(!_instantiated);
 	_instantiated = true;
-	LOG(INFO) << "Graphics Service initialized!\n";
+	LOG(INFO) << "Graphics Service initialized!";
 }
 
 GraphicsService::~GraphicsService()
 {
 	_instantiated = false;
-	LOG(INFO) << "Graphics Service destructed!\n";
+	LOG(INFO) << "Graphics Service destructed";
 }
 
 Window* GraphicsService::getWindow()
@@ -75,7 +75,7 @@ void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject
 	{
 		// Add objects to the render map if they are not already in the render map
 		_renderMap[rendLayer].insert(_renderMap[rendLayer].begin(), pairs.begin(), pairs.end());
-		LOG(TRACE) << "Objects added to render map!\n";
+		LOG(TRACE) << "Objects added to render map!";
 		
 		// Sort the render map by Z-value
 		std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>>::iterator mItr;
@@ -90,7 +90,7 @@ void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject
 	}
 	else
 	{
-		LOG(TRACE) << "Objects already in render map!\n";
+		LOG(TRACE) << "Objects already in render map!";
 	}
 }
 
@@ -108,11 +108,11 @@ void GraphicsService::removeFromRenderMap(std::vector<std::pair<GameObject*, SDL
 			if (iVect != _renderMap[(Layer)layer].end())
 			{
 				_renderMap[(Layer)layer].erase(iVect);
-				LOG(TRACE) << "Object erased from render layer " << (Layer)layer << "!\n";
+				LOG(TRACE) << "Object erased from render layer " << (Layer)layer << "!";
 			}
 		}
 	}
-	LOG(TRACE) << "No more objects to erase in render queue!\n";
+	LOG(TRACE) << "No more objects to erase in render queue!";
 
 }
 
@@ -136,7 +136,7 @@ std::vector<std::pair<GameObject*, SDL_Texture*>> GraphicsService::findInRenderM
 			cnt = std::count(_renderMap[(Layer)layer].begin(), _renderMap[(Layer)layer].end(), target);
 			if (cnt > 0)
 			{
-				LOG(TRACE) << "Target found in render layer " << (Layer)layer << "!\n";
+				LOG(TRACE) << "Target found in render layer " << (Layer)layer << "!";
 				foundVect.push_back(target);
 				LOG(TRACE) << "Target added to found objects vector!";				
 			}
@@ -166,48 +166,6 @@ void GraphicsService::render()
 	}
 
 	SDL_RenderPresent(renderer);
-
-	//// Render Layer 0
-	//std::vector<std::pair<GameObject*, SDL_Texture*>>::iterator vItr;
-	//vItr = _renderMap[GraphicsService::BG].begin();
-	//for (vItr; vItr != _renderMap[GraphicsService::BG].end(); vItr++)
-	//{
-	//	SDL_RenderCopy(renderer, vItr->second, NULL, vItr->first->getDimensions());
-	//}
-
-	//// Render Layer 1
-	//vItr = _renderMap[GraphicsService::BOARD].begin();
-	//for (vItr; vItr != _renderMap[GraphicsService::BOARD].end(); vItr++)
-	//{
-	//	SDL_RenderCopy(renderer, vItr->second, NULL, vItr->first->getDimensions());
-	//}
-
-	//// Render Layer 2
-	//vItr = _renderMap[GraphicsService::PIECES].begin();
-	//for (vItr; vItr != _renderMap[GraphicsService::PIECES].end(); vItr++)
-	//{
-	//	SDL_RenderCopy(renderer, vItr->second, NULL, vItr->first->getDimensions());
-	//}
-
-	//// Render Layer 3
-	//for (auto uiItr = _renderMap[GraphicsService::UI].begin(); uiItr != _renderMap[GraphicsService::BG].end(); uiItr++)
-	//{
-	//	SDL_RenderCopy(renderer, uiItr->second, NULL, uiItr->first->getDimensions());
-	//}
-
-	//// Render Layer 4
-	//for (auto menuItr = _renderMap[GraphicsService::MENU].begin(); menuItr != _renderMap[GraphicsService::BG].end(); menuItr++)
-	//{
-	//	SDL_RenderCopy(renderer, menuItr->second, NULL, menuItr->first->getDimensions());
-	//}
-
-	
-
-	//std::map<int, std::pair<GameObject*, SDL_Texture*>>::iterator it = _renderMap.begin();
-	//for (it; it != _renderMap.end(); it++)
-	//{
-	//	SDL_RenderCopy(renderer, it->second.second, NULL, it->second.first->getDimensions());
-	//}
 
 }
 

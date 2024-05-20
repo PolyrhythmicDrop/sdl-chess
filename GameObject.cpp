@@ -8,16 +8,16 @@ GameObject::GameObject(std::string name) :
 	_draw(false)
 {
 	gameObjectCount++;
-	LOG(INFO) << "Object created! Game object count: " << gameObjectCount << "\n";
+	LOG(TRACE) << "Object created! Game object count: " << gameObjectCount;
 }
 
 GameObject::~GameObject()
 {
 	gameObjectCount--;
-	LOG(INFO) << "Object destroyed! Game object count: " << gameObjectCount << "\n";
+	LOG(TRACE) << "Object destroyed! Game object count: " << gameObjectCount;
 }
 
-std::string GameObject::getName()
+std::string const GameObject::getName()
 {
 	return _name;
 }

@@ -8,12 +8,23 @@ Texture::Texture()
 	: _loadedTexture{ NULL }
 {};
 
+Texture::Texture(const Texture& texture)
+{
+	_loadedTexture = texture._loadedTexture;
+	LOG(INFO) << "Texture deep copy constructor called!";
+}
+
+Texture& Texture::operator=(const Texture& other)
+{
+	LOG(INFO) << "Texture assignment operator called!";
+	return *this;
+}
+
 Texture::~Texture()
 {
 	freeTexture();
-	LOG(INFO) << "Texture destructed!\n";
+	LOG(INFO) << "Texture destructed!";
 }
-
 
 // Method Definitions
 

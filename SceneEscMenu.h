@@ -46,7 +46,7 @@ public:
 	void unsubscribeToEventManager(EventManager& manager);
 
 	// Gets the state of the active flag
-	bool getStatus();
+	bool getStatus() const;
 	void addListener(bool active, activeCallback callback);
 	void removeListener(bool active);
 	void sendStatus(bool active);

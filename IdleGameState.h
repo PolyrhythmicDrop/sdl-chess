@@ -3,18 +3,20 @@
 
 class IdleGameState :  public IGameState
 {
+private:
+	IdleGameState();
+	IdleGameState(const IdleGameState& other);
+	IdleGameState& operator=(const IdleGameState& other);
+
 public:
 
-	IdleGameState();
-	~IdleGameState() {};
-
+	void enter(GameStateMachine* gsm);
+	void changeState(GameStateMachine* gsm);
+	void exit(GameStateMachine* gsm);
 	static IGameState& getInstance();
 
-	virtual void enter(GameStateMachine* gsm);
-	virtual void changeState(GameStateMachine* gsm, std::string eventString);
-	virtual void exit(GameStateMachine* gsm);
 
-	virtual void subscribeToEventManager(EventManager& manager, GameStateMachine* gsm);
-	virtual void unsubscribeToEventManager(EventManager& manager, GameStateMachine* gsm);
+	void subscribeToEventManager(EventManager& manager, GameStateMachine* gsm);
+	void unsubscribeToEventManager(EventManager& manager, GameStateMachine* gsm);
 };
 

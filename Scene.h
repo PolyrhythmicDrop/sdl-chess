@@ -12,18 +12,12 @@ protected:
 	/// <summary>
 	/// Vector containing all the objects in the scene for a menu.
 	/// </summary>
-	std::vector<std::pair<GameObject*, SDL_Texture*>> _menuVect;
+	std::vector<std::pair<GameObject*, SDL_Texture*>> _objVect;
 
 public:
 
 	Scene();
 	~Scene();
-
-	/// <summary>
-	/// Build the scene up by adding objects and constructing the draw vector with those objects.
-	/// </summary>
-	/// <returns></returns>
-	virtual void buildMenu() = 0;
 
 	/// <summary>
 	/// Adds an object to the back of to the scene object vector.

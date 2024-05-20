@@ -11,13 +11,13 @@ Window::Window(int width, int height)
 	_windowHeight{ height }
 {
 	_window = NULL;
-	LOG(INFO) << "Window wrapper initialized!\n";
+	LOG(TRACE) << "Window wrapper initialized!";
 }
 
 Window::~Window()
 {
 	freeWindow();
-	LOG(INFO) << "Window wrapper destructed!\n";
+	LOG(TRACE) << "Window wrapper destructed!";
 }
 
 void Window::initWindow()
@@ -69,5 +69,5 @@ void Window::ResizeWindow(SDL_Renderer* renderer, int w, int h)
 
 	// SDL_RenderSetScale(renderer, x, y);
 	//SDL_RenderSetLogicalSize(renderer, w, h);
-	LOG(INFO) << "Window resized!\n";
+	LOG(TRACE) << "Window resized!";
 }

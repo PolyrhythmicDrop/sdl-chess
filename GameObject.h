@@ -1,7 +1,5 @@
 #pragma once
 #include <iostream>
-#include "SDLfunc.h"
-
 #include "EventManager.h"
 
 // Pure abstract class for game objects
@@ -26,7 +24,7 @@ public:
 
 	bool _draw;
 
-	virtual std::string getName();
+	virtual const std::string getName();
 
 	/// <summary>
 	/// Get Rect (nerd). Returns the _dimensions of the game object, which is an SDL Rect.
@@ -48,7 +46,7 @@ public:
 	int getZ();
 
 	/// <summary>
-	/// Sets the Z-value for this object. WARNING: Z-values must be unique. Consider putting some kind of check to make sure no other objects have this Z value.
+	/// Sets the Z-value for this object.
 	/// </summary>
 	/// <param name="z"></param>
 	void setZ(int z);

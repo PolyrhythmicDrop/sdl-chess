@@ -58,18 +58,15 @@
     <Filter Include="Source Files\States\GameStates">
       <UniqueIdentifier>{912fcfa0-13e3-488b-be23-76ca8785225a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Board">
-      <UniqueIdentifier>{59ccb136-54a6-4bd5-95df-9f3e9da2c679}</UniqueIdentifier>
+    <Filter Include="Header Files\States\ProgramStates">
+      <UniqueIdentifier>{ab2c0363-22f4-4d03-8ca5-b1b2b31d4dc2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Board">
-      <UniqueIdentifier>{a22416ff-988c-45aa-8f2a-2abab2043207}</UniqueIdentifier>
+    <Filter Include="Source Files\States\ProgramStates">
+      <UniqueIdentifier>{223e45a5-5a27-4cde-a6c0-386d0c72fdb6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chess-main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SDLfunc.cpp">
@@ -144,12 +141,6 @@
     <ClCompile Include="IGameState.cpp">
       <Filter>Source Files\States\GameStates</Filter>
     </ClCompile>
-    <ClCompile Include="IdleGameState.cpp">
-      <Filter>Source Files\States\GameStates</Filter>
-    </ClCompile>
-    <ClCompile Include="InMenuGameState.cpp">
-      <Filter>Source Files\States\GameStates</Filter>
-    </ClCompile>
     <ClCompile Include="GameStateMachine.cpp">
       <Filter>Source Files\States\GameStates</Filter>
     </ClCompile>
@@ -165,11 +156,65 @@
     <ClCompile Include="Chessboard.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Piece.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="PieceInputComponent.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="InMenuProgramState.cpp">
+      <Filter>Source Files\States\ProgramStates</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleProgramState.cpp">
+      <Filter>Source Files\States\ProgramStates</Filter>
+    </ClCompile>
+    <ClCompile Include="IProgramState.cpp">
+      <Filter>Source Files\States\ProgramStates</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgramStateMachine.cpp">
+      <Filter>Source Files\States\ProgramStates</Filter>
+    </ClCompile>
+    <ClCompile Include="Rules.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InitGameState.cpp">
+      <Filter>Source Files\States\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleGameState.cpp">
+      <Filter>Source Files\States\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameProgramState.cpp">
+      <Filter>Source Files\States\ProgramStates</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseGameState.cpp">
+      <Filter>Source Files\States\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="TurnWhiteGameState.cpp">
+      <Filter>Source Files\States\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="TurnBlackGameState.cpp">
+      <Filter>Source Files\States\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="EndGameState.cpp">
+      <Filter>Source Files\States\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="PieceGraphicsComponent.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SDLfunc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -245,12 +290,6 @@
     <ClInclude Include="IGameState.h">
       <Filter>Header Files\States\GameStates</Filter>
     </ClInclude>
-    <ClInclude Include="IdleGameState.h">
-      <Filter>Header Files\States\GameStates</Filter>
-    </ClInclude>
-    <ClInclude Include="InMenuGameState.h">
-      <Filter>Header Files\States\GameStates</Filter>
-    </ClInclude>
     <ClInclude Include="GameStateMachine.h">
       <Filter>Header Files\States\GameStates</Filter>
     </ClInclude>
@@ -265,6 +304,63 @@
     </ClInclude>
     <ClInclude Include="Chessboard.h">
       <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Piece.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="PieceInputComponent.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleProgramState.h">
+      <Filter>Header Files\States\ProgramStates</Filter>
+    </ClInclude>
+    <ClInclude Include="InMenuProgramState.h">
+      <Filter>Header Files\States\ProgramStates</Filter>
+    </ClInclude>
+    <ClInclude Include="IProgramState.h">
+      <Filter>Header Files\States\ProgramStates</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgramStateMachine.h">
+      <Filter>Header Files\States\ProgramStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Rules.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InitGameState.h">
+      <Filter>Header Files\States\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleGameState.h">
+      <Filter>Header Files\States\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseGameState.h">
+      <Filter>Header Files\States\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnWhiteGameState.h">
+      <Filter>Header Files\States\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnBlackGameState.h">
+      <Filter>Header Files\States\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="EndGameState.h">
+      <Filter>Header Files\States\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="PieceGraphicsComponent.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameProgramState.h">
+      <Filter>Header Files\States\ProgramStates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -316,9 +412,45 @@
     <Image Include="images\square_Overlay.png">
       <Filter>Source Files\Images</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <Image Include="images\whtBishop.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\whtKing.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\whtKnight.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\whtPawn.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\whtQueen.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\whtRook.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\blkPawn.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\blkQueen.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\blkRook.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\blkKing.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\blkKnight.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\blkBishop.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="images\selected.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="chess-log.log">
