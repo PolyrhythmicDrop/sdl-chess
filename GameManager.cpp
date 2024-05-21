@@ -16,6 +16,18 @@ GameManager::GameManager(GameScene* gameScene) :
 	LOG(TRACE) << "Game Manager instantiated!";
 }
 
+template<typename Func>
+void GameManager::boardGridLoop(Func f)
+{
+	for (int row = 0; row < this->_gameScene->getBoard()->getBoardGrid()->size(); ++row)
+	{
+		for (int col = 0; col < this->_gameScene->getBoard()->getBoardGrid()->at(row).size(); ++col)
+		{
+			f(row, col);
+		}
+	}
+}
+
 void GameManager::setMediators()
 {
 
@@ -200,14 +212,12 @@ void GameManager::detectClickOnObject(int x, int y)
 	SDL_Point clickPos = { x, y };
 
 	// Determine whether the point intersects with any squares.
-	for (int row = 0; row < _gameScene->getBoard()->getBoardGrid()->size(); ++row)
-	{
-		for (int column = 0; column < _gameScene->getBoard()->getBoardGrid()->at(row).size(); ++column)
+	boardGridLoop([this, clickPos](int row, int col)
 		{
-			if (SDL_PointInRect(&clickPos, _gameScene->getBoard()->getBoardGrid()->at(row).at(column).getDimensions()))
+			if (SDL_PointInRect(&clickPos, _gameScene->getBoard()->getBoardGrid()->at(row).at(col).getDimensions()))
 			{
 				// Declare variable to simplify code
-				auto& square = _gameScene->getBoard()->getBoardGrid()->at(row).at(column);
+				auto& square = _gameScene->getBoard()->getBoardGrid()->at(row).at(col);
 				// Send the clicked square's name to the Debug log
 				LOG(DEBUG) << "Square " << square.getName() << " clicked!";
 				// Detect the piece on the clicked square. If the piece is alive and belongs to the player whose turn it is, call selectPiece(), if it's an opposing piece or captured, ignore it.
@@ -218,35 +228,55 @@ void GameManager::detectClickOnObject(int x, int y)
 					selectPiece(square.getOccupant());
 				}
 			}
-		}
-	}
+		});
+	
 }
 
 void GameManager::selectPiece(Piece* piece)
 {
-	// If any other piece is selected, deselect it
-	for (int i = 0; i < _gameScene->getAllPieces()->size(); ++i)
-	{
-		if (_gameScene->getAllPieces()->at(i).getSelected())
-		{
-			_gameScene->getAllPieces()->at(i).setSelected(false);
-			LOG(DEBUG) << "Piece " << _gameScene->getAllPieces()->at(i).getFenName() << " has been deselected!";
-		}
-	}
+	// Deselect all pieces but this one, if it is already selected.
+	deselectPieces(piece);
 
-	// If the supplied piece is not already selected, select it. If it's already selected, deselect it.
-	if (!piece->getSelected())
+	// If the supplied piece is already selected, deselect it. If it's not selected, select it.
+	if (piece->getSelected())
 	{
-		piece->setSelected(true);
+		piece->setSelected(false);
+		removeActionHighlight();
 	}
 	else
 	{
-		piece->setSelected(false);
+		piece->setSelected(true);
+		highlightActionOptions(piece->getPosition());
+	}
+
+}
+
+void GameManager::deselectPieces(Piece* exception)
+{
+	if (exception != nullptr)
+	{
+		for (int i = 0; i < _gameScene->getAllPieces()->size(); ++i)
+		{
+			if (_gameScene->getAllPieces()->at(i).getSelected() && _gameScene->getAllPieces()->at(i).getPosition() != exception->getPosition())
+			{
+				_gameScene->getAllPieces()->at(i).setSelected(false);
+				LOG(DEBUG) << "Piece " << _gameScene->getAllPieces()->at(i).getFenName() << " has been deselected!";
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < _gameScene->getAllPieces()->size(); ++i)
+		{
+			if (_gameScene->getAllPieces()->at(i).getSelected())
+			{
+				_gameScene->getAllPieces()->at(i).setSelected(false);
+				LOG(DEBUG) << "Piece " << _gameScene->getAllPieces()->at(i).getFenName() << " has been deselected!";
+			}
+		}
 	}
 	removeActionHighlight();
-
-	// Highlight the potential action options
-	highlightActionOptions(piece->getPosition());
+	
 }
 
 
@@ -280,16 +310,13 @@ void GameManager::highlightActionOptions(Square* square)
 
 void GameManager::removeActionHighlight()
 {
-	for (int iRow = 0; iRow < _gameScene->getBoard()->getBoardGrid()->size(); ++iRow)
-	{
-		for (int iCol = 0; iCol < _gameScene->getBoard()->getBoardGrid()->at(iRow).size(); ++iCol)
+	
+	boardGridLoop([this](int row, int col) {
+		// Declare variable to simplify code
+		auto& square = _gameScene->getBoard()->getBoardGrid()->at(row).at(col);
+		if (square.getOverlayType() != Square::NONE)
 		{
-			// Declare variable to simplify code
-			auto& square = _gameScene->getBoard()->getBoardGrid()->at(iRow).at(iCol);
-			if (square.getOverlayType() != Square::NONE)
-			{
-				square.setOverlayType(Square::NONE);
-			}
+			square.setOverlayType(Square::NONE);
 		}
-	}
+		});
 }

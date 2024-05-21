@@ -44,6 +44,11 @@ void TurnWhiteGameState::subscribeToEventManager(EventManager& manager, GameStat
 			{
 				gsm->getGameScene()->getManager()->detectClickOnObject(x, y);
 			}
+			else
+			{
+				gsm->getGameScene()->getManager()->deselectPieces();
+				gsm->getGameScene()->getManager()->removeActionHighlight();
+			}
 		});
 
 }

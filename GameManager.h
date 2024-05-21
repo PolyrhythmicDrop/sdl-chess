@@ -38,18 +38,25 @@ public:
 	~GameManager() { };
 
 	/// <summary>
+	///  Function template for the nested "for" loop that combs the BoardGrid by row and column. Use with a lambda: boardGridLoop([this](int row, int col) { your logic here });
+	/// </summary>
+	template<typename Func>
+	void boardGridLoop(Func f);
+
+
+	/// <summary>
 	/// Sets the mediator for every object in the GameManager's GameScene to this GameManager instance.
 	/// </summary>
 	void setMediators();
 
 	/// <summary>
-	/// Notify and its overloads
+	/// Game object notifications
 	/// </summary>
 	/// <param name="sender"></param>
 	/// <param name="eString"></param>
 	void notify(GameObject* sender, std::string eString);
 
-	// Notify overload for events that do not refer to a specific game object.
+	// Notify overload for events that do not come from a specific game object.
 	void notify(std::string eString);
 
 	inline Rules* getRules() { return _rules.get(); };
@@ -66,8 +73,20 @@ public:
 	void setTurn(int turn);
 	inline int getTurn() const { return _currentTurn; };
 
+	// Piece and action highlighting
+	// ***********************
+
 	void detectClickOnObject(int x, int y);
+	/// <summary>
+	/// Selects a specific piece.
+	/// </summary>
+	/// <param name="piece">The piece to select.</param>
 	void selectPiece(Piece* piece);
+	/// <summary>
+	/// Deselects all selected pieces on the board.
+	/// </summary>
+	/// <param name="exception">Deselects all pieces but this one. Optional field.</param>
+	void deselectPieces(Piece* exception = nullptr);
 
 	void highlightActionOptions(Square* square);
 	void removeActionHighlight();

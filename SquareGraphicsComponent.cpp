@@ -82,7 +82,6 @@ void SquareGraphicsComponent::sumImage(Square* square)
 	switch (square->getOverlayType())
 	{
 	case Square::NONE:
-		LOG(INFO) << "The name of this square is " << square->getName();
 		SDL_SetTextureBlendMode(_overlayTexture, SDL_BLENDMODE_BLEND);
 		SDL_SetTextureAlphaMod(_overlayTexture, 0);
 		SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _overlayTexture, NULL, NULL);
