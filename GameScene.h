@@ -53,6 +53,5 @@ public:
 	inline void setPreviousState(IGameState& state) { _previousState = &state; };
 	inline void setGameState(IGameState& state) { _gsm->setGameState(this, state); };
 
-
 };
 
