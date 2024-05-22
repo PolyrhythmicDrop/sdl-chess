@@ -12,7 +12,10 @@ GameManager::GameManager(GameScene* gameScene) :
 	_history({}),
 	_textAction(""),
 	_textSetup("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"),
-	_textPlacement(_textSetup)
+	_textPlacement(_textSetup),
+	_highlightManager(std::unique_ptr<HighlightManager>(new HighlightManager(this))),
+	_actionManager(std::unique_ptr<ActionManager>(new ActionManager(this))),
+	_selectionManager(std::unique_ptr<SelectionManager>(new SelectionManager(this)))
 {
 	LOG(TRACE) << "Game Manager instantiated!";
 }
@@ -20,9 +23,9 @@ GameManager::GameManager(GameScene* gameScene) :
 template<typename Func>
 void GameManager::boardGridLoop(Func f)
 {
-	for (int row = 0; row < this->_gameScene->getBoard()->getBoardGrid()->size(); ++row)
+	for (int row = 0; row < _gameScene->getBoard()->getBoardGrid()->size(); ++row)
 	{
-		for (int col = 0; col < this->_gameScene->getBoard()->getBoardGrid()->at(row).size(); ++col)
+		for (int col = 0; col < _gameScene->getBoard()->getBoardGrid()->at(row).size(); ++col)
 		{
 			f(row, col);
 		}
@@ -60,7 +63,7 @@ void GameManager::notify(GameObject* object, std::string eString)
 	if (eString == "pieceMove")
 	{
 		LOG(DEBUG) << object->getName() << " has moved to square " << dynamic_cast <Piece*>(object)->getSquare()->getName();
-		deselectPieces();
+		_selectionManager.get()->deselectPieces();
 		// End turn?
 	}
 	else if (eString == "pieceSelected")
@@ -205,277 +208,8 @@ void GameManager::setTurn(int turn)
 	_currentTurn = turn;
 }
 
-void GameManager::handleClickOnBoard(int x, int y)
+void GameManager::handleClick()
 {
-	// Set the point to where the mouse was when clicked
-	SDL_Point clickPos = { x, y };
-
-	// Determine whether the point intersects with any squares.
-	boardGridLoop([this, clickPos](int row, int col)
-		{
-			// Declare variable to simplify code
-			auto& square = _gameScene->getBoard()->getBoardGrid()->at(row).at(col);
-
-			if (SDL_PointInRect(&clickPos, square.getDimensions()))
-			{
-				// Send the clicked square's name to the Debug log
-				LOG(DEBUG) << "Square " << square.getName() << " clicked!";
-				// If square is occupied...
-				if (square.getOccupied() && square.getOccupant() != nullptr)
-				{
-					handleClickOnPiece(square.getOccupant());					
-				}
-				else
-				{
-					handleClickOnEmptySquare(&square);
-				}
-			}
-		});
-	
+	_selectionManager.get()->handleClick();
 }
 
-void GameManager::handleClickOnEmptySquare(Square* square)
-{
-	// If the square has no overlay, therefore cannot be moved to or captured from, deselect all pieces
-	switch (square->getOverlayType())
-	{
-	case Square::NONE:
-		deselectPieces();
-		break;
-	case Square::MOVE:
-		// move logic
-		movePiece(_selectedPiece, square);
-		// End turn here after moving the piece? Or call a different function?
-		break;
-	case Square::TAKE:
-		// Empty squares should not have a TAKE overlay (since there's no piece on them to take), but have it deselect pieces anyway, just in case
-		deselectPieces();
-		break;
-	default:
-		deselectPieces();
-		break;
-	}
-}
-
-void GameManager::handleClickOnPiece(Piece* piece)
-{
-	// If the piece is alive and belongs to the player whose turn it is, select the piece.
-	// Otherwise, deselect all pieces
-	if (piece->isAlive() && piece->getPieceColor() == this->getTurn())
-	{
-		selectPiece(piece);
-	}
-	// Handle what happens if you click on an opposing piece
-	else if (piece->isAlive() && piece->getPieceColor() != this->getTurn())
-	{		
-		// If the square has a Take overlay (aka the piece on it can be taken)
-		if (piece->getSquare()->getOverlayType() == Square::TAKE)
-		{
-			// Capture the piece clicked on using the currently selected piece
-			capturePiece(_selectedPiece, piece);
-		}
-		else
-		{
-			// Deselect all pieces if you can't take the piece
-			deselectPieces();
-		}
-	}
-}
-
-void GameManager::selectPiece(Piece* piece)
-{
-	// Deselect all pieces but this one, if it is already selected.
-	deselectPieces(piece);
-
-	// If the supplied piece is already selected, deselect it. If it's not selected, select it.
-	if (piece->getSelected())
-	{
-		piece->setSelected(false);
-		_selectedPiece = nullptr;
-		removeActionHighlight();
-
-	}
-	else
-	{
-		piece->setSelected(true);
-		_selectedPiece = piece;
-		highlightActionOptions(piece->getSquare());
-	}
-
-}
-
-void GameManager::deselectPieces(Piece* exception)
-{
-	if (exception != nullptr)
-	{
-		for (int i = 0; i < _gameScene->getAllPieces()->size(); ++i)
-		{
-			if (_gameScene->getAllPieces()->at(i).getSelected() && _gameScene->getAllPieces()->at(i).getSquare() != exception->getSquare())
-			{
-				_gameScene->getAllPieces()->at(i).setSelected(false);
-				LOG(DEBUG) << "Piece " << _gameScene->getAllPieces()->at(i).getFenName() << " has been deselected!";
-				_selectedPiece = nullptr;
-			}
-		}
-	}
-	else
-	{
-		for (int i = 0; i < _gameScene->getAllPieces()->size(); ++i)
-		{
-			if (_gameScene->getAllPieces()->at(i).getSelected())
-			{
-				_gameScene->getAllPieces()->at(i).setSelected(false);
-				LOG(DEBUG) << "Piece " << _gameScene->getAllPieces()->at(i).getFenName() << " has been deselected!";
-				_selectedPiece = nullptr;
-			}
-		}
-	}
-	removeActionHighlight();
-	
-}
-
-
-void GameManager::highlightActionOptions(Square* square)
-{
-	// Set local variables
-	Rules::RulePackage rules;
-	std::vector<std::vector<Square>>* grid = _gameScene->getBoard()->getBoardGrid();
-	std::pair<int, int> squareIndex = square->getBoardIndex();
-
-	// Get the type of piece on the square and determine which rule evaluation set to use on it.
-	switch (square->getOccupant()->getFenName())
-	{
-	case 'P':
-		rules = _rules.get()->getWhtPawnRules(square->getOccupant());
-		break;
-	}
-
-	// Move Highlighting
-	// *************************
-
-	// Compute orthogonal moves
-	if (rules.moveRules.orthoMove == true)
-	{
-		// Compute move distance
-		for (int iRow = 0; iRow <= rules.moveRules.row; ++iRow)
-		{
-			for (int iCol = 0; iCol <= rules.moveRules.column; ++iCol)
-			{
-				if (((squareIndex.first + iRow <= 7) && (squareIndex.first + iRow >= 0))
-					&& ((squareIndex.second + iCol <= 7) && (squareIndex.second + iCol >= 0)))
-				{
-					// If the square within the move distance is not occupied, set the move overlay for that square
-					if (!grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied())
-					{
-						grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::MOVE);
-					}
-				}
-			}
-		}
-	}
-
-	// Capture Highlighting
-	// *************************
-
-	// Compute orthogonal captures
-
-	// Compute diagonal captures
-	if (rules.captureRules.diagCapture == true)
-	{
-		for (int iRow = 1; iRow <= rules.captureRules.row; ++iRow)
-		{
-			// Positive column iterator
-			for (int iCol = 1; iCol <= rules.captureRules.column; ++iCol)
-			{
-				if ((squareIndex.first + iRow <= 7) && (squareIndex.first + iRow >= 0))
-				{
-					if ((squareIndex.second + iCol <= 7) && (squareIndex.second + iCol >= 0))
-					{
-						// If the square up one and right one from the selected square is occupied by an opponent's piece, put on the Take overlay.
-						if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied() &&
-							grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != this->_currentTurn)
-						{
-							grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::TAKE);
-						}
-					}
-					if ((squareIndex.second - iCol <= 7) && (squareIndex.second - iCol >= 0))
-					{
-						// Do the same thing, but to the left (negative on the board index)
-						if (grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).getOccupied() &&
-							grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).getOccupant()->getPieceColor() != this->_currentTurn)
-						{
-							grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).setOverlayType(Square::TAKE);
-						}
-					}
-				}
-			}
-		}
-	}	
-
-}
-
-void GameManager::removeActionHighlight()
-{	
-	boardGridLoop([this](int row, int col) {
-		// Declare variable to simplify code
-		auto& square = _gameScene->getBoard()->getBoardGrid()->at(row).at(col);
-		if (square.getOverlayType() != Square::NONE)
-		{
-			square.setOverlayType(Square::NONE);
-		}
-		});
-}
-
-void GameManager::movePiece(Piece* piece, Square* target)
-{
-	std::pair<int, int> moveDistance = { 0, 0 };
-
-	// Move distance is the piece's board index subtracted from the target's move index.
-	moveDistance = { target->getBoardIndex().first - piece->getSquare()->getBoardIndex().first,
-					target->getBoardIndex().second - piece->getSquare()->getBoardIndex().second };
-	
-	if (!target->getOccupied())
-	{
-		// Unoccupy the square the piece is currently on
-		piece->getSquare()->setOccupied(false);
-
-		// Move the piece to the target position and occupy the square.
-		piece->setSquare(target);
-	}
-
-	// Pawn-specific movement and rules
-	// *********************************
-	
-	// If this was the piece's first move, set first move to false for future moves.
-	if (piece->getFirstMove())
-	{
-		piece->setFirstMove(false);
-		// Set whether or not the piece can be captured en passant.
-		if (piece->getPieceType() == Piece::PAWN && abs(moveDistance.first) == 2)
-		{
-			piece->setPassantable(true);
-		}
-	}
-	else
-	{
-		if (piece->getPassantable() == true)
-		{
-			piece->setPassantable(false);
-		}
-	}
-}
-
-void GameManager::capturePiece(Piece* attacker, Piece* defender)
-{
-	Square* defPos = defender->getSquare();
-	// De-occupy the defender's square
-	defPos->setOccupied(false);
-	// Unalive the defender
-	defender->setAlive(false);
-	// Move the attacking piece into the defender's position
-	movePiece(attacker, defPos);
-	// Set the defender's position to null
-	defender->setSquare(nullptr);
-	// Add the defender to the captured piece location
-	_gameScene->addToCapturedPieces(defender);
-}

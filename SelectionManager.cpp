@@ -1,0 +1,164 @@
+#include "SelectionManager.h"
+#include "GameScene.h"
+
+#include "easylogging++.h"
+
+
+template<typename Func>
+void SelectionManager::boardGridLoop(Func f)
+{
+	for (int row = 0; row < _gm->_gameScene->getBoard()->getBoardGrid()->size(); ++row)
+	{
+		for (int col = 0; col < _gm->_gameScene->getBoard()->getBoardGrid()->at(row).size(); ++col)
+		{
+			f(row, col);
+		}
+	}
+}
+
+void SelectionManager::handleClick()
+{
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+	SDL_Point mousePos = { x, y };
+	SDL_Rect boardDim = _gm->_gameScene->getBoard()->getBoardDimensions();
+
+	if (SDL_PointInRect(&mousePos, &boardDim))
+	{
+		handleClickOnBoard(x, y);
+	}
+	else
+	{
+		deselectPieces();
+	}
+}
+
+void SelectionManager::handleClickOnBoard(int x, int y)
+{
+	// Set the point to where the mouse was when clicked
+	SDL_Point clickPos = { x, y };
+	
+
+	// Determine whether the point intersects with any squares.
+	boardGridLoop([this, clickPos](int row, int col)
+		{
+			// Declare variable to simplify code
+			auto& square = this->_gm->_gameScene->getBoard()->getBoardGrid()->at(row).at(col);
+
+			if (SDL_PointInRect(&clickPos, square.getDimensions()))
+			{
+				// Send the clicked square's name to the Debug log
+				LOG(DEBUG) << "Square " << square.getName() << " clicked!";
+				// If square is occupied...
+				if (square.getOccupied() && square.getOccupant() != nullptr)
+				{
+					handleClickOnPiece(square.getOccupant());
+				}
+				else
+				{
+					handleClickOnEmptySquare(&square);
+				}
+			}
+		});
+
+}
+
+void SelectionManager::handleClickOnEmptySquare(Square* square)
+{
+	// If the square has no overlay, therefore cannot be moved to or captured from, deselect all pieces
+	switch (square->getOverlayType())
+	{
+	case Square::NONE:
+		deselectPieces();
+		break;
+	case Square::MOVE:
+		// move logic
+		_gm->_actionManager.get()->movePiece(_gm->_selectedPiece, square);
+		// End turn here after moving the piece? Or call a different function?
+		break;
+	case Square::TAKE:
+		// Empty squares should not have a TAKE overlay (since there's no piece on them to take), but have it deselect pieces anyway, just in case
+		deselectPieces();
+		break;
+	default:
+		deselectPieces();
+		break;
+	}
+}
+
+void SelectionManager::handleClickOnPiece(Piece* piece)
+{
+	// If the piece is alive and belongs to the player whose turn it is, select the piece.
+	// Otherwise, deselect all pieces
+	if (piece->isAlive() && piece->getPieceColor() == _gm->getTurn())
+	{
+		selectPiece(piece);
+	}
+	// Handle what happens if you click on an opposing piece
+	else if (piece->isAlive() && piece->getPieceColor() != _gm->getTurn())
+	{
+		// If the square has a Take overlay (aka the piece on it can be taken)
+		if (piece->getSquare()->getOverlayType() == Square::TAKE)
+		{
+			// Capture the piece clicked on using the currently selected piece
+			_gm->_actionManager.get()->capturePiece(_gm->_selectedPiece, piece);
+		}
+		else
+		{
+			// Deselect all pieces if you can't take the piece
+			deselectPieces();
+		}
+	}
+}
+
+void SelectionManager::selectPiece(Piece* piece)
+{
+	// Deselect all pieces but this one, if it is already selected.
+	deselectPieces(piece);
+
+	// If the supplied piece is already selected, deselect it. If it's not selected, select it.
+	if (piece->getSelected())
+	{
+		piece->setSelected(false);
+		_gm->_selectedPiece = nullptr;
+		_gm->_highlightManager.get()->removeActionHighlight();
+
+	}
+	else
+	{
+		piece->setSelected(true);
+		_gm->_selectedPiece = piece;
+		_gm->_highlightManager.get()->highlightActionOptions(piece->getSquare());
+	}
+
+}
+
+void SelectionManager::deselectPieces(Piece* exception)
+{
+	if (exception != nullptr)
+	{
+		for (int i = 0; i < _gm->_gameScene->getAllPieces()->size(); ++i)
+		{
+			if (_gm->_gameScene->getAllPieces()->at(i).getSelected() && _gm->_gameScene->getAllPieces()->at(i).getSquare() != exception->getSquare())
+			{
+				_gm->_gameScene->getAllPieces()->at(i).setSelected(false);
+				LOG(DEBUG) << "Piece " << _gm->_gameScene->getAllPieces()->at(i).getFenName() << " has been deselected!";
+				_gm->_selectedPiece = nullptr;
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < _gm->_gameScene->getAllPieces()->size(); ++i)
+		{
+			if (_gm->_gameScene->getAllPieces()->at(i).getSelected())
+			{
+				_gm->_gameScene->getAllPieces()->at(i).setSelected(false);
+				LOG(DEBUG) << "Piece " << _gm->_gameScene->getAllPieces()->at(i).getFenName() << " has been deselected!";
+				_gm->_selectedPiece = nullptr;
+			}
+		}
+	}
+	_gm->_highlightManager.get()->removeActionHighlight();
+
+}

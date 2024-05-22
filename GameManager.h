@@ -5,11 +5,16 @@
 #include "Rules.h"
 #include "IMediator.h"
 
+#include "HighlightManager.h"
+#include "ActionManager.h"
+#include "SelectionManager.h"
+
 class GameScene;
 class Square;
 
 class GameManager : public IMediator
 {
+
 private:
 
 	GameScene* _gameScene;
@@ -18,12 +23,14 @@ private:
 	// The current turn. 0 = Black, 1 = White.
 	int _currentTurn; 
 
+	// The currently selected piece
 	Piece* _selectedPiece;
 
 	// Record of past moves, as strings
 	std::vector<std::string> _history;
 
 	// ** FEN/Stockfish Strings ** //
+	// *************************** //
 	
 	// A text version of an action, in long algebraic notation for UCI. Should be able to be parsed by Stockfish and SDL Chess, to be used in the history list and for Stockfish move calculation
 	std::string _textAction;
@@ -32,10 +39,19 @@ private:
 	// The current placement of all the pieces on the board. FEN: first field
 	std::string _textPlacement;
 
-	// *******************************
+	// ** Manager Components ** //
+	// ************************ //
+
+	std::unique_ptr<HighlightManager> _highlightManager;
+	std::unique_ptr<ActionManager> _actionManager;
+	std::unique_ptr<SelectionManager> _selectionManager;
 
 
 public:
+	friend class HighlightManager;
+	friend class ActionManager;
+	friend class SelectionManager;
+
 
 	GameManager(GameScene* gameScene);
 	~GameManager() { };
@@ -45,7 +61,6 @@ public:
 	/// </summary>
 	template<typename Func>
 	void boardGridLoop(Func f);
-
 
 	/// <summary>
 	/// Sets the mediator for every object in the GameManager's GameScene to this GameManager instance.
@@ -76,52 +91,7 @@ public:
 	void setTurn(int turn);
 	inline int getTurn() const { return _currentTurn; };
 
-	// Handle Click Functions
-	// ***********************
-
-	/// <summary>
-	/// Handles a click on a square and calls different functions, depending on what was clicked and in what context.
-	/// </summary>
-	void handleClickOnBoard(int x, int y);
-
-	void handleClickOnEmptySquare(Square* square);
-
-	void handleClickOnPiece(Piece* piece);
-
-	// Piece and action highlighting
-	// ***********************
-
-	/// <summary>
-	/// Selects a specific piece.
-	/// </summary>
-	/// <param name="piece">The piece to select.</param>
-	void selectPiece(Piece* piece);
-
-	/// <summary>
-	/// Deselects all selected pieces on the board.
-	/// </summary>
-	/// <param name="exception">Deselects all pieces but this one. Optional field.</param>
-	void deselectPieces(Piece* exception = nullptr);
-
-	void highlightActionOptions(Square* square);
-	void removeActionHighlight();
-
-	// Move and Capture Functions
-	// ***************************
-
-	/// <summary>
-	/// Moves a piece to the target square.
-	/// </summary>
-	/// <param name="piece">The piece to move.</param>
-	/// <param name="target">The square to move to.</param>
-	void movePiece(Piece* piece, Square* target);
-
-	/// <summary>
-	/// Captures the specified piece.
-	/// </summary>
-	/// <param name="attacker">The piece that is capturing.</param>
-	/// <param name="defender">The piece to be captured.</param>
-	void capturePiece(Piece* attacker, Piece* defender);
+	void handleClick();
 
 };
 

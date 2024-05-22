@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionManager.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonInputComponent.cpp" />
     <ClCompile Include="chess-main.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
+    <ClCompile Include="HighlightManager.cpp" />
     <ClCompile Include="IdleGameState.cpp" />
     <ClCompile Include="IGameState.cpp" />
     <ClCompile Include="IMediator.cpp" />
@@ -181,6 +183,7 @@
     <ClCompile Include="SceneEscMenu.cpp" />
     <ClCompile Include="SDLfunc.cpp" />
     <ClCompile Include="Decoration.cpp" />
+    <ClCompile Include="SelectionManager.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="InEscMenuState.cpp" />
     <ClCompile Include="Square.cpp" />
@@ -191,6 +194,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionManager.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonInputComponent.h" />
     <ClInclude Include="Chessboard.h" />
@@ -199,6 +203,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GameStateMachine.h" />
+    <ClInclude Include="HighlightManager.h" />
     <ClInclude Include="IdleGameState.h" />
     <ClInclude Include="IGameState.h" />
     <ClInclude Include="IMediator.h" />
@@ -233,6 +238,7 @@
     <ClInclude Include="SceneEscMenu.h" />
     <ClInclude Include="SDLfunc.h" />
     <ClInclude Include="Decoration.h" />
+    <ClInclude Include="SelectionManager.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="InEscMenuState.h" />
     <ClInclude Include="Square.h" />

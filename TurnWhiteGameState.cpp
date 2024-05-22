@@ -35,20 +35,7 @@ void TurnWhiteGameState::subscribeToEventManager(EventManager& manager, GameStat
 	// Subscribe to MouseUp events
 	manager.Subscribe(SDL_MOUSEBUTTONUP, [gsm, this](SDL_Event const& event)
 		{
-			int x, y;
-			SDL_GetMouseState(&x, &y);
-			SDL_Point mousePos = { x, y };
-			SDL_Rect boardDim = gsm->getGameScene()->getBoard()->getBoardDimensions();
-			SDL_Rect* boardPnt = &boardDim;
-			// If the mouse is within the board dimensions, then determine if it clicked on any pieces. If not, deselect any selected pieces.
-			if (SDL_PointInRect(&mousePos, boardPnt))
-			{
-				gsm->getGameScene()->getManager()->handleClickOnBoard(x, y);
-			}
-			else
-			{
-				gsm->getGameScene()->getManager()->deselectPieces();
-			}
+			gsm->getGameScene()->getManager()->handleClick();
 		});
 
 }
