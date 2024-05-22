@@ -8,6 +8,7 @@ GameManager::GameManager(GameScene* gameScene) :
 	_gameScene(gameScene),
 	_rules(std::unique_ptr<Rules>(new Rules)),
 	_currentTurn(NULL),
+	_selectedPiece(nullptr),
 	_history({}),
 	_textAction(""),
 	_textSetup("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"),
@@ -58,7 +59,9 @@ void GameManager::notify(GameObject* object, std::string eString)
 	// A piece has changed the square it's on
 	if (eString == "pieceMove")
 	{
-		LOG(DEBUG) << object->getName() << " has changed its position to square " << dynamic_cast <Piece*>(object)->getPosition()->getName();
+		LOG(DEBUG) << object->getName() << " has moved to square " << dynamic_cast <Piece*>(object)->getPosition()->getName();
+		deselectPieces();
+		// End turn?
 	}
 	else if (eString == "pieceSelected")
 	{
@@ -202,7 +205,7 @@ void GameManager::setTurn(int turn)
 	_currentTurn = turn;
 }
 
-void GameManager::handleClickOnSquare(int x, int y)
+void GameManager::handleClickOnBoard(int x, int y)
 {
 	// Set the point to where the mouse was when clicked
 	SDL_Point clickPos = { x, y };
@@ -217,33 +220,63 @@ void GameManager::handleClickOnSquare(int x, int y)
 			{
 				// Send the clicked square's name to the Debug log
 				LOG(DEBUG) << "Square " << square.getName() << " clicked!";
-				// Determine if the square is occupied
+				// If square is occupied...
 				if (square.getOccupied() && square.getOccupant() != nullptr)
 				{
 					handleClickOnPiece(square.getOccupant());					
 				}
 				else
 				{
-					deselectPieces();
+					handleClickOnEmptySquare(&square);
 				}
 			}
 		});
 	
 }
 
+void GameManager::handleClickOnEmptySquare(Square* square)
+{
+	// If the square has no overlay, therefore cannot be moved to or captured from, deselect all pieces
+	switch (square->getOverlayType())
+	{
+	case Square::NONE:
+		deselectPieces();
+		break;
+	case Square::MOVE:
+		// move logic
+		movePiece(_selectedPiece, square);
+		// End turn here after moving the piece? Or call a different function?
+		break;
+	case Square::TAKE:
+		// take logic
+		break;
+	default:
+		deselectPieces();
+		break;
+	}
+}
+
 void GameManager::handleClickOnPiece(Piece* piece)
 {
-	// Detect the piece on the clicked square. 
-	// If the piece is alive and belongs to the player whose turn it is, call selectPiece().
+	// If the piece is alive and belongs to the player whose turn it is, select the piece.
 	// Otherwise, deselect all pieces
 	if (piece->isAlive() && piece->getPieceColor() == this->getTurn())
 	{
 		selectPiece(piece);
 	}
+	// Handle what happens if you click on an opposing piece
 	else if (piece->isAlive() && piece->getPieceColor() != this->getTurn())
-	{
-		// Handle what happens if you click on an opposing piece
-		deselectPieces();
+	{		
+		// If the square has a Take overlay (aka the piece on it can be taken)
+		if (piece->getPosition()->getOverlayType() == Square::TAKE)
+		{
+			// Logic for taking a piece
+		}
+		else
+		{
+			// Deselect all pieces if you can't take the piece
+			deselectPieces();
+		}
 	}
 }
 
@@ -256,11 +289,14 @@ void GameManager::selectPiece(Piece* piece)
 	if (piece->getSelected())
 	{
 		piece->setSelected(false);
+		_selectedPiece = nullptr;
 		removeActionHighlight();
+
 	}
 	else
 	{
 		piece->setSelected(true);
+		_selectedPiece = piece;
 		highlightActionOptions(piece->getPosition());
 	}
 
@@ -276,6 +312,7 @@ void GameManager::deselectPieces(Piece* exception)
 			{
 				_gameScene->getAllPieces()->at(i).setSelected(false);
 				LOG(DEBUG) << "Piece " << _gameScene->getAllPieces()->at(i).getFenName() << " has been deselected!";
+				_selectedPiece = nullptr;
 			}
 		}
 	}
@@ -287,6 +324,7 @@ void GameManager::deselectPieces(Piece* exception)
 			{
 				_gameScene->getAllPieces()->at(i).setSelected(false);
 				LOG(DEBUG) << "Piece " << _gameScene->getAllPieces()->at(i).getFenName() << " has been deselected!";
+				_selectedPiece = nullptr;
 			}
 		}
 	}
@@ -334,4 +372,17 @@ void GameManager::removeActionHighlight()
 			square.setOverlayType(Square::NONE);
 		}
 		});
+}
+
+void GameManager::movePiece(Piece* piece, Square* target)
+{
+	if (!target->getOccupied())
+	{
+		// Unoccupy the square the piece is currently on
+		piece->getPosition()->setOccupied(false);
+
+		// Move the piece to the target position and occupy the square.
+		piece->setPosition(target);
+	}
+
 }

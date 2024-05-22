@@ -63,48 +63,49 @@ SquareGraphicsComponent* Square::getGraphicsComponent()
 	return _graphics;
 }
 
-void Square::setOccupied(bool occupied, Piece* occupant)
+void Square::setOccupied(bool occupy, Piece* occupant)
 {
 	// If the user tries to occupy the square with an occupant:
 	if (occupant != nullptr)
 	{
 		// Check if the square is already occupied and that you want to occupy it
-		if (_occupied == true && occupied == true)
+		if (_occupied == true && occupy == true)
 		{
-			LOG(INFO) << "Square currently occupied! Capture the piece already on it before setting occupied.";
+			LOG(ERROR) << "Square currently occupied! Capture the piece already on it before setting occupied.";
 		}
 		// If the square isn't occupied and you want to occupy it, set _occupied to true and set the supplied piece as the occupant.
-		else if (_occupied == false && occupied == true)
+		else if (_occupied == false && occupy == true)
 		{
-			_occupied = occupied;
+			_occupied = occupy;
 			_currentPiece = occupant;
-
 			this->_mediator->notify(this, "squareOccupied");
+			LOG(INFO) << "Square occupied by " << occupant->getName();
 		}
-		else if (_occupied == true && occupied == false)
+		else if (_occupied == true && occupy == false)
 		{
-			LOG(INFO) << "You cannot remove a piece from a square without replacing it with another piece!";
+			LOG(ERROR) << "Piece supplied as argument to setOccupied(), but occupy set to false.";
 		}
-		else if (_occupied == false && occupied == false)
+		else if (_occupied == false && occupy == false)
 		{
-			LOG(INFO) << "Square already unoccupied!";
+			LOG(ERROR) << "Square already unoccupied!";
 		}
 	}
 	else
 	{
-		if (_occupied == true && occupied == true)
+		if (_occupied == true && occupy == true)
 		{
-			LOG(INFO) << "Square already occupied, and no piece supplied!";
+			LOG(ERROR) << "Square already occupied, and no piece supplied!";
 		}
-		else if (_occupied == false && occupied == true)
+		else if (_occupied == false && occupy == true)
 		{
 			LOG(INFO) << "Cannot occupy a square without a piece to occupy it! Please specify a piece.";
 		}
-		else if (_occupied == true && occupied == false)
+		else if (_occupied == true && occupy == false)
 		{
-			LOG(INFO) << "Cannot remove a piece from a square without capturing that piece!";
+			_occupied = occupy;
+			LOG(INFO) << "Piece moved from square!";
 		}
-		else if (_occupied == false && occupied == false)
+		else if (_occupied == false && occupy == false)
 		{
 			LOG(INFO) << "Square already unoccupied!";
 		}

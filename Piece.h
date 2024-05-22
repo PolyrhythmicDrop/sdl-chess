@@ -31,6 +31,10 @@ public:
 
 	inline char getFenName() const { if (_fenName != NULL) { return _fenName; } };
 
+	/// <summary>
+	/// Moves the piece.
+	/// </summary>
+	/// <param name="square">The square to move to.</param>
 	void setPosition(Square* square);
 	inline Square* getPosition() { return _position; };
 

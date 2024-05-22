@@ -42,15 +42,22 @@ Piece::~Piece()
 
 void Piece::setPosition(Square* square)
 {
-	_position = square;
-	_dimensions = *square->getDimensions();
-	square->setOccupied(true, this);
-
-	// Notify the GameManager that the position has changed.
-	if (_mediator != nullptr)
+	if (square->getOccupant() == nullptr)
 	{
-		this->_mediator->notify(this, "pieceMove");
+		_position = square;
+		_dimensions = *square->getDimensions();
+		square->setOccupied(true, this);
+		// Notify the GameManager that the position has changed.
+		if (_mediator != nullptr)
+		{
+			this->_mediator->notify(this, "pieceMove");
+		}
 	}
+	else
+	{
+		LOG(ERROR) << "Square currently occupied! Take the piece on the square first.";
+	}
+	
 }
 
 void Piece::changeType(Figure type)

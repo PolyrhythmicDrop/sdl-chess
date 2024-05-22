@@ -17,6 +17,8 @@ private:
 
 	int _currentTurn; 
 
+	Piece* _selectedPiece;
+
 	// Record of past moves, as strings
 	std::vector<std::string> _history;
 
@@ -73,17 +75,20 @@ public:
 	void setTurn(int turn);
 	inline int getTurn() const { return _currentTurn; };
 
-	// Piece and action highlighting
+	// Handle Click Functions
 	// ***********************
 
 	/// <summary>
 	/// Handles a click on a square and calls different functions, depending on what was clicked and in what context.
 	/// </summary>
-	/// <param name="x"></param>
-	/// <param name="y"></param>
-	void handleClickOnSquare(int x, int y);
+	void handleClickOnBoard(int x, int y);
+
+	void handleClickOnEmptySquare(Square* square);
 
 	void handleClickOnPiece(Piece* piece);
+
+	// Piece and action highlighting
+	// ***********************
 
 	/// <summary>
 	/// Selects a specific piece.
@@ -99,6 +104,16 @@ public:
 
 	void highlightActionOptions(Square* square);
 	void removeActionHighlight();
+
+	// Move and Capture Functions
+	// ***************************
+
+	/// <summary>
+	/// Moves a piece to the target square.
+	/// </summary>
+	/// <param name="piece">The piece to move.</param>
+	/// <param name="target">The square to move to.</param>
+	void movePiece(Piece* piece, Square* target);
 
 };
 
