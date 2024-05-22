@@ -29,7 +29,7 @@ public:
 
 	~Piece();
 
-	inline char getFenName() { if (_fenName != NULL) { return _fenName; } };
+	inline char getFenName() const { if (_fenName != NULL) { return _fenName; } };
 
 	void setPosition(Square* square);
 	inline Square* getPosition() { return _position; };
@@ -53,7 +53,7 @@ public:
 
 private:
 
-	inline void setFenName(char fen) { _fenName = fen; };
+	void setFenName(char fen);
 	
 	Square* _position;
 	PieceColor _pieceColor;

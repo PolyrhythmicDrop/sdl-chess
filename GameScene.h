@@ -14,6 +14,7 @@ private:
 
 	std::unique_ptr<Chessboard> _board;
 	std::vector<Piece> _pieces;
+
 	Player _playerOne;
 	Player _playerTwo;
 
@@ -51,7 +52,6 @@ public:
 	inline void setCurrentState(IGameState& state) { _currentState = &state; };
 	inline void setPreviousState(IGameState& state) { _previousState = &state; };
 	inline void setGameState(IGameState& state) { _gsm->setGameState(this, state); };
-
 
 };
 

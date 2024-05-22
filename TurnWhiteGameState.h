@@ -19,7 +19,5 @@ public:
 	void subscribeToEventManager(EventManager& manager, GameStateMachine* gsm);
 	void unsubscribeToEventManager(EventManager& manager, GameStateMachine* gsm);
 
-	void detectClickOnObject(int x, int y, GameStateMachine* gsm);
-	void selectPiece(Piece* piece, GameStateMachine* gsm);
 };
 

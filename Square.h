@@ -35,8 +35,14 @@ public:
 
 	SquareGraphicsComponent* getGraphicsComponent();
 
-	// Sets and gets the square's occupied flag
-	void setOccupied(bool occupied, Piece* occupant);
+	/// <summary>
+	/// Sets the square as occupied. Pass a piece to occupy it with that piece.
+	/// </summary>
+	/// <param name="occupied"></param>
+	/// <param name="occupant"></param>
+	void setOccupied(bool occupied = false, Piece* occupant = nullptr);
+
+
 	inline bool getOccupied() const { return _occupied; };
 	// Returns the piece that's on the square
 	Piece* getOccupant();

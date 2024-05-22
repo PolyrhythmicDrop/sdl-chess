@@ -20,10 +20,12 @@ Piece::Piece(Figure type, PieceColor color) :
 // Deep Copy Constructor
 Piece::Piece(const Piece& piece)
 {
+	_mediator = piece._mediator;
 	_position = piece._position;
 	_pieceColor = piece._pieceColor;
 	_type = piece._type;
 	_fenName = piece._fenName;
+	_name = piece._name;
 	_selected = piece._selected;
 	_alive = piece._alive;
 	_firstMove = piece._firstMove;
@@ -43,6 +45,12 @@ void Piece::setPosition(Square* square)
 	_position = square;
 	_dimensions = *square->getDimensions();
 	square->setOccupied(true, this);
+
+	// Notify the GameManager that the position has changed.
+	if (_mediator != nullptr)
+	{
+		this->_mediator->notify(this, "pieceMove");
+	}
 }
 
 void Piece::changeType(Figure type)
@@ -129,13 +137,34 @@ void Piece::setSelected(bool selected)
 {
 	_selected = selected;
 
+
 	if (!_selected)
 	{
 		_graphics->removeSelectedIcon(this);
+
+		if (this->_mediator != nullptr)
+		{
+			// Notify the GM that this piece was deselected.
+			this->_mediator->notify(this, "pieceDeselected");
+		}
 	}
 	else
 	{
 		_graphics->addSelectedIcon(this);
+
+		if (this->_mediator != nullptr)
+		{
+			// Notify the GM that this piece was selected.
+			this->_mediator->notify(this, "pieceSelected");
+		}
 	}
+}
+
+void Piece::setFenName(char fen)
+{
+	_fenName = fen;
+	std::string f{ fen };
+	this->setName(f);
+	this->_name;
 }
 

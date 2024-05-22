@@ -150,6 +150,7 @@
     <ClCompile Include="GameStateMachine.cpp" />
     <ClCompile Include="IdleGameState.cpp" />
     <ClCompile Include="IGameState.cpp" />
+    <ClCompile Include="IMediator.cpp" />
     <ClCompile Include="InGameProgramState.cpp" />
     <ClCompile Include="InitGameState.cpp" />
     <ClCompile Include="PauseGameState.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="GameStateMachine.h" />
     <ClInclude Include="IdleGameState.h" />
     <ClInclude Include="IGameState.h" />
+    <ClInclude Include="IMediator.h" />
     <ClInclude Include="InGameProgramState.h" />
     <ClInclude Include="InitGameState.h" />
     <ClInclude Include="PauseGameState.h" />

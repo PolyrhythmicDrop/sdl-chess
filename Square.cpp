@@ -28,6 +28,7 @@ Square::Square(std::string notation, Chessboard* board) :
 // Deep copy constructor
 Square::Square(const Square& square)
 {
+	_mediator = square._mediator;
 	_name = square._name;
 	_dimensions = square._dimensions;
 	_zIndex = square._zIndex;
@@ -64,15 +65,51 @@ SquareGraphicsComponent* Square::getGraphicsComponent()
 
 void Square::setOccupied(bool occupied, Piece* occupant)
 {
-	if (_occupied != occupied)
+	// If the user tries to occupy the square with an occupant:
+	if (occupant != nullptr)
 	{
-		_occupied = occupied;
-		_currentPiece = occupant;
+		// Check if the square is already occupied and that you want to occupy it
+		if (_occupied == true && occupied == true)
+		{
+			LOG(INFO) << "Square currently occupied! Capture the piece already on it before setting occupied.";
+		}
+		// If the square isn't occupied and you want to occupy it, set _occupied to true and set the supplied piece as the occupant.
+		else if (_occupied == false && occupied == true)
+		{
+			_occupied = occupied;
+			_currentPiece = occupant;
+
+			this->_mediator->notify(this, "squareOccupied");
+		}
+		else if (_occupied == true && occupied == false)
+		{
+			LOG(INFO) << "You cannot remove a piece from a square without replacing it with another piece!";
+		}
+		else if (_occupied == false && occupied == false)
+		{
+			LOG(INFO) << "Square already unoccupied!";
+		}
 	}
 	else
 	{
-		LOG(TRACE) << "Square already occupied! Perform a Take move first.";
+		if (_occupied == true && occupied == true)
+		{
+			LOG(INFO) << "Square already occupied, and no piece supplied!";
+		}
+		else if (_occupied == false && occupied == true)
+		{
+			LOG(INFO) << "Cannot occupy a square without a piece to occupy it! Please specify a piece.";
+		}
+		else if (_occupied == true && occupied == false)
+		{
+			LOG(INFO) << "Cannot remove a piece from a square without capturing that piece!";
+		}
+		else if (_occupied == false && occupied == false)
+		{
+			LOG(INFO) << "Square already unoccupied!";
+		}
 	}
+
 }
 
 Piece* Square::getOccupant()

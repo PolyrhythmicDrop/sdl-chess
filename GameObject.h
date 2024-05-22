@@ -1,14 +1,21 @@
 #pragma once
 #include <iostream>
 #include "EventManager.h"
+#include "IMediator.h"
 
 // Pure abstract class for game objects
 class GameObject
 {
 protected:
+
+	IMediator* _mediator;
+
+	// Name of the game object
 	std::string _name;
+
 	// Structure of dimensions for game objects
 	SDL_Rect _dimensions;
+
 	// Z-index for drawing purposes. Higher values render on top of lower values.
 	int _zIndex;
 
@@ -18,13 +25,20 @@ protected:
 
 public:
 
-	GameObject(std::string name = "");
+	GameObject(std::string name = "", IMediator* mediator = nullptr);
 
 	~GameObject();
 
 	bool _draw;
 
+	/// <summary>
+	/// Sets the mediator for this object
+	/// </summary>
+	/// <param name="mediator">The mediator for this object</param>
+	virtual void setMediator(IMediator* mediator);
+
 	virtual const std::string getName();
+	inline virtual void setName(std::string name) { _name = name; };
 
 	/// <summary>
 	/// Get Rect (nerd). Returns the _dimensions of the game object, which is an SDL Rect.

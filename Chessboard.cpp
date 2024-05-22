@@ -15,6 +15,7 @@ Chessboard::Chessboard() :
 // Copy constructor for deep copy
 Chessboard::Chessboard(const Chessboard& board)
 {
+	_mediator = board._mediator;
 	_graphics = new GraphicsComponent();
 	*_graphics = *(board._graphics);
 	_dimensions = board._dimensions;

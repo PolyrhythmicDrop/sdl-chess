@@ -1,7 +1,8 @@
 #include "GameObject.h"
 #include "easylogging++.h"
 
-GameObject::GameObject(std::string name) :
+GameObject::GameObject(std::string name, IMediator* mediator) :
+	_mediator(mediator),
 	_name(name),
 	_dimensions({0, 0, 0, 0}),
 	_zIndex(0),
@@ -17,9 +18,14 @@ GameObject::~GameObject()
 	LOG(TRACE) << "Object destroyed! Game object count: " << gameObjectCount;
 }
 
+void GameObject::setMediator(IMediator* mediator)
+{
+	this->_mediator = mediator;
+}
+
 std::string const GameObject::getName()
 {
-	return _name;
+	return this->_name;
 }
 
 SDL_Rect* GameObject::getDimensions()
