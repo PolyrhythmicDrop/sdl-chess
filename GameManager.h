@@ -76,12 +76,21 @@ public:
 	// Piece and action highlighting
 	// ***********************
 
-	void detectClickOnObject(int x, int y);
+	/// <summary>
+	/// Handles a click on a square and calls different functions, depending on what was clicked and in what context.
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
+	void handleClickOnSquare(int x, int y);
+
+	void handleClickOnPiece(Piece* piece);
+
 	/// <summary>
 	/// Selects a specific piece.
 	/// </summary>
 	/// <param name="piece">The piece to select.</param>
 	void selectPiece(Piece* piece);
+
 	/// <summary>
 	/// Deselects all selected pieces on the board.
 	/// </summary>

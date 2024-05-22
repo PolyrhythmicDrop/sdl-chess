@@ -202,8 +202,7 @@ void GameManager::setTurn(int turn)
 	_currentTurn = turn;
 }
 
-
-void GameManager::detectClickOnObject(int x, int y)
+void GameManager::handleClickOnSquare(int x, int y)
 {
 	// Set the point to where the mouse was when clicked
 	SDL_Point clickPos = { x, y };
@@ -211,22 +210,41 @@ void GameManager::detectClickOnObject(int x, int y)
 	// Determine whether the point intersects with any squares.
 	boardGridLoop([this, clickPos](int row, int col)
 		{
-			if (SDL_PointInRect(&clickPos, _gameScene->getBoard()->getBoardGrid()->at(row).at(col).getDimensions()))
+			// Declare variable to simplify code
+			auto& square = _gameScene->getBoard()->getBoardGrid()->at(row).at(col);
+
+			if (SDL_PointInRect(&clickPos, square.getDimensions()))
 			{
-				// Declare variable to simplify code
-				auto& square = _gameScene->getBoard()->getBoardGrid()->at(row).at(col);
 				// Send the clicked square's name to the Debug log
 				LOG(DEBUG) << "Square " << square.getName() << " clicked!";
-				// Detect the piece on the clicked square. If the piece is alive and belongs to the player whose turn it is, call selectPiece(), if it's an opposing piece or captured, ignore it.
-				if (square.getOccupant() != nullptr &&
-					square.getOccupant()->isAlive() &&
-					square.getOccupant()->getPieceColor() == this->getTurn())
+				// Determine if the square is occupied
+				if (square.getOccupied() && square.getOccupant() != nullptr)
 				{
-					selectPiece(square.getOccupant());
+					handleClickOnPiece(square.getOccupant());					
+				}
+				else
+				{
+					deselectPieces();
 				}
 			}
 		});
 	
+}
+
+void GameManager::handleClickOnPiece(Piece* piece)
+{
+	// Detect the piece on the clicked square. 
+	// If the piece is alive and belongs to the player whose turn it is, call selectPiece().
+	// Otherwise, deselect all pieces
+	if (piece->isAlive() && piece->getPieceColor() == this->getTurn())
+	{
+		selectPiece(piece);
+	}
+	else if (piece->isAlive() && piece->getPieceColor() != this->getTurn())
+	{
+		// Handle what happens if you click on an opposing piece
+		deselectPieces();
+	}
 }
 
 void GameManager::selectPiece(Piece* piece)

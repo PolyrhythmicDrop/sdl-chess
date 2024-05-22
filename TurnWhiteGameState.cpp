@@ -43,7 +43,7 @@ void TurnWhiteGameState::subscribeToEventManager(EventManager& manager, GameStat
 			// If the mouse is within the board dimensions, then determine if it clicked on any pieces. If not, deselect any selected pieces.
 			if (SDL_PointInRect(&mousePos, boardPnt))
 			{
-				gsm->getGameScene()->getManager()->detectClickOnObject(x, y);
+				gsm->getGameScene()->getManager()->handleClickOnSquare(x, y);
 			}
 			else
 			{
