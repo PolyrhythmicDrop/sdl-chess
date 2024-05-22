@@ -18,6 +18,7 @@ void TurnWhiteGameState::changeState(GameStateMachine* gsm)
 
 void TurnWhiteGameState::exit(GameStateMachine* gsm)
 {
+	unsubscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
 	LOG(TRACE) << "White Turn Game State exited!";
 }
 
@@ -39,7 +40,7 @@ void TurnWhiteGameState::subscribeToEventManager(EventManager& manager, GameStat
 			SDL_Point mousePos = { x, y };
 			SDL_Rect boardDim = gsm->getGameScene()->getBoard()->getBoardDimensions();
 			SDL_Rect* boardPnt = &boardDim;
-			// If the mouse is within the board dimensions, then determine if it clicked on any pieces.
+			// If the mouse is within the board dimensions, then determine if it clicked on any pieces. If not, deselect any selected pieces.
 			if (SDL_PointInRect(&mousePos, boardPnt))
 			{
 				gsm->getGameScene()->getManager()->detectClickOnObject(x, y);
@@ -56,5 +57,7 @@ void TurnWhiteGameState::subscribeToEventManager(EventManager& manager, GameStat
 void TurnWhiteGameState::unsubscribeToEventManager(EventManager& manager, GameStateMachine* gsm)
 {
 	// TODO: Make sure to unsubscribe from the active boolean when exiting this state.
+
+	manager.Unsubscribe(SDL_MOUSEBUTTONUP);
 }
 

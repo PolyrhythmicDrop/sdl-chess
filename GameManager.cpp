@@ -35,13 +35,10 @@ void GameManager::setMediators()
 	this->_gameScene->getBoard()->setMediator(this);
 
 	// Add the GameManager as the mediator for every square on the chessboard
-	for (int rowI = 0; rowI < this->_gameScene->getBoard()->getBoardGrid()->size(); ++rowI)
-	{
-		for (int colI = 0; colI < this->_gameScene->getBoard()->getBoardGrid()->at(rowI).size(); ++colI)
+	boardGridLoop([this](int row, int col) 
 		{
-			this->_gameScene->getBoard()->getBoardGrid()->at(rowI).at(colI).setMediator(this);
-		}
-	}
+			this->_gameScene->getBoard()->getBoardGrid()->at(row).at(col).setMediator(this);
+		});
 
 	// Add the GameManager as the mediator for all the pieces.
 	for (int i = 0; i < this->_gameScene->getAllPieces()->size(); ++i)
