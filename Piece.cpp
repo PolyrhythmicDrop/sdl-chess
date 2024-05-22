@@ -9,6 +9,7 @@ Piece::Piece(Figure type, PieceColor color) :
 	_selected(false),
 	_alive(true),
 	_firstMove(true),
+	_passantable(false),
 	_position(nullptr),
 	_graphics(new PieceGraphicsComponent),
 	_input(new PieceInputComponent)

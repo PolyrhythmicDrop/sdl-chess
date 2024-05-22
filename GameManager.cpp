@@ -362,8 +362,7 @@ void GameManager::highlightActionOptions(Square* square)
 }
 
 void GameManager::removeActionHighlight()
-{
-	
+{	
 	boardGridLoop([this](int row, int col) {
 		// Declare variable to simplify code
 		auto& square = _gameScene->getBoard()->getBoardGrid()->at(row).at(col);
@@ -376,6 +375,12 @@ void GameManager::removeActionHighlight()
 
 void GameManager::movePiece(Piece* piece, Square* target)
 {
+	std::pair<int, int> moveDistance = { 0, 0 };
+
+	// Move distance is the piece's board index subtracted from the target's move index.
+	moveDistance = { target->getBoardIndex().first - piece->getPosition()->getBoardIndex().first,
+					target->getBoardIndex().second - piece->getPosition()->getBoardIndex().second };
+	
 	if (!target->getOccupied())
 	{
 		// Unoccupy the square the piece is currently on
@@ -385,10 +390,24 @@ void GameManager::movePiece(Piece* piece, Square* target)
 		piece->setPosition(target);
 	}
 
+	// Pawn-specific movement and rules
+	// *********************************
+	
 	// If this was the piece's first move, set first move to false for future moves.
 	if (piece->getFirstMove())
 	{
 		piece->setFirstMove(false);
+		// Set whether or not the piece can be captured en passant.
+		if (piece->getPieceType() == Piece::PAWN && abs(moveDistance.first) == 2)
+		{
+			piece->setPassantable(true);
+		}
 	}
-
+	else
+	{
+		if (piece->getPassantable() == true)
+		{
+			piece->setPassantable(false);
+		}
+	}
 }

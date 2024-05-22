@@ -17,6 +17,13 @@ public:
 	struct CaptureRules {
 		// Can the piece capture en passant on this turn?
 		bool enPassant = false;
+		// Can the piece capture diagonally?
+		bool diagCapture = false;
+		// Can the piece capture orthoganally?
+		bool orthoCapture = false;
+
+		int captureDistance;
+
 	};
 
 	struct SpecialActions {
