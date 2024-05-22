@@ -385,4 +385,10 @@ void GameManager::movePiece(Piece* piece, Square* target)
 		piece->setPosition(target);
 	}
 
+	// If this was the piece's first move, set first move to false for future moves.
+	if (piece->getFirstMove())
+	{
+		piece->setFirstMove(false);
+	}
+
 }
