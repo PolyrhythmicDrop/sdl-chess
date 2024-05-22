@@ -41,22 +41,29 @@ Piece::~Piece()
 	LOG(TRACE) << "Piece Type: " << _type << " | Color: " << _pieceColor << " destroyed!";
 }
 
-void Piece::setPosition(Square* square)
+void Piece::setSquare(Square* square)
 {
-	if (square->getOccupant() == nullptr)
+	if (square != nullptr)
 	{
-		_position = square;
-		_dimensions = *square->getDimensions();
-		square->setOccupied(true, this);
-		// Notify the GameManager that the position has changed.
-		if (_mediator != nullptr)
+		if (square->getOccupant() == nullptr)
 		{
-			this->_mediator->notify(this, "pieceMove");
+			_position = square;
+			_dimensions = *square->getDimensions();
+			square->setOccupied(true, this);
+			// Notify the GameManager that the position has changed.
+			if (_mediator != nullptr)
+			{
+				this->_mediator->notify(this, "pieceMove");
+			}
+		}
+		else
+		{
+			LOG(ERROR) << "Square currently occupied! Take the piece on the square first.";
 		}
 	}
 	else
 	{
-		LOG(ERROR) << "Square currently occupied! Take the piece on the square first.";
+		LOG(INFO) << "Piece removed from board!";
 	}
 	
 }

@@ -6,23 +6,32 @@ class Rules
 {
 public:
 
-	struct MoveDistance {
-		// The number of rows this piece is allowed to move on this turn.
-		int row;
+	struct MoveRules {
 
-		// The number of columns this piece is allowed to move on this turn.
-		int column;
+		// Can the piece move diagonally?
+		bool diagMove = false;
+		// Can the piece move orthoganally?
+		bool orthoMove = false;
+		// Can the piece jump over other pieces?
+		bool jumpMove = false;
+		// The number of rows this piece can move per turn.
+		int row = 0;
+		// The number of columns this piece can move per turn.
+		int column = 0;
 	};
 
 	struct CaptureRules {
-		// Can the piece capture en passant on this turn?
+		// Can the piece capture en passant?
 		bool enPassant = false;
 		// Can the piece capture diagonally?
 		bool diagCapture = false;
 		// Can the piece capture orthoganally?
 		bool orthoCapture = false;
 
-		int captureDistance;
+		// The number of rows this piece can capture from per turn.
+		int row = 0;
+		// The number of columns this piece can capture from per turn.
+		int column = 0;
 
 	};
 
@@ -31,12 +40,10 @@ public:
 		bool castle = false;
 		// Can the piece be promoted on this turn?
 		bool promote = false;
-		// Can the piece jump over other pieces?
-		bool jumpPieces = false;
 	};
 
 	struct RulePackage {
-		MoveDistance moveDistance;
+		MoveRules moveRules;
 		CaptureRules captureRules;
 		SpecialActions specialActions;
 	};

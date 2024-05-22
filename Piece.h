@@ -35,8 +35,8 @@ public:
 	/// Moves the piece.
 	/// </summary>
 	/// <param name="square">The square to move to.</param>
-	void setPosition(Square* square);
-	inline Square* getPosition() { return _position; };
+	void setSquare(Square* square);
+	inline Square* getSquare() { return _position; };
 
 	inline const PieceColor getPieceColor() const { return _pieceColor; };
 	inline const Figure getPieceType() const { return _type; };

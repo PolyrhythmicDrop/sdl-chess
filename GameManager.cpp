@@ -59,13 +59,13 @@ void GameManager::notify(GameObject* object, std::string eString)
 	// A piece has changed the square it's on
 	if (eString == "pieceMove")
 	{
-		LOG(DEBUG) << object->getName() << " has moved to square " << dynamic_cast <Piece*>(object)->getPosition()->getName();
+		LOG(DEBUG) << object->getName() << " has moved to square " << dynamic_cast <Piece*>(object)->getSquare()->getName();
 		deselectPieces();
 		// End turn?
 	}
 	else if (eString == "pieceSelected")
 	{
-		LOG(INFO) << object->getName() << " on Square " << dynamic_cast <Piece*>(object)->getPosition()->getName() << " was selected!";
+		LOG(INFO) << object->getName() << " on Square " << dynamic_cast <Piece*>(object)->getSquare()->getName() << " was selected!";
 	}
 	else if (eString == "pieceDeselected")
 	{
@@ -116,35 +116,35 @@ void GameManager::setUpGame()
 	std::vector<int> pawnVect = _gameScene->getPiecesByFEN('P');
 	for (int i = 0; i < pawnVect.size(); ++i)
 	{
-		_gameScene->getAllPieces()->at(pawnVect.at(i)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(1).at(i));
+		_gameScene->getAllPieces()->at(pawnVect.at(i)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(1).at(i));
 	}
 
 	// Set the white rooks
 	std::vector<int> rookVect = _gameScene->getPiecesByFEN('R');
-	_gameScene->getAllPieces()->at(rookVect.at(0)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(0).at(0));
-	_gameScene->getAllPieces()->at(rookVect.at(1)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(0).at(7));
+	_gameScene->getAllPieces()->at(rookVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(0));
+	_gameScene->getAllPieces()->at(rookVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(7));
 	rookVect.clear();
 
 	// Set the white knights
 	std::vector<int> knightVect = _gameScene->getPiecesByFEN('N');
-	_gameScene->getAllPieces()->at(knightVect.at(0)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(0).at(1));
-	_gameScene->getAllPieces()->at(knightVect.at(1)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(0).at(6));
+	_gameScene->getAllPieces()->at(knightVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(1));
+	_gameScene->getAllPieces()->at(knightVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(6));
 	knightVect.clear();
 
 	// Set the white bishops
 	std::vector<int> bishopVect = _gameScene->getPiecesByFEN('B');
-	_gameScene->getAllPieces()->at(bishopVect.at(0)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(0).at(2));
-	_gameScene->getAllPieces()->at(bishopVect.at(1)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(0).at(5));
+	_gameScene->getAllPieces()->at(bishopVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(2));
+	_gameScene->getAllPieces()->at(bishopVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(5));
 	bishopVect.clear();
 
 	// Set the white queen
 	std::vector<int> queenVect = _gameScene->getPiecesByFEN('Q');
-	_gameScene->getAllPieces()->at(queenVect.at(0)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(0).at(3));
+	_gameScene->getAllPieces()->at(queenVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(3));
 	queenVect.clear();
 
 	// Set the white king
 	std::vector<int> kingVect = _gameScene->getPiecesByFEN('K');
-	_gameScene->getAllPieces()->at(kingVect.at(0)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(0).at(4));
+	_gameScene->getAllPieces()->at(kingVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(4));
 	kingVect.clear();
 	// *****************************
 
@@ -154,35 +154,35 @@ void GameManager::setUpGame()
 	pawnVect = _gameScene->getPiecesByFEN('p');
 	for (int i = 0; i < pawnVect.size(); ++i)
 	{
-		_gameScene->getAllPieces()->at(pawnVect.at(i)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(6).at(i));
+		_gameScene->getAllPieces()->at(pawnVect.at(i)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(6).at(i));
 	}
 
 	// Set the black rooks
 	rookVect = _gameScene->getPiecesByFEN('r');
-	_gameScene->getAllPieces()->at(rookVect.at(0)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(7).at(0));
-	_gameScene->getAllPieces()->at(rookVect.at(1)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(7).at(7));
+	_gameScene->getAllPieces()->at(rookVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(0));
+	_gameScene->getAllPieces()->at(rookVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(7));
 	rookVect.clear();
 
 	// Set the black knights
 	knightVect = _gameScene->getPiecesByFEN('n');
-	_gameScene->getAllPieces()->at(knightVect.at(0)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(7).at(1));
-	_gameScene->getAllPieces()->at(knightVect.at(1)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(7).at(6));
+	_gameScene->getAllPieces()->at(knightVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(1));
+	_gameScene->getAllPieces()->at(knightVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(6));
 	knightVect.clear();
 
 	// Set the black bishops
 	bishopVect = _gameScene->getPiecesByFEN('b');
-	_gameScene->getAllPieces()->at(bishopVect.at(0)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(7).at(2));
-	_gameScene->getAllPieces()->at(bishopVect.at(1)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(7).at(5));
+	_gameScene->getAllPieces()->at(bishopVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(2));
+	_gameScene->getAllPieces()->at(bishopVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(5));
 	bishopVect.clear();
 
 	// Set the black queen
 	queenVect = _gameScene->getPiecesByFEN('q');
-	_gameScene->getAllPieces()->at(queenVect.at(0)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(7).at(3));
+	_gameScene->getAllPieces()->at(queenVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(3));
 	queenVect.clear();
 
 	// Set the black king
 	kingVect = _gameScene->getPiecesByFEN('k');
-	_gameScene->getAllPieces()->at(kingVect.at(0)).setPosition(&_gameScene->getBoard()->getBoardGrid()->at(7).at(4));
+	_gameScene->getAllPieces()->at(kingVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(4));
 	kingVect.clear();
 	// *****************************
 
@@ -248,7 +248,8 @@ void GameManager::handleClickOnEmptySquare(Square* square)
 		// End turn here after moving the piece? Or call a different function?
 		break;
 	case Square::TAKE:
-		// take logic
+		// Empty squares should not have a TAKE overlay (since there's no piece on them to take), but have it deselect pieces anyway, just in case
+		deselectPieces();
 		break;
 	default:
 		deselectPieces();
@@ -268,9 +269,10 @@ void GameManager::handleClickOnPiece(Piece* piece)
 	else if (piece->isAlive() && piece->getPieceColor() != this->getTurn())
 	{		
 		// If the square has a Take overlay (aka the piece on it can be taken)
-		if (piece->getPosition()->getOverlayType() == Square::TAKE)
+		if (piece->getSquare()->getOverlayType() == Square::TAKE)
 		{
-			// Logic for taking a piece
+			// Capture the piece clicked on using the currently selected piece
+			capturePiece(_selectedPiece, piece);
 		}
 		else
 		{
@@ -297,7 +299,7 @@ void GameManager::selectPiece(Piece* piece)
 	{
 		piece->setSelected(true);
 		_selectedPiece = piece;
-		highlightActionOptions(piece->getPosition());
+		highlightActionOptions(piece->getSquare());
 	}
 
 }
@@ -308,7 +310,7 @@ void GameManager::deselectPieces(Piece* exception)
 	{
 		for (int i = 0; i < _gameScene->getAllPieces()->size(); ++i)
 		{
-			if (_gameScene->getAllPieces()->at(i).getSelected() && _gameScene->getAllPieces()->at(i).getPosition() != exception->getPosition())
+			if (_gameScene->getAllPieces()->at(i).getSelected() && _gameScene->getAllPieces()->at(i).getSquare() != exception->getSquare())
 			{
 				_gameScene->getAllPieces()->at(i).setSelected(false);
 				LOG(DEBUG) << "Piece " << _gameScene->getAllPieces()->at(i).getFenName() << " has been deselected!";
@@ -335,7 +337,11 @@ void GameManager::deselectPieces(Piece* exception)
 
 void GameManager::highlightActionOptions(Square* square)
 {
+	// Set local variables
 	Rules::RulePackage rules;
+	std::vector<std::vector<Square>>* grid = _gameScene->getBoard()->getBoardGrid();
+	std::pair<int, int> squareIndex = square->getBoardIndex();
+
 	// Get the type of piece on the square and determine which rule evaluation set to use on it.
 	switch (square->getOccupant()->getFenName())
 	{
@@ -344,17 +350,64 @@ void GameManager::highlightActionOptions(Square* square)
 		break;
 	}
 
-	// Find out how far the piece can move, and highlight those squares on the board.
+	// Move Highlighting
+	// *************************
 
-	// Compute move distance
-	for (int iRow = 0; iRow <= rules.moveDistance.row; ++iRow)
+	// Compute orthogonal moves
+	if (rules.moveRules.orthoMove == true)
 	{
-		for (int iCol = 0; iCol <= rules.moveDistance.column; ++iCol)
+		// Compute move distance
+		for (int iRow = 0; iRow <= rules.moveRules.row; ++iRow)
 		{
-			// If the square within the move distance is not occupied, set the move overlay for that square
-			if (!_gameScene->getBoard()->getBoardGrid()->at(square->getBoardIndex().first + iRow).at(square->getBoardIndex().second + iCol).getOccupied())
+			for (int iCol = 0; iCol <= rules.moveRules.column; ++iCol)
 			{
-				_gameScene->getBoard()->getBoardGrid()->at(square->getBoardIndex().first + iRow).at(square->getBoardIndex().second + iCol).setOverlayType(Square::MOVE);
+				if (((squareIndex.first + iRow <= 7) && (squareIndex.first + iRow >= 0))
+					&& ((squareIndex.second + iCol <= 7) && (squareIndex.second + iCol >= 0)))
+				{
+					// If the square within the move distance is not occupied, set the move overlay for that square
+					if (!grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied())
+					{
+						grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::MOVE);
+					}
+				}
+			}
+		}
+	}
+
+	// Capture Highlighting
+	// *************************
+
+	// Compute orthogonal captures
+
+	// Compute diagonal captures
+	if (rules.captureRules.diagCapture == true)
+	{
+		for (int iRow = 1; iRow <= rules.captureRules.row; ++iRow)
+		{
+			// Positive column iterator
+			for (int iCol = 1; iCol <= rules.captureRules.column; ++iCol)
+			{
+				if ((squareIndex.first + iRow <= 7) && (squareIndex.first + iRow >= 0))
+				{
+					if ((squareIndex.second + iCol <= 7) && (squareIndex.second + iCol >= 0))
+					{
+						// If the square up one and right one from the selected square is occupied by an opponent's piece, put on the Take overlay.
+						if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied() &&
+							grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != this->_currentTurn)
+						{
+							grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::TAKE);
+						}
+					}
+					if ((squareIndex.second - iCol <= 7) && (squareIndex.second - iCol >= 0))
+					{
+						// Do the same thing, but to the left (negative on the board index)
+						if (grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).getOccupied() &&
+							grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).getOccupant()->getPieceColor() != this->_currentTurn)
+						{
+							grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).setOverlayType(Square::TAKE);
+						}
+					}
+				}
 			}
 		}
 	}	
@@ -378,16 +431,16 @@ void GameManager::movePiece(Piece* piece, Square* target)
 	std::pair<int, int> moveDistance = { 0, 0 };
 
 	// Move distance is the piece's board index subtracted from the target's move index.
-	moveDistance = { target->getBoardIndex().first - piece->getPosition()->getBoardIndex().first,
-					target->getBoardIndex().second - piece->getPosition()->getBoardIndex().second };
+	moveDistance = { target->getBoardIndex().first - piece->getSquare()->getBoardIndex().first,
+					target->getBoardIndex().second - piece->getSquare()->getBoardIndex().second };
 	
 	if (!target->getOccupied())
 	{
 		// Unoccupy the square the piece is currently on
-		piece->getPosition()->setOccupied(false);
+		piece->getSquare()->setOccupied(false);
 
 		// Move the piece to the target position and occupy the square.
-		piece->setPosition(target);
+		piece->setSquare(target);
 	}
 
 	// Pawn-specific movement and rules
@@ -410,4 +463,19 @@ void GameManager::movePiece(Piece* piece, Square* target)
 			piece->setPassantable(false);
 		}
 	}
+}
+
+void GameManager::capturePiece(Piece* attacker, Piece* defender)
+{
+	Square* defPos = defender->getSquare();
+	// De-occupy the defender's square
+	defPos->setOccupied(false);
+	// Unalive the defender
+	defender->setAlive(false);
+	// Move the attacking piece into the defender's position
+	movePiece(attacker, defPos);
+	// Set the defender's position to null
+	defender->setSquare(nullptr);
+	// Add the defender to the captured piece location
+	_gameScene->addToCapturedPieces(defender);
 }

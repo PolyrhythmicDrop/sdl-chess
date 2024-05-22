@@ -22,6 +22,8 @@ void InitGameState::enter(GameStateMachine* gsm)
 	LOG(TRACE) << "Initialize Game State entered!";
 	gsm->getGameScene()->getBoard()->buildChessboard();
 	LOG(TRACE) << "Chessboard squares and position constructed!";
+	gsm->getGameScene()->initializeCapturePoints();
+	LOG(TRACE) << "Capture points built!";
 	gsm->getGameScene()->getBoard()->addBoardToRender();
 	LOG(TRACE) << "Chessboard added to render queue!";
 	// Add the current square positions to the debug log

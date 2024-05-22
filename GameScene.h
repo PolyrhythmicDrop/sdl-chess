@@ -15,6 +15,14 @@ private:
 	std::unique_ptr<Chessboard> _board;
 	std::vector<Piece> _pieces;
 
+	// Captured pieces go here.
+	// Key is the color of the piece. 0 = Black, 1 = White.
+	std::map<int, std::vector<Piece*>> _capturedPieces;
+	// Captured white pieces are rendered here, on the top right side of the board
+	SDL_Point _whiteCapturePoint;
+	// Captured black pieces are rendered here, on the top right side of the board
+	SDL_Point _blackCapturePoint; 
+
 	Player _playerOne;
 	Player _playerTwo;
 
@@ -34,11 +42,18 @@ public:
 	inline Chessboard* getBoard() { return _board.get(); };
 
 	void initializePieces();
+	void initializeCapturePoints();
 
 	inline Piece* getPieceOnSquare(Square* square) { return square->getOccupant(); };
 	// Returns a pointer to the piece vector
 	inline std::vector<Piece>* getAllPieces() { return &_pieces; };
 	std::vector<int> getPiecesByFEN(char fen);
+
+	// Gets all the captured pieces for the specified color.
+	// 0 = Black, 1 = White
+	std::vector<Piece*> getCapturedPieces(int color);
+	// Adds the specified piece to the captured pieces map.
+	void addToCapturedPieces(Piece* piece);
 
 	inline Player* getPlayerOne() { return &_playerOne; };
 	inline Player* getPlayerTwo() { return &_playerTwo; };
