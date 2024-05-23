@@ -29,7 +29,7 @@ public:
 
 	~Piece();
 
-	inline char getFenName() const { if (_fenName != NULL) { return _fenName; } };
+	char const getFenName() const;
 
 	/// <summary>
 	/// Moves the piece.

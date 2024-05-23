@@ -14,9 +14,9 @@ public:
 		bool orthoMove = false;
 		// Can the piece jump over other pieces?
 		bool jumpMove = false;
-		// The number of rows this piece can move per turn.
+		// The number of rows this piece can move per turn. If bi-directional, use absolute value.
 		int row = 0;
-		// The number of columns this piece can move per turn.
+		// The number of columns this piece can move per turn. If bi-directional, use absolute value.
 		int column = 0;
 	};
 
@@ -51,7 +51,26 @@ public:
 	Rules() {};
 	~Rules() {};
 
-	RulePackage getWhtPawnRules(Piece* piece);
+	// Determines which rules package to deliver
+	Rules::RulePackage getRulesPackage(Piece* piece);
+
+	// Rules package for white pawns
+	Rules::RulePackage getWhtPawnRules(Piece* piece);
+
+	// Rules package for black pawns
+	Rules::RulePackage getBlkPawnRules(Piece* piece);
+
+	Rules::RulePackage getRookRules(Piece* piece);
+
+	Rules::RulePackage getKnightRules(Piece* piece);
+
+	Rules::RulePackage getBishopRules(Piece* piece);
+
+	Rules::RulePackage getQueenRules(Piece* piece);
+
+	Rules::RulePackage getKingRules(Piece* piece);
+
+
 
 };
 

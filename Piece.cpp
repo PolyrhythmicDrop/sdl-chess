@@ -42,6 +42,19 @@ Piece::~Piece()
 	LOG(TRACE) << "Piece Type: " << _type << " | Color: " << _pieceColor << " destroyed!";
 }
 
+char const Piece::getFenName() const
+{
+	if (_fenName != NULL)
+	{ 
+		return _fenName; 
+	}
+	else
+	{
+		LOG(ERROR) << "Piece FEN name not found or not set!";
+		return NULL;
+	}
+}
+
 void Piece::setSquare(Square* square)
 {
 	if (square != nullptr)

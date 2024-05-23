@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "HighlightManager.h"
+#include "easylogging++.h";
 
 HighlightManager::HighlightManager(GameManager* gm) :
 	_gm(gm)
@@ -19,7 +20,7 @@ void HighlightManager::boardGridLoop(Func f)
 }
 
 template<typename Func>
-void HighlightManager::moveOptionLoop(Square* square, Rules::RulePackage rules, Func f)
+void HighlightManager::moveOptions(Square* square, Rules::RulePackage rules, Func f)
 {
 	std::vector<std::vector<Square>>* grid = _gm->_gameScene->getBoard()->getBoardGrid();
 	std::pair<int, int> squareIndex = square->getBoardIndex();
@@ -65,18 +66,9 @@ void HighlightManager::captureOptionLoop(Square* square, Rules::RulePackage rule
 
 Rules::RulePackage HighlightManager::getPieceRules(Piece* piece)
 {
-	Rules::RulePackage rules;
-	// Get the type of piece on the square and determine which rule evaluation set to use on it.
-	switch (piece->getFenName())
-	{
-	case 'P':
-		rules = _gm->_rules.get()->getWhtPawnRules(piece);
-		break;
-	}
+	Rules::RulePackage rules = _gm->getRules()->getRulesPackage(piece);
 
 	return rules;
-
-
 }
 
 void HighlightManager::highlightActionOptions(Square* square)
@@ -95,6 +87,12 @@ void HighlightManager::highlightActionOptions(Square* square)
 
 	// Capture Highlighting
 	// *************************
+
+	// Compute orthogonal captures
+	if (rules.captureRules.orthoCapture == true)
+	{
+		highlightOrthoCaptureOptions(square, rules);
+	}
 
 	// Compute diagonal captures
 	if (rules.captureRules.diagCapture == true)
@@ -120,17 +118,104 @@ void HighlightManager::removeActionHighlight()
 void HighlightManager::highlightOrthoMoveOptions(Square* square, Rules::RulePackage rules)
 {
 
-	moveOptionLoop(square, rules, [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
-		{
-			// If the square within the move distance is not occupied, set the move overlay for that square
-			if (!grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied())
-			{
-				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::MOVE);
-			}
-		});
+	orthoPosRowOptions(square, rules);
+	orthoNegRowOptions(square, rules);
+	orthoPosColOptions(square, rules);
+	orthoNegColOptions(square, rules);
 
 }
 
+void HighlightManager::orthoPosRowOptions(Square* square, Rules::RulePackage rules)
+{
+	std::vector<std::vector<Square>>* grid = _gm->_gameScene->getBoard()->getBoardGrid();
+	std::pair<int, int> squareIndex = square->getBoardIndex();
+
+	// If not a black pawn...
+	if (square->getOccupant()->getFenName() != 'p')
+	{
+		// Evaluate upward
+		for (int iRow = 1; iRow <= rules.moveRules.row; ++iRow)
+		{
+			// Break if the row to evaluate goes above the size of the board
+			if (squareIndex.first + iRow >= grid->size() - 1)
+			{
+				break;
+			}
+			// Evaluate upward movement
+			if (!grid->at(squareIndex.first + iRow).at(squareIndex.second).getOccupied())
+			{
+				grid->at(squareIndex.first + iRow).at(squareIndex.second).setOverlayType(Square::MOVE);
+			}
+			// Stop adding movement overlays once you encounter another piece
+			if (grid->at(squareIndex.first + iRow).at(squareIndex.second).getOccupied())
+			{
+				break;
+			}
+		}
+	}
+}
+
+void HighlightManager::orthoNegRowOptions(Square* square, Rules::RulePackage rules)
+{
+	std::vector<std::vector<Square>>* grid = _gm->_gameScene->getBoard()->getBoardGrid();
+	std::pair<int, int> squareIndex = square->getBoardIndex();
+
+	// If not a white pawn...
+	if (square->getOccupant()->getFenName() != 'P')
+		// Evaluate downward
+	{
+		for (int iRow = -1; iRow >= rules.moveRules.row * -1; --iRow)
+		{
+			// Break if the row to evaluate goes above the size of the board
+			if (squareIndex.first + iRow < 0)
+			{
+				break;
+			}
+			if (!grid->at(squareIndex.first + iRow).at(squareIndex.second).getOccupied())
+			{
+				grid->at(squareIndex.first + iRow).at(squareIndex.second).setOverlayType(Square::MOVE);
+			}
+		}
+	}
+}
+
+void HighlightManager::orthoPosColOptions(Square* square, Rules::RulePackage rules)
+{}
+
+void HighlightManager::orthoNegColOptions(Square* square, Rules::RulePackage rules)
+{}
+
+void HighlightManager::highlightOrthoCaptureOptions(Square* square, Rules::RulePackage rules)
+{
+	//captureOptionLoop(square, rules, [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+	//	{
+	//		// If the squares within the piece's capture range straight up and down are occupied, put up the take overlay
+	//		if (grid->at(squareIndex.first + iRow).at(squareIndex.second).getOccupied() &&
+	//			grid->at(squareIndex.first + iRow).at(squareIndex.second).getOccupant()->getPieceColor() != _gm->_currentTurn)
+	//		{
+	//			grid->at(squareIndex.first + iRow).at(squareIndex.second).setOverlayType(Square::TAKE);
+	//		}
+	//		/*if (grid->at(squareIndex.first - iRow).at(squareIndex.second).getOccupied() &&
+	//			grid->at(squareIndex.first - iRow).at(squareIndex.second).getOccupant()->getPieceColor() != _gm->_currentTurn)
+	//		{
+	//			grid->at(squareIndex.first - iRow).at(squareIndex.second).setOverlayType(Square::TAKE);
+	//		}*/
+	//	},
+	//	[this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+	//	{
+	//		// If the squares within the piece's capture range straight left and right are occupied, put up the take overlay
+	//		if (grid->at(squareIndex.first).at(squareIndex.second + iCol).getOccupied() &&
+	//			grid->at(squareIndex.first).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
+	//		{
+	//			grid->at(squareIndex.first).at(squareIndex.second + iCol).setOverlayType(Square::TAKE);
+	//		}
+	//		/*if (grid->at(squareIndex.first).at(squareIndex.second - iCol).getOccupied() &&
+	//			grid->at(squareIndex.first).at(squareIndex.second - iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
+	//		{
+	//			grid->at(squareIndex.first).at(squareIndex.second - iCol).setOverlayType(Square::TAKE);
+	//		}*/
+	//	});
+}
 
 void HighlightManager::highlightDiagCaptureOptions(Square* square, Rules::RulePackage rules)
 {
