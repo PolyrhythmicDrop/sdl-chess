@@ -73,6 +73,8 @@ Rules::RulePackage HighlightManager::getPieceRules(Piece* piece)
 
 void HighlightManager::highlightActionOptions(Square* square)
 {
+	std::vector<std::vector<Square>>* grid = _gm->_gameScene->getBoard()->getBoardGrid();
+	std::pair<int, int> squareIndex = square->getBoardIndex();
 
 	Rules::RulePackage rules = getPieceRules(square->getOccupant());
 
@@ -82,7 +84,7 @@ void HighlightManager::highlightActionOptions(Square* square)
 	// Compute orthogonal moves
 	if (rules.moveRules.orthoMove == true)
 	{
-		highlightOrthoMoveOptions(square, rules);
+		highlightOrthoMoveOptions(square, rules, grid, squareIndex);
 	}
 
 	// Capture Highlighting
@@ -115,20 +117,19 @@ void HighlightManager::removeActionHighlight()
 		});
 }
 
-void HighlightManager::highlightOrthoMoveOptions(Square* square, Rules::RulePackage rules)
+void HighlightManager::highlightOrthoMoveOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
 {
 
-	orthoPosRowOptions(square, rules);
-	orthoNegRowOptions(square, rules);
-	orthoPosColOptions(square, rules);
-	orthoNegColOptions(square, rules);
+	orthoPosRowOptions(square, rules, grid, squareIndex);
+	orthoNegRowOptions(square, rules, grid, squareIndex);
+
+	orthoPosColOptions(square, rules, grid, squareIndex);
+	orthoNegColOptions(square, rules, grid, squareIndex);
 
 }
 
-void HighlightManager::orthoPosRowOptions(Square* square, Rules::RulePackage rules)
+void HighlightManager::orthoPosRowOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
 {
-	std::vector<std::vector<Square>>* grid = _gm->_gameScene->getBoard()->getBoardGrid();
-	std::pair<int, int> squareIndex = square->getBoardIndex();
 
 	// If not a black pawn...
 	if (square->getOccupant()->getFenName() != 'p')
@@ -147,7 +148,7 @@ void HighlightManager::orthoPosRowOptions(Square* square, Rules::RulePackage rul
 				grid->at(squareIndex.first + iRow).at(squareIndex.second).setOverlayType(Square::MOVE);
 			}
 			// Stop adding movement overlays once you encounter another piece
-			if (grid->at(squareIndex.first + iRow).at(squareIndex.second).getOccupied())
+			else if (grid->at(squareIndex.first + iRow).at(squareIndex.second).getOccupied())
 			{
 				break;
 			}
@@ -155,10 +156,8 @@ void HighlightManager::orthoPosRowOptions(Square* square, Rules::RulePackage rul
 	}
 }
 
-void HighlightManager::orthoNegRowOptions(Square* square, Rules::RulePackage rules)
+void HighlightManager::orthoNegRowOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
 {
-	std::vector<std::vector<Square>>* grid = _gm->_gameScene->getBoard()->getBoardGrid();
-	std::pair<int, int> squareIndex = square->getBoardIndex();
 
 	// If not a white pawn...
 	if (square->getOccupant()->getFenName() != 'P')
@@ -175,15 +174,59 @@ void HighlightManager::orthoNegRowOptions(Square* square, Rules::RulePackage rul
 			{
 				grid->at(squareIndex.first + iRow).at(squareIndex.second).setOverlayType(Square::MOVE);
 			}
+			// Stop adding movement overlays once you encounter another piece
+			else if (grid->at(squareIndex.first + iRow).at(squareIndex.second).getOccupied())
+			{
+				break;
+			}
 		}
 	}
 }
 
-void HighlightManager::orthoPosColOptions(Square* square, Rules::RulePackage rules)
-{}
+void HighlightManager::orthoPosColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+{
+	for (int iCol = 1; iCol <= rules.moveRules.column; ++iCol)
+	{
+		// Break if the row to evaluate goes above the size of the board
+		if (squareIndex.second + iCol >= grid->size())
+		{
+			break;
+		}
+		// Evaluate upward movement
+		if (!grid->at(squareIndex.first).at(squareIndex.second + iCol).getOccupied())
+		{
+			grid->at(squareIndex.first).at(squareIndex.second + iCol).setOverlayType(Square::MOVE);
+		}
+		// Stop adding movement overlays once you encounter another piece
+		else if (grid->at(squareIndex.first).at(squareIndex.second + iCol).getOccupied())
+		{
+			break;
+		}
+	}
 
-void HighlightManager::orthoNegColOptions(Square* square, Rules::RulePackage rules)
-{}
+
+}
+
+void HighlightManager::orthoNegColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+{
+	for (int iCol = -1; iCol >= rules.moveRules.column * -1; --iCol)
+	{
+		// Break if the row to evaluate goes above the size of the board
+		if (squareIndex.second + iCol < 0)
+		{
+			break;
+		}
+		if (!grid->at(squareIndex.first).at(squareIndex.second + iCol).getOccupied())
+		{
+			grid->at(squareIndex.first).at(squareIndex.second + iCol).setOverlayType(Square::MOVE);
+		}
+		// Stop adding movement overlays once you encounter another piece
+		else if (grid->at(squareIndex.first).at(squareIndex.second + iCol).getOccupied())
+		{
+			break;
+		}
+	}
+}
 
 void HighlightManager::highlightOrthoCaptureOptions(Square* square, Rules::RulePackage rules)
 {

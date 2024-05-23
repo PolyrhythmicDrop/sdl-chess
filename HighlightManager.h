@@ -48,13 +48,13 @@ public:
 
 	// ** ORTHOGONAL MOVES ** //
 	// Highlight orthogonal moves
-	void highlightOrthoMoveOptions(Square* square, Rules::RulePackage rules);
+	void highlightOrthoMoveOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
 
-	void orthoPosRowOptions(Square* square, Rules::RulePackage rules);
-	void orthoNegRowOptions(Square* square, Rules::RulePackage rules);
+	void orthoPosRowOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
+	void orthoNegRowOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
 
-	void orthoPosColOptions(Square* square, Rules::RulePackage rules);
-	void orthoNegColOptions(Square* square, Rules::RulePackage rules);
+	void orthoPosColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
+	void orthoNegColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
 
 	// Capture highlights
 
