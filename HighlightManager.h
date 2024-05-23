@@ -19,11 +19,27 @@ public:
 	HighlightManager(GameManager* gm);
 	~HighlightManager() {};
 
+	// ** Function Templates ** //
+
 	/// <summary>
 	///  Function template for the nested "for" loop that combs the BoardGrid by row and column. Use with a lambda: boardGridLoop([this](int row, int col) { your logic here });
 	/// </summary>
 	template<typename Func>
 	void boardGridLoop(Func f);
+
+	/// <summary>
+	/// Function template for move options. 
+	/// Use with a lambda. moveOptionLoop(square, rules, [](int iRow, int iCol, vectorSquares grid, intPair squareIndex)
+	/// </summary>
+	/// <typeparam name="Func">Required arguments for the function</typeparam>
+	/// <param name="square">The square from which to highlight move options</param>
+	/// <param name="rules">Rules to pass to the function</param>
+	/// <param name="f">The function.</param>
+	template<typename Func>
+	void moveOptionLoop(Square* square, Rules::RulePackage rules, Func f);
+
+	template<typename F1, typename F2>
+	void captureOptionLoop(Square* square, Rules::RulePackage rules, F1 f1, F2 f2);
 
 	Rules::RulePackage getPieceRules(Piece* piece);
 

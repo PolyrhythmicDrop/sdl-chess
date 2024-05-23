@@ -19,6 +19,51 @@ void HighlightManager::boardGridLoop(Func f)
 	}
 }
 
+template<typename Func>
+void HighlightManager::moveOptionLoop(Square* square, Rules::RulePackage rules, Func f)
+{
+	std::vector<std::vector<Square>>* grid = _gm->_gameScene->getBoard()->getBoardGrid();
+	std::pair<int, int> squareIndex = square->getBoardIndex();
+
+	for (int iRow = 0; iRow <= rules.moveRules.row; ++iRow)
+	{
+		for (int iCol = 0; iCol <= rules.moveRules.column; ++iCol)
+		{
+			if (((squareIndex.first + iRow <= 7) && (squareIndex.first + iRow >= 0))
+				&& ((squareIndex.second + iCol <= 7) && (squareIndex.second + iCol >= 0)))
+			{
+				f(iRow, iCol, grid, squareIndex);
+			}
+		}
+	}
+}
+
+template<typename F1, typename F2>
+void HighlightManager::captureOptionLoop(Square* square, Rules::RulePackage rules, F1 f1, F2 f2)
+{
+	std::vector<std::vector<Square>>* grid = _gm->_gameScene->getBoard()->getBoardGrid();
+	std::pair<int, int> squareIndex = square->getBoardIndex();
+
+	for (int iRow = 1; iRow <= rules.captureRules.row; ++iRow)
+	{
+		// Positive column iterator
+		for (int iCol = 1; iCol <= rules.captureRules.column; ++iCol)
+		{
+			if ((squareIndex.first + iRow <= 7) && (squareIndex.first + iRow >= 0))
+			{
+				if ((squareIndex.second + iCol <= 7) && (squareIndex.second + iCol >= 0))
+				{
+					f1(iRow, iCol, grid, squareIndex);
+				}
+				if ((squareIndex.second - iCol <= 7) && (squareIndex.second - iCol >= 0))
+				{
+					f2(iRow, iCol, grid, squareIndex);
+				}
+			}
+		}
+	}
+}
+
 Rules::RulePackage HighlightManager::getPieceRules(Piece* piece)
 {
 	Rules::RulePackage rules;
@@ -65,6 +110,7 @@ void HighlightManager::removeActionHighlight()
 	boardGridLoop([this](int row, int col) {
 		// Declare variable to simplify code
 		auto& square = _gm->_gameScene->getBoard()->getBoardGrid()->at(row).at(col);
+
 		if (square.getOverlayType() != Square::NONE)
 		{
 			square.setOverlayType(Square::NONE);
@@ -74,60 +120,39 @@ void HighlightManager::removeActionHighlight()
 
 void HighlightManager::highlightOrthoMoveOptions(Square* square, Rules::RulePackage rules)
 {
-	std::vector<std::vector<Square>>* grid = _gm->_gameScene->getBoard()->getBoardGrid();
-	std::pair<int, int> squareIndex = square->getBoardIndex();
 
-	// Compute move distance
-	for (int iRow = 0; iRow <= rules.moveRules.row; ++iRow)
-	{
-		for (int iCol = 0; iCol <= rules.moveRules.column; ++iCol)
+	moveOptionLoop(square, rules, [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
 		{
-			if (((squareIndex.first + iRow <= 7) && (squareIndex.first + iRow >= 0))
-				&& ((squareIndex.second + iCol <= 7) && (squareIndex.second + iCol >= 0)))
+			// If the square within the move distance is not occupied, set the move overlay for that square
+			if (!grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied())
 			{
-				// If the square within the move distance is not occupied, set the move overlay for that square
-				if (!grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied())
-				{
-					grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::MOVE);
-				}
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::MOVE);
 			}
-		}
-	}
+		});
 
 }
 
 
 void HighlightManager::highlightDiagCaptureOptions(Square* square, Rules::RulePackage rules)
 {
-	std::vector<std::vector<Square>>* grid = _gm->_gameScene->getBoard()->getBoardGrid();
-	std::pair<int, int> squareIndex = square->getBoardIndex();
 
-	for (int iRow = 1; iRow <= rules.captureRules.row; ++iRow)
-	{
-		// Positive column iterator
-		for (int iCol = 1; iCol <= rules.captureRules.column; ++iCol)
+	captureOptionLoop(square, rules, [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
 		{
-			if ((squareIndex.first + iRow <= 7) && (squareIndex.first + iRow >= 0))
+			// If the square up one and right one from the selected square is occupied by an opponent's piece, put on the Take overlay.
+			if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied() &&
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
 			{
-				if ((squareIndex.second + iCol <= 7) && (squareIndex.second + iCol >= 0))
-				{
-					// If the square up one and right one from the selected square is occupied by an opponent's piece, put on the Take overlay.
-					if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied() &&
-						grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
-					{
-						grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::TAKE);
-					}
-				}
-				if ((squareIndex.second - iCol <= 7) && (squareIndex.second - iCol >= 0))
-				{
-					// Do the same thing, but to the left (negative on the board index)
-					if (grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).getOccupied() &&
-						grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
-					{
-						grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).setOverlayType(Square::TAKE);
-					}
-				}
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::TAKE);
 			}
-		}
-	}
+		},
+		[this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+		{
+			// Do the same thing, but to the left (negative on the board index)
+			if (grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).getOccupied() &&
+				grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
+			{
+				grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).setOverlayType(Square::TAKE);
+			}
+		});
+
 }
