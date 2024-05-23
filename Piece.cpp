@@ -23,6 +23,7 @@ Piece::Piece(const Piece& piece)
 {
 	_mediator = piece._mediator;
 	_position = piece._position;
+	_passantable = piece._passantable;
 	_pieceColor = piece._pieceColor;
 	_type = piece._type;
 	_fenName = piece._fenName;
