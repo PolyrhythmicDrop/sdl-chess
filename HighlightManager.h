@@ -44,22 +44,35 @@ public:
 	void highlightActionOptions(Square* square);
 	void removeActionHighlight();
 
-	// Move highlights
+	// ** MOVE HIGHLIGHTS ** //
 
 	// ** ORTHOGONAL MOVES ** //
 	// Highlight orthogonal moves
 	void highlightOrthoMoveOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
 
-	void orthoPosRowOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
-	void orthoNegRowOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
+	void orthoMovePosRowOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
+	void orthoMoveNegRowOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
 
-	void orthoPosColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
-	void orthoNegColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
+	void orthoMovePosColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
+	void orthoMoveNegColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
 
-	// Capture highlights
+	// ********************** //
+	
+	// ** CAPTURE HIGHLIGHTS ** //
 
+	// ** ORTHOGONAL CAPTURES ** //
 	// Highlight orthogonal captures
-	void highlightOrthoCaptureOptions(Square* square, Rules::RulePackage rules);
+	void highlightOrthoCaptureOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
+
+	void orthoCapturePosRowOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
+	void orthoCaptureNegRowOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
+
+	void orthoCapturePosColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
+	void orthoCaptureNegColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
+	
+	// **************************
+
+
 	// Highlight diagonal captures
 	void highlightDiagCaptureOptions(Square* square, Rules::RulePackage rules);
 };
