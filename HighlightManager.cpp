@@ -1,4 +1,3 @@
-#include "GameManager.h"
 #include "GameScene.h"
 #include "HighlightManager.h"
 

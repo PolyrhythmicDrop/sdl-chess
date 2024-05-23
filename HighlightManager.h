@@ -13,8 +13,6 @@ private:
 
 	GameManager* _gm;
 
-	
-
 public:
 	HighlightManager(GameManager* gm);
 	~HighlightManager() {};

@@ -1,5 +1,4 @@
 #include "ActionManager.h"
-#include "GameManager.h"
 #include "GameScene.h"
 
 void ActionManager::movePiece(Piece* piece, Square* target)

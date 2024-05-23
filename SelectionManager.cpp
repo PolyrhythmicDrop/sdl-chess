@@ -1,9 +1,8 @@
-#include "GameScene.h"
-#include "SelectionManager.h"
-
 #include "ActionManager.h"
 #include "easylogging++.h"
+#include "GameScene.h"
 #include "HighlightManager.h"
+#include "SelectionManager.h"
 
 
 template<typename Func>
