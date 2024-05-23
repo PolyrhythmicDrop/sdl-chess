@@ -7,6 +7,7 @@ class Piece;
 class SelectionManager
 {
 friend class GameManager;
+friend class HighlightManager;
 
 private:
 

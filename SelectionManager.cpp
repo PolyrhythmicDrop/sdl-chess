@@ -1,7 +1,9 @@
-#include "SelectionManager.h"
 #include "GameScene.h"
+#include "SelectionManager.h"
 
+#include "ActionManager.h"
 #include "easylogging++.h"
+#include "HighlightManager.h"
 
 
 template<typename Func>
@@ -73,7 +75,7 @@ void SelectionManager::handleClickOnEmptySquare(Square* square)
 		break;
 	case Square::MOVE:
 		// move logic
-		_gm->_actionManager.get()->movePiece(_gm->_selectedPiece, square);
+		_gm->_actionManager->movePiece(_gm->_selectedPiece, square);
 		// End turn here after moving the piece? Or call a different function?
 		break;
 	case Square::TAKE:
@@ -101,7 +103,7 @@ void SelectionManager::handleClickOnPiece(Piece* piece)
 		if (piece->getSquare()->getOverlayType() == Square::TAKE)
 		{
 			// Capture the piece clicked on using the currently selected piece
-			_gm->_actionManager.get()->capturePiece(_gm->_selectedPiece, piece);
+			_gm->_actionManager->capturePiece(_gm->_selectedPiece, piece);
 		}
 		else
 		{
@@ -121,14 +123,14 @@ void SelectionManager::selectPiece(Piece* piece)
 	{
 		piece->setSelected(false);
 		_gm->_selectedPiece = nullptr;
-		_gm->_highlightManager.get()->removeActionHighlight();
+		_gm->_highlightManager->removeActionHighlight();
 
 	}
 	else
 	{
 		piece->setSelected(true);
 		_gm->_selectedPiece = piece;
-		_gm->_highlightManager.get()->highlightActionOptions(piece->getSquare());
+		_gm->_highlightManager->highlightActionOptions(piece->getSquare());
 	}
 
 }
@@ -159,6 +161,6 @@ void SelectionManager::deselectPieces(Piece* exception)
 			}
 		}
 	}
-	_gm->_highlightManager.get()->removeActionHighlight();
+	_gm->_highlightManager->removeActionHighlight();
 
 }

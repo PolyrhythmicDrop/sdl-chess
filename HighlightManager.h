@@ -1,7 +1,9 @@
 #pragma once
+#include "GameManager.h"
 
 class GameManager;
 class Square;
+class Rules;
 
 class HighlightManager
 {
@@ -23,9 +25,10 @@ public:
 	template<typename Func>
 	void boardGridLoop(Func f);
 
+	void getPieceRules(Square* square);
+
 	void highlightActionOptions(Square* square);
 	void removeActionHighlight();
-
 
 };
 

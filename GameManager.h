@@ -1,19 +1,21 @@
 #pragma once
-#include <vector>
-#include <iostream>
-#include <memory>
-#include "Rules.h"
 #include "IMediator.h"
+#include "Rules.h"
+#include <memory>
+#include <vector>
 
-#include "HighlightManager.h"
-#include "ActionManager.h"
-#include "SelectionManager.h"
 
 class GameScene;
 class Square;
+class HighlightManager;
+class ActionManager;
+class SelectionManager;
 
 class GameManager : public IMediator
 {
+	friend class HighlightManager;
+	friend class ActionManager;
+	friend class SelectionManager;
 
 private:
 
@@ -42,15 +44,12 @@ private:
 	// ** Manager Components ** //
 	// ************************ //
 
-	std::unique_ptr<HighlightManager> _highlightManager;
-	std::unique_ptr<ActionManager> _actionManager;
-	std::unique_ptr<SelectionManager> _selectionManager;
+	HighlightManager* _highlightManager;
+	ActionManager* _actionManager;
+	SelectionManager* _selectionManager;
 
 
 public:
-	friend class HighlightManager;
-	friend class ActionManager;
-	friend class SelectionManager;
 
 
 	GameManager(GameScene* gameScene);

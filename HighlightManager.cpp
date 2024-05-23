@@ -1,6 +1,6 @@
-#include "HighlightManager.h"
 #include "GameManager.h"
 #include "GameScene.h"
+#include "HighlightManager.h"
 
 HighlightManager::HighlightManager(GameManager* gm) :
 	_gm(gm)
@@ -17,6 +17,11 @@ void HighlightManager::boardGridLoop(Func f)
 			f(row, col);
 		}
 	}
+}
+
+void HighlightManager::getPieceRules(Square* square)
+{
+
 }
 
 void HighlightManager::highlightActionOptions(Square* square)

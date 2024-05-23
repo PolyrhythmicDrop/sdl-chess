@@ -1,8 +1,11 @@
-#include "GameManager.h"
+#include "ActionManager.h"
 #include "easylogging++.h"
+#include "GameManager.h"
 #include "GameScene.h"
-#include "TurnWhiteGameState.h"
+#include "HighlightManager.h"
+#include "SelectionManager.h"
 #include "TurnBlackGameState.h"
+#include "TurnWhiteGameState.h"
 
 GameManager::GameManager(GameScene* gameScene) :
 	_gameScene(gameScene),
@@ -13,9 +16,9 @@ GameManager::GameManager(GameScene* gameScene) :
 	_textAction(""),
 	_textSetup("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"),
 	_textPlacement(_textSetup),
-	_highlightManager(std::unique_ptr<HighlightManager>(new HighlightManager(this))),
-	_actionManager(std::unique_ptr<ActionManager>(new ActionManager(this))),
-	_selectionManager(std::unique_ptr<SelectionManager>(new SelectionManager(this)))
+	_highlightManager(new HighlightManager(this)),
+	_actionManager(new ActionManager(this)),
+	_selectionManager(new SelectionManager(this))
 {
 	LOG(TRACE) << "Game Manager instantiated!";
 }
@@ -63,7 +66,7 @@ void GameManager::notify(GameObject* object, std::string eString)
 	if (eString == "pieceMove")
 	{
 		LOG(DEBUG) << object->getName() << " has moved to square " << dynamic_cast <Piece*>(object)->getSquare()->getName();
-		_selectionManager.get()->deselectPieces();
+		_selectionManager->deselectPieces();
 		// End turn?
 	}
 	else if (eString == "pieceSelected")
@@ -210,6 +213,6 @@ void GameManager::setTurn(int turn)
 
 void GameManager::handleClick()
 {
-	_selectionManager.get()->handleClick();
+	_selectionManager->handleClick();
 }
 
