@@ -25,10 +25,19 @@ public:
 	template<typename Func>
 	void boardGridLoop(Func f);
 
-	void getPieceRules(Square* square);
+	Rules::RulePackage getPieceRules(Piece* piece);
 
 	void highlightActionOptions(Square* square);
 	void removeActionHighlight();
 
+	// Move highlights
+
+	// Highlight orthogonal moves
+	void highlightOrthoMoveOptions(Square* square, Rules::RulePackage rules);
+
+	// Capture highlights
+
+	// Highlight diagonal captures
+	void highlightDiagCaptureOptions(Square* square, Rules::RulePackage rules);
 };
 
