@@ -11,8 +11,8 @@ Square::Square(std::string notation, Chessboard* board) :
 	_overlay(NONE),
 	_moveOverlayColor({ 81, 224, 240, 255 }),
 	_takeOverlayColor({ 240, 121, 81, 255 }),
-	_lightTileColor({ 240, 218, 225, 255 }),
-	_darkTileColor({ 70, 16, 33, 255 }),
+	_lightTileColor({ 255, 245, 207, 255 }),
+	_darkTileColor({ 143, 132, 89, 255 }),
 	_chessboard(board),
 	_currentPiece(nullptr)
 {
