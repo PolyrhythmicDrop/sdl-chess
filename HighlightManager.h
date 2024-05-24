@@ -54,13 +54,6 @@ public:
 	// Highlight diagonal moves
 	void highlightDiagMoveOptions(Square* square, Rules::RulePackage rules);
 
-	void diagMovePosRowOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
-	void diagMoveNegRowOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
-
-	void diagMovePosColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
-	void diagMoveNegColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
-
-
 	// ********************** //
 	
 	// ** CAPTURE HIGHLIGHTS ** //
@@ -74,11 +67,6 @@ public:
 
 	void orthoCapturePosColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
 	void orthoCaptureNegColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex);
-	
-	// **************************
 
-
-	// Highlight diagonal captures
-	void highlightDiagCaptureOptions(Square* square, Rules::RulePackage rules);
 };
 
