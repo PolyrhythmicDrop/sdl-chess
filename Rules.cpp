@@ -172,6 +172,20 @@ Rules::RulePackage Rules::getBishopRules(Piece* piece)
 {
 	Rules::RulePackage bishopRules;
 
+	// Set the move rules
+	// ******************
+
+	bishopRules.moveRules.diagMove = true;
+	bishopRules.moveRules.row = 7;
+	bishopRules.moveRules.column = 7;
+
+	// Set the capture rules
+	// **********************
+
+	bishopRules.captureRules.diagCapture = true;
+	bishopRules.captureRules.row = 7;
+	bishopRules.captureRules.column = 7;
+
 
 	return bishopRules;
 }

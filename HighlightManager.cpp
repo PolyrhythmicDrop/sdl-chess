@@ -87,6 +87,12 @@ void HighlightManager::highlightActionOptions(Square* square)
 		highlightOrthoMoveOptions(square, rules, grid, squareIndex);
 	}
 
+	// Compute diagonal moves
+	if (rules.moveRules.diagMove == true)
+	{
+		highlightDiagMoveOptions(square, rules, grid, squareIndex);
+	}
+
 	// Capture Highlighting
 	// *************************
 
@@ -228,6 +234,147 @@ void HighlightManager::orthoMoveNegColOptions(Square* square, Rules::RulePackage
 	}
 }
 
+void HighlightManager::highlightDiagMoveOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+{
+	diagMovePosRowOptions(square, rules, grid, squareIndex);
+	diagMoveNegRowOptions(square, rules, grid, squareIndex);
+	diagMovePosColOptions(square, rules, grid, squareIndex);
+	diagMoveNegColOptions(square, rules, grid, squareIndex);
+}
+
+void HighlightManager::diagMovePosRowOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+{
+	// Evaluate upward
+	for (int iRow = 1; iRow <= rules.moveRules.row; ++iRow)
+	{
+		for (int iCol = 1; iCol <= rules.moveRules.column; ++iCol)
+		{
+			// Break if we exceed the size of the board
+			if (squareIndex.first + iRow >= grid->size() || squareIndex.second + iCol >= grid->size())
+			{
+				goto finished;
+				break;
+			}
+			if (!grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied())
+			{
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::MOVE);
+				++iRow;
+			}
+			else if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied() && 
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
+			{
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::TAKE);
+				goto finished;
+				break;
+			}
+			else
+			{
+				goto finished;
+			}
+		}
+	}
+finished: LOG(DEBUG) << "Finished highlighting Diagonal move options!";
+
+}
+
+void HighlightManager::diagMoveNegRowOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+{
+	// Evaluate upward
+	for (int iRow = -1; iRow >= rules.moveRules.row * -1; --iRow)
+	{
+		for (int iCol = 1; iCol <= rules.moveRules.column; ++iCol)
+		{
+			// Break if we exceed the size of the board
+			if (squareIndex.first + iRow >= grid->size() || squareIndex.second + iCol >= grid->size())
+			{
+				goto finished;
+				break;
+			}
+			if (!grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied())
+			{
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::MOVE);
+				--iRow;
+			}
+			else if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied() && grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
+			{
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::TAKE);
+				goto finished;
+				break;
+			}	
+			else
+			{
+				goto finished;
+			}
+		}
+	}
+finished: LOG(DEBUG) << "Finished highlighting Diagonal move options!";
+}
+
+void HighlightManager::diagMovePosColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+{
+	for (int iRow = 1; iRow <= rules.moveRules.row; ++iRow)
+	{
+		for (int iCol = -1; iCol >= rules.moveRules.column * -1; --iCol)
+		{
+			// Break if we exceed the size of the board
+			if (squareIndex.first + iRow >= grid->size() || squareIndex.second + iCol >= grid->size())
+			{
+				goto finished;
+				break;
+			}
+			if (!grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied())
+			{
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::MOVE);
+				++iRow;
+			}
+			else if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied() && grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
+			{
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::TAKE);
+				goto finished;
+				break;
+			}
+			else
+			{
+				goto finished;
+			}
+		}
+	}
+finished: LOG(DEBUG) << "Finished highlighting Diagonal move options!";
+}
+
+void HighlightManager::diagMoveNegColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+{
+	for (int iRow = -1; iRow >= rules.moveRules.row * -1; --iRow)
+	{
+		for (int iCol = -1; iCol >= rules.moveRules.column * -1; --iCol)
+		{
+			// Break if we exceed the size of the board
+			if (squareIndex.first + iRow >= grid->size() || squareIndex.second + iCol >= grid->size())
+			{
+				goto finished;
+				break;
+			}
+			if (!grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied())
+			{
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::MOVE);
+				--iRow;
+			}
+			else if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied() && grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
+			{
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::TAKE);
+				goto finished;
+				break;
+			}
+			else
+			{
+				goto finished;
+			}
+		}
+	}
+finished: LOG(DEBUG) << "Finished highlighting Diagonal move options!";
+}
+
+
 void HighlightManager::highlightOrthoCaptureOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
 {
 	orthoCapturePosRowOptions(square, rules, grid, squareIndex);
@@ -269,7 +416,7 @@ void HighlightManager::orthoCaptureNegRowOptions(Square* square, Rules::RulePack
 	for (int iRow = -1; iRow >= rules.captureRules.row * -1; --iRow)
 	{
 		// Break if the row to evaluate goes above the size of the board
-		if (squareIndex.first + iRow >= grid->size())
+		if (squareIndex.first + iRow < 0)
 		{
 			break;
 		}
@@ -319,7 +466,7 @@ void HighlightManager::orthoCaptureNegColOptions(Square* square, Rules::RulePack
 	for (int iCol = -1; iCol >= rules.captureRules.column * -1; --iCol)
 	{
 		// Break if the column to evaluate goes above the size of the board
-		if (squareIndex.second + iCol >= grid->size())
+		if (squareIndex.second + iCol < 0)
 		{
 			break;
 		}
@@ -341,23 +488,23 @@ void HighlightManager::orthoCaptureNegColOptions(Square* square, Rules::RulePack
 void HighlightManager::highlightDiagCaptureOptions(Square* square, Rules::RulePackage rules)
 {
 
-	captureOptionLoop(square, rules, [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
-		{
-			// If the square up one and right one from the selected square is occupied by an opponent's piece, put on the Take overlay.
-			if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied() &&
-				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
-			{
-				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::TAKE);
-			}
-		},
-		[this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
-		{
-			// Do the same thing, but to the left (negative on the board index)
-			if (grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).getOccupied() &&
-				grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
-			{
-				grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).setOverlayType(Square::TAKE);
-			}
-		});
+	//captureOptionLoop(square, rules, [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+	//	{
+	//		// If the square up one and right one from the selected square is occupied by an opponent's piece, put on the Take overlay.
+	//		if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied() &&
+	//			grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
+	//		{
+	//			grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::TAKE);
+	//		}
+	//	},
+	//	[this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+	//	{
+	//		// Do the same thing, but to the left (negative on the board index)
+	//		if (grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).getOccupied() &&
+	//			grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
+	//		{
+	//			grid->at(squareIndex.first + iRow).at(squareIndex.second - iCol).setOverlayType(Square::TAKE);
+	//		}
+	//	});
 
 }
