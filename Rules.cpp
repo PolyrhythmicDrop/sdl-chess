@@ -163,6 +163,21 @@ Rules::RulePackage Rules::getKnightRules(Piece* piece)
 {
 	Rules::RulePackage knightRules;
 
+	// Set the move rules
+	// ******************
+
+	knightRules.moveRules.jumpMove = true;
+	knightRules.moveRules.row = 2;
+	knightRules.moveRules.column = 2;
+
+
+	// Set the capture rules
+	// ******************
+
+	knightRules.captureRules.jumpCapture = true;
+	knightRules.captureRules.row = 2;
+	knightRules.captureRules.column = 2;
+
 
 	return knightRules;
 

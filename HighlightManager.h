@@ -31,6 +31,9 @@ public:
 	template<typename M, typename T>
 	void diagHighlightOptions(Square* square, Rules::RulePackage rules, M m, T t);
 
+	template<typename M, typename T>
+	void jumpHighlightOptions(Square* square, Rules::RulePackage rules, M m, T t);
+
 	// *********************** //
 
 	Rules::RulePackage getPieceRules(Piece* piece);
@@ -38,12 +41,14 @@ public:
 	void highlightActionOptions(Square* square);
 	void removeActionHighlight();
 
-
 	// Highlight orthogonal moves
 	void highlightOrthoMoveOptions(Square* square, Rules::RulePackage rules);
 
 	// Highlight diagonal moves
 	void highlightDiagMoveOptions(Square* square, Rules::RulePackage rules);
+
+	// Highlight jump moves
+	void highlightJumpMoveOptions(Square* square, Rules::RulePackage rules);
 
 };
 

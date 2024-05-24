@@ -27,6 +27,8 @@ public:
 		bool diagCapture = false;
 		// Can the piece capture orthoganally?
 		bool orthoCapture = false;
+		// Can the piece jump over other pieces to capture?
+		bool jumpCapture = false;
 
 		// The number of rows this piece can capture from per turn.
 		int row = 0;

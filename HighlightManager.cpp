@@ -345,6 +345,75 @@ void HighlightManager::diagHighlightOptions(Square* square, Rules::RulePackage r
 	}
 }
 
+template<typename M, typename T>
+void HighlightManager::jumpHighlightOptions(Square* square, Rules::RulePackage rules, M m, T t)
+{
+	std::vector<std::vector<Square>>* grid = _gm->_gameScene->getBoard()->getBoardGrid();
+	std::pair<int, int> squareIndex = square->getBoardIndex();
+
+	int iRow = 0;
+	int iCol = 0;
+
+	for (int i = 0; i < 8; ++i)
+	{
+		switch (i)
+		{
+		case 0:
+			iRow = 2;
+			iCol = 1;
+			break;
+		case 1:
+			iRow = 2;
+			iCol = -1;
+			break;
+		case 2:
+			iRow = 1;
+			iCol = 2;
+			break;
+		case 3:
+			iRow = 1;
+			iCol = -2;
+			break;
+		case 4:
+			iRow = -1;
+			iCol = 2;
+			break;
+		case 5:
+			iRow = -1;
+			iCol = -2;
+			break;
+		case 6:
+			iRow = -2;
+			iCol = 1;
+			break;
+		case 7:
+			iRow = -2;
+			iCol = -1;
+			break;
+		default:
+			LOG(ERROR) << "Jump switch statement is busted!";
+			break;
+		}
+		if (squareIndex.first + iRow < grid->size() && squareIndex.second + iCol < grid->size())
+		{
+			if (!grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied())
+			{
+				m(iRow, iCol, grid, squareIndex);
+			}
+			else if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
+			{
+				t(iRow, iCol, grid, squareIndex);
+			}
+		}
+		else
+		{
+			continue;
+		}
+	}
+}
+
+
+// *********************** //
 
 Rules::RulePackage HighlightManager::getPieceRules(Piece* piece)
 {
@@ -358,9 +427,6 @@ void HighlightManager::highlightActionOptions(Square* square)
 
 	Rules::RulePackage rules = getPieceRules(square->getOccupant());
 
-	// Move Highlighting
-	// *************************
-
 	// Compute orthogonal moves
 	if (rules.moveRules.orthoMove || rules.captureRules.orthoCapture)
 	{
@@ -371,6 +437,12 @@ void HighlightManager::highlightActionOptions(Square* square)
 	if (rules.moveRules.diagMove || rules.captureRules.diagCapture )
 	{
 		highlightDiagMoveOptions(square, rules);
+	}
+
+	// Compute jump moves
+	if (rules.moveRules.jumpMove || rules.captureRules.jumpCapture)
+	{
+		highlightJumpMoveOptions(square, rules);
 	}
 
 
@@ -416,6 +488,18 @@ void HighlightManager::highlightDiagMoveOptions(Square* square, Rules::RulePacka
 			grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::TAKE);
 		});
 
+}
+
+void HighlightManager::highlightJumpMoveOptions(Square* square, Rules::RulePackage rules)
+{
+	jumpHighlightOptions(square, rules, [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+		{
+			grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::MOVE);
+		},
+		[this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+		{
+			grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::TAKE);
+		});
 }
 
 
