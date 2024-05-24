@@ -19,23 +19,144 @@ void HighlightManager::boardGridLoop(Func f)
 	}
 }
 
-template<typename Func>
-void HighlightManager::moveOptions(Square* square, Rules::RulePackage rules, Func f)
+template<typename M, typename T>
+void HighlightManager::diagMoveOptions(Square* square, Rules::RulePackage rules, M m, T t)
 {
 	std::vector<std::vector<Square>>* grid = _gm->_gameScene->getBoard()->getBoardGrid();
 	std::pair<int, int> squareIndex = square->getBoardIndex();
 
-	for (int iRow = 0; iRow <= rules.moveRules.row; ++iRow)
+	bool finished = false;
+
+	// Up-right
+	for (int iRow = 1; iRow <= rules.moveRules.row && !finished; ++iRow)
 	{
-		for (int iCol = 0; iCol <= rules.moveRules.column; ++iCol)
+		for (int iCol = 1; iCol <= rules.moveRules.column && !finished; ++iCol)
 		{
-			if (((squareIndex.first + iRow <= 7) && (squareIndex.first + iRow >= 0))
-				&& ((squareIndex.second + iCol <= 7) && (squareIndex.second + iCol >= 0)))
+			// Break if we exceed the size of the board
+			if (squareIndex.first + iRow >= grid->size() || squareIndex.second + iCol >= grid->size())
 			{
-				f(iRow, iCol, grid, squareIndex);
+				finished = true;
+				break;
+			}
+			if (!grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied())
+			{
+				m(iRow, iCol, grid, squareIndex);
+				++iRow;
+			}
+			else if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied() &&
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
+			{
+				t(iRow, iCol, grid, squareIndex);
+				finished = true;
+				break;
+			}
+			else
+			{
+				finished = true;
+				break;
 			}
 		}
 	}
+
+	finished = false;
+	
+	// Down-right
+	for (int iRow = -1; iRow >= rules.moveRules.row * -1 && !finished; --iRow)
+	{
+		for (int iCol = 1; iCol <= rules.moveRules.column && !finished; ++iCol)
+		{
+			// Break if we exceed the size of the board
+			if (squareIndex.first + iRow >= grid->size() || squareIndex.second + iCol >= grid->size())
+			{
+				finished = true;
+				break;
+			}
+			if (!grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied())
+			{
+				m(iRow, iCol, grid, squareIndex);
+				--iRow;
+			}
+			else if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied() &&
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
+			{
+				t(iRow, iCol, grid, squareIndex);
+				finished = true;
+				break;
+			}
+			else
+			{
+				finished = true;
+				break;
+			}
+		}
+	}
+
+	finished = false;
+	
+	// Up-left
+	for (int iRow = 1; iRow <= rules.moveRules.row && !finished; ++iRow)
+	{
+		for (int iCol = -1; iCol >= rules.moveRules.column * -1 && !finished; --iCol)
+		{
+			// Break if we exceed the size of the board
+			if (squareIndex.first + iRow >= grid->size() || squareIndex.second + iCol >= grid->size())
+			{
+				finished = true;
+				break;
+			}
+			if (!grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied())
+			{
+				m(iRow, iCol, grid, squareIndex);
+				++iRow;
+			}
+			else if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied() &&
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
+			{
+				t(iRow, iCol, grid, squareIndex);
+				finished = true;
+				break;
+			}
+			else
+			{
+				finished = true;
+				break;
+			}
+		}
+	}
+
+	finished = false;
+	
+	// Down-left
+	for (int iRow = -1; iRow >= rules.moveRules.row * -1 && !finished; --iRow)
+	{
+		for (int iCol = -1; iCol >= rules.moveRules.column * -1 && !finished; --iCol)
+		{
+			// Break if we exceed the size of the board
+			if (squareIndex.first + iRow >= grid->size() || squareIndex.second + iCol >= grid->size())
+			{
+				finished = true;
+				break;
+			}
+			if (!grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied())
+			{
+				m(iRow, iCol, grid, squareIndex);
+				--iRow;
+			}
+			else if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupied() &&
+				grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceColor() != _gm->_currentTurn)
+			{
+				t(iRow, iCol, grid, squareIndex);
+				finished = true;
+				break;
+			}
+			else
+			{
+				finished = true;
+				break;
+			}
+		}
+	}
+	
 }
 
 template<typename F1, typename F2>
@@ -90,7 +211,7 @@ void HighlightManager::highlightActionOptions(Square* square)
 	// Compute diagonal moves
 	if (rules.moveRules.diagMove == true)
 	{
-		highlightDiagMoveOptions(square, rules, grid, squareIndex);
+		highlightDiagMoveOptions(square, rules);
 	}
 
 	// Capture Highlighting
@@ -103,10 +224,10 @@ void HighlightManager::highlightActionOptions(Square* square)
 	}
 
 	// Compute diagonal captures
-	if (rules.captureRules.diagCapture == true)
+	/*if (rules.captureRules.diagCapture == true)
 	{
 		highlightDiagCaptureOptions(square, rules);
-	}
+	}*/
 
 }
 
@@ -234,12 +355,18 @@ void HighlightManager::orthoMoveNegColOptions(Square* square, Rules::RulePackage
 	}
 }
 
-void HighlightManager::highlightDiagMoveOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+void HighlightManager::highlightDiagMoveOptions(Square* square, Rules::RulePackage rules)
 {
-	diagMovePosRowOptions(square, rules, grid, squareIndex);
-	diagMoveNegRowOptions(square, rules, grid, squareIndex);
-	diagMovePosColOptions(square, rules, grid, squareIndex);
-	diagMoveNegColOptions(square, rules, grid, squareIndex);
+	
+	diagMoveOptions(square, rules, [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+		{
+			grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::MOVE);
+		},
+		[this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex) 
+		{
+			grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::TAKE);
+		});
+
 }
 
 void HighlightManager::diagMovePosRowOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
@@ -313,7 +440,6 @@ void HighlightManager::diagMoveNegRowOptions(Square* square, Rules::RulePackage 
 			}
 		}
 	}
-finished: LOG(DEBUG) << "Finished highlighting Diagonal move options!";
 }
 
 void HighlightManager::diagMovePosColOptions(Square* square, Rules::RulePackage rules, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
