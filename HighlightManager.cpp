@@ -355,8 +355,6 @@ Rules::RulePackage HighlightManager::getPieceRules(Piece* piece)
 
 void HighlightManager::highlightActionOptions(Square* square)
 {
-	std::vector<std::vector<Square>>* grid = _gm->_gameScene->getBoard()->getBoardGrid();
-	std::pair<int, int> squareIndex = square->getBoardIndex();
 
 	Rules::RulePackage rules = getPieceRules(square->getOccupant());
 

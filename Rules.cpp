@@ -194,6 +194,22 @@ Rules::RulePackage Rules::getQueenRules(Piece* piece)
 {
 	Rules::RulePackage queenRules;
 
+	// Set the move rules
+	// ******************
+
+	queenRules.moveRules.diagMove = true;
+	queenRules.moveRules.orthoMove = true;
+	queenRules.moveRules.row = 7;
+	queenRules.moveRules.column = 7;
+
+	// Set the capture rules
+	// **********************
+
+	queenRules.captureRules.diagCapture = true;
+	queenRules.captureRules.orthoCapture = true;
+	queenRules.captureRules.row = 7;
+	queenRules.captureRules.column = 7;
+
 
 	return queenRules;
 }
@@ -201,6 +217,27 @@ Rules::RulePackage Rules::getQueenRules(Piece* piece)
 Rules::RulePackage Rules::getKingRules(Piece* piece)
 {
 	Rules::RulePackage kingRules;
+
+	// Set the move rules
+	// ******************
+
+	kingRules.moveRules.diagMove = true;
+	kingRules.moveRules.orthoMove = true;
+	kingRules.moveRules.row = 1;
+	kingRules.moveRules.column = 1;
+
+	// Set the capture rules
+	// **********************
+
+	kingRules.captureRules.diagCapture = true;
+	kingRules.captureRules.orthoCapture = true;
+	kingRules.captureRules.row = 1;
+	kingRules.captureRules.column = 1;
+
+	// Set the special rules
+	// **********************
+
+	kingRules.specialActions.castle = true;
 
 
 	return kingRules;
