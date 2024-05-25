@@ -32,10 +32,16 @@ public:
 	/// <param name="defender">The piece to be captured.</param>
 	void capturePiece(Piece* attacker, Piece* defender);
 
+	/// <summary>
+	/// Captures a pawn _en passant_. 
+	/// Only available if the piece's "passantable" flag is true, and certain other factors are met.
+	/// </summary>
+	/// <param name="attacker">The capturing piece.</param>
+	/// <param name="square">The square the capturing piece will move to after capture.</param>
 	void captureEnPassant(Piece* attacker, Square* square);
 
 	/// <summary>
-	/// Promotes a pawn a different piece type once it reaches the opposite rank of the board.
+	/// Promotes a pawn to a different piece type once it reaches the opposite rank of the board.
 	/// </summary>
 	/// <param name="piece">The piece to promote.</param>
 	void promotePawn(Piece* piece);

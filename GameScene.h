@@ -51,7 +51,9 @@ public:
 	// Returns a pointer to the piece vector
 	inline std::vector<Piece>* getAllPieces() { return &_pieces; };
 
+	// Gets the index in the pieces vector of all the pieces with the specified FEN name.
 	std::vector<int> getPieceIndexByFEN(char fen);
+	// Returns a vector of pointers to the pieces with the specified FEN name.
 	std::vector<Piece*> getPiecesByFen(char fen);
 
 	// Gets all the captured pieces for the specified color.

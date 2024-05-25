@@ -91,8 +91,11 @@ public:
 
 	void setTurn(int turn);
 	inline int getTurn() const { return _currentTurn; };
+
+	// Ends the current turn and notifies the game scene to change its state to the next turn
 	void endTurn();
 
+	// Disables en passant capturing for any pawns that moved two squares up on the previous turn.
 	void endPassant();
 
 	// Handler functions
