@@ -1,7 +1,8 @@
 #include "ActionManager.h"
+#include "easylogging++.h"
+#include "GameManager.h"
 #include "GameScene.h"
 #include <conio.h>
-#include "easylogging++.h"
 
 void ActionManager::movePiece(Piece* piece, Square* target)
 {

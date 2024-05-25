@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "HighlightManager.h"
 #include "easylogging++.h"
+#include "GameManager.h"
 
 HighlightManager::HighlightManager(GameManager* gm) :
 	_gm(gm)

@@ -15,8 +15,8 @@ GameManager::GameManager(GameScene* gameScene) :
 	_textAction(""),
 	_textSetup("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"),
 	_textPlacement(_textSetup),
-	_highlightManager(new HighlightManager(this)),
-	_actionManager(new ActionManager(this)),
+	_highlightManager(std::make_unique<HighlightManager>(this)),
+	_actionManager(std::make_unique<ActionManager>(this)),
 	_selectionManager(std::make_unique<SelectionManager>(this))
 {
 	LOG(TRACE) << "Game Manager instantiated!";

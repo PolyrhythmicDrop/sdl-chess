@@ -1,5 +1,5 @@
 #pragma once
-#include "GameManager.h"
+#include "Rules.h"
 
 class GameManager;
 class Square;

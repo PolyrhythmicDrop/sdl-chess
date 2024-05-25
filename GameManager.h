@@ -1,7 +1,9 @@
 #pragma once
+#include "ActionManager.h"
 #include "IMediator.h"
 #include "Rules.h"
 #include "SelectionManager.h"
+#include "HighlightManager.h"
 #include <memory>
 #include <vector>
 
@@ -45,8 +47,8 @@ private:
 	// ** Manager Components ** //
 	// ************************ //
 
-	HighlightManager* _highlightManager;
-	ActionManager* _actionManager;
+	std::unique_ptr<HighlightManager> _highlightManager;
+	std::unique_ptr<ActionManager> _actionManager;
 	std::unique_ptr<SelectionManager> _selectionManager;
 
 
