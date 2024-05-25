@@ -11,7 +11,7 @@ friend class HighlightManager;
 
 private:
 
-	GameManager* _gm;
+	std::shared_ptr<GameManager> _gm;
 
 public:
 

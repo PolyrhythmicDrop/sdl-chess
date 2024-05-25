@@ -1,5 +1,5 @@
 #pragma once
-
+#include <memory>
 
 class GameManager;
 class Piece;
@@ -11,7 +11,7 @@ friend class GameManager;
 
 private:
 
-	GameManager* _gm;
+	std::shared_ptr<GameManager> _gm;
 
 public:
 
