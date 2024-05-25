@@ -1,6 +1,7 @@
 #pragma once
 #include "IMediator.h"
 #include "Rules.h"
+#include "SelectionManager.h"
 #include <memory>
 #include <vector>
 
@@ -46,7 +47,7 @@ private:
 
 	HighlightManager* _highlightManager;
 	ActionManager* _actionManager;
-	SelectionManager* _selectionManager;
+	std::unique_ptr<SelectionManager> _selectionManager;
 
 
 public:

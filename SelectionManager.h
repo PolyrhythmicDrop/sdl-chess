@@ -1,5 +1,4 @@
 #pragma once
-#include "GameManager.h"
 
 class GameManager;
 class Square;
@@ -16,7 +15,7 @@ private:
 
 public:
 
-	SelectionManager(GameManager* gm) : _gm(gm) {};
+	SelectionManager(GameManager* gm);
 	~SelectionManager() {};
 
 	/// <summary>

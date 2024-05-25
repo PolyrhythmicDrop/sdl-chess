@@ -1,8 +1,13 @@
 #include "ActionManager.h"
 #include "easylogging++.h"
+#include "GameManager.h"
 #include "GameScene.h"
 #include "HighlightManager.h"
 #include "SelectionManager.h"
+
+SelectionManager::SelectionManager(GameManager* gm) :
+	_gm(gm)
+{}
 
 
 template<typename Func>

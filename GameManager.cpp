@@ -3,13 +3,12 @@
 #include "GameManager.h"
 #include "GameScene.h"
 #include "HighlightManager.h"
-#include "SelectionManager.h"
 #include "TurnBlackGameState.h"
 #include "TurnWhiteGameState.h"
 
 GameManager::GameManager(GameScene* gameScene) :
 	_gameScene(gameScene),
-	_rules(std::unique_ptr<Rules>(new Rules)),
+	_rules(std::make_unique<Rules>()),
 	_currentTurn(NULL),
 	_selectedPiece(nullptr),
 	_history({}),
@@ -18,7 +17,7 @@ GameManager::GameManager(GameScene* gameScene) :
 	_textPlacement(_textSetup),
 	_highlightManager(new HighlightManager(this)),
 	_actionManager(new ActionManager(this)),
-	_selectionManager(new SelectionManager(this))
+	_selectionManager(std::make_unique<SelectionManager>(this))
 {
 	LOG(TRACE) << "Game Manager instantiated!";
 }
