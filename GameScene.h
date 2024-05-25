@@ -28,7 +28,7 @@ private:
 
 	std::unique_ptr<GameManager> _manager;
 	
-	GameStateMachine* _gsm;
+	std::unique_ptr<GameStateMachine> _gsm;
 
 public:
 	static bool _instantiated;

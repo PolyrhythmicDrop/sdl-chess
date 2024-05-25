@@ -1,5 +1,7 @@
 #pragma once
 #include "IGameState.h"
+#include "GameScene.h"
+
 class TurnBlackGameState : public IGameState
 {
 private:

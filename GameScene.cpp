@@ -8,20 +8,17 @@ GameScene::GameScene() :
 	_capturedPieces(),
 	_playerOne(Player("", ' ')),
 	_playerTwo(Player("", ' ')),
-	_manager(nullptr),
-	_gsm(new GameStateMachine()),
+	_manager(std::make_unique<GameManager>(this)),
+	_gsm(std::make_unique<GameStateMachine>(this)),
 	_currentState(&IdleGameState::getInstance()),
 	_previousState(nullptr)
 {
 	assert(!_instantiated);
 	_instantiated = true;
-	_manager.reset(new GameManager(this));
-	_gsm->setGameScene(this);
 	_pieces.reserve(32);
 	initializePieces();
 	_capturedPieces[0].clear();
 	_capturedPieces[1].clear();
-
 
 	LOG(TRACE) << "Game Scene initialized!";
 }

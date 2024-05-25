@@ -3,7 +3,8 @@
 #include "GameScene.h"
 
 
-GameStateMachine::GameStateMachine()
+GameStateMachine::GameStateMachine(GameScene* scene) :
+	_gameScene(scene)
 {
 	assert(!_instantiated);
 	_instantiated = true;
