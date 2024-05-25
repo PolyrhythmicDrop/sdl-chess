@@ -32,6 +32,10 @@ public:
 	/// <param name="defender">The piece to be captured.</param>
 	void capturePiece(Piece* attacker, Piece* defender);
 
+	/// <summary>
+	/// Promotes a pawn a different piece type once it reaches the opposite rank of the board.
+	/// </summary>
+	/// <param name="piece">The piece to promote.</param>
 	void promotePawn(Piece* piece);
 };
 

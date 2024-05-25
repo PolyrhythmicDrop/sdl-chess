@@ -51,7 +51,6 @@ private:
 	std::unique_ptr<ActionManager> _actionManager;
 	std::unique_ptr<SelectionManager> _selectionManager;
 
-
 public:
 
 
