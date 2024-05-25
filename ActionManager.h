@@ -31,5 +31,7 @@ public:
 	/// <param name="attacker">The piece that is capturing.</param>
 	/// <param name="defender">The piece to be captured.</param>
 	void capturePiece(Piece* attacker, Piece* defender);
+
+	void promotePawn(Piece* piece);
 };
 

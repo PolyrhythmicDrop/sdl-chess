@@ -90,7 +90,11 @@ public:
 	void setTurn(int turn);
 	inline int getTurn() const { return _currentTurn; };
 
+	// Handler functions
+	// ***********************
+
 	void handleClick();
+	void onPieceMove(Piece* piece);
 
 };
 

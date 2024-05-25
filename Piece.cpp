@@ -64,11 +64,6 @@ void Piece::setSquare(Square* square)
 			_position = square;
 			_dimensions = *square->getDimensions();
 			square->setOccupied(true, this);
-			// Notify the GameManager that the position has changed.
-			if (_mediator != nullptr)
-			{
-				this->_mediator->notify(this, "pieceMove");
-			}
 		}
 		else
 		{

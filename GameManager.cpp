@@ -66,8 +66,7 @@ void GameManager::notify(GameObject* object, std::string eString)
 	if (eString == "pieceMove")
 	{
 		LOG(DEBUG) << object->getName() << " has moved to square " << dynamic_cast <Piece*>(object)->getSquare()->getName();
-		_selectionManager->deselectPieces();
-		// End turn?
+		onPieceMove(dynamic_cast <Piece*>(object));
 	}
 	else if (eString == "pieceSelected")
 	{
@@ -216,3 +215,16 @@ void GameManager::handleClick()
 	_selectionManager->handleClick();
 }
 
+void GameManager::onPieceMove(Piece* piece)
+{
+	_selectionManager->deselectPieces();
+
+	// Pawn promotion
+	if ((piece->getFenName() == 'p' && piece->getSquare()->getBoardIndex().first == 0)
+		|| (piece->getFenName() == 'P' && piece->getSquare()->getBoardIndex().first == 7))
+	{
+		_actionManager->promotePawn(piece);
+	}
+
+	// End turn?
+}
