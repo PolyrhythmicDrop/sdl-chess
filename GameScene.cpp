@@ -131,7 +131,7 @@ void GameScene::initializeCapturePoints()
 	_blackCapturePoint = { ((_board->getX() + _board->getWidth()) + (_board->getWidth() / 8)), ((_board->getY() + _board->getHeight()) - (_board->getHeight() / 8)) };
 }
 
-std::vector<int> GameScene::getPiecesByFEN(char fen)
+std::vector<int> GameScene::getPieceIndexByFEN(char fen)
 {
 	
 	std::vector<int> foundPieceIndexes;
@@ -156,6 +156,20 @@ std::vector<int> GameScene::getPiecesByFEN(char fen)
 	} while (itr != _pieces.end());
 
 	return foundPieceIndexes;
+
+}
+
+std::vector<Piece*> GameScene::getPiecesByFen(char fen)
+{
+	std::vector<Piece*> fenPieces;
+	std::vector<int> indexVect = getPieceIndexByFEN(fen);
+
+	for (int i = 0; i < indexVect.size(); ++i)
+	{
+		fenPieces.push_back(&_pieces.at( indexVect[i] ));
+	}
+
+	return fenPieces;
 
 }
 

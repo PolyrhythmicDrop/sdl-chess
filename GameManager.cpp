@@ -117,37 +117,37 @@ void GameManager::setUpGame()
 	// *******************************
 	// Set WHITE
 	// Set the white pawns
-	std::vector<int> pawnVect = _gameScene->getPiecesByFEN('P');
+	std::vector<int> pawnVect = _gameScene->getPieceIndexByFEN('P');
 	for (int i = 0; i < pawnVect.size(); ++i)
 	{
 		_gameScene->getAllPieces()->at(pawnVect.at(i)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(1).at(i));
 	}
 
 	// Set the white rooks
-	std::vector<int> rookVect = _gameScene->getPiecesByFEN('R');
+	std::vector<int> rookVect = _gameScene->getPieceIndexByFEN('R');
 	_gameScene->getAllPieces()->at(rookVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(0));
 	_gameScene->getAllPieces()->at(rookVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(7));
 	rookVect.clear();
 
 	// Set the white knights
-	std::vector<int> knightVect = _gameScene->getPiecesByFEN('N');
+	std::vector<int> knightVect = _gameScene->getPieceIndexByFEN('N');
 	_gameScene->getAllPieces()->at(knightVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(1));
 	_gameScene->getAllPieces()->at(knightVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(6));
 	knightVect.clear();
 
 	// Set the white bishops
-	std::vector<int> bishopVect = _gameScene->getPiecesByFEN('B');
+	std::vector<int> bishopVect = _gameScene->getPieceIndexByFEN('B');
 	_gameScene->getAllPieces()->at(bishopVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(2));
 	_gameScene->getAllPieces()->at(bishopVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(5));
 	bishopVect.clear();
 
 	// Set the white queen
-	std::vector<int> queenVect = _gameScene->getPiecesByFEN('Q');
+	std::vector<int> queenVect = _gameScene->getPieceIndexByFEN('Q');
 	_gameScene->getAllPieces()->at(queenVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(3));
 	queenVect.clear();
 
 	// Set the white king
-	std::vector<int> kingVect = _gameScene->getPiecesByFEN('K');
+	std::vector<int> kingVect = _gameScene->getPieceIndexByFEN('K');
 	_gameScene->getAllPieces()->at(kingVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(4));
 	kingVect.clear();
 	// *****************************
@@ -155,37 +155,37 @@ void GameManager::setUpGame()
 	// *****************************
 	// Set BLACK
 	// Set the black pawns
-	pawnVect = _gameScene->getPiecesByFEN('p');
+	pawnVect = _gameScene->getPieceIndexByFEN('p');
 	for (int i = 0; i < pawnVect.size(); ++i)
 	{
 		_gameScene->getAllPieces()->at(pawnVect.at(i)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(6).at(i));
 	}
 
 	// Set the black rooks
-	rookVect = _gameScene->getPiecesByFEN('r');
+	rookVect = _gameScene->getPieceIndexByFEN('r');
 	_gameScene->getAllPieces()->at(rookVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(0));
 	_gameScene->getAllPieces()->at(rookVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(7));
 	rookVect.clear();
 
 	// Set the black knights
-	knightVect = _gameScene->getPiecesByFEN('n');
+	knightVect = _gameScene->getPieceIndexByFEN('n');
 	_gameScene->getAllPieces()->at(knightVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(1));
 	_gameScene->getAllPieces()->at(knightVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(6));
 	knightVect.clear();
 
 	// Set the black bishops
-	bishopVect = _gameScene->getPiecesByFEN('b');
+	bishopVect = _gameScene->getPieceIndexByFEN('b');
 	_gameScene->getAllPieces()->at(bishopVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(2));
 	_gameScene->getAllPieces()->at(bishopVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(5));
 	bishopVect.clear();
 
 	// Set the black queen
-	queenVect = _gameScene->getPiecesByFEN('q');
+	queenVect = _gameScene->getPieceIndexByFEN('q');
 	_gameScene->getAllPieces()->at(queenVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(3));
 	queenVect.clear();
 
 	// Set the black king
-	kingVect = _gameScene->getPiecesByFEN('k');
+	kingVect = _gameScene->getPieceIndexByFEN('k');
 	_gameScene->getAllPieces()->at(kingVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(4));
 	kingVect.clear();
 	// *****************************
@@ -235,4 +235,29 @@ void GameManager::onPieceMove(Piece* piece)
 void GameManager::endTurn()
 {
 	_gameScene->notify(this, "turnComplete");
+}
+
+void GameManager::endPassant()
+{
+	if (_currentTurn == 0)
+	{
+		for (Piece* pawn : _gameScene->getPiecesByFen('p'))
+		{
+			if (pawn->getPassantable())
+			{
+				pawn->setPassantable(false);
+			}
+		}
+	}
+	else
+	{
+		for (Piece* pawn : _gameScene->getPiecesByFen('P'))
+		{
+			if (pawn->getPassantable())
+			{
+				pawn->setPassantable(false);
+			}
+		}
+	}
+
 }

@@ -50,7 +50,9 @@ public:
 	inline Piece* getPieceOnSquare(Square* square) { return square->getOccupant(); };
 	// Returns a pointer to the piece vector
 	inline std::vector<Piece>* getAllPieces() { return &_pieces; };
-	std::vector<int> getPiecesByFEN(char fen);
+
+	std::vector<int> getPieceIndexByFEN(char fen);
+	std::vector<Piece*> getPiecesByFen(char fen);
 
 	// Gets all the captured pieces for the specified color.
 	// 0 = Black, 1 = White
