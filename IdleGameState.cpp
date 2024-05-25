@@ -8,7 +8,7 @@ void IdleGameState::enter(GameStateMachine* gsm)
 	LOG(TRACE) << "Idle Game State entered!";
 }
 
-void IdleGameState::changeState(GameStateMachine* gsm)
+void IdleGameState::changeState(GameStateMachine* gsm, std::string eventString)
 {}
 
 void IdleGameState::exit(GameStateMachine* gsm)

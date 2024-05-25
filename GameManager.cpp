@@ -219,11 +219,20 @@ void GameManager::onPieceMove(Piece* piece)
 	_selectionManager->deselectPieces();
 
 	// Pawn promotion
-	if ((piece->getFenName() == 'p' && piece->getSquare()->getBoardIndex().first == 0)
-		|| (piece->getFenName() == 'P' && piece->getSquare()->getBoardIndex().first == 7))
+	if (_highlightManager->getPieceRules(piece).specialActions.promote)
 	{
 		_actionManager->promotePawn(piece);
 	}
 
-	// End turn?
+	// TODO: Check if move would put the player's king in check
+
+	// TODO: Confirm if the player wants to end their turn?
+
+	// End the turn
+	endTurn();
+}
+
+void GameManager::endTurn()
+{
+	_gameScene->notify(this, "turnComplete");
 }

@@ -92,6 +92,8 @@ public:
 	void setTurn(int turn);
 	inline int getTurn() const { return _currentTurn; };
 
+	void endTurn();
+
 	// Handler functions
 	// ***********************
 

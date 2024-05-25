@@ -181,3 +181,16 @@ void GameScene::addToCapturedPieces(Piece* piece)
 		_capturedPieces[1].at(i)->setPosition(_whiteCapturePoint.x, _whiteCapturePoint.y - (i * 50));
 	}
 }
+
+void GameScene::notify(GameObject* sender, std::string eString)
+{
+
+}
+
+void GameScene::notify(GameManager* manager, std::string eString)
+{
+	if (eString == "turnComplete")
+	{
+		_gsm->changeState(this, "changeTurn");
+	}
+}

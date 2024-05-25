@@ -23,7 +23,7 @@ public:
 	inline GameScene* getGameScene() { return _gameScene.get(); };
 
 	void enter(GameScene* scene);
-	void changeState(GameScene* scene);
+	void changeState(GameScene* scene, std::string eventString = "");
 	void exit(GameScene* scene);
 
 	void setGameState(GameScene* scene, IGameState& newState);

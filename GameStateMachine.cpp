@@ -15,9 +15,9 @@ void GameStateMachine::enter(GameScene* scene)
 	scene->getCurrentState()->enter(this);
 }
 
-void GameStateMachine::changeState(GameScene* scene)
+void GameStateMachine::changeState(GameScene* scene, std::string eventString)
 {
-	scene->getCurrentState()->changeState(this);
+	scene->getCurrentState()->changeState(this, eventString);
 }
 
 void GameStateMachine::exit(GameScene* scene)

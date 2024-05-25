@@ -99,12 +99,12 @@ Rules::RulePackage Rules::getBlkPawnRules(Piece* piece)
 	// If it is the pawn's first move, set the move distance to 2 columns. If not, set it to 1 row.
 	if (piece->getFirstMove() == true)
 	{
-		pawnRules.moveRules.row = -2;
+		pawnRules.moveRules.row = 2;
 		pawnRules.moveRules.column = 0;
 	}
 	else
 	{
-		pawnRules.moveRules.row = -1;
+		pawnRules.moveRules.row = 1;
 		pawnRules.moveRules.column = 0;
 	}
 
@@ -112,8 +112,8 @@ Rules::RulePackage Rules::getBlkPawnRules(Piece* piece)
 	// **********************
 
 	pawnRules.captureRules.diagCapture = true;
-	pawnRules.captureRules.row = -1;
-	pawnRules.captureRules.column = -1;
+	pawnRules.captureRules.row = 1;
+	pawnRules.captureRules.column = 1;
 
 	// Determine whether or not the piece can attack en passant
 	pawnRules.captureRules.enPassant = true;

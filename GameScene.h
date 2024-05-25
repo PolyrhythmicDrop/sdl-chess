@@ -8,7 +8,7 @@
 class IGameState;
 class GameStateMachine;
 
-class GameScene : public Scene
+class GameScene : public Scene, public IMediator
 {
 private:
 
@@ -29,6 +29,9 @@ private:
 	std::unique_ptr<GameManager> _manager;
 	
 	std::unique_ptr<GameStateMachine> _gsm;
+
+	inline void setCurrentState(IGameState& state) { _currentState = &state; };
+	inline void setPreviousState(IGameState& state) { _previousState = &state; };
 
 public:
 	static bool _instantiated;
@@ -61,11 +64,11 @@ public:
 	inline void setPlayerTwo(std::string name, char color) { _playerTwo._name = name; _playerTwo._color = color; };
 
 	inline GameManager* getManager() { return _manager.get(); };
+	void notify(GameObject* sender, std::string eString);
+	void notify(GameManager* manager, std::string eString);
 
 	inline IGameState* getCurrentState() const { return _currentState; };
 	inline IGameState* getPreviousState() const { return _previousState; };
-	inline void setCurrentState(IGameState& state) { _currentState = &state; };
-	inline void setPreviousState(IGameState& state) { _previousState = &state; };
 	inline void setGameState(IGameState& state) { _gsm->setGameState(this, state); };
 
 };
