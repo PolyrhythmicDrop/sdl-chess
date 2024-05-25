@@ -1,26 +1,41 @@
 #pragma once
-#include <vector>
-#include <iostream>
-#include <memory>
-#include "Rules.h"
+#include "ActionManager.h"
 #include "IMediator.h"
+#include "Rules.h"
+#include "SelectionManager.h"
+#include "HighlightManager.h"
+#include <memory>
+#include <vector>
+
 
 class GameScene;
 class Square;
+class HighlightManager;
+class ActionManager;
+class SelectionManager;
 
 class GameManager : public IMediator
 {
+	friend class HighlightManager;
+	friend class ActionManager;
+	friend class SelectionManager;
+
 private:
 
 	GameScene* _gameScene;
 	std::unique_ptr<Rules> _rules;
 
+	// The current turn. 0 = Black, 1 = White.
 	int _currentTurn; 
+
+	// The currently selected piece
+	Piece* _selectedPiece;
 
 	// Record of past moves, as strings
 	std::vector<std::string> _history;
 
 	// ** FEN/Stockfish Strings ** //
+	// *************************** //
 	
 	// A text version of an action, in long algebraic notation for UCI. Should be able to be parsed by Stockfish and SDL Chess, to be used in the history list and for Stockfish move calculation
 	std::string _textAction;
@@ -29,10 +44,15 @@ private:
 	// The current placement of all the pieces on the board. FEN: first field
 	std::string _textPlacement;
 
-	// *******************************
+	// ** Manager Components ** //
+	// ************************ //
 
+	std::unique_ptr<HighlightManager> _highlightManager;
+	std::unique_ptr<ActionManager> _actionManager;
+	std::unique_ptr<SelectionManager> _selectionManager;
 
 public:
+
 
 	GameManager(GameScene* gameScene);
 	~GameManager() { };
@@ -42,7 +62,6 @@ public:
 	/// </summary>
 	template<typename Func>
 	void boardGridLoop(Func f);
-
 
 	/// <summary>
 	/// Sets the mediator for every object in the GameManager's GameScene to this GameManager instance.
@@ -73,23 +92,11 @@ public:
 	void setTurn(int turn);
 	inline int getTurn() const { return _currentTurn; };
 
-	// Piece and action highlighting
+	// Handler functions
 	// ***********************
 
-	void detectClickOnObject(int x, int y);
-	/// <summary>
-	/// Selects a specific piece.
-	/// </summary>
-	/// <param name="piece">The piece to select.</param>
-	void selectPiece(Piece* piece);
-	/// <summary>
-	/// Deselects all selected pieces on the board.
-	/// </summary>
-	/// <param name="exception">Deselects all pieces but this one. Optional field.</param>
-	void deselectPieces(Piece* exception = nullptr);
-
-	void highlightActionOptions(Square* square);
-	void removeActionHighlight();
+	void handleClick();
+	void onPieceMove(Piece* piece);
 
 };
 

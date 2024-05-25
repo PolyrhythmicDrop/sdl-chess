@@ -5,6 +5,7 @@
 GameScene::GameScene() :
 	_board(std::unique_ptr<Chessboard>(new Chessboard)),
 	_pieces(),
+	_capturedPieces(),
 	_playerOne(Player("", ' ')),
 	_playerTwo(Player("", ' ')),
 	_manager(nullptr),
@@ -18,6 +19,9 @@ GameScene::GameScene() :
 	_gsm->setGameScene(this);
 	_pieces.reserve(32);
 	initializePieces();
+	_capturedPieces[0].clear();
+	_capturedPieces[1].clear();
+
 
 	LOG(TRACE) << "Game Scene initialized!";
 }
@@ -124,6 +128,12 @@ void GameScene::initializePieces()
 
 }
 
+void GameScene::initializeCapturePoints()
+{
+	_whiteCapturePoint = { (_board->getX() - (_board->getWidth() / 4)), (_board->getY() + (_board->getHeight() / 8)) };
+	_blackCapturePoint = { ((_board->getX() + _board->getWidth()) + (_board->getWidth() / 8)), ((_board->getY() + _board->getHeight()) - (_board->getHeight() / 8)) };
+}
+
 std::vector<int> GameScene::getPiecesByFEN(char fen)
 {
 	
@@ -150,5 +160,27 @@ std::vector<int> GameScene::getPiecesByFEN(char fen)
 
 	return foundPieceIndexes;
 
+}
 
+std::vector<Piece*> GameScene::getCapturedPieces(int color)
+{
+	return _capturedPieces[color];
+}
+
+void GameScene::addToCapturedPieces(Piece* piece)
+{
+	if (piece->isAlive() == false)
+	{
+		_capturedPieces[piece->getPieceColor()].push_back(piece);
+	}
+
+	// Move captured pieces to the garbage dump
+	for (int i = 0; i < _capturedPieces[0].size(); ++i)
+	{
+		_capturedPieces[0].at(i)->setPosition(_blackCapturePoint.x, _blackCapturePoint.y - (i * (_board->getHeight() / 16)));
+	}
+	for (int i = 0; i < _capturedPieces[1].size(); ++i)
+	{
+		_capturedPieces[1].at(i)->setPosition(_whiteCapturePoint.x, _whiteCapturePoint.y - (i * 50));
+	}
 }

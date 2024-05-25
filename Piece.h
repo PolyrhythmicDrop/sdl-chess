@@ -29,10 +29,14 @@ public:
 
 	~Piece();
 
-	inline char getFenName() const { if (_fenName != NULL) { return _fenName; } };
+	char const getFenName() const;
 
-	void setPosition(Square* square);
-	inline Square* getPosition() { return _position; };
+	/// <summary>
+	/// Moves the piece.
+	/// </summary>
+	/// <param name="square">The square to move to.</param>
+	void setSquare(Square* square);
+	inline Square* getSquare() { return _position; };
 
 	inline const PieceColor getPieceColor() const { return _pieceColor; };
 	inline const Figure getPieceType() const { return _type; };
@@ -48,6 +52,9 @@ public:
 	inline void setFirstMove(bool first) { _firstMove = first; };
 	inline bool getFirstMove() const { return _firstMove; };
 
+	inline void setPassantable(bool p) { _passantable = p; };
+	inline bool getPassantable() { return _passantable; };
+
 	inline PieceInputComponent* getInput() { return _input; };
 	inline PieceGraphicsComponent* getGraphics() { return _graphics; };
 
@@ -60,6 +67,9 @@ private:
 	Figure _type;
 	char _fenName;
 	bool _firstMove;
+	// Can the piece be captured en passant? 
+	// Should only be true just after its first move, if it moved two squares on that move.
+	bool _passantable;
 	bool _selected;
 	bool _alive;
 

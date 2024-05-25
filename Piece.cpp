@@ -9,6 +9,7 @@ Piece::Piece(Figure type, PieceColor color) :
 	_selected(false),
 	_alive(true),
 	_firstMove(true),
+	_passantable(false),
 	_position(nullptr),
 	_graphics(new PieceGraphicsComponent),
 	_input(new PieceInputComponent)
@@ -22,6 +23,7 @@ Piece::Piece(const Piece& piece)
 {
 	_mediator = piece._mediator;
 	_position = piece._position;
+	_passantable = piece._passantable;
 	_pieceColor = piece._pieceColor;
 	_type = piece._type;
 	_fenName = piece._fenName;
@@ -40,17 +42,39 @@ Piece::~Piece()
 	LOG(TRACE) << "Piece Type: " << _type << " | Color: " << _pieceColor << " destroyed!";
 }
 
-void Piece::setPosition(Square* square)
+char const Piece::getFenName() const
 {
-	_position = square;
-	_dimensions = *square->getDimensions();
-	square->setOccupied(true, this);
-
-	// Notify the GameManager that the position has changed.
-	if (_mediator != nullptr)
-	{
-		this->_mediator->notify(this, "pieceMove");
+	if (_fenName != NULL)
+	{ 
+		return _fenName; 
 	}
+	else
+	{
+		LOG(ERROR) << "Piece FEN name not found or not set!";
+		return NULL;
+	}
+}
+
+void Piece::setSquare(Square* square)
+{
+	if (square != nullptr)
+	{
+		if (square->getOccupant() == nullptr)
+		{
+			_position = square;
+			_dimensions = *square->getDimensions();
+			square->setOccupied(true, this);
+		}
+		else
+		{
+			LOG(ERROR) << "Square currently occupied! Take the piece on the square first.";
+		}
+	}
+	else
+	{
+		LOG(INFO) << "Piece removed from board!";
+	}
+	
 }
 
 void Piece::changeType(Figure type)

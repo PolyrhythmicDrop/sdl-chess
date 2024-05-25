@@ -47,7 +47,11 @@ public:
 	// Returns the piece that's on the square
 	Piece* getOccupant();
 
-	// Gets the square's position on the board
+	
+	/// <summary>
+	/// Gets the square's position on the board.
+	/// </summary>
+	/// <returns>Square's board index. First = row, second = column.</returns>
 	inline std::pair<int, int> getBoardIndex() { return _boardIndex; };
 	inline void setBoardIndex(int row, int column) { this->_boardIndex.first = row; this->_boardIndex.second = column; };
 
