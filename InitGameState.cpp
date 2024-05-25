@@ -37,7 +37,7 @@ void InitGameState::enter(GameStateMachine* gsm)
 
 }
 
-void InitGameState::changeState(GameStateMachine* gsm)
+void InitGameState::changeState(GameStateMachine* gsm, std::string eventString)
 {
 	gsm->setGameState(gsm->getGameScene(), TurnWhiteGameState::getInstance());
 }

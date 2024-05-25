@@ -8,7 +8,7 @@
 class IGameState;
 class GameStateMachine;
 
-class GameScene : public Scene
+class GameScene : public Scene, public IMediator
 {
 private:
 
@@ -28,7 +28,10 @@ private:
 
 	std::unique_ptr<GameManager> _manager;
 	
-	GameStateMachine* _gsm;
+	std::unique_ptr<GameStateMachine> _gsm;
+
+	inline void setCurrentState(IGameState& state) { _currentState = &state; };
+	inline void setPreviousState(IGameState& state) { _previousState = &state; };
 
 public:
 	static bool _instantiated;
@@ -47,7 +50,11 @@ public:
 	inline Piece* getPieceOnSquare(Square* square) { return square->getOccupant(); };
 	// Returns a pointer to the piece vector
 	inline std::vector<Piece>* getAllPieces() { return &_pieces; };
-	std::vector<int> getPiecesByFEN(char fen);
+
+	// Gets the index in the pieces vector of all the pieces with the specified FEN name.
+	std::vector<int> getPieceIndexByFEN(char fen);
+	// Returns a vector of pointers to the pieces with the specified FEN name.
+	std::vector<Piece*> getPiecesByFen(char fen);
 
 	// Gets all the captured pieces for the specified color.
 	// 0 = Black, 1 = White
@@ -61,11 +68,11 @@ public:
 	inline void setPlayerTwo(std::string name, char color) { _playerTwo._name = name; _playerTwo._color = color; };
 
 	inline GameManager* getManager() { return _manager.get(); };
+	void notify(GameObject* sender, std::string eString);
+	void notify(GameManager* manager, std::string eString);
 
 	inline IGameState* getCurrentState() const { return _currentState; };
 	inline IGameState* getPreviousState() const { return _previousState; };
-	inline void setCurrentState(IGameState& state) { _currentState = &state; };
-	inline void setPreviousState(IGameState& state) { _previousState = &state; };
 	inline void setGameState(IGameState& state) { _gsm->setGameState(this, state); };
 
 };

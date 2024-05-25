@@ -9,7 +9,7 @@ void PauseGameState::enter(GameStateMachine* gsm)
 	LOG(TRACE) << "Pause Game State entered!";
 }
 
-void PauseGameState::changeState(GameStateMachine* gsm)
+void PauseGameState::changeState(GameStateMachine* gsm, std::string eventString)
 {}
 
 void PauseGameState::exit(GameStateMachine* gsm)

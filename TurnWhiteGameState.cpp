@@ -1,4 +1,5 @@
 #include "TurnWhiteGameState.h"
+#include "TurnBlackGameState.h"
 #include "easylogging++.h"
 
 TurnWhiteGameState::TurnWhiteGameState() {};
@@ -9,12 +10,21 @@ void TurnWhiteGameState::enter(GameStateMachine* gsm)
 
 	// Notify the game manager that the turn has changed
 	gsm->getGameScene()->getManager()->notify("turnChange");
+
+	// Set any active en passant flags for this color to false so that any en passant captures must occur directly after pawn's first move
+	gsm->getGameScene()->getManager()->endPassant();
+
 	// Subscribe to the event manager
 	subscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
 }
 
-void TurnWhiteGameState::changeState(GameStateMachine* gsm)
-{}
+void TurnWhiteGameState::changeState(GameStateMachine* gsm, std::string eventString)
+{
+	if (eventString == "changeTurn")
+	{
+		gsm->setGameState(gsm->getGameScene(), TurnBlackGameState::getInstance());
+	}
+}
 
 void TurnWhiteGameState::exit(GameStateMachine* gsm)
 {

@@ -344,6 +344,43 @@ void HighlightManager::diagHighlightOptions(Square* square, Rules::RulePackage r
 			}
 		}
 	}
+
+	// Functionality to account for en passant
+	// If the rules allow for en passant (i.e. if the piece on the square is a pawn) 
+	// and a square either to the right or left of it contains a passantable pawn,
+	// highlight the square behind the passantable pawn with the capture overlay.
+	if (rules.captureRules.enPassant == true)
+	{
+			// Check if the square to the left contains a passantable pawn, if it is within the board
+			if (squareIndex.second - 1 < grid->size() &&
+				grid->at(squareIndex.first).at(squareIndex.second - 1).getOccupied() &&
+				grid->at(squareIndex.first).at(squareIndex.second - 1).getOccupant()->getPassantable())
+			{
+				switch (square->getOccupant()->getFenName())
+				{
+				case 'P':
+					t(1, -1, grid, squareIndex);
+					break;
+				case 'p':
+					t(-1, -1, grid, squareIndex);
+				}
+			}
+			// Check if the square to the right contains a passantable pawn, if it is within the board
+			if (squareIndex.second + 1 < grid->size() &&
+				grid->at(squareIndex.first).at(squareIndex.second + 1).getOccupied() &&
+				grid->at(squareIndex.first).at(squareIndex.second + 1).getOccupant()->getPassantable())
+			{
+				switch (square->getOccupant()->getFenName())
+				{
+				case 'P':
+					t(1, 1, grid, squareIndex);
+					break;
+				case 'p':
+					t(-1, 1, grid, squareIndex);
+				}
+			}
+	}
+
 }
 
 template<typename M, typename T>
@@ -488,6 +525,7 @@ void HighlightManager::highlightDiagMoveOptions(Square* square, Rules::RulePacka
 		{
 			grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::TAKE);
 		});
+
 
 }
 

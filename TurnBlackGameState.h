@@ -1,5 +1,7 @@
 #pragma once
 #include "IGameState.h"
+#include "GameScene.h"
+
 class TurnBlackGameState : public IGameState
 {
 private:
@@ -10,7 +12,7 @@ private:
 public:
 
 	void enter(GameStateMachine* gsm);
-	void changeState(GameStateMachine* gsm);
+	void changeState(GameStateMachine* gsm, std::string eventString);
 	void exit(GameStateMachine* gsm);
 	static IGameState& getInstance();
 

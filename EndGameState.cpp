@@ -8,7 +8,7 @@ void EndGameState::enter(GameStateMachine* gsm)
 	LOG(TRACE) << "End Game State entered!";
 }
 
-void EndGameState::changeState(GameStateMachine* gsm)
+void EndGameState::changeState(GameStateMachine* gsm, std::string eventString)
 {}
 
 void EndGameState::exit(GameStateMachine* gsm)

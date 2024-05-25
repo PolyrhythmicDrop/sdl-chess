@@ -27,12 +27,20 @@ public:
 	void handleClick();
 
 	/// <summary>
-	/// Handles a click on a square and calls different functions, depending on what was clicked and in what context.
+	/// Handles a click on the board.
 	/// </summary>
 	void handleClickOnBoard(int x, int y);
 
+	/// <summary>
+	/// Handles a click on an empty square.
+	/// </summary>
+	/// <param name="square">The square that was clicked.</param>
 	void handleClickOnEmptySquare(Square* square);
 
+	/// <summary>
+	/// Handles a click on a piece.
+	/// </summary>
+	/// <param name="piece">The piece that was clicked.</param>
 	void handleClickOnPiece(Piece* piece);
 
 	/// <summary>

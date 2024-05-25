@@ -83,7 +83,8 @@ void SelectionManager::handleClickOnEmptySquare(Square* square)
 		// End turn here after moving the piece? Or call a different function?
 		break;
 	case Square::TAKE:
-		// Empty squares should not have a TAKE overlay (since there's no piece on them to take), but have it deselect pieces anyway, just in case
+		// Used primarily for en passant captures
+		_gm->_actionManager->captureEnPassant(_gm->_selectedPiece, square);
 		deselectPieces();
 		break;
 	default:

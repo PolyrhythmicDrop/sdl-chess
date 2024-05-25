@@ -13,18 +13,17 @@ private:
 
 	static bool _instantiated;
 
-	GameScene* _gameScene;
+	std::shared_ptr<GameScene> _gameScene;
 
 public:
 
-	GameStateMachine();
+	GameStateMachine(GameScene* scene);
 	~GameStateMachine() {};
 
-	inline void setGameScene(GameScene* scene) { _gameScene = scene; };
-	inline GameScene* getGameScene() { return _gameScene; };
+	inline GameScene* getGameScene() { return _gameScene.get(); };
 
 	void enter(GameScene* scene);
-	void changeState(GameScene* scene);
+	void changeState(GameScene* scene, std::string eventString = "");
 	void exit(GameScene* scene);
 
 	void setGameState(GameScene* scene, IGameState& newState);

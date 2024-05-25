@@ -36,6 +36,7 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 	}
 	else
 	{
+		// If the piece was passantable before this move, it should no longer be passantable after the move. Change passantable to false.
 		if (piece->getPassantable() == true)
 		{
 			piece->setPassantable(false);
@@ -61,10 +62,44 @@ void ActionManager::capturePiece(Piece* attacker, Piece* defender)
 	movePiece(attacker, defPos);
 }
 
+void ActionManager::captureEnPassant(Piece* attacker, Square* square)
+{
+	Square* defPos = nullptr;
+
+	if (attacker->getFenName() == 'P')
+	{
+		defPos = &_gm->_gameScene->getBoard()->getBoardGrid()->at(square->getBoardIndex().first - 1).at(square->getBoardIndex().second);
+	}
+	else if (attacker->getFenName() == 'p')
+	{
+		defPos = &_gm->_gameScene->getBoard()->getBoardGrid()->at(square->getBoardIndex().first + 1).at(square->getBoardIndex().second);
+	}
+	
+	if (defPos != nullptr && defPos->getOccupied())
+	{
+		// Unalive the defender
+		defPos->getOccupant()->setAlive(false);
+		// Set the defender's position to null
+		defPos->getOccupant()->setSquare(nullptr);
+		// Add the defender to the captured piece location
+		_gm->_gameScene->addToCapturedPieces(defPos->getOccupant());
+		// De-occupy the defender's square
+		defPos->setOccupied(false);
+		// Move the attacking piece into the specified position
+		movePiece(attacker, square);
+	}
+	else
+	{
+		LOG(ERROR) << "No piece in the available to capture en passant!";
+	}
+
+	LOG(INFO) << "Piece on square " << square->getName() << " captured en passant!";
+}
+
 void ActionManager::promotePawn(Piece* piece)
 {
 	// TODO: Handle in the console for now, later I'll make a GUI for it
-	bool promote = false;
+	
 	bool run = true;
 	char input = NULL;
 
