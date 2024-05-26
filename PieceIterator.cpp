@@ -23,19 +23,34 @@ std::vector<Piece>::iterator PieceIterator::getPreviousPosition()
 	return _previousPosition;
 }
 
-void PieceIterator::start()
+std::vector<Piece>::iterator PieceIterator::getContainerBegin()
+{
+	return _pieceContainer->_pieces.begin();
+}
+
+std::vector<Piece>::iterator PieceIterator::getContainerEnd()
+{
+	return _pieceContainer->_pieces.end();
+}
+
+void PieceIterator::goToStart()
 {
 	updatePositions(_pieceContainer->_pieces.begin());
 }
 
-void PieceIterator::forward(int num)
+void PieceIterator::goForward(int num)
 {
 	updatePositions(std::next(_currentPosition, num));
 }
 
-void PieceIterator::back(int num)
+void PieceIterator::goBack(int num)
 {
 	updatePositions(std::prev(_currentPosition, num));
+}
+
+void PieceIterator::goToEnd()
+{
+	updatePositions(_pieceContainer->_pieces.end());
 }
 
 int PieceIterator::getIndex()

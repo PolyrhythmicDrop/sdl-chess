@@ -1,5 +1,6 @@
 #pragma once
 #include "Chessboard.h"
+#include "PieceContainer.h"
 #include "GameManager.h"
 #include "Player.h"
 #include "Scene.h"
@@ -10,15 +11,12 @@ class GameStateMachine;
 class GameScene : public Scene
 {
 private:
+	friend class PieceContainer;
 
 	std::unique_ptr<Chessboard> _board;
-	std::vector<Piece> _pieces;
 
+	PieceContainer _pieceContainer;
 
-
-	// Captured pieces go here.
-	// Key is the color of the piece. 0 = Black, 1 = White.
-	std::map<int, std::vector<Piece*>> _capturedPieces;
 	// Captured white pieces are rendered here, on the top right side of the board
 	SDL_Point _whiteCapturePoint;
 	// Captured black pieces are rendered here, on the top right side of the board
@@ -37,24 +35,12 @@ public:
 	~GameScene();
 
 	inline Chessboard* getBoard() { return _board.get(); };
+	inline PieceContainer* getPieceContainer() { return &_pieceContainer; };
 
-	void initializePieces();
 	void initializeCapturePoints();
-
-	inline Piece* getPieceOnSquare(Square* square) { return square->getOccupant(); };
-	// Returns a pointer to the piece vector
-	inline std::vector<Piece>* getAllPieces() { return &_pieces; };
-
-	// Gets the index in the pieces vector of all the pieces with the specified FEN name.
-	std::vector<int> getPieceIndexByFEN(char fen);
-	// Returns a vector of pointers to the pieces with the specified FEN name.
-	std::vector<Piece*> getPiecesByFen(char fen);
-
-	// Gets all the captured pieces for the specified color.
-	// 0 = Black, 1 = White
-	std::vector<Piece*> getCapturedPieces(int color);
 	// Adds the specified piece to the captured pieces map.
 	void addToCapturedPieces(Piece* piece);
+
 
 	inline Player* getPlayerOne() { return &_playerOne; };
 	inline Player* getPlayerTwo() { return &_playerTwo; };
