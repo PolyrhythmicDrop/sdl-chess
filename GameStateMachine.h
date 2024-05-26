@@ -3,7 +3,7 @@
 #include <cassert>
 #include <memory>
 
-class GameScene;
+class GameManager;
 class IGameState;
 
 
@@ -13,22 +13,22 @@ private:
 
 	static bool _instantiated;
 
-	std::shared_ptr<GameScene> _gameScene;
+	std::shared_ptr<GameManager> _manager;
 
 public:
 
-	GameStateMachine(GameScene* scene);
+	GameStateMachine(GameManager* gm);
 	~GameStateMachine() {};
 
-	inline GameScene* getGameScene() { return _gameScene.get(); };
+	inline GameManager* getGameManager() { return _manager.get(); };
 
-	void enter(GameScene* scene);
-	void changeState(GameScene* scene, std::string eventString = "");
-	void exit(GameScene* scene);
+	void enter(GameManager* gm);
+	void changeState(GameManager* gm, std::string eventString = "");
+	void exit(GameManager* gm);
 
-	void setGameState(GameScene* scene, IGameState& newState);
+	void setGameState(GameManager* gm, IGameState& newState);
 
-	void subscribeToEventManager(EventManager& manager, GameScene* scene);
-	void unsubscribeToEventManager(EventManager& manager, GameScene* scene);
+	void subscribeToEventManager(EventManager& manager, GameManager* gm);
+	void unsubscribeToEventManager(EventManager& manager, GameManager* gm);
 };
 

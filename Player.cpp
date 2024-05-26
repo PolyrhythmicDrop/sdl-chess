@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "easylogging++.h"
 
-Player::Player(std::string name, char color) :
+Player::Player(std::string name, int color) :
 	_name(name),
 	_color(color)
 {}

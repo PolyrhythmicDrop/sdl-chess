@@ -1,5 +1,4 @@
 #include "GameScene.h"
-#include "IdleGameState.h"
 #include "easylogging++.h"
 
 GameScene::GameScene() :
@@ -8,10 +7,7 @@ GameScene::GameScene() :
 	_capturedPieces(),
 	_playerOne(Player("", ' ')),
 	_playerTwo(Player("", ' ')),
-	_manager(std::make_unique<GameManager>(this)),
-	_gsm(std::make_unique<GameStateMachine>(this)),
-	_currentState(&IdleGameState::getInstance()),
-	_previousState(nullptr)
+	_manager(std::make_unique<GameManager>(this))	
 {
 	assert(!_instantiated);
 	_instantiated = true;
@@ -193,18 +189,5 @@ void GameScene::addToCapturedPieces(Piece* piece)
 	for (int i = 0; i < _capturedPieces[1].size(); ++i)
 	{
 		_capturedPieces[1].at(i)->setPosition(_whiteCapturePoint.x, _whiteCapturePoint.y - (i * 50));
-	}
-}
-
-void GameScene::notify(GameObject* sender, std::string eString)
-{
-
-}
-
-void GameScene::notify(GameManager* manager, std::string eString)
-{
-	if (eString == "turnComplete")
-	{
-		_gsm->changeState(this, "changeTurn");
 	}
 }

@@ -3,12 +3,14 @@
 #include "GameManager.h"
 #include "GameScene.h"
 #include "HighlightManager.h"
+#include "IdleGameState.h"
 #include "TurnBlackGameState.h"
 #include "TurnWhiteGameState.h"
 
 GameManager::GameManager(GameScene* gameScene) :
 	_gameScene(gameScene),
 	_rules(std::make_unique<Rules>()),
+	_gsm(std::make_unique<GameStateMachine>(this)),
 	_currentTurn(NULL),
 	_selectedPiece(nullptr),
 	_history({}),
@@ -17,7 +19,9 @@ GameManager::GameManager(GameScene* gameScene) :
 	_textPlacement(_textSetup),
 	_highlightManager(std::make_unique<HighlightManager>(this)),
 	_actionManager(std::make_unique<ActionManager>(this)),
-	_selectionManager(std::make_unique<SelectionManager>(this))
+	_selectionManager(std::make_unique<SelectionManager>(this)),
+	_currentState(&IdleGameState::getInstance()),
+	_previousState(nullptr)
 {
 	LOG(TRACE) << "Game Manager instantiated!";
 }
@@ -93,11 +97,11 @@ void GameManager::notify(std::string eString)
 
 	if (eString == "turnChange")
 	{
-		if (_gameScene->getCurrentState() == &TurnWhiteGameState::getInstance())
+		if (_currentState == &TurnWhiteGameState::getInstance())
 		{
 			setTurn(1);
 		}
-		else if (_gameScene->getCurrentState() == &TurnBlackGameState::getInstance())
+		else if (_currentState == &TurnBlackGameState::getInstance())
 		{
 			setTurn(0);
 		}
@@ -110,6 +114,46 @@ void GameManager::parseFEN(std::string position)
 }
 
 void GameManager::setUpGame()
+{
+	setUpPlayers();
+	setUpBoard();
+	setUpPieces();
+}
+
+void GameManager::setUpPlayers()
+{
+	// ** Player Initialization ** //
+	std::string p1Name, p2Name;
+	std::cout << "Player One, enter your name:\n";
+	std::cin >> p1Name;
+	std::cout << "Player Two, enter your name:\n";
+	std::cin >> p2Name;
+
+	// TODO: Let the players select their color. For now, hard-coding who goes first.
+	_gameScene->setPlayerOne(p1Name, '1');
+	_gameScene->setPlayerTwo(p2Name, '0');
+
+}
+
+void GameManager::setUpBoard()
+{
+
+	// Build the chessboard squares and add the board grid to the render queue
+	_gameScene->getBoard()->buildChessboard();
+	LOG(TRACE) << "Chessboard squares and position constructed!";
+
+	_gameScene->initializeCapturePoints();
+	LOG(TRACE) << "Capture points built!";
+
+	_gameScene->getBoard()->addBoardToRender();
+	LOG(TRACE) << "Chessboard added to render queue!";
+
+	// Add the current square positions to the debug log
+	_gameScene->getBoard()->printSquarePositions();
+
+}
+
+void GameManager::setUpPieces()
 {
 	// Add the Game Manager as the mediator for all the objects in the game scene
 	this->setMediators();
@@ -234,7 +278,7 @@ void GameManager::onPieceMove(Piece* piece)
 
 void GameManager::endTurn()
 {
-	_gameScene->notify(this, "turnComplete");
+	_gsm->changeState(this, "changeTurn");
 }
 
 void GameManager::endPassant()

@@ -3,45 +3,45 @@
 #include "GameScene.h"
 
 
-GameStateMachine::GameStateMachine(GameScene* scene) :
-	_gameScene(scene)
+GameStateMachine::GameStateMachine(GameManager* gm) :
+	_manager(gm)
 {
 	assert(!_instantiated);
 	_instantiated = true;
 }
 
-void GameStateMachine::enter(GameScene* scene)
+void GameStateMachine::enter(GameManager* gm)
 {
-	scene->getCurrentState()->enter(this);
+	gm->getCurrentState()->enter(this);
 }
 
-void GameStateMachine::changeState(GameScene* scene, std::string eventString)
+void GameStateMachine::changeState(GameManager* gm, std::string eventString)
 {
-	scene->getCurrentState()->changeState(this, eventString);
+	gm->getCurrentState()->changeState(this, eventString);
 }
 
-void GameStateMachine::exit(GameScene* scene)
+void GameStateMachine::exit(GameManager* gm)
 {
-	scene->getCurrentState()->exit(this);
+	gm->getCurrentState()->exit(this);
 }
 
-void GameStateMachine::setGameState(GameScene* scene, IGameState& newState)
+void GameStateMachine::setGameState(GameManager* gm, IGameState& newState)
 {
-	if (scene->_currentState != nullptr)
+	if (gm->_currentState != nullptr)
 	{
-		scene->_previousState = scene->_currentState;
-		scene->_currentState->exit(this);
+		gm->_previousState = gm->_currentState;
+		gm->_currentState->exit(this);
 	}
-	scene->_currentState = &newState;
-	scene->_currentState->enter(this);
+	gm->_currentState = &newState;
+	gm->_currentState->enter(this);
 }
 
-void GameStateMachine::subscribeToEventManager(EventManager& manager, GameScene* scene)
+void GameStateMachine::subscribeToEventManager(EventManager& manager, GameManager* gm)
 {
-	scene->getCurrentState()->subscribeToEventManager(manager, this);
+	gm->getCurrentState()->subscribeToEventManager(manager, this);
 }
 
-void GameStateMachine::unsubscribeToEventManager(EventManager& manager, GameScene* scene)
+void GameStateMachine::unsubscribeToEventManager(EventManager& manager, GameManager* gm)
 {
-	scene->getCurrentState()->unsubscribeToEventManager(manager, this);
+	gm->getCurrentState()->unsubscribeToEventManager(manager, this);
 }
