@@ -1,11 +1,11 @@
+#include "BoardIterator.h"
 #include "Chessboard.h"
 #include "easylogging++.h"
 #include "ServiceLocator.h"
 #include "SquareGraphicsComponent.h"
 #include <algorithm>
 
-Chessboard::Chessboard() :
-	_graphics(new GraphicsComponent())
+Chessboard::Chessboard()
 {
 	_dimensions = { 0, 0, 1000, 1000 };
 	_zIndex = -1;
@@ -16,8 +16,6 @@ Chessboard::Chessboard() :
 Chessboard::Chessboard(const Chessboard& board)
 {
 	_mediator = board._mediator;
-	_graphics = new GraphicsComponent();
-	*_graphics = *(board._graphics);
 	_dimensions = board._dimensions;
 	_zIndex = board._zIndex;
 	_boardGrid = board._boardGrid;
@@ -405,4 +403,10 @@ void const Chessboard::printSquarePositions()
 			LOG(DEBUG) << "[ " << _boardGrid[row][column].getName() << " Index: [ " << _boardGrid[row][column].getBoardIndex().first << ", " << _boardGrid[row][column].getBoardIndex().second << " ] " << " ]\nX: " << _boardGrid[row][column].getX() << "\nY: " << _boardGrid[row][column].getY() << "\nZ: " << _boardGrid[row][column].getZ() << "\nW: " << _boardGrid[row][column].getWidth() << "\nH: " << _boardGrid[row][column].getHeight();
 		}
 	}
+}
+
+BoardIterator Chessboard::createIterator()
+{
+	BoardIterator boardItr(this);
+	return boardItr;
 }
