@@ -14,6 +14,8 @@ private:
 	std::unique_ptr<Chessboard> _board;
 	std::vector<Piece> _pieces;
 
+
+
 	// Captured pieces go here.
 	// Key is the color of the piece. 0 = Black, 1 = White.
 	std::map<int, std::vector<Piece*>> _capturedPieces;
