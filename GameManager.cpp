@@ -101,14 +101,7 @@ void GameManager::notify(std::string eString)
 
 	if (eString == "turnChange")
 	{
-		if (_currentState == &TurnWhiteGameState::getInstance())
-		{
-			setTurn(1);
-		}
-		else if (_currentState == &TurnBlackGameState::getInstance())
-		{
-			setTurn(0);
-		}
+		onTurnChange();
 	}
 }
 
@@ -360,8 +353,33 @@ void GameManager::onPieceMove(Piece* piece)
 	}
 
 	// TODO: Confirm if the player wants to end their turn?
-
 	
+}
+
+void GameManager::onTurnChange()
+{
+	if (_currentState == &TurnWhiteGameState::getInstance())
+	{
+		setTurn(1);
+	}
+	else if (_currentState == &TurnBlackGameState::getInstance())
+	{
+		setTurn(0);
+	}
+
+	// Set any active en passant flags for this color to false so that any en passant captures must occur directly after pawn's first move
+	endPassant();
+
+	// Check for check. Set player check to false if player not in check. 
+	// If this returns true, the player's check flag has already been set to true by the Highlight Manager, so you do not need to set it here.
+	if (!checkForCheck())
+	{
+		_currentPlayer->setCheck(false);
+	}
+	else
+	{
+		LOG(INFO) << _currentPlayer->getName() << " is in check! Be careful...";
+	}
 }
 
 

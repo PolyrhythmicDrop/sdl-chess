@@ -79,7 +79,7 @@ Rules::RulePackage Rules::getWhtPawnRules(Piece* piece)
 	
 	// Set whether the piece can be promoted
 	// If the piece is in its same column and it has reached the last square in the board, it can be promoted.
-	if (piece->getSquare()->getBoardIndex().second == piece->getSquare()->getBoardIndex().second 
+	if (piece->isAlive() && piece->getSquare()->getBoardIndex().second == piece->getSquare()->getBoardIndex().second 
 		&& piece->getSquare()->getBoardIndex().first == 7)
 	{
 		pawnRules.specialActions.promote = true;
@@ -123,7 +123,7 @@ Rules::RulePackage Rules::getBlkPawnRules(Piece* piece)
 
 	// Set whether the piece can be promoted
 	// If the piece is in its same column and it has reached the last square in the board, it can be promoted.
-	if (piece->getSquare()->getBoardIndex().second == piece->getSquare()->getBoardIndex().second
+	if (piece->isAlive() && piece->getSquare()->getBoardIndex().second == piece->getSquare()->getBoardIndex().second
 		&& piece->getSquare()->getBoardIndex().first == 0)
 	{
 		pawnRules.specialActions.promote = true;

@@ -119,6 +119,7 @@ public:
 	// ** Getters and Setters **
 
 	inline Rules* getRules() { return _rules.get(); };
+	inline Player* getCurrentPlayer() { return _currentPlayer; };
 
 	// *************************
 
@@ -143,6 +144,7 @@ public:
 
 	void handleClick();
 	void onPieceMove(Piece* piece);
+	void onTurnChange();
 
 };
 
