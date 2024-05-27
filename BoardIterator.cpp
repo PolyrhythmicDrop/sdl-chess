@@ -58,14 +58,14 @@ std::vector<std::vector<Square>>::iterator BoardIterator::getLastRow()
 	return _board->getBoardGrid()->end();
 }
 
-std::vector<Square>::iterator BoardIterator::getFirstColumn()
+std::vector<Square>::iterator BoardIterator::getFirstColumn(int row)
 {
-	return _board->getBoardGrid()->at(0).begin();
+	return _board->getBoardGrid()->at(row).begin();
 }
 
-std::vector<Square>::iterator BoardIterator::getLastColumn()
+std::vector<Square>::iterator BoardIterator::getLastColumn(int row)
 {
-	return _board->getBoardGrid()->at(0).end();
+	return _board->getBoardGrid()->at(row).end();
 }
 
 void BoardIterator::goToStart()
@@ -80,7 +80,7 @@ void BoardIterator::goToEnd()
 
 void BoardIterator::goUp(int num)
 {
-	if (_currentRowPos + num != getLastRow())
+	if (_currentRowPos + num < getLastRow())
 	{
 		updateRowPos(std::next(_currentRowPos, num));
 	}
@@ -92,7 +92,7 @@ void BoardIterator::goUp(int num)
 
 void BoardIterator::goDown(int num)
 {
-	if (_currentRowPos - num != getFirstRow())
+	if (_currentRowPos - num > getFirstRow())
 	{
 		updateRowPos(std::prev(_currentRowPos, num));
 	}
@@ -104,7 +104,7 @@ void BoardIterator::goDown(int num)
 
 void BoardIterator::goLeft(int num)
 {
-	if (_currentColPos - num != getFirstColumn())
+	if (_currentColPos - num > getFirstColumn())
 	{
 		updateColPos(std::prev(_currentColPos, num));
 	}
@@ -116,7 +116,7 @@ void BoardIterator::goLeft(int num)
 
 void BoardIterator::goRight(int num)
 {
-	if (_currentColPos + num != getLastColumn())
+	if (_currentColPos + num < getLastColumn())
 	{
 		updateColPos(std::next(_currentColPos, num));
 	}

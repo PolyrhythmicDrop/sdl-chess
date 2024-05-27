@@ -44,13 +44,13 @@ class BoardIterator
 		/// </summary>
 		/// <param name="row">The row to get the first column of.</param>
 		/// <returns>An iterator at the first column in the specified row.</returns>
-		std::vector<Square>::iterator getFirstColumn();
+		std::vector<Square>::iterator getFirstColumn(int row = 0);
 		/// <summary>
 		/// Gets the last column in the specified row.
 		/// </summary>
 		/// <param name="row">The row to get the last column of.</param>
 		/// <returns>An iterator at the last column in the specified row.</returns>
-		std::vector<Square>::iterator getLastColumn();
+		std::vector<Square>::iterator getLastColumn(int row = 0);
 
 		// Sends the iterator to the start of the grid (0, 0)
 		void goToStart();
@@ -62,17 +62,17 @@ class BoardIterator
 		/// Moves the iterator up by the specified number of rows. If it reaches the end of the row, it returns end().
 		/// </summary>
 		/// <param name="num">The number of rows to move up.</param>
-		void goUp(int num);
+		void goUp(int num = 1);
 
-		void goDown(int num);
+		void goDown(int num = 1);
 
 		/// <summary>
-		/// Moves the iterator backward in the container.
+		/// Moves the iterator left on the board grid, aka decrements columns.
 		/// </summary>
-		/// <param name="num">The number of entries to move the iterator backward.</param>
-		void goLeft(int num);
+		/// <param name="num">The number of columns to move the iterator left.</param>
+		void goLeft(int num = 1);
 
-		void goRight(int num);
+		void goRight(int num = 1);
 
 		// Gets the current board index of the iterators.
 		std::pair<int, int> getCurrentIndex();

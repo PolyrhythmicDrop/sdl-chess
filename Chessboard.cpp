@@ -62,16 +62,6 @@ void const Chessboard::buildChessboard()
 	// Set the size of each square
 	std::vector<Square> row1Vect = { a1, b1, c1, d1, e1, f1, g1, h1 };
 	LOG(TRACE) << "Squares added to Row 1 Vector!";
-	
-
-	/*
-	// Set the square's index in the board vector
-	for (int i = 0; i < row1Vect.size(); ++i)
-	{
-		row1Vect.at(i).setBoardIndex(0, i);
-		LOG(DEBUG) << row1Vect.at(i).getName() << " board index: " << row1Vect.at(i).getBoardIndex().first << ", " << row1Vect.at(i).getBoardIndex().second;
-	}
-	*/
 
 	for (Square square : row1Vect)
 	{
