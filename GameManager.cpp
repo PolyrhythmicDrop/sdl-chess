@@ -339,7 +339,7 @@ void GameManager::onPieceMove(Piece* piece)
 		_actionManager->promotePawn(piece);
 	}
 
-	// TODO: Check if move would put the player's king in check
+	// Check if move would put the player's king in check
 	if (checkForCheck())
 	{
 		LOG(INFO) << "This move would put your king in check! Illegal move.";
