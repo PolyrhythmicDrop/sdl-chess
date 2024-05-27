@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <optional>
 
 class GameManager;
 class Piece;
@@ -11,11 +12,20 @@ friend class GameManager;
 
 private:
 
+	struct UndoBuffer {
+		Piece* attacker;
+		Piece* defender;
+		Square* originSq;
+		Square* targetSq;
+	};
+
 	std::shared_ptr<GameManager> _gm;
+	
+	UndoBuffer _undoBuffer;
 
 public:
 
-	ActionManager(GameManager* gm) : _gm(gm) {};
+	ActionManager(GameManager* gm);
 	~ActionManager() {};
 
 	/// <summary>
@@ -45,5 +55,11 @@ public:
 	/// </summary>
 	/// <param name="piece">The piece to promote.</param>
 	void promotePawn(Piece* piece);
+
+	void addToUndoBuffer(Piece* attacker = nullptr, Piece* defender = nullptr, Square* originSq = nullptr, Square* targetSq = nullptr);
+	UndoBuffer getUndoBuffer();
+	void clearUndoBuffer();
+
+
 };
 

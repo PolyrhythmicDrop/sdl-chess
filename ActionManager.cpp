@@ -4,6 +4,11 @@
 #include "GameScene.h"
 #include <conio.h>
 
+ActionManager::ActionManager(GameManager* gm) :
+	_gm(gm),
+	_undoBuffer({nullptr, nullptr, nullptr, nullptr})
+{}
+
 void ActionManager::movePiece(Piece* piece, Square* target)
 {
 	std::pair<int, int> moveDistance = { 0, 0 };
@@ -11,6 +16,15 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 	// Move distance is the piece's board index subtracted from the target's move index.
 	moveDistance = { target->getBoardIndex().first - piece->getSquare()->getBoardIndex().first,
 					target->getBoardIndex().second - piece->getSquare()->getBoardIndex().second };
+
+	// If there's nothing in the undo buffer (aka if this is a pure move with no capture), add the relevant parties to the undo buffer.
+	if (_undoBuffer.attacker == nullptr &&
+		_undoBuffer.defender == nullptr &&
+		_undoBuffer.originSq == nullptr &&
+		_undoBuffer.targetSq == nullptr)
+	{
+		addToUndoBuffer(piece, nullptr, piece->getSquare(), target);
+	}
 
 	if (!target->getOccupied())
 	{
@@ -43,6 +57,9 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 		}
 	}
 
+	// DEBUG: Check to see if the objects were correctly copied to the undo buffer without begin changed by the function.
+	getUndoBuffer();
+
 	// Notify the GameManager that the position has changed.
 	_gm->notify(piece, "pieceMove");
 }
@@ -50,6 +67,9 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 void ActionManager::capturePiece(Piece* attacker, Piece* defender)
 {
 	Square* defPos = defender->getSquare();
+	// Add the relevant objects to the undo buffer
+	addToUndoBuffer(attacker, defender, attacker->getSquare(), defender->getSquare());
+
 	// De-occupy the defender's square
 	defPos->setOccupied(false);
 	// Unalive the defender
@@ -184,4 +204,39 @@ void ActionManager::promotePawn(Piece* piece)
 
 	vect.clear();
 
+}
+
+void ActionManager::addToUndoBuffer(Piece* attacker, Piece* defender, Square* originSq, Square* targetSq)
+{
+	if (attacker)
+	{
+		Piece* attackClone = new Piece(*attacker);
+		_undoBuffer.attacker = attackClone;
+	}
+	if (defender)
+	{
+		Piece* defendClone = new Piece(*defender);
+		_undoBuffer.defender = defendClone;
+	}
+	if (originSq)
+	{
+		Square* originClone = new Square(*originSq);
+		_undoBuffer.originSq = originClone;
+	}
+	if (targetSq)
+	{
+		Square* targetClone = new Square(*targetSq);
+		_undoBuffer.originSq = targetClone;
+	}
+
+}
+
+ActionManager::UndoBuffer ActionManager::getUndoBuffer()
+{
+	return _undoBuffer;
+}
+
+void ActionManager::clearUndoBuffer()
+{
+	_undoBuffer = { nullptr, nullptr, nullptr, nullptr };
 }
