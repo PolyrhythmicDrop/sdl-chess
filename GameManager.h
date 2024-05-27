@@ -14,6 +14,7 @@ class Square;
 class HighlightManager;
 class ActionManager;
 class SelectionManager;
+class Player;
 
 class GameManager : public IMediator
 {
@@ -27,6 +28,8 @@ private:
 
 	// The current turn. 0 = Black, 1 = White.
 	int _currentTurn; 
+	// The player whose turn it currently is.
+	Player* _currentPlayer;
 
 	// The currently selected piece
 	Piece* _selectedPiece;
@@ -123,6 +126,10 @@ public:
 
 	void setTurn(int turn);
 	inline int getTurn() const { return _currentTurn; };
+
+	// Checks for check on the current player's king.
+	bool checkForCheck();
+
 	// Notifies the game state machine to change the turn.
 	void endTurn();
 	// Disables en passant capturing for any pawns that moved two squares up on the previous turn.

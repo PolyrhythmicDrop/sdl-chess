@@ -12,6 +12,7 @@ class GameScene : public Scene
 {
 private:
 	friend class PieceContainer;
+	friend class Player;
 
 	std::unique_ptr<Chessboard> _board;
 
@@ -44,8 +45,8 @@ public:
 
 	inline Player* getPlayerOne() { return &_playerOne; };
 	inline Player* getPlayerTwo() { return &_playerTwo; };
-	inline void setPlayerOne(std::string name, char color) { _playerOne._name = name; _playerOne._color = color; };
-	inline void setPlayerTwo(std::string name, char color) { _playerTwo._name = name; _playerTwo._color = color; };
+	inline void setPlayerOne(std::string name, char color) { _playerOne.setName(name); _playerOne.setColor(color); };
+	inline void setPlayerTwo(std::string name, char color) { _playerTwo.setName(name); _playerTwo.setColor(color); };
 
 	inline GameManager* getManager() { return _manager.get(); };
 

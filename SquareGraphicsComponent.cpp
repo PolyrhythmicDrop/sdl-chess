@@ -98,6 +98,11 @@ void SquareGraphicsComponent::sumImage(Square* square)
 		SDL_SetTextureColorMod(_overlayTexture, square->getTakeOverlayColor()->r, square->getTakeOverlayColor()->g, square->getTakeOverlayColor()->b);	
 		SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _overlayTexture, NULL, NULL);
 		break;
+	case Square::CHECK:
+		SDL_SetTextureBlendMode(_overlayTexture, SDL_BLENDMODE_BLEND);
+		SDL_SetTextureAlphaMod(_overlayTexture, 0);
+		SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _overlayTexture, NULL, NULL);
+		break;
 	}
 	// Render the square texture and the overlay texture to the sum texture
 	

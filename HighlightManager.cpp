@@ -545,4 +545,66 @@ void HighlightManager::highlightJumpMoveOptions(Square* square, Rules::RulePacka
 		});
 }
 
+bool HighlightManager::highlightCheck(Square* square)
+{
+	Piece::PieceColor turnColor;
+	switch (_gm->getTurn())
+	{
+	case 0:
+		turnColor = Piece::BLACK;
+		break;
+	case 1:
+		turnColor = Piece::WHITE;
+		break;
+	default:
+		turnColor = Piece::BLACK;
+		break;
+	}
+
+	// Set temporary pieces for rule checking
+	Piece fakeQ(Piece::QUEEN, turnColor);
+	Piece fakeP(Piece::PAWN, turnColor);
+	Piece fakeN(Piece::KNIGHT, turnColor);
+
+	
+	// If the square has a king of the current turn
+	if (square->getOccupant()->getPieceType() == 5 && square->getOccupant()->getPieceColor() == _gm->getTurn())
+	{
+		for (int i = 0; i < 1 && !_gm->_currentPlayer->getCheck(); ++i)
+		{
+			// Check the orthogonal and diagonal moves by getting the queen ruleset. Put a check overlay on any opposing pieces you encounter.
+			orthoHighlightOptions(square, getPieceRules(&fakeQ), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+				{
+					grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::NONE);
+				},
+				[this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+				{
+					// if the piece encountered is not an enemy pawn or knight, set check. (different rule set to check for pawns and knights)
+					if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceType() != Piece::PAWN &&
+						grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceType() != Piece::KNIGHT)
+					{
+						grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::CHECK);
+						_gm->_currentPlayer->setCheck(true);
+					}
+				});
+			diagHighlightOptions(square, getPieceRules(&fakeQ), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+				{
+					grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::NONE);
+				},
+				[this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+				{
+					// if the piece encountered is not an enemy pawn or knight, set check. (different rule set to check for pawns and knights)
+					if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceType() != Piece::PAWN &&
+						grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceType() != Piece::KNIGHT)
+					{
+						grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::CHECK);
+						_gm->_currentPlayer->setCheck(true);
+					}
+				});
+		}
+	}
+
+	return _gm->_currentPlayer->getCheck();
+}
+
 

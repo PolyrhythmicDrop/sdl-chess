@@ -16,7 +16,8 @@ public:
 	enum Overlay {
 		NONE,
 		MOVE,
-		TAKE
+		TAKE,
+		CHECK
 	};
 
 	enum TileType {

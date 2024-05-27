@@ -13,6 +13,7 @@ GameManager::GameManager(GameScene* gameScene) :
 	_rules(std::make_unique<Rules>()),
 	_gsm(std::make_unique<GameStateMachine>(this)),
 	_currentTurn(NULL),
+	_currentPlayer(NULL),
 	_selectedPiece(nullptr),
 	_history({}),
 	_textAction(""),
@@ -136,6 +137,16 @@ void GameManager::setUpPlayers()
 	_gameScene->setPlayerOne(p1Name, '1');
 	_gameScene->setPlayerTwo(p2Name, '0');
 
+	// Set the current player to whoever white is
+	if (_gameScene->getPlayerOne()->getColor() == 1)
+	{
+		_currentPlayer = _gameScene->getPlayerOne();
+	}
+	else
+	{
+		_currentPlayer = _gameScene->getPlayerTwo();
+	}
+
 }
 
 void GameManager::setUpBoard()
@@ -256,29 +267,38 @@ void GameManager::setUpPieces()
 void GameManager::setTurn(int turn)
 {
 	_currentTurn = turn;
-}
 
-void GameManager::handleClick()
-{
-	_selectionManager->handleClick();
-}
-
-void GameManager::onPieceMove(Piece* piece)
-{
-	_selectionManager->deselectPieces();
-
-	// Pawn promotion
-	if (_highlightManager->getPieceRules(piece).specialActions.promote)
+	// Set the current player to whoever's turn we're changing to.
+	if (_gameScene->getPlayerOne()->getColor() == turn)
 	{
-		_actionManager->promotePawn(piece);
+		_currentPlayer = _gameScene->getPlayerOne();
+	}
+	else
+	{
+		_currentPlayer = _gameScene->getPlayerTwo();
+	}
+	
+}
+
+bool GameManager::checkForCheck()
+{
+	// Find the square that the current turn's king is on.
+	Square* kingSquare = nullptr;
+
+	if (_currentTurn == 0)
+	{
+		kingSquare = _gameScene->getPieceContainer()->getPiecesByFen('k')[0]->getSquare();
+	}
+	else
+	{
+		kingSquare = _gameScene->getPieceContainer()->getPiecesByFen('K')[0]->getSquare();
 	}
 
-	// TODO: Check if move would put the player's king in check
+	// Pass the square the king is on to the highlight manager so it can perform check higlighting
+	bool check = _highlightManager->highlightCheck(kingSquare);
 
-	// TODO: Confirm if the player wants to end their turn?
+	return check;
 
-	// End the turn
-	endTurn();
 }
 
 void GameManager::endTurn()
@@ -310,3 +330,38 @@ void GameManager::endPassant()
 	}
 
 }
+
+void GameManager::handleClick()
+{
+	_selectionManager->handleClick();
+}
+
+void GameManager::onPieceMove(Piece* piece)
+{
+	_selectionManager->deselectPieces();
+
+	// Pawn promotion
+	if (_highlightManager->getPieceRules(piece).specialActions.promote)
+	{
+		_actionManager->promotePawn(piece);
+	}
+
+	// TODO: Check if move would put the player's king in check
+	if (checkForCheck())
+	{
+		LOG(INFO) << "This move would put your king in check! Illegal move.";
+
+		// TODO: Revert the move
+	}
+	else
+	{
+		// End the turn
+		endTurn();
+	}
+
+	// TODO: Confirm if the player wants to end their turn?
+
+	
+}
+
+

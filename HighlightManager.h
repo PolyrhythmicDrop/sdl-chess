@@ -50,5 +50,7 @@ public:
 	// Highlight jump moves
 	void highlightJumpMoveOptions(Square* square, Rules::RulePackage rules);
 
+	bool highlightCheck(Square* square);
+
 };
 
