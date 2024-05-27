@@ -25,13 +25,13 @@ void InGameProgramState::enter(ProgramStateMachine* psm)
 	if (!GameScene::_instantiated)
 	{
 		psm->createGameScene();
-		psm->getGameScene()->setGameState(InitGameState::getInstance());
+		psm->getGameScene()->getManager()->setGameState(InitGameState::getInstance());
 	}
 	else
 	{
-		if (psm->getGameScene()->_currentState != &IdleGameState::getInstance())
+		if (psm->getGameScene()->getManager()->_currentState != &IdleGameState::getInstance())
 		{
-			psm->getGameScene()->setGameState(IdleGameState::getInstance());
+			psm->getGameScene()->getManager()->setGameState(IdleGameState::getInstance());
 		}
 	}
 	LOG(TRACE) << "In Game Program State entered!";

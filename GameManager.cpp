@@ -3,12 +3,15 @@
 #include "GameManager.h"
 #include "GameScene.h"
 #include "HighlightManager.h"
+#include "IdleGameState.h"
 #include "TurnBlackGameState.h"
 #include "TurnWhiteGameState.h"
+#include "PieceIterator.h"
 
 GameManager::GameManager(GameScene* gameScene) :
 	_gameScene(gameScene),
 	_rules(std::make_unique<Rules>()),
+	_gsm(std::make_unique<GameStateMachine>(this)),
 	_currentTurn(NULL),
 	_selectedPiece(nullptr),
 	_history({}),
@@ -17,7 +20,9 @@ GameManager::GameManager(GameScene* gameScene) :
 	_textPlacement(_textSetup),
 	_highlightManager(std::make_unique<HighlightManager>(this)),
 	_actionManager(std::make_unique<ActionManager>(this)),
-	_selectionManager(std::make_unique<SelectionManager>(this))
+	_selectionManager(std::make_unique<SelectionManager>(this)),
+	_currentState(&IdleGameState::getInstance()),
+	_previousState(nullptr)
 {
 	LOG(TRACE) << "Game Manager instantiated!";
 }
@@ -46,10 +51,12 @@ void GameManager::setMediators()
 			this->_gameScene->getBoard()->getBoardGrid()->at(row).at(col).setMediator(this);
 		});
 
+	PieceIterator pieceItr = _gameScene->getPieceContainer()->createIterator();
+
 	// Add the GameManager as the mediator for all the pieces.
-	for (int i = 0; i < this->_gameScene->getAllPieces()->size(); ++i)
+	for (pieceItr; !pieceItr.isDone(); pieceItr.goForward(1))
 	{
-		this->_gameScene->getAllPieces()->at(i).setMediator(this);
+		(*pieceItr.getCurrentPosition()).setMediator(this);
 	}
 	
 }
@@ -93,11 +100,11 @@ void GameManager::notify(std::string eString)
 
 	if (eString == "turnChange")
 	{
-		if (_gameScene->getCurrentState() == &TurnWhiteGameState::getInstance())
+		if (_currentState == &TurnWhiteGameState::getInstance())
 		{
 			setTurn(1);
 		}
-		else if (_gameScene->getCurrentState() == &TurnBlackGameState::getInstance())
+		else if (_currentState == &TurnBlackGameState::getInstance())
 		{
 			setTurn(0);
 		}
@@ -111,92 +118,134 @@ void GameManager::parseFEN(std::string position)
 
 void GameManager::setUpGame()
 {
+	setUpPlayers();
+	setUpBoard();
+	setUpPieces();
+}
+
+void GameManager::setUpPlayers()
+{
+	// ** Player Initialization ** //
+	std::string p1Name, p2Name;
+	std::cout << "Player One, enter your name:\n";
+	std::cin >> p1Name;
+	std::cout << "Player Two, enter your name:\n";
+	std::cin >> p2Name;
+
+	// TODO: Let the players select their color. For now, hard-coding who goes first.
+	_gameScene->setPlayerOne(p1Name, '1');
+	_gameScene->setPlayerTwo(p2Name, '0');
+
+}
+
+void GameManager::setUpBoard()
+{
+
+	// Build the chessboard squares and add the board grid to the render queue
+	_gameScene->getBoard()->buildChessboard();
+	LOG(TRACE) << "Chessboard squares and position constructed!";
+
+	_gameScene->initializeCapturePoints();
+	LOG(TRACE) << "Capture points built!";
+
+	_gameScene->getBoard()->addBoardToRender();
+	LOG(TRACE) << "Chessboard added to render queue!";
+
+	// Add the current square positions to the debug log
+	_gameScene->getBoard()->printSquarePositions();
+
+}
+
+void GameManager::setUpPieces()
+{
 	// Add the Game Manager as the mediator for all the objects in the game scene
 	this->setMediators();
 
 	// *******************************
 	// Set WHITE
 	// Set the white pawns
-	std::vector<int> pawnVect = _gameScene->getPieceIndexByFEN('P');
+	std::vector<int> pawnVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('P');
 	for (int i = 0; i < pawnVect.size(); ++i)
 	{
-		_gameScene->getAllPieces()->at(pawnVect.at(i)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(1).at(i));
+		_gameScene->getPieceContainer()->getAllPieces()->at(pawnVect.at(i)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(1).at(i));
 	}
 
 	// Set the white rooks
-	std::vector<int> rookVect = _gameScene->getPieceIndexByFEN('R');
-	_gameScene->getAllPieces()->at(rookVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(0));
-	_gameScene->getAllPieces()->at(rookVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(7));
+	std::vector<int> rookVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('R');
+	_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(0));
+	_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(7));
 	rookVect.clear();
 
 	// Set the white knights
-	std::vector<int> knightVect = _gameScene->getPieceIndexByFEN('N');
-	_gameScene->getAllPieces()->at(knightVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(1));
-	_gameScene->getAllPieces()->at(knightVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(6));
+	std::vector<int> knightVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('N');
+	_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(1));
+	_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(6));
 	knightVect.clear();
 
 	// Set the white bishops
-	std::vector<int> bishopVect = _gameScene->getPieceIndexByFEN('B');
-	_gameScene->getAllPieces()->at(bishopVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(2));
-	_gameScene->getAllPieces()->at(bishopVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(5));
+	std::vector<int> bishopVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('B');
+	_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(2));
+	_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(5));
 	bishopVect.clear();
 
 	// Set the white queen
-	std::vector<int> queenVect = _gameScene->getPieceIndexByFEN('Q');
-	_gameScene->getAllPieces()->at(queenVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(3));
+	std::vector<int> queenVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('Q');
+	_gameScene->getPieceContainer()->getAllPieces()->at(queenVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(3));
 	queenVect.clear();
 
 	// Set the white king
-	std::vector<int> kingVect = _gameScene->getPieceIndexByFEN('K');
-	_gameScene->getAllPieces()->at(kingVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(4));
+	std::vector<int> kingVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('K');
+	_gameScene->getPieceContainer()->getAllPieces()->at(kingVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(4));
 	kingVect.clear();
 	// *****************************
 
 	// *****************************
 	// Set BLACK
 	// Set the black pawns
-	pawnVect = _gameScene->getPieceIndexByFEN('p');
+	pawnVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('p');
 	for (int i = 0; i < pawnVect.size(); ++i)
 	{
-		_gameScene->getAllPieces()->at(pawnVect.at(i)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(6).at(i));
+		_gameScene->getPieceContainer()->getAllPieces()->at(pawnVect.at(i)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(6).at(i));
 	}
 
 	// Set the black rooks
-	rookVect = _gameScene->getPieceIndexByFEN('r');
-	_gameScene->getAllPieces()->at(rookVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(0));
-	_gameScene->getAllPieces()->at(rookVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(7));
+	rookVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('r');
+	_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(0));
+	_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(7));
 	rookVect.clear();
 
 	// Set the black knights
-	knightVect = _gameScene->getPieceIndexByFEN('n');
-	_gameScene->getAllPieces()->at(knightVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(1));
-	_gameScene->getAllPieces()->at(knightVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(6));
+	knightVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('n');
+	_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(1));
+	_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(6));
 	knightVect.clear();
 
 	// Set the black bishops
-	bishopVect = _gameScene->getPieceIndexByFEN('b');
-	_gameScene->getAllPieces()->at(bishopVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(2));
-	_gameScene->getAllPieces()->at(bishopVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(5));
+	bishopVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('b');
+	_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(2));
+	_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(5));
 	bishopVect.clear();
 
 	// Set the black queen
-	queenVect = _gameScene->getPieceIndexByFEN('q');
-	_gameScene->getAllPieces()->at(queenVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(3));
+	queenVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('q');
+	_gameScene->getPieceContainer()->getAllPieces()->at(queenVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(3));
 	queenVect.clear();
 
 	// Set the black king
-	kingVect = _gameScene->getPieceIndexByFEN('k');
-	_gameScene->getAllPieces()->at(kingVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(4));
+	kingVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('k');
+	_gameScene->getPieceContainer()->getAllPieces()->at(kingVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(4));
 	kingVect.clear();
 	// *****************************
 
 	// ***********
 	// Add the pieces to the render queue
 	std::vector<std::pair<GameObject*, SDL_Texture*>> rendVect;
+	PieceIterator pieceItr = _gameScene->getPieceContainer()->createIterator();
 	
-	for (int i = 0; i < _gameScene->getAllPieces()->size(); ++i)
+	for (int i = 0; i < pieceItr.getSize(); ++i)
 	{
-		rendVect.push_back(std::pair<GameObject*, SDL_Texture*>(&_gameScene->getAllPieces()->at(i), _gameScene->getAllPieces()->at(i).getGraphics()->getSdlTexture()));
+		pieceItr.goToIndex(i);
+		rendVect.push_back(std::pair<GameObject*, SDL_Texture*>(&(*pieceItr.getCurrentPosition()), (*pieceItr.getCurrentPosition()).getGraphics()->getSdlTexture()));
 	}
 
 	ServiceLocator::getGraphics().addToRenderMap(2, rendVect);
@@ -234,14 +283,14 @@ void GameManager::onPieceMove(Piece* piece)
 
 void GameManager::endTurn()
 {
-	_gameScene->notify(this, "turnComplete");
+	_gsm->changeState(this, "changeTurn");
 }
 
 void GameManager::endPassant()
 {
 	if (_currentTurn == 0)
 	{
-		for (Piece* pawn : _gameScene->getPiecesByFen('p'))
+		for (Piece* pawn : _gameScene->getPieceContainer()->getPiecesByFen('p'))
 		{
 			if (pawn->getPassantable())
 			{
@@ -251,7 +300,7 @@ void GameManager::endPassant()
 	}
 	else
 	{
-		for (Piece* pawn : _gameScene->getPiecesByFen('P'))
+		for (Piece* pawn : _gameScene->getPieceContainer()->getPiecesByFen('P'))
 		{
 			if (pawn->getPassantable())
 			{

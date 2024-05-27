@@ -9,11 +9,11 @@ void TurnBlackGameState::enter(GameStateMachine* gsm)
 	LOG(TRACE) << "Black Turn Game State entered!";
 
 	// Notify the game manager that the turn has changed
-	gsm->getGameScene()->getManager()->notify("turnChange");
+	gsm->getGameManager()->notify("turnChange");
 
 	// Set any active en passant flags for this color to false so that any en passant captures
 	// must occur directly after pawn's first move
-	gsm->getGameScene()->getManager()->endPassant();
+	gsm->getGameManager()->endPassant();
 
 	// Subscribe to the event manager
 	subscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
@@ -23,7 +23,7 @@ void TurnBlackGameState::changeState(GameStateMachine* gsm, std::string eventStr
 {
 	if (eventString == "changeTurn")
 	{
-		gsm->setGameState(gsm->getGameScene(), TurnWhiteGameState::getInstance());
+		gsm->setGameState(gsm->getGameManager(), TurnWhiteGameState::getInstance());
 	}
 }
 
@@ -46,7 +46,7 @@ void TurnBlackGameState::subscribeToEventManager(EventManager& manager, GameStat
 	// Subscribe to MouseUp events
 	manager.Subscribe(SDL_MOUSEBUTTONUP, [gsm, this](SDL_Event const& event)
 		{
-			gsm->getGameScene()->getManager()->handleClick();
+			gsm->getGameManager()->handleClick();
 		});
 
 }

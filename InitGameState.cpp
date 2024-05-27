@@ -7,39 +7,19 @@ InitGameState::InitGameState() {};
 
 void InitGameState::enter(GameStateMachine* gsm)
 {
-	// ** Player Initialization ** //
-	std::string p1Name, p2Name;
-	std::cout << "Player One, enter your name:\n";
-	std::cin >> p1Name;
-	std::cout << "Player Two, enter your name:\n";
-	std::cin >> p2Name;
-	// TODO: Let the players select their color. For now, hard-coding who goes first.
-	gsm->getGameScene()->setPlayerOne(p1Name, 'w');
-	gsm->getGameScene()->setPlayerTwo(p2Name, 'b');
-
-	// ** Chessboard Initialization ** //
-	// Build the chessboard squares and add the board grid to the render queue
 	LOG(TRACE) << "Initialize Game State entered!";
-	gsm->getGameScene()->getBoard()->buildChessboard();
-	LOG(TRACE) << "Chessboard squares and position constructed!";
-	gsm->getGameScene()->initializeCapturePoints();
-	LOG(TRACE) << "Capture points built!";
-	gsm->getGameScene()->getBoard()->addBoardToRender();
-	LOG(TRACE) << "Chessboard added to render queue!";
-	// Add the current square positions to the debug log
-	gsm->getGameScene()->getBoard()->printSquarePositions();
-	// ** End Chessboard Initialization ** //
 
-	// ** Initial Piece Placement ** //
-	gsm->getGameScene()->getManager()->setUpGame();
+	// Call the Game Manager to initialize the game
+	gsm->getGameManager()->setUpGame();
 
+	// Change the state to White's turn to go first.
 	changeState(gsm);
 
 }
 
 void InitGameState::changeState(GameStateMachine* gsm, std::string eventString)
 {
-	gsm->setGameState(gsm->getGameScene(), TurnWhiteGameState::getInstance());
+	gsm->setGameState(gsm->getGameManager(), TurnWhiteGameState::getInstance());
 }
 
 void InitGameState::exit(GameStateMachine* gsm)

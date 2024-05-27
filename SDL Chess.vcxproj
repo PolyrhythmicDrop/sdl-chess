@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ActionManager.cpp" />
+    <ClCompile Include="BoardIterator.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonInputComponent.cpp" />
     <ClCompile Include="chess-main.cpp" />
@@ -156,7 +157,9 @@
     <ClCompile Include="InGameProgramState.cpp" />
     <ClCompile Include="InitGameState.cpp" />
     <ClCompile Include="PauseGameState.cpp" />
+    <ClCompile Include="PieceContainer.cpp" />
     <ClCompile Include="PieceGraphicsComponent.cpp" />
+    <ClCompile Include="PieceIterator.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ProgramStateMachine.cpp" />
     <ClCompile Include="GraphicsComponent.cpp" />
@@ -195,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActionManager.h" />
+    <ClInclude Include="BoardIterator.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonInputComponent.h" />
     <ClInclude Include="Chessboard.h" />
@@ -210,7 +214,9 @@
     <ClInclude Include="InGameProgramState.h" />
     <ClInclude Include="InitGameState.h" />
     <ClInclude Include="PauseGameState.h" />
+    <ClInclude Include="PieceContainer.h" />
     <ClInclude Include="PieceGraphicsComponent.h" />
+    <ClInclude Include="PieceIterator.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ProgramStateMachine.h" />
     <ClInclude Include="GraphicsComponent.h" />

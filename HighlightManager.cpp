@@ -458,7 +458,9 @@ Rules::RulePackage HighlightManager::getPieceRules(Piece* piece)
 	Rules::RulePackage rules = _gm->getRules()->getRulesPackage(piece);
 
 	return rules;
+
 }
+
 
 void HighlightManager::highlightActionOptions(Square* square)
 {
@@ -483,8 +485,8 @@ void HighlightManager::highlightActionOptions(Square* square)
 		highlightJumpMoveOptions(square, rules);
 	}
 
-
 }
+
 
 void HighlightManager::removeActionHighlight()
 {
@@ -498,6 +500,7 @@ void HighlightManager::removeActionHighlight()
 		}
 		});
 }
+
 
 void HighlightManager::highlightOrthoMoveOptions(Square* square, Rules::RulePackage rules)
 {
@@ -528,6 +531,7 @@ void HighlightManager::highlightDiagMoveOptions(Square* square, Rules::RulePacka
 
 
 }
+
 
 void HighlightManager::highlightJumpMoveOptions(Square* square, Rules::RulePackage rules)
 {

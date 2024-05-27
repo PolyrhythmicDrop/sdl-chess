@@ -4,6 +4,7 @@
 #include "GameScene.h"
 #include "HighlightManager.h"
 #include "SelectionManager.h"
+#include "PieceIterator.h"
 
 SelectionManager::SelectionManager(GameManager* gm) :
 	_gm(gm)
@@ -142,26 +143,28 @@ void SelectionManager::selectPiece(Piece* piece)
 
 void SelectionManager::deselectPieces(Piece* exception)
 {
+	PieceIterator pieceItr = _gm->_gameScene->getPieceContainer()->createIterator(); 
+
 	if (exception != nullptr)
 	{
-		for (int i = 0; i < _gm->_gameScene->getAllPieces()->size(); ++i)
+		for (pieceItr; !pieceItr.isDone(); pieceItr.goForward(1))
 		{
-			if (_gm->_gameScene->getAllPieces()->at(i).getSelected() && _gm->_gameScene->getAllPieces()->at(i).getSquare() != exception->getSquare())
+			if ((*pieceItr.getCurrentPosition()).getSelected() && (*pieceItr.getCurrentPosition()).getSquare() != exception->getSquare())
 			{
-				_gm->_gameScene->getAllPieces()->at(i).setSelected(false);
-				LOG(DEBUG) << "Piece " << _gm->_gameScene->getAllPieces()->at(i).getFenName() << " has been deselected!";
+				(*pieceItr.getCurrentPosition()).setSelected(false);
+				LOG(DEBUG) << "Piece " << (*pieceItr.getCurrentPosition()).getFenName() << " has been deselected!";
 				_gm->_selectedPiece = nullptr;
 			}
 		}
 	}
 	else
 	{
-		for (int i = 0; i < _gm->_gameScene->getAllPieces()->size(); ++i)
+		for (pieceItr; !pieceItr.isDone(); pieceItr.goForward(1))
 		{
-			if (_gm->_gameScene->getAllPieces()->at(i).getSelected())
+			if ((*pieceItr.getCurrentPosition()).getSelected())
 			{
-				_gm->_gameScene->getAllPieces()->at(i).setSelected(false);
-				LOG(DEBUG) << "Piece " << _gm->_gameScene->getAllPieces()->at(i).getFenName() << " has been deselected!";
+				(*pieceItr.getCurrentPosition()).setSelected(false);
+				LOG(DEBUG) << "Piece " << (*pieceItr.getCurrentPosition()).getFenName() << " has been deselected!";
 				_gm->_selectedPiece = nullptr;
 			}
 		}

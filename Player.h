@@ -5,7 +5,7 @@ class Player
 {
 public:
 
-	Player(std::string name, char color);
+	Player(std::string name, int color);
 	Player(const Player& player);
 	Player& operator=(const Player& other);
 
@@ -13,7 +13,7 @@ public:
 
 	std::string _name;
 
-	char _color;
+	int _color;
 
 };
 
