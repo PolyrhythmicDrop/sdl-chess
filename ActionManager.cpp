@@ -69,6 +69,10 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 		{
 			undoAction(piece, nullptr);
 		}
+		else
+		{
+			undoAction(piece, _undoBuffer.targetSq->getOccupant());
+		}
 		_gm->notify("checkCancel");
 	}
 	else
@@ -126,7 +130,7 @@ void ActionManager::captureEnPassant(Piece* attacker, Square* square)
 	}
 	else
 	{
-		LOG(ERROR) << "No piece in the available to capture en passant!";
+		LOG(ERROR) << "No piece in the available square to capture en passant!";
 	}
 
 	LOG(INFO) << "Piece on square " << square->getName() << " captured en passant!";
@@ -271,6 +275,7 @@ void ActionManager::undoAction(Piece* attacker, Piece* defender)
 	{
 		defender->setFirstMove(_undoBuffer.defender->getFirstMove());
 		defender->setAlive(_undoBuffer.defender->isAlive());
+		defender->getSquare()->setOccupied(false);
 		defender->setSquare(_undoBuffer.defender->getSquare());
 		defender->setPassantable(_undoBuffer.defender->getPassantable());
 	}
