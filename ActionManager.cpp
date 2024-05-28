@@ -11,11 +11,6 @@ ActionManager::ActionManager(GameManager* gm) :
 
 void ActionManager::movePiece(Piece* piece, Square* target)
 {
-	std::pair<int, int> moveDistance = { 0, 0 };
-
-	// Move distance is the piece's board index subtracted from the target's move index.
-	moveDistance = { target->getBoardIndex().first - piece->getSquare()->getBoardIndex().first,
-					target->getBoardIndex().second - piece->getSquare()->getBoardIndex().second };
 
 	// If there's nothing in the undo buffer (aka if this is a pure move with no capture), add the relevant parties to the undo buffer.
 	if (_undoBuffer.attacker == nullptr &&
@@ -26,14 +21,10 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 		addToUndoBuffer(piece, nullptr, piece->getSquare(), target);
 	}
 
-	if (!target->getOccupied())
-	{
-		// Unoccupy the square the piece is currently on
-		piece->getSquare()->setOccupied(false);
-
-		// Move the piece to the target position and occupy the square.
-		piece->setSquare(target);
-	}
+	// Move distance is the piece's board index subtracted from the target's move index.
+	std::pair<int, int> moveDistance = { 0, 0 };
+	moveDistance = { target->getBoardIndex().first - piece->getSquare()->getBoardIndex().first,
+					target->getBoardIndex().second - piece->getSquare()->getBoardIndex().second };
 
 	// Pawn-specific movement and rules
 	// *********************************
@@ -57,16 +48,41 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 		}
 	}
 
-	// DEBUG: Check to see if the objects were correctly copied to the undo buffer without begin changed by the function.
-	getUndoBuffer();
+	// ********************************
 
-	// Notify the GameManager that the position has changed.
-	_gm->notify(piece, "pieceMove");
+	if (!target->getOccupied())
+	{
+		
+		// Unoccupy the square the piece is currently on
+		piece->getSquare()->setOccupied(false);
+
+		// Move the piece to the target position and occupy the square.
+		piece->setSquare(target);
+	}
+
+	// Check if move would put the player's king in check
+	if (_gm->checkForCheck())
+	{
+		LOG(INFO) << "This move would put your king in check! Illegal move.";
+		// Revert the move
+		if (_undoBuffer.defender == nullptr)
+		{
+			undoAction(piece, nullptr);
+		}
+		_gm->notify("checkCancel");
+	}
+	else
+	{
+		// Notify the GameManager that the position has changed.
+		_gm->notify(piece, "pieceMove");
+	}
+
 }
 
 void ActionManager::capturePiece(Piece* attacker, Piece* defender)
 {
 	Square* defPos = defender->getSquare();
+
 	// Add the relevant objects to the undo buffer
 	addToUndoBuffer(attacker, defender, attacker->getSquare(), defender->getSquare());
 
@@ -226,7 +242,7 @@ void ActionManager::addToUndoBuffer(Piece* attacker, Piece* defender, Square* or
 	if (targetSq)
 	{
 		Square* targetClone = new Square(*targetSq);
-		_undoBuffer.originSq = targetClone;
+		_undoBuffer.targetSq = targetClone;
 	}
 
 }
@@ -239,4 +255,24 @@ ActionManager::UndoBuffer ActionManager::getUndoBuffer()
 void ActionManager::clearUndoBuffer()
 {
 	_undoBuffer = { nullptr, nullptr, nullptr, nullptr };
+}
+
+void ActionManager::undoAction(Piece* attacker, Piece* defender)
+{
+	if (attacker != nullptr)
+	{
+		attacker->setFirstMove(_undoBuffer.attacker->getFirstMove());
+		attacker->setAlive(_undoBuffer.attacker->isAlive());
+		attacker->getSquare()->setOccupied(false);
+		attacker->setSquare(_undoBuffer.attacker->getSquare());
+		attacker->setPassantable(_undoBuffer.attacker->getPassantable());
+	}
+	if (defender != nullptr)
+	{
+		defender->setFirstMove(_undoBuffer.defender->getFirstMove());
+		defender->setAlive(_undoBuffer.defender->isAlive());
+		defender->setSquare(_undoBuffer.defender->getSquare());
+		defender->setPassantable(_undoBuffer.defender->getPassantable());
+	}
+	
 }

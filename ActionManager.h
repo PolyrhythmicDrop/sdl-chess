@@ -60,6 +60,7 @@ public:
 	UndoBuffer getUndoBuffer();
 	void clearUndoBuffer();
 
+	void undoAction(Piece* attacker = nullptr, Piece* defender = nullptr);
 
 };
 

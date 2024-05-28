@@ -103,6 +103,11 @@ void GameManager::notify(std::string eString)
 	{
 		onTurnChange();
 	}
+	if (eString == "checkCancel")
+	{
+		_selectionManager->deselectPieces();
+		_actionManager->clearUndoBuffer();
+	}
 }
 
 void GameManager::parseFEN(std::string position)
@@ -339,18 +344,10 @@ void GameManager::onPieceMove(Piece* piece)
 		_actionManager->promotePawn(piece);
 	}
 
-	// Check if move would put the player's king in check
-	if (checkForCheck())
-	{
-		LOG(INFO) << "This move would put your king in check! Illegal move.";
+	_actionManager->clearUndoBuffer();
 
-		// TODO: Revert the move
-	}
-	else
-	{
-		// End the turn
-		endTurn();
-	}
+	endTurn();
+
 
 	// TODO: Confirm if the player wants to end their turn?
 	
