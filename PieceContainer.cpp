@@ -159,6 +159,15 @@ std::vector<Piece*> PieceContainer::getPiecesByFen(char fen)
 
 }
 
+void PieceContainer::addToCapturedPieces(Piece* piece)
+{
+	if (piece->isAlive() == false)
+	{
+		_capturedPieces.push_back(piece);
+	}
+
+}
+
 std::vector<Piece*> PieceContainer::getCapturedPiecesByColor(int color)
 {
 

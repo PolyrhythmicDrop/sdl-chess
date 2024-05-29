@@ -68,7 +68,6 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 		else
 		{
 			undoAction(piece, _gm->_gameScene->getPieceContainer()->getLastCapturedPiece());
-			_gm->_gameScene->getPieceContainer()->removePieceFromCapturedPieces(_gm->_gameScene->getPieceContainer()->getLastCapturedPiece());
 		}
 		_gm->notify("undoAction");
 	}
@@ -87,14 +86,10 @@ void ActionManager::capturePiece(Piece* attacker, Piece* defender)
 	// Add the relevant objects to the undo buffer
 	addToUndoBuffer(attacker, defender);
 
-	// De-occupy the defender's square
-	defPos->setOccupied(false);
 	// Unalive the defender
 	defender->setAlive(false);
-	// Set the defender's position to null
-	defender->setSquare(nullptr);
-	// Add the defender to the captured piece location
-	_gm->_gameScene->addToCapturedPieces(defender);
+	// De-occupy the defender's square
+	defPos->setOccupied(false);
 	// Move the attacking piece into the defender's position
 	movePiece(attacker, defPos);
 }
@@ -116,10 +111,6 @@ void ActionManager::captureEnPassant(Piece* attacker, Square* square)
 	{
 		// Unalive the defender
 		defPos->getOccupant()->setAlive(false);
-		// Set the defender's position to null
-		defPos->getOccupant()->setSquare(nullptr);
-		// Add the defender to the captured piece location
-		_gm->_gameScene->addToCapturedPieces(defPos->getOccupant());
 		// De-occupy the defender's square
 		defPos->setOccupied(false);
 		// Move the attacking piece into the specified position

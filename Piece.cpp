@@ -161,7 +161,6 @@ void Piece::setSelected(bool selected)
 {
 	_selected = selected;
 
-
 	if (!_selected)
 	{
 		_graphics->removeSelectedIcon(this);
@@ -182,6 +181,17 @@ void Piece::setSelected(bool selected)
 			this->_mediator->notify(this, "pieceSelected");
 		}
 	}
+}
+
+void Piece::setAlive(bool alive)
+{
+	_alive = alive;
+
+	if (this->_mediator != nullptr)
+	{
+		alive ? _mediator->notify(this, "pieceRevived") : _mediator->notify(this, "pieceCaptured");
+	}
+	
 }
 
 void Piece::setFenName(char fen)

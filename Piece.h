@@ -46,7 +46,7 @@ public:
 	void setSelected(bool selected);
 	inline bool getSelected() const { return _selected; };
 
-	inline void setAlive(bool alive) { _alive = alive; };
+	void setAlive(bool alive);
 	inline bool isAlive() const { return _alive; };
 
 	inline void setFirstMove(bool first) { _firstMove = first; };

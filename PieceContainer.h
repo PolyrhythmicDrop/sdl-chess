@@ -34,6 +34,7 @@ public:
 	// Returns a vector of pointers to the pieces with the specified FEN name.
 	std::vector<Piece*> getPiecesByFen(char fen);
 
+	void addToCapturedPieces(Piece* piece);
 	// Gets all the captured pieces for the specified color.
 	// 0 = Black, 1 = White
 	std::vector<Piece*> getCapturedPiecesByColor(int color);

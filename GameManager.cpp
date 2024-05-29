@@ -83,6 +83,20 @@ void GameManager::notify(GameObject* object, std::string eString)
 	{
 		LOG(INFO) << object->getName() << " was deselected!";
 	}
+	else if (eString == "pieceCaptured")
+	{
+		// Set the piece's position to null
+		dynamic_cast <Piece*>(object)->setSquare(nullptr);
+		// Add the piece to the captured piece location
+		_gameScene->getPieceContainer()->addToCapturedPieces(dynamic_cast <Piece*>(object));
+		_gameScene->updateCaptureDump();
+		LOG(INFO) << object->getName() << " was captured!";
+	}
+	else if (eString == "pieceRevived")
+	{
+		_gameScene->getPieceContainer()->removePieceFromCapturedPieces(dynamic_cast <Piece*>(object));
+		_gameScene->updateCaptureDump();
+	}
 
 	// Square notifications
 	// *********************

@@ -18,9 +18,9 @@ private:
 
 	PieceContainer _pieceContainer;
 
-	// Captured white pieces are rendered here, on the top right side of the board
+	// Captured white pieces are rendered here, on the top left side of the board
 	SDL_Point _whiteCapturePoint;
-	// Captured black pieces are rendered here, on the top right side of the board
+	// Captured black pieces are rendered here, on the bottom right side of the board
 	SDL_Point _blackCapturePoint; 
 
 	Player _playerOne;
@@ -40,7 +40,7 @@ public:
 
 	void initializeCapturePoints();
 	// Adds the specified piece to the captured pieces map.
-	void addToCapturedPieces(Piece* piece);
+	void updateCaptureDump();
 
 	inline Player* getPlayerOne() { return &_playerOne; };
 	inline Player* getPlayerTwo() { return &_playerTwo; };
