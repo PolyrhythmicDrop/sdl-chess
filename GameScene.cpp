@@ -29,16 +29,19 @@ void GameScene::addToCapturedPieces(Piece* piece)
 {
 	if (piece->isAlive() == false)
 	{
-		_pieceContainer._capturedPieces[piece->getPieceColor()].push_back(piece);
+		_pieceContainer._capturedPieces.push_back(piece);
 	}
 
 	// Move captured pieces to the garbage dump
-	for (int i = 0; i < _pieceContainer._capturedPieces[0].size(); ++i)
+	for (int i = 0; i < _pieceContainer._capturedPieces.size(); ++i)
 	{
-		_pieceContainer._capturedPieces[0].at(i)->setPosition(_blackCapturePoint.x, _blackCapturePoint.y - (i * (_board->getHeight() / 16)));
-	}
-	for (int i = 0; i < _pieceContainer._capturedPieces[1].size(); ++i)
-	{
-		_pieceContainer._capturedPieces[1].at(i)->setPosition(_whiteCapturePoint.x, _whiteCapturePoint.y - (i * 50));
+		if (_pieceContainer._capturedPieces.at(i)->getPieceColor() == 0)
+		{
+			_pieceContainer._capturedPieces.at(i)->setPosition(_blackCapturePoint.x, _blackCapturePoint.y - (i * (_board->getHeight() / 16)));
+		}
+		else if (_pieceContainer._capturedPieces.at(i)->getPieceColor() == 1)
+		{
+			_pieceContainer._capturedPieces.at(i)->setPosition(_whiteCapturePoint.x, _whiteCapturePoint.y - (i * 50));
+		}
 	}
 }

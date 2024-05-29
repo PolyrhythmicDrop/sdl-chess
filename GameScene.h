@@ -42,7 +42,6 @@ public:
 	// Adds the specified piece to the captured pieces map.
 	void addToCapturedPieces(Piece* piece);
 
-
 	inline Player* getPlayerOne() { return &_playerOne; };
 	inline Player* getPlayerTwo() { return &_playerTwo; };
 	inline void setPlayerOne(std::string name, char color) { _playerOne.setName(name); _playerOne.setColor(color); };

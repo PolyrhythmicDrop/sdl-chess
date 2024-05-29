@@ -6,19 +6,16 @@
 
 ActionManager::ActionManager(GameManager* gm) :
 	_gm(gm),
-	_undoBuffer({nullptr, nullptr, nullptr, nullptr})
+	_undoBuffer({nullptr, nullptr})
 {}
 
 void ActionManager::movePiece(Piece* piece, Square* target)
 {
 
-	// If there's nothing in the undo buffer (aka if this is a pure move with no capture), add the relevant parties to the undo buffer.
-	if (_undoBuffer.attacker == nullptr &&
-		_undoBuffer.defender == nullptr &&
-		_undoBuffer.originSq == nullptr &&
-		_undoBuffer.targetSq == nullptr)
+	// If there's nothing in the undo buffer (aka if this is a pure move with no capture), add moving piece to the undo buffer.
+	if (_undoBuffer.attacker == nullptr && _undoBuffer.defender == nullptr)
 	{
-		addToUndoBuffer(piece, nullptr, piece->getSquare(), target);
+		addToUndoBuffer(piece);
 	}
 
 	// Move distance is the piece's board index subtracted from the target's move index.
@@ -47,12 +44,11 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 			piece->setPassantable(false);
 		}
 	}
-
 	// ********************************
 
+	// If the target square is unoccupied...
 	if (!target->getOccupied())
 	{
-		
 		// Unoccupy the square the piece is currently on
 		piece->getSquare()->setOccupied(false);
 
@@ -71,9 +67,10 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 		}
 		else
 		{
-			undoAction(piece, _undoBuffer.targetSq->getOccupant());
+			undoAction(piece, _gm->_gameScene->getPieceContainer()->getLastCapturedPiece());
+			_gm->_gameScene->getPieceContainer()->removePieceFromCapturedPieces(_gm->_gameScene->getPieceContainer()->getLastCapturedPiece());
 		}
-		_gm->notify("checkCancel");
+		_gm->notify("undoAction");
 	}
 	else
 	{
@@ -88,7 +85,7 @@ void ActionManager::capturePiece(Piece* attacker, Piece* defender)
 	Square* defPos = defender->getSquare();
 
 	// Add the relevant objects to the undo buffer
-	addToUndoBuffer(attacker, defender, attacker->getSquare(), defender->getSquare());
+	addToUndoBuffer(attacker, defender);
 
 	// De-occupy the defender's square
 	defPos->setOccupied(false);
@@ -226,7 +223,7 @@ void ActionManager::promotePawn(Piece* piece)
 
 }
 
-void ActionManager::addToUndoBuffer(Piece* attacker, Piece* defender, Square* originSq, Square* targetSq)
+void ActionManager::addToUndoBuffer(Piece* attacker, Piece* defender)
 {
 	if (attacker)
 	{
@@ -238,16 +235,6 @@ void ActionManager::addToUndoBuffer(Piece* attacker, Piece* defender, Square* or
 		Piece* defendClone = new Piece(*defender);
 		_undoBuffer.defender = defendClone;
 	}
-	if (originSq)
-	{
-		Square* originClone = new Square(*originSq);
-		_undoBuffer.originSq = originClone;
-	}
-	if (targetSq)
-	{
-		Square* targetClone = new Square(*targetSq);
-		_undoBuffer.targetSq = targetClone;
-	}
 
 }
 
@@ -258,7 +245,7 @@ ActionManager::UndoBuffer ActionManager::getUndoBuffer()
 
 void ActionManager::clearUndoBuffer()
 {
-	_undoBuffer = { nullptr, nullptr, nullptr, nullptr };
+	_undoBuffer = { nullptr, nullptr };
 }
 
 void ActionManager::undoAction(Piece* attacker, Piece* defender)

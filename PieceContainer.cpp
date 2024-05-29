@@ -8,8 +8,7 @@ PieceContainer::PieceContainer() :
 {
 	_pieces.reserve(32);
 	initializePieces();
-	_capturedPieces[0].clear();
-	_capturedPieces[1].clear();
+	_capturedPieces.clear();
 }
 
 PieceIterator PieceContainer::createIterator()
@@ -160,7 +159,58 @@ std::vector<Piece*> PieceContainer::getPiecesByFen(char fen)
 
 }
 
-std::vector<Piece*> PieceContainer::getCapturedPieces(int color)
+std::vector<Piece*> PieceContainer::getCapturedPiecesByColor(int color)
 {
-	return _capturedPieces[color];
+
+
+	std::vector<Piece*> piecesBlk;
+	std::vector<Piece*> piecesWht;
+
+	for (int i = 0; i < _capturedPieces.size(); ++i)
+	{
+		if (_capturedPieces.at(i)->getPieceColor() == Piece::BLACK)
+		{
+			piecesBlk.push_back(_capturedPieces.at(i));
+		}
+		else if (_capturedPieces.at(i)->getPieceColor() == Piece::WHITE)
+		{
+			piecesWht.push_back(_capturedPieces.at(i));
+		}
+	}
+
+	if (color == 0)
+	{
+		return piecesBlk;
+	}
+	else if (color == 1)
+	{
+		return piecesWht;
+	}
+	else
+	{
+		LOG(ERROR) << "Specify a piece color! Must be 0 or 1.";
+		piecesBlk.clear();
+		return piecesBlk;
+	}
+}
+
+Piece* PieceContainer::getLastCapturedPiece()
+{
+	Piece* capturedPiece = nullptr;
+	if (_capturedPieces.size() > 0)
+	{
+		capturedPiece = _capturedPieces.back();
+	}
+	return capturedPiece;
+}
+
+void PieceContainer::removePieceFromCapturedPieces(Piece* piece)
+{
+	std::vector<Piece*>::iterator itr = std::find(_capturedPieces.begin(), _capturedPieces.end(), piece);
+
+	if (itr != _capturedPieces.end())
+	{
+		_capturedPieces.erase(itr);
+	}
+
 }

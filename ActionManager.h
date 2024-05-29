@@ -13,10 +13,8 @@ friend class GameManager;
 private:
 
 	struct UndoBuffer {
-		Piece* attacker;
-		Piece* defender;
-		Square* originSq;
-		Square* targetSq;
+		Piece* attacker = nullptr;
+		Piece* defender = nullptr;
 	};
 
 	std::shared_ptr<GameManager> _gm;
@@ -56,7 +54,7 @@ public:
 	/// <param name="piece">The piece to promote.</param>
 	void promotePawn(Piece* piece);
 
-	void addToUndoBuffer(Piece* attacker = nullptr, Piece* defender = nullptr, Square* originSq = nullptr, Square* targetSq = nullptr);
+	void addToUndoBuffer(Piece* attacker = nullptr, Piece* defender = nullptr);
 	UndoBuffer getUndoBuffer();
 	void clearUndoBuffer();
 

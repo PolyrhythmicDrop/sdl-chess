@@ -25,7 +25,7 @@ public:
 
 	Piece(Figure type, PieceColor color);
 	Piece(const Piece& piece);
-	Piece& operator=(const Piece& other);
+	Piece& operator=(const Piece&& other);
 
 	~Piece();
 
@@ -38,7 +38,7 @@ public:
 	void setSquare(Square* square);
 	inline Square* getSquare() { return _position; };
 
-	inline const PieceColor getPieceColor() const { return _pieceColor; };
+	inline PieceColor getPieceColor() { return _pieceColor; };
 	inline const Figure getPieceType() const { return _type; };
 
 	void changeType(Figure type);

@@ -103,7 +103,7 @@ void GameManager::notify(std::string eString)
 	{
 		onTurnChange();
 	}
-	if (eString == "checkCancel")
+	if (eString == "undoAction")
 	{
 		_selectionManager->deselectPieces();
 		_actionManager->clearUndoBuffer();

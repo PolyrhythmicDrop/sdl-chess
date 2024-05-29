@@ -15,7 +15,7 @@ private:
 
 	// Captured pieces go here.
 	// Key is the color of the piece. 0 = Black, 1 = White.
-	std::map<int, std::vector<Piece*>> _capturedPieces;
+	std::vector<Piece*> _capturedPieces;
 
 public:
 
@@ -25,7 +25,7 @@ public:
 	PieceIterator createIterator();
 
 	void initializePieces();
-	
+
 	// Returns a pointer to the piece vector
 	inline std::vector<Piece>* getAllPieces() { return &_pieces; };
 
@@ -36,7 +36,11 @@ public:
 
 	// Gets all the captured pieces for the specified color.
 	// 0 = Black, 1 = White
-	std::vector<Piece*> getCapturedPieces(int color);
+	std::vector<Piece*> getCapturedPiecesByColor(int color);
+	// Returns the last piece that was captured.
+	Piece* getLastCapturedPiece();
+	// Removes a piece from the captured pieces vector.
+	void removePieceFromCapturedPieces(Piece* piece);
 
 };
 
