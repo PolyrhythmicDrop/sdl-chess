@@ -353,17 +353,20 @@ void GameManager::onPieceMove(Piece* piece)
 	_selectionManager->deselectPieces();
 
 	// Pawn promotion
-	if (_highlightManager->getPieceRules(piece).specialActions.promote)
+	if (piece->isAlive() && piece->getSquare()->getBoardIndex().second == piece->getSquare()->getBoardIndex().second)
 	{
-		_actionManager->promotePawn(piece);
+		if (piece->getFenName() == 'P' && piece->getSquare()->getBoardIndex().first == 7)
+		{
+			_actionManager->promotePawn(piece);
+		}
+		else if (piece->getFenName() == 'p' && piece->getSquare()->getBoardIndex().first == 0)
+		{
+			_actionManager->promotePawn(piece);
+		}
 	}
 
 	_actionManager->clearUndoBuffer();
-
 	endTurn();
-
-
-	// TODO: Confirm if the player wants to end their turn?
 	
 }
 

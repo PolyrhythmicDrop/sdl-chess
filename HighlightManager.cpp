@@ -450,17 +450,23 @@ void HighlightManager::jumpHighlightOptions(Square* square, Rules::RulePackage r
 	}
 }
 
-
 // *********************** //
+
 
 Rules::RulePackage HighlightManager::getPieceRules(Piece* piece)
 {
-	Rules::RulePackage rules = _gm->getRules()->getRulesPackage(piece);
+	Rules::RulePackage rules = _gm->getRules()->getRulesPackage(piece->getFenName(), piece->getFirstMove());
 
 	return rules;
 
 }
 
+Rules::RulePackage HighlightManager::getPieceRules(char fen, bool firstMove)
+{
+	Rules::RulePackage rules = _gm->getRules()->getRulesPackage(fen, firstMove);
+	return rules;
+
+}
 
 void HighlightManager::highlightActionOptions(Square* square)
 {
@@ -561,19 +567,6 @@ bool HighlightManager::highlightCheck(Square* square)
 		break;
 	}
 
-	// Set temporary pieces for rule checking
-	Piece fakeQ(Piece::QUEEN, turnColor);
-	fakeQ.setAlive(false);
-
-	Piece fakeP(Piece::PAWN, turnColor);
-	fakeP.setAlive(false);
-
-	Piece fakeN(Piece::KNIGHT, turnColor);
-	fakeN.setAlive(false);
-
-	Piece fakeK(Piece::KING, turnColor);
-	fakeK.setAlive(false);
-
 	bool check = false;
 	
 	// If the square has a king of the current turn
@@ -582,7 +575,7 @@ bool HighlightManager::highlightCheck(Square* square)
 		for (int i = 0; i < 1 && !check; ++i)
 		{
 			// Check the orthogonal and diagonal moves by getting the queen ruleset. Put a check overlay on any opposing pieces you encounter.
-			orthoHighlightOptions(square, getPieceRules(&fakeQ), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+			orthoHighlightOptions(square, getPieceRules('Q'), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
 				{
 					grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::NONE);
 				},
@@ -596,7 +589,7 @@ bool HighlightManager::highlightCheck(Square* square)
 						check = true;
 					}
 				});
-			diagHighlightOptions(square, getPieceRules(&fakeQ), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+			diagHighlightOptions(square, getPieceRules('Q'), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
 				{
 					grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::NONE);
 				},
@@ -611,7 +604,7 @@ bool HighlightManager::highlightCheck(Square* square)
 					}
 				});
 			// Check the orthogonal and diagonal moves for opposing kings by getting the king ruleset. Put a check overlay on any opposing pieces you encounter.
-			orthoHighlightOptions(square, getPieceRules(&fakeK), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+			orthoHighlightOptions(square, getPieceRules('K'), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
 				{
 					grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::NONE);
 				},
@@ -624,7 +617,7 @@ bool HighlightManager::highlightCheck(Square* square)
 						check = true;
 					}
 				});
-			diagHighlightOptions(square, getPieceRules(&fakeK), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+			diagHighlightOptions(square, getPieceRules('K'), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
 				{
 					grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::NONE);
 				},
@@ -638,7 +631,7 @@ bool HighlightManager::highlightCheck(Square* square)
 					}
 				});
 			// Capture highlighting for pawns. Don't need to check orthogonal movement because pawns can't capture orthogonally.
-			diagHighlightOptions(square, getPieceRules(&fakeP), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+			diagHighlightOptions(square, getPieceRules('P'), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
 				{
 					grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::NONE);
 				},
@@ -652,7 +645,7 @@ bool HighlightManager::highlightCheck(Square* square)
 					}
 				});
 			// Check for knight check using the fake knight
-			jumpHighlightOptions(square, getPieceRules(&fakeN), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+			jumpHighlightOptions(square, getPieceRules('N'), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
 				{
 					grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::NONE);
 				},

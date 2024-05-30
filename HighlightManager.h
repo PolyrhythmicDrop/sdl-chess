@@ -37,6 +37,9 @@ public:
 	// *********************** //
 
 	Rules::RulePackage getPieceRules(Piece* piece);
+	// Overload for getPieceRules, takes FEN notation instead of a piece object to get rules.
+	Rules::RulePackage getPieceRules(char fen, bool firstMove = false);
+
 
 	void highlightActionOptions(Square* square);
 	void removeActionHighlight();

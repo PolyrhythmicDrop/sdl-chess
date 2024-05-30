@@ -6,14 +6,14 @@
 
 ActionManager::ActionManager(GameManager* gm) :
 	_gm(gm),
-	_undoBuffer({nullptr, nullptr})
+	_undoBuffer({new UndoValues(), new UndoValues()})
 {}
 
 void ActionManager::movePiece(Piece* piece, Square* target)
 {
 
 	// If there's nothing in the undo buffer (aka if this is a pure move with no capture), add moving piece to the undo buffer.
-	if (_undoBuffer.attacker == nullptr && _undoBuffer.defender == nullptr)
+	if (!_undoBuffer.attacker && !_undoBuffer.defender)
 	{
 		addToUndoBuffer(piece);
 	}
@@ -61,7 +61,7 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 	{
 		LOG(INFO) << "This move would put your king in check! Illegal move.";
 		// Revert the move
-		if (_undoBuffer.defender == nullptr)
+		if (!_undoBuffer.defender)
 		{
 			undoAction(piece, nullptr);
 		}
@@ -218,15 +218,22 @@ void ActionManager::addToUndoBuffer(Piece* attacker, Piece* defender)
 {
 	if (attacker)
 	{
-		Piece* attackClone = new Piece(*attacker);
-		_undoBuffer.attacker = attackClone;
+		_undoBuffer.attacker = new UndoValues;
+		_undoBuffer.attacker->alive = attacker->isAlive();
+		_undoBuffer.attacker->firstMove = attacker->getFirstMove();
+		_undoBuffer.attacker->passantable = attacker->getPassantable();
+		_undoBuffer.attacker->square = attacker->getSquare();
 	}
 	if (defender)
 	{
-		Piece* defendClone = new Piece(*defender);
-		_undoBuffer.defender = defendClone;
+		_undoBuffer.defender = new UndoValues;
+		_undoBuffer.defender->alive = defender->isAlive();
+		_undoBuffer.defender->firstMove = defender->getFirstMove();
+		_undoBuffer.defender->passantable = defender->getPassantable();
+		_undoBuffer.defender->square = defender->getSquare();
 	}
 
+	return;
 }
 
 ActionManager::UndoBuffer ActionManager::getUndoBuffer()
@@ -236,26 +243,26 @@ ActionManager::UndoBuffer ActionManager::getUndoBuffer()
 
 void ActionManager::clearUndoBuffer()
 {
-	_undoBuffer = { nullptr, nullptr };
+	_undoBuffer = { nullptr, nullptr};
 }
 
 void ActionManager::undoAction(Piece* attacker, Piece* defender)
 {
-	if (attacker != nullptr)
+	if (attacker != nullptr && _undoBuffer.attacker != nullptr)
 	{
-		attacker->setFirstMove(_undoBuffer.attacker->getFirstMove());
-		attacker->setAlive(_undoBuffer.attacker->isAlive());
+		attacker->setFirstMove(_undoBuffer.attacker->firstMove);
+		attacker->setAlive(_undoBuffer.attacker->alive);
 		attacker->getSquare()->setOccupied(false);
-		attacker->setSquare(_undoBuffer.attacker->getSquare());
-		attacker->setPassantable(_undoBuffer.attacker->getPassantable());
+		attacker->setSquare(_undoBuffer.attacker->square);
+		attacker->setPassantable(_undoBuffer.attacker->passantable);
 	}
-	if (defender != nullptr)
+	if (defender != nullptr && _undoBuffer.defender != nullptr)
 	{
-		defender->setFirstMove(_undoBuffer.defender->getFirstMove());
-		defender->setAlive(_undoBuffer.defender->isAlive());
+		defender->setFirstMove(_undoBuffer.defender->firstMove);
+		defender->setAlive(_undoBuffer.defender->alive);
 		defender->getSquare()->setOccupied(false);
-		defender->setSquare(_undoBuffer.defender->getSquare());
-		defender->setPassantable(_undoBuffer.defender->getPassantable());
+		defender->setSquare(_undoBuffer.defender->square);
+		defender->setPassantable(_undoBuffer.defender->passantable);
 	}
 	
 }

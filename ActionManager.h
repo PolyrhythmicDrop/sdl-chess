@@ -10,12 +10,22 @@ class ActionManager
 {
 friend class GameManager;
 
-private:
+protected:
+
+	struct UndoValues {
+		bool firstMove = NULL;
+		bool alive = NULL;
+		bool passantable = NULL;
+		Square* square = nullptr;
+		~UndoValues() {};
+	};
 
 	struct UndoBuffer {
-		Piece* attacker = nullptr;
-		Piece* defender = nullptr;
+		UndoValues* attacker;
+		UndoValues* defender;
 	};
+
+private:
 
 	std::shared_ptr<GameManager> _gm;
 	
