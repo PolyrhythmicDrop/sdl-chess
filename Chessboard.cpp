@@ -1,4 +1,3 @@
-#include "BoardIterator.h"
 #include "Chessboard.h"
 #include "easylogging++.h"
 #include "ServiceLocator.h"
@@ -393,10 +392,4 @@ void const Chessboard::printSquarePositions()
 			LOG(DEBUG) << "[ " << _boardGrid[row][column].getName() << " Index: [ " << _boardGrid[row][column].getBoardIndex().first << ", " << _boardGrid[row][column].getBoardIndex().second << " ] " << " ]\nX: " << _boardGrid[row][column].getX() << "\nY: " << _boardGrid[row][column].getY() << "\nZ: " << _boardGrid[row][column].getZ() << "\nW: " << _boardGrid[row][column].getWidth() << "\nH: " << _boardGrid[row][column].getHeight();
 		}
 	}
-}
-
-BoardIterator Chessboard::createIterator()
-{
-	BoardIterator boardItr(this);
-	return boardItr;
 }
