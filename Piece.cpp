@@ -18,7 +18,7 @@ Piece::Piece(Figure type, PieceColor color) :
 	LOG(TRACE) << "Piece Type: " << _type << " | Color: " << _pieceColor << " created!";
 }
 
-// Deep Copy Constructor
+//// Deep Copy Constructor
 Piece::Piece(const Piece& piece)
 {
 	_mediator = piece._mediator;
@@ -32,8 +32,7 @@ Piece::Piece(const Piece& piece)
 	_alive = piece._alive;
 	_firstMove = piece._firstMove;
 	_input = piece._input;
-	_graphics = new PieceGraphicsComponent();
-	*_graphics = *(piece._graphics);
+	_graphics = piece._graphics;
 	LOG(TRACE) << "Piece deep copy constructor called!";
 }
 

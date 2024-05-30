@@ -9,13 +9,13 @@ GameObject::GameObject(std::string name, IMediator* mediator) :
 	_draw(false)
 {
 	gameObjectCount++;
-	LOG(TRACE) << "Object created! Game object count: " << gameObjectCount;
+	LOG(TRACE) << "Object " << _name << " created! Game object count: " << gameObjectCount;
 }
 
 GameObject::~GameObject()
 {
 	gameObjectCount--;
-	LOG(TRACE) << "Object destroyed! Game object count: " << gameObjectCount;
+	LOG(TRACE) << "Object " << _name << " destroyed! Game object count : " << gameObjectCount;
 }
 
 void GameObject::setMediator(IMediator* mediator)

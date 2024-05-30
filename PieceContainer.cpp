@@ -126,7 +126,7 @@ std::vector<int> PieceContainer::getPieceIndexByFEN(char fen)
 
 	do
 	{
-		itr.updatePositions(std::find_if(itr.getCurrentPosition(), itr.getContainerEnd(), [&](Piece piece) {
+		itr.updatePositions(std::find_if(itr.getCurrentPosition(), itr.getContainerEnd(), [&](Piece& piece) {
 			return piece.getFenName() == fen;
 			}));
 		if (!itr.isDone())

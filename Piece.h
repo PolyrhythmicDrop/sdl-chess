@@ -25,7 +25,7 @@ public:
 
 	Piece(Figure type, PieceColor color);
 	Piece(const Piece& piece);
-	Piece& operator=(const Piece&& other);
+	Piece& operator=(const Piece& other);
 
 	~Piece();
 

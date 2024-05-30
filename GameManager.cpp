@@ -6,6 +6,7 @@
 #include "IdleGameState.h"
 #include "TurnBlackGameState.h"
 #include "TurnWhiteGameState.h"
+#include "InitGameState.h"
 #include "PieceIterator.h"
 
 GameManager::GameManager(GameScene* gameScene) :
@@ -386,13 +387,16 @@ void GameManager::onTurnChange()
 
 	// Check for check. Set player check to false if player not in check. 
 	// If this returns true, the player's check flag has already been set to true by the Highlight Manager, so you do not need to set it here.
-	if (!checkForCheck())
+	if (_previousState != &InitGameState::getInstance())
 	{
-		_currentPlayer->setCheck(false);
-	}
-	else
-	{
-		LOG(INFO) << _currentPlayer->getName() << " is in check! Be careful...";
+		if (!checkForCheck())
+		{
+			_currentPlayer->setCheck(false);
+		}
+		else
+		{
+			LOG(INFO) << _currentPlayer->getName() << " is in check! Be careful...";
+		}
 	}
 }
 
