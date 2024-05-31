@@ -147,10 +147,10 @@ void GameManager::setUpPlayers()
 	std::cin >> p2Name;
 
 	// TODO: Let the players select their color. For now, hard-coding who goes first.
-	_gameScene->setPlayerOne(p1Name, '1');
-	_gameScene->setPlayerTwo(p2Name, '0');
+	_gameScene->setPlayerOne(p1Name, 1);
+	_gameScene->setPlayerTwo(p2Name, 0);
 
-	// Set the current player to whoever white is
+	// Set the current player to whoever chose white
 	if (_gameScene->getPlayerOne()->getColor() == 1)
 	{
 		_currentPlayer = _gameScene->getPlayerOne();

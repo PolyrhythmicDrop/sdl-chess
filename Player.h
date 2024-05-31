@@ -30,6 +30,5 @@ public:
 	bool getCheck();
 	void setCheck(bool check);
 
-
 };
 

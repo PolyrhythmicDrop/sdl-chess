@@ -46,3 +46,15 @@ void GameScene::updateCaptureDump()
 		}
 	}
 }
+
+void GameScene::setPlayerOne(std::string name, int color)
+{ 
+	_playerOne.setName(name);
+	_playerOne.setColor(color); 
+}
+
+void GameScene::setPlayerTwo(std::string name, int color)
+{
+	_playerTwo.setName(name);
+	_playerTwo.setColor(color); 
+}

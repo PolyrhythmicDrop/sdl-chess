@@ -60,9 +60,10 @@ void const Chessboard::buildChessboard()
 
 	// Set the size of each square
 	std::vector<Square> row1Vect = { a1, b1, c1, d1, e1, f1, g1, h1 };
+
 	LOG(TRACE) << "Squares added to Row 1 Vector!";
 
-	for (Square square : row1Vect)
+	for (Square& square : row1Vect)
 	{
 		square.setScale(squareSideSize, squareSideSize);
 		square._draw = true;

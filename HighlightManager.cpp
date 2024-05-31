@@ -553,17 +553,23 @@ void HighlightManager::highlightJumpMoveOptions(Square* square, Rules::RulePacka
 
 bool HighlightManager::highlightCheck(Square* square)
 {
+
 	Piece::PieceColor turnColor;
+	// Set the color to measure pawn rules against. Should be the opposite color of the turn.
+	char pawn;
 	switch (_gm->getTurn())
 	{
 	case 0:
 		turnColor = Piece::BLACK;
+		pawn = 'P';
 		break;
 	case 1:
 		turnColor = Piece::WHITE;
+		pawn = 'p';
 		break;
 	default:
 		turnColor = Piece::BLACK;
+		pawn = 'P';
 		break;
 	}
 
@@ -631,14 +637,24 @@ bool HighlightManager::highlightCheck(Square* square)
 					}
 				});
 			// Capture highlighting for pawns. Don't need to check orthogonal movement because pawns can't capture orthogonally.
-			diagHighlightOptions(square, getPieceRules('P'), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+			diagHighlightOptions(square, getPieceRules(pawn), [this](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
 				{
 					grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::NONE);
 				},
-				[this, &check](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
+				[this, square, &check](int iRow, int iCol, std::vector<std::vector<Square>>* grid, std::pair<int, int> squareIndex)
 				{
-					// if the piece encountered is an enemy pawn, set check.
-					if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getPieceType() == Piece::PAWN)
+					// If the piece encountered is a black pawn and the checked square is one row below the pawn, set check.
+					// This function already checks to see whether the piece encountered is an enemy piece to get to this point, so if it is black's turn, this will not run.
+					if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getFenName() == 'p' &&
+						square->getBoardIndex().first == grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getBoardIndex().first - 1)
+					{
+						grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::CHECK);
+						check = true;
+					}
+					// Else if the piece encountered is a white pawn and the checked square is one row above the pawn, set check.
+					// This function already checks to see whether the piece encountered is an enemy piece to get to this point, so if it is white's turn, this will not run.
+					else if (grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getOccupant()->getFenName() == 'P' &&
+						square->getBoardIndex().first == grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).getBoardIndex().first + 1)
 					{
 						grid->at(squareIndex.first + iRow).at(squareIndex.second + iCol).setOverlayType(Square::CHECK);
 						check = true;
