@@ -56,7 +56,7 @@ int GameObject::getZ()
 
 void GameObject::setZ(int z)
 {
-	_zIndex = z;
+	this->_zIndex = z;
 }
 
 void GameObject::setPosition(int x, int y)

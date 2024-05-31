@@ -31,6 +31,9 @@ public:
 
 	std::vector<std::pair<GameObject*, SDL_Texture*>> findInRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects);
 
+	// Sorts the render map by Z-value.
+	void sortRenderMap();
+
 	void render();
 
 private:

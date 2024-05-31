@@ -34,6 +34,7 @@ void GameScene::updateCaptureDump()
 	// Move captured pieces to the garbage dump
 	for (int i = 0; i < _pieceContainer._capturedPieces.size(); ++i)
 	{
+		_pieceContainer._capturedPieces.at(i)->setZ(i);
 		if (_pieceContainer._capturedPieces.at(i)->getPieceColor() == 0)
 		{
 			_pieceContainer._capturedPieces.at(i)->setPosition(_blackCapturePoint.x, _blackCapturePoint.y - dumpBlk);
