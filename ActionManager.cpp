@@ -214,6 +214,54 @@ void ActionManager::promotePawn(Piece* piece)
 
 }
 
+void ActionManager::castleKing(Piece* king, Square* square)
+{
+	// Find the nearest rook to the selected square.
+	Piece* rook = nullptr;
+	if (king->getPieceColor() == Piece::BLACK)
+	{
+		// Is the square on the black left side?
+		if (square->getBoardIndex().first == 7 && square->getBoardIndex().second == 2)
+		{
+			rook = _gm->_gameScene->getBoard()->getBoardGrid()->at(7).at(0).getOccupant();
+			// Move the rook to the appropriate place.
+			rook->getSquare()->setOccupied(false);
+			rook->setSquare(&_gm->_gameScene->getBoard()->getBoardGrid()->at(7).at(3));	
+		}
+		// ...or is it on the black right side?
+		else if (square->getBoardIndex().first == 7 && square->getBoardIndex().second == 6)
+		{
+			rook = _gm->_gameScene->getBoard()->getBoardGrid()->at(7).at(7).getOccupant();
+			// Move the rook to the appropriate place.
+			rook->getSquare()->setOccupied(false);
+			rook->setSquare(&_gm->_gameScene->getBoard()->getBoardGrid()->at(7).at(5));
+		}
+	}
+	else if (king->getPieceColor() == Piece::WHITE)
+	{
+		// ...or is it on the white left side?
+		if (square->getBoardIndex().first == 0 && square->getBoardIndex().second == 2)
+		{
+			rook = _gm->_gameScene->getBoard()->getBoardGrid()->at(0).at(0).getOccupant();
+			// Move the rook to the appropriate place.
+			rook->getSquare()->setOccupied(false);
+			rook->setSquare(&_gm->_gameScene->getBoard()->getBoardGrid()->at(0).at(3));
+		}
+		// ...or is it on the white right side?
+		else if (square->getBoardIndex().first == 0 && square->getBoardIndex().second == 6)
+		{
+			rook = _gm->_gameScene->getBoard()->getBoardGrid()->at(0).at(7).getOccupant();
+			// Move the rook to the appropriate place.
+			rook->getSquare()->setOccupied(false);
+			rook->setSquare(&_gm->_gameScene->getBoard()->getBoardGrid()->at(0).at(5));
+		}
+	}
+
+	// Move the king.
+	movePiece(king, square);
+
+}
+
 void ActionManager::addToUndoBuffer(Piece* attacker, Piece* defender)
 {
 	if (attacker)

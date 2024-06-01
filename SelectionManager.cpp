@@ -88,6 +88,10 @@ void SelectionManager::handleClickOnEmptySquare(Square* square)
 		_gm->_actionManager->captureEnPassant(_gm->_selectedPiece, square);
 		deselectPieces();
 		break;
+	case Square::CASTLE:
+		// Castle the king
+		_gm->_actionManager->castleKing(_gm->_selectedPiece, square);
+		break;
 	default:
 		deselectPieces();
 		break;

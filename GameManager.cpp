@@ -314,6 +314,75 @@ bool GameManager::checkForCheck()
 
 }
 
+void GameManager::checkForCastle(Piece* king)
+{
+	bool rookLeftFirstMove = false;
+	bool rookRightFirstMove = false;
+	if (king->getFirstMove())
+	{
+		// Get the current turn's rooks.
+		char rook = 'R';
+		switch (_currentTurn)
+		{
+		case 0:
+			rook = 'r';
+			break;
+		case 1:
+			rook = 'R';
+			break;
+		default:
+			rook = 'R';
+			break;
+		}
+		Piece* leftRook = nullptr;
+		Piece* rightRook = nullptr;
+		// Get living rooks of this turn and check whether or not it is their first move.
+		for (Piece* p : _gameScene->getPieceContainer()->getPiecesByFen(rook))
+		{
+			if (p->isAlive() && p->getSquare()->getBoardIndex().second == 0)
+			{
+				rookLeftFirstMove = p->getFirstMove();
+				leftRook = p;
+			}
+			else if (p->isAlive() && p->getSquare()->getBoardIndex().second == 7)
+			{
+				rookRightFirstMove = p->getFirstMove();
+				rightRook = p;
+			}
+			else
+			{
+				LOG(DEBUG) << "Either every rook has moved or there are no rooks present. Castling impossible.";
+				return;
+			}
+		}
+		if (rookLeftFirstMove && rookRightFirstMove)
+		{
+			// Highlight castling for both the left and right rook.
+			_highlightManager->highlightCastle(king, leftRook->getSquare(), rightRook->getSquare());
+		}
+		else if (rookLeftFirstMove && !rookRightFirstMove)
+		{
+			// Highlight castling for the left rook only.
+			_highlightManager->highlightCastle(king, leftRook->getSquare());
+		}
+		else if (!rookLeftFirstMove && rookRightFirstMove)
+		{
+			// Highlight castling for the right rook only.
+			_highlightManager->highlightCastle(king, nullptr, rightRook->getSquare());
+		}
+		else
+		{
+			// No rooks have their first move.
+			return;
+		}
+	}
+	else
+	{
+		// It was not the king's first move. Castling impossible.
+		return;
+	}
+}
+
 void GameManager::endTurn()
 {
 	_gsm->changeState(this, "changeTurn");

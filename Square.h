@@ -17,7 +17,8 @@ public:
 		NONE,
 		MOVE,
 		TAKE,
-		CHECK
+		CHECK,
+		CASTLE
 	};
 
 	enum TileType {

@@ -131,13 +131,14 @@ public:
 	// Checks for check on the current player's king.
 	bool checkForCheck();
 
+	void checkForCastle(Piece* piece);
+
 	// Notifies the game state machine to change the turn.
 	void endTurn();
 	// Disables en passant capturing for any pawns that moved two squares up on the previous turn.
 	void endPassant();
 
 	// **********************
-	
 
 	// Handler functions
 	// ***********************
