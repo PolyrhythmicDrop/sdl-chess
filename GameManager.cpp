@@ -6,6 +6,7 @@
 #include "IdleGameState.h"
 #include "TurnBlackGameState.h"
 #include "TurnWhiteGameState.h"
+#include "InitGameState.h"
 #include "PieceIterator.h"
 
 GameManager::GameManager(GameScene* gameScene) :
@@ -13,6 +14,7 @@ GameManager::GameManager(GameScene* gameScene) :
 	_rules(std::make_unique<Rules>()),
 	_gsm(std::make_unique<GameStateMachine>(this)),
 	_currentTurn(NULL),
+	_currentPlayer(NULL),
 	_selectedPiece(nullptr),
 	_history({}),
 	_textAction(""),
@@ -82,6 +84,20 @@ void GameManager::notify(GameObject* object, std::string eString)
 	{
 		LOG(INFO) << object->getName() << " was deselected!";
 	}
+	else if (eString == "pieceCaptured")
+	{
+		// Set the piece's position to null
+		dynamic_cast <Piece*>(object)->setSquare(nullptr);
+		// Add the piece to the captured piece location
+		_gameScene->getPieceContainer()->addToCapturedPieces(dynamic_cast <Piece*>(object));
+		_gameScene->updateCaptureDump();
+		LOG(INFO) << object->getName() << " was captured!";
+	}
+	else if (eString == "pieceRevived")
+	{
+		_gameScene->getPieceContainer()->removePieceFromCapturedPieces(dynamic_cast <Piece*>(object));
+		_gameScene->updateCaptureDump();
+	}
 
 	// Square notifications
 	// *********************
@@ -100,14 +116,12 @@ void GameManager::notify(std::string eString)
 
 	if (eString == "turnChange")
 	{
-		if (_currentState == &TurnWhiteGameState::getInstance())
-		{
-			setTurn(1);
-		}
-		else if (_currentState == &TurnBlackGameState::getInstance())
-		{
-			setTurn(0);
-		}
+		onTurnChange();
+	}
+	if (eString == "undoAction")
+	{
+		_selectionManager->deselectPieces();
+		_actionManager->clearUndoBuffer();
 	}
 }
 
@@ -133,8 +147,18 @@ void GameManager::setUpPlayers()
 	std::cin >> p2Name;
 
 	// TODO: Let the players select their color. For now, hard-coding who goes first.
-	_gameScene->setPlayerOne(p1Name, '1');
-	_gameScene->setPlayerTwo(p2Name, '0');
+	_gameScene->setPlayerOne(p1Name, 1);
+	_gameScene->setPlayerTwo(p2Name, 0);
+
+	// Set the current player to whoever chose white
+	if (_gameScene->getPlayerOne()->getColor() == 1)
+	{
+		_currentPlayer = _gameScene->getPlayerOne();
+	}
+	else
+	{
+		_currentPlayer = _gameScene->getPlayerTwo();
+	}
 
 }
 
@@ -256,29 +280,107 @@ void GameManager::setUpPieces()
 void GameManager::setTurn(int turn)
 {
 	_currentTurn = turn;
-}
 
-void GameManager::handleClick()
-{
-	_selectionManager->handleClick();
-}
-
-void GameManager::onPieceMove(Piece* piece)
-{
-	_selectionManager->deselectPieces();
-
-	// Pawn promotion
-	if (_highlightManager->getPieceRules(piece).specialActions.promote)
+	// Set the current player to whoever's turn we're changing to.
+	if (_gameScene->getPlayerOne()->getColor() == turn)
 	{
-		_actionManager->promotePawn(piece);
+		_currentPlayer = _gameScene->getPlayerOne();
+	}
+	else
+	{
+		_currentPlayer = _gameScene->getPlayerTwo();
+	}
+	
+}
+
+bool GameManager::checkForCheck()
+{
+	// Find the square that the current turn's king is on.
+	Square* kingSquare = nullptr;
+
+	if (_currentTurn == 0)
+	{
+		kingSquare = _gameScene->getPieceContainer()->getPiecesByFen('k')[0]->getSquare();
+	}
+	else
+	{
+		kingSquare = _gameScene->getPieceContainer()->getPiecesByFen('K')[0]->getSquare();
 	}
 
-	// TODO: Check if move would put the player's king in check
+	// Pass the square the king is on to the highlight manager so it can perform check higlighting
+	bool check = _highlightManager->highlightCheck(kingSquare);
 
-	// TODO: Confirm if the player wants to end their turn?
+	return check;
 
-	// End the turn
-	endTurn();
+}
+
+void GameManager::checkForCastle(Piece* king)
+{
+	bool rookLeftFirstMove = false;
+	bool rookRightFirstMove = false;
+	if (king->getFirstMove())
+	{
+		// Get the current turn's rooks.
+		char rook = 'R';
+		switch (_currentTurn)
+		{
+		case 0:
+			rook = 'r';
+			break;
+		case 1:
+			rook = 'R';
+			break;
+		default:
+			rook = 'R';
+			break;
+		}
+		Piece* leftRook = nullptr;
+		Piece* rightRook = nullptr;
+		// Get living rooks of this turn and check whether or not it is their first move.
+		for (Piece* p : _gameScene->getPieceContainer()->getPiecesByFen(rook))
+		{
+			if (p->isAlive() && p->getSquare()->getBoardIndex().second == 0)
+			{
+				rookLeftFirstMove = p->getFirstMove();
+				leftRook = p;
+			}
+			else if (p->isAlive() && p->getSquare()->getBoardIndex().second == 7)
+			{
+				rookRightFirstMove = p->getFirstMove();
+				rightRook = p;
+			}
+			else
+			{
+				LOG(DEBUG) << "Either every rook has moved or there are no rooks present. Castling impossible.";
+				return;
+			}
+		}
+		if (rookLeftFirstMove && rookRightFirstMove)
+		{
+			// Highlight castling for both the left and right rook.
+			_highlightManager->highlightCastle(king, leftRook->getSquare(), rightRook->getSquare());
+		}
+		else if (rookLeftFirstMove && !rookRightFirstMove)
+		{
+			// Highlight castling for the left rook only.
+			_highlightManager->highlightCastle(king, leftRook->getSquare());
+		}
+		else if (!rookLeftFirstMove && rookRightFirstMove)
+		{
+			// Highlight castling for the right rook only.
+			_highlightManager->highlightCastle(king, nullptr, rightRook->getSquare());
+		}
+		else
+		{
+			// No rooks have their first move.
+			return;
+		}
+	}
+	else
+	{
+		// It was not the king's first move. Castling impossible.
+		return;
+	}
 }
 
 void GameManager::endTurn()
@@ -310,3 +412,61 @@ void GameManager::endPassant()
 	}
 
 }
+
+void GameManager::handleClick()
+{
+	_selectionManager->handleClick();
+}
+
+void GameManager::onPieceMove(Piece* piece)
+{
+	_selectionManager->deselectPieces();
+
+	// Pawn promotion
+	if (piece->isAlive() && piece->getSquare()->getBoardIndex().second == piece->getSquare()->getBoardIndex().second)
+	{
+		if (piece->getFenName() == 'P' && piece->getSquare()->getBoardIndex().first == 7)
+		{
+			_actionManager->promotePawn(piece);
+		}
+		else if (piece->getFenName() == 'p' && piece->getSquare()->getBoardIndex().first == 0)
+		{
+			_actionManager->promotePawn(piece);
+		}
+	}
+
+	_actionManager->clearUndoBuffer();
+	endTurn();
+	
+}
+
+void GameManager::onTurnChange()
+{
+	if (_currentState == &TurnWhiteGameState::getInstance())
+	{
+		setTurn(1);
+	}
+	else if (_currentState == &TurnBlackGameState::getInstance())
+	{
+		setTurn(0);
+	}
+
+	// Set any active en passant flags for this color to false so that any en passant captures must occur directly after pawn's first move
+	endPassant();
+
+	// Check for check. Set player check to false if player not in check. 
+	// If this returns true, the player's check flag has already been set to true by the Highlight Manager, so you do not need to set it here.
+	if (_previousState != &InitGameState::getInstance())
+	{
+		if (!checkForCheck())
+		{
+			_currentPlayer->setCheck(false);
+		}
+		else
+		{
+			LOG(INFO) << _currentPlayer->getName() << " is in check! Be careful...";
+		}
+	}
+}
+
+

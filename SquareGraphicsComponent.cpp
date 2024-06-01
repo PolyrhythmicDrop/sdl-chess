@@ -82,11 +82,13 @@ void SquareGraphicsComponent::sumImage(Square* square)
 	switch (square->getOverlayType())
 	{
 	case Square::NONE:
+	case Square::CHECK:
 		SDL_SetTextureBlendMode(_overlayTexture, SDL_BLENDMODE_BLEND);
 		SDL_SetTextureAlphaMod(_overlayTexture, 0);
 		SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _overlayTexture, NULL, NULL);
 		break;
 	case Square::MOVE:
+	case Square::CASTLE:
 		SDL_SetTextureBlendMode(_overlayTexture, SDL_BLENDMODE_BLEND);
 		SDL_SetTextureAlphaMod(_overlayTexture, 200);
 		SDL_SetTextureColorMod(_overlayTexture, square->getMoveOverlayColor()->r, square->getMoveOverlayColor()->g, square->getMoveOverlayColor()->b);

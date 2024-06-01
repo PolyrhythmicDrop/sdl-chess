@@ -11,10 +11,6 @@ void TurnBlackGameState::enter(GameStateMachine* gsm)
 	// Notify the game manager that the turn has changed
 	gsm->getGameManager()->notify("turnChange");
 
-	// Set any active en passant flags for this color to false so that any en passant captures
-	// must occur directly after pawn's first move
-	gsm->getGameManager()->endPassant();
-
 	// Subscribe to the event manager
 	subscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
 }

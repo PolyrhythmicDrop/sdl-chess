@@ -4,22 +4,24 @@
 #include "GameScene.h"
 #include <conio.h>
 
+ActionManager::ActionManager(GameManager* gm) :
+	_gm(gm),
+	_undoBuffer({new UndoValues(), new UndoValues()})
+{}
+
 void ActionManager::movePiece(Piece* piece, Square* target)
 {
-	std::pair<int, int> moveDistance = { 0, 0 };
+
+	// If there's nothing in the undo buffer (aka if this is a pure move with no capture), add moving piece to the undo buffer.
+	if (!_undoBuffer.attacker && !_undoBuffer.defender)
+	{
+		addToUndoBuffer(piece);
+	}
 
 	// Move distance is the piece's board index subtracted from the target's move index.
+	std::pair<int, int> moveDistance = { 0, 0 };
 	moveDistance = { target->getBoardIndex().first - piece->getSquare()->getBoardIndex().first,
 					target->getBoardIndex().second - piece->getSquare()->getBoardIndex().second };
-
-	if (!target->getOccupied())
-	{
-		// Unoccupy the square the piece is currently on
-		piece->getSquare()->setOccupied(false);
-
-		// Move the piece to the target position and occupy the square.
-		piece->setSquare(target);
-	}
 
 	// Pawn-specific movement and rules
 	// *********************************
@@ -42,22 +44,52 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 			piece->setPassantable(false);
 		}
 	}
+	// ********************************
 
-	// Notify the GameManager that the position has changed.
-	_gm->notify(piece, "pieceMove");
+	// If the target square is unoccupied...
+	if (!target->getOccupied())
+	{
+		// Unoccupy the square the piece is currently on
+		piece->getSquare()->setOccupied(false);
+
+		// Move the piece to the target position and occupy the square.
+		piece->setSquare(target);
+	}
+
+	// Check if move would put the player's king in check
+	if (_gm->checkForCheck())
+	{
+		LOG(INFO) << "This move would put your king in check! Illegal move.";
+		// Revert the move
+		if (!_undoBuffer.defender)
+		{
+			undoAction(piece, nullptr);
+		}
+		else
+		{
+			undoAction(piece, _gm->_gameScene->getPieceContainer()->getLastCapturedPiece());
+		}
+		_gm->notify("undoAction");
+	}
+	else
+	{
+		// Notify the GameManager that the position has changed.
+		_gm->notify(piece, "pieceMove");
+	}
+
 }
 
 void ActionManager::capturePiece(Piece* attacker, Piece* defender)
 {
 	Square* defPos = defender->getSquare();
-	// De-occupy the defender's square
-	defPos->setOccupied(false);
+
+	// Add the relevant objects to the undo buffer
+	addToUndoBuffer(attacker, defender);
+
 	// Unalive the defender
 	defender->setAlive(false);
-	// Set the defender's position to null
-	defender->setSquare(nullptr);
-	// Add the defender to the captured piece location
-	_gm->_gameScene->addToCapturedPieces(defender);
+	// De-occupy the defender's square
+	defPos->setOccupied(false);
 	// Move the attacking piece into the defender's position
 	movePiece(attacker, defPos);
 }
@@ -79,10 +111,6 @@ void ActionManager::captureEnPassant(Piece* attacker, Square* square)
 	{
 		// Unalive the defender
 		defPos->getOccupant()->setAlive(false);
-		// Set the defender's position to null
-		defPos->getOccupant()->setSquare(nullptr);
-		// Add the defender to the captured piece location
-		_gm->_gameScene->addToCapturedPieces(defPos->getOccupant());
 		// De-occupy the defender's square
 		defPos->setOccupied(false);
 		// Move the attacking piece into the specified position
@@ -90,7 +118,7 @@ void ActionManager::captureEnPassant(Piece* attacker, Square* square)
 	}
 	else
 	{
-		LOG(ERROR) << "No piece in the available to capture en passant!";
+		LOG(ERROR) << "No piece in the available square to capture en passant!";
 	}
 
 	LOG(INFO) << "Piece on square " << square->getName() << " captured en passant!";
@@ -184,4 +212,105 @@ void ActionManager::promotePawn(Piece* piece)
 
 	vect.clear();
 
+}
+
+void ActionManager::castleKing(Piece* king, Square* square)
+{
+	// Find the nearest rook to the selected square.
+	Piece* rook = nullptr;
+	if (king->getPieceColor() == Piece::BLACK)
+	{
+		// Is the square on the black left side?
+		if (square->getBoardIndex().first == 7 && square->getBoardIndex().second == 2)
+		{
+			rook = _gm->_gameScene->getBoard()->getBoardGrid()->at(7).at(0).getOccupant();
+			// Move the rook to the appropriate place.
+			rook->getSquare()->setOccupied(false);
+			rook->setSquare(&_gm->_gameScene->getBoard()->getBoardGrid()->at(7).at(3));	
+		}
+		// ...or is it on the black right side?
+		else if (square->getBoardIndex().first == 7 && square->getBoardIndex().second == 6)
+		{
+			rook = _gm->_gameScene->getBoard()->getBoardGrid()->at(7).at(7).getOccupant();
+			// Move the rook to the appropriate place.
+			rook->getSquare()->setOccupied(false);
+			rook->setSquare(&_gm->_gameScene->getBoard()->getBoardGrid()->at(7).at(5));
+		}
+	}
+	else if (king->getPieceColor() == Piece::WHITE)
+	{
+		// ...or is it on the white left side?
+		if (square->getBoardIndex().first == 0 && square->getBoardIndex().second == 2)
+		{
+			rook = _gm->_gameScene->getBoard()->getBoardGrid()->at(0).at(0).getOccupant();
+			// Move the rook to the appropriate place.
+			rook->getSquare()->setOccupied(false);
+			rook->setSquare(&_gm->_gameScene->getBoard()->getBoardGrid()->at(0).at(3));
+		}
+		// ...or is it on the white right side?
+		else if (square->getBoardIndex().first == 0 && square->getBoardIndex().second == 6)
+		{
+			rook = _gm->_gameScene->getBoard()->getBoardGrid()->at(0).at(7).getOccupant();
+			// Move the rook to the appropriate place.
+			rook->getSquare()->setOccupied(false);
+			rook->setSquare(&_gm->_gameScene->getBoard()->getBoardGrid()->at(0).at(5));
+		}
+	}
+
+	// Move the king.
+	movePiece(king, square);
+
+}
+
+void ActionManager::addToUndoBuffer(Piece* attacker, Piece* defender)
+{
+	if (attacker)
+	{
+		_undoBuffer.attacker = new UndoValues;
+		_undoBuffer.attacker->alive = attacker->isAlive();
+		_undoBuffer.attacker->firstMove = attacker->getFirstMove();
+		_undoBuffer.attacker->passantable = attacker->getPassantable();
+		_undoBuffer.attacker->square = attacker->getSquare();
+	}
+	if (defender)
+	{
+		_undoBuffer.defender = new UndoValues;
+		_undoBuffer.defender->alive = defender->isAlive();
+		_undoBuffer.defender->firstMove = defender->getFirstMove();
+		_undoBuffer.defender->passantable = defender->getPassantable();
+		_undoBuffer.defender->square = defender->getSquare();
+	}
+
+	return;
+}
+
+ActionManager::UndoBuffer ActionManager::getUndoBuffer()
+{
+	return _undoBuffer;
+}
+
+void ActionManager::clearUndoBuffer()
+{
+	_undoBuffer = { nullptr, nullptr};
+}
+
+void ActionManager::undoAction(Piece* attacker, Piece* defender)
+{
+	if (attacker != nullptr && _undoBuffer.attacker != nullptr)
+	{
+		attacker->setFirstMove(_undoBuffer.attacker->firstMove);
+		attacker->setAlive(_undoBuffer.attacker->alive);
+		attacker->getSquare()->setOccupied(false);
+		attacker->setSquare(_undoBuffer.attacker->square);
+		attacker->setPassantable(_undoBuffer.attacker->passantable);
+	}
+	if (defender != nullptr && _undoBuffer.defender != nullptr)
+	{
+		defender->setFirstMove(_undoBuffer.defender->firstMove);
+		defender->setAlive(_undoBuffer.defender->alive);
+		defender->getSquare()->setOccupied(false);
+		defender->setSquare(_undoBuffer.defender->square);
+		defender->setPassantable(_undoBuffer.defender->passantable);
+	}
+	
 }

@@ -12,14 +12,15 @@ class GameScene : public Scene
 {
 private:
 	friend class PieceContainer;
+	friend class Player;
 
 	std::unique_ptr<Chessboard> _board;
 
 	PieceContainer _pieceContainer;
 
-	// Captured white pieces are rendered here, on the top right side of the board
+	// Captured white pieces are rendered here, on the top left side of the board
 	SDL_Point _whiteCapturePoint;
-	// Captured black pieces are rendered here, on the top right side of the board
+	// Captured black pieces are rendered here, on the bottom right side of the board
 	SDL_Point _blackCapturePoint; 
 
 	Player _playerOne;
@@ -39,13 +40,12 @@ public:
 
 	void initializeCapturePoints();
 	// Adds the specified piece to the captured pieces map.
-	void addToCapturedPieces(Piece* piece);
-
+	void updateCaptureDump();
 
 	inline Player* getPlayerOne() { return &_playerOne; };
 	inline Player* getPlayerTwo() { return &_playerTwo; };
-	inline void setPlayerOne(std::string name, char color) { _playerOne._name = name; _playerOne._color = color; };
-	inline void setPlayerTwo(std::string name, char color) { _playerTwo._name = name; _playerTwo._color = color; };
+	void setPlayerOne(std::string name, int color);
+	void setPlayerTwo(std::string name, int color);
 
 	inline GameManager* getManager() { return _manager.get(); };
 

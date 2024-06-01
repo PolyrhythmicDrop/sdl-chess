@@ -38,7 +38,7 @@ public:
 	void setSquare(Square* square);
 	inline Square* getSquare() { return _position; };
 
-	inline const PieceColor getPieceColor() const { return _pieceColor; };
+	inline PieceColor getPieceColor() { return _pieceColor; };
 	inline const Figure getPieceType() const { return _type; };
 
 	void changeType(Figure type);
@@ -46,7 +46,7 @@ public:
 	void setSelected(bool selected);
 	inline bool getSelected() const { return _selected; };
 
-	inline void setAlive(bool alive) { _alive = alive; };
+	void setAlive(bool alive);
 	inline bool isAlive() const { return _alive; };
 
 	inline void setFirstMove(bool first) { _firstMove = first; };

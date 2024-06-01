@@ -76,17 +76,7 @@ void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject
 		// Add objects to the render map if they are not already in the render map
 		_renderMap[rendLayer].insert(_renderMap[rendLayer].begin(), pairs.begin(), pairs.end());
 		LOG(TRACE) << "Objects added to render map!";
-		
-		// Sort the render map by Z-value
-		std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>>::iterator mItr;
-		std::vector<std::pair<GameObject*, SDL_Texture*>>::iterator vItr;
-		for (mItr = _renderMap.begin(); mItr != _renderMap.end(); ++mItr)
-		{
-			std::sort(mItr->second.begin(), mItr->second.end(),
-				// Lamba defining the comparator
-				[](std::pair<GameObject*, SDL_Texture*> a, std::pair<GameObject*, SDL_Texture*> b)
-				{ return a.first->getZ() < b.first->getZ(); });
-		}
+		sortRenderMap();
 	}
 	else
 	{
@@ -146,6 +136,22 @@ std::vector<std::pair<GameObject*, SDL_Texture*>> GraphicsService::findInRenderM
 
 }
 
+void GraphicsService::sortRenderMap()
+{
+	// Sort the render map by Z-value
+	std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>>::iterator mItr;
+	std::vector<std::pair<GameObject*, SDL_Texture*>>::iterator vItr;
+	for (mItr = _renderMap.begin(); mItr != _renderMap.end(); ++mItr)
+	{
+		std::sort(mItr->second.begin(), mItr->second.end(), 
+			// Lamba defining the comparator
+			[](std::pair<GameObject*, SDL_Texture*> a, std::pair<GameObject*, SDL_Texture*> b)
+			{ return a.first->getZ() < b.first->getZ(); });
+	}
+
+	
+}
+
 void GraphicsService::render()
 {
 	// Set renderer variable
@@ -155,6 +161,8 @@ void GraphicsService::render()
 	// Set the background color and clear the renderer
 	SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
 	SDL_RenderClear(renderer);
+
+	sortRenderMap();
 
 	std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>>::iterator mapItr = _renderMap.begin();
 	for (mapItr; mapItr != _renderMap.end(); mapItr++)

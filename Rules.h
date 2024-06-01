@@ -54,23 +54,25 @@ public:
 	~Rules() {};
 
 	// Determines which rules package to deliver
-	Rules::RulePackage getRulesPackage(Piece* piece);
+	Rules::RulePackage getRulesPackage(char fen, bool firstMove = false);
+
+	// Uses a FEN name instead of a piece to determine the rules package to deliver.
 
 	// Rules package for white pawns
-	Rules::RulePackage getWhtPawnRules(Piece* piece);
+	Rules::RulePackage getWhtPawnRules(bool firstMove = false);
 
 	// Rules package for black pawns
-	Rules::RulePackage getBlkPawnRules(Piece* piece);
+	Rules::RulePackage getBlkPawnRules(bool firstMove = false);
 
-	Rules::RulePackage getRookRules(Piece* piece);
+	Rules::RulePackage getRookRules(bool firstMove = false);
 
-	Rules::RulePackage getKnightRules(Piece* piece);
+	Rules::RulePackage getKnightRules(bool firstMove = false);
 
-	Rules::RulePackage getBishopRules(Piece* piece);
+	Rules::RulePackage getBishopRules(bool firstMove = false);
 
-	Rules::RulePackage getQueenRules(Piece* piece);
+	Rules::RulePackage getQueenRules(bool firstMove = false);
 
-	Rules::RulePackage getKingRules(Piece* piece);
+	Rules::RulePackage getKingRules(bool firstMove = false);
 
 
 

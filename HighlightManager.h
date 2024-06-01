@@ -37,6 +37,8 @@ public:
 	// *********************** //
 
 	Rules::RulePackage getPieceRules(Piece* piece);
+	// Overload for getPieceRules, takes FEN notation instead of a piece object to get rules.
+	Rules::RulePackage getPieceRules(char fen, bool firstMove = false);
 
 	void highlightActionOptions(Square* square);
 	void removeActionHighlight();
@@ -50,5 +52,10 @@ public:
 	// Highlight jump moves
 	void highlightJumpMoveOptions(Square* square, Rules::RulePackage rules);
 
+	// Highlights check options for every piece with "eyes" on the king. Returns true if player is in check.
+	bool highlightCheck(Square* square);
+
+	// Highlights castling options for the squares.
+	void highlightCastle(Piece* king, Square* rookLSq = nullptr, Square* rookRSq = nullptr);
 };
 

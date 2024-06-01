@@ -3,38 +3,38 @@
 #include "Square.h"
 #include "easylogging++.h"
 
-Rules::RulePackage Rules::getRulesPackage(Piece* piece)
+Rules::RulePackage Rules::getRulesPackage(char fen, bool firstMove)
 {
 	RulePackage rules;
 
 	// Get the type of piece on the square and determine which rule evaluation set to use on it.
-	switch (piece->getFenName())
+	switch (fen)
 	{
 	case 'P':
-		rules = getWhtPawnRules(piece);
+		rules = getWhtPawnRules(firstMove);
 		break;
 	case 'p':
-		rules = getBlkPawnRules(piece);
+		rules = getBlkPawnRules(firstMove);
 		break;
 	case 'R': 
 	case 'r':
-		rules = getRookRules(piece);
+		rules = getRookRules(firstMove);
 		break;
 	case 'N':
 	case 'n':
-		rules = getKnightRules(piece);
+		rules = getKnightRules(firstMove);
 		break;
 	case 'B':
 	case 'b':
-		rules = getBishopRules(piece);
+		rules = getBishopRules(firstMove);
 		break;
 	case 'Q':
 	case 'q':
-		rules = getQueenRules(piece);
+		rules = getQueenRules(firstMove);
 		break;
 	case 'K':
 	case 'k':
-		rules = getKingRules(piece);
+		rules = getKingRules(firstMove);
 		break;
 	default:
 		LOG(ERROR) << "Piece name doesn't match any FEN value! Rules not packaged.";
@@ -44,7 +44,7 @@ Rules::RulePackage Rules::getRulesPackage(Piece* piece)
 	return rules;
 }
 
-Rules::RulePackage Rules::getWhtPawnRules(Piece* piece)
+Rules::RulePackage Rules::getWhtPawnRules(bool firstMove)
 {
 	Rules::RulePackage pawnRules;
 
@@ -53,7 +53,7 @@ Rules::RulePackage Rules::getWhtPawnRules(Piece* piece)
 	pawnRules.moveRules.orthoMove = true;
 
 	// If it is the pawn's first move, set the move distance to 2 columns. If not, set it to 1 row.
-	if (piece->getFirstMove() == true)
+	if (firstMove = true)
 	{
 		pawnRules.moveRules.row = 2;
 		pawnRules.moveRules.column = 0;
@@ -78,17 +78,12 @@ Rules::RulePackage Rules::getWhtPawnRules(Piece* piece)
 	// ***********************
 	
 	// Set whether the piece can be promoted
-	// If the piece is in its same column and it has reached the last square in the board, it can be promoted.
-	if (piece->getSquare()->getBoardIndex().second == piece->getSquare()->getBoardIndex().second 
-		&& piece->getSquare()->getBoardIndex().first == 7)
-	{
-		pawnRules.specialActions.promote = true;
-	}
+	pawnRules.specialActions.promote = true;
 
 	return pawnRules;
 }
 
-Rules::RulePackage Rules::getBlkPawnRules(Piece* piece)
+Rules::RulePackage Rules::getBlkPawnRules(bool firstMove)
 {
 	Rules::RulePackage pawnRules;
 
@@ -97,7 +92,7 @@ Rules::RulePackage Rules::getBlkPawnRules(Piece* piece)
 	pawnRules.moveRules.orthoMove = true;
 
 	// If it is the pawn's first move, set the move distance to 2 columns. If not, set it to 1 row.
-	if (piece->getFirstMove() == true)
+	if (firstMove == true)
 	{
 		pawnRules.moveRules.row = 2;
 		pawnRules.moveRules.column = 0;
@@ -122,17 +117,12 @@ Rules::RulePackage Rules::getBlkPawnRules(Piece* piece)
 	// ***********************
 
 	// Set whether the piece can be promoted
-	// If the piece is in its same column and it has reached the last square in the board, it can be promoted.
-	if (piece->getSquare()->getBoardIndex().second == piece->getSquare()->getBoardIndex().second
-		&& piece->getSquare()->getBoardIndex().first == 0)
-	{
-		pawnRules.specialActions.promote = true;
-	}
+	pawnRules.specialActions.promote = true;
 
 	return pawnRules;
 }
 
-Rules::RulePackage Rules::getRookRules(Piece* piece)
+Rules::RulePackage Rules::getRookRules(bool firstMove)
 {
 	Rules::RulePackage rookRules;
 
@@ -159,7 +149,7 @@ Rules::RulePackage Rules::getRookRules(Piece* piece)
 
 }
 
-Rules::RulePackage Rules::getKnightRules(Piece* piece)
+Rules::RulePackage Rules::getKnightRules(bool firstMove)
 {
 	Rules::RulePackage knightRules;
 
@@ -183,7 +173,7 @@ Rules::RulePackage Rules::getKnightRules(Piece* piece)
 
 }
 
-Rules::RulePackage Rules::getBishopRules(Piece* piece)
+Rules::RulePackage Rules::getBishopRules(bool firstMove)
 {
 	Rules::RulePackage bishopRules;
 
@@ -205,7 +195,7 @@ Rules::RulePackage Rules::getBishopRules(Piece* piece)
 	return bishopRules;
 }
 
-Rules::RulePackage Rules::getQueenRules(Piece* piece)
+Rules::RulePackage Rules::getQueenRules(bool firstMove)
 {
 	Rules::RulePackage queenRules;
 
@@ -229,7 +219,7 @@ Rules::RulePackage Rules::getQueenRules(Piece* piece)
 	return queenRules;
 }
 
-Rules::RulePackage Rules::getKingRules(Piece* piece)
+Rules::RulePackage Rules::getKingRules(bool firstMove)
 {
 	Rules::RulePackage kingRules;
 

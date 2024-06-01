@@ -3,8 +3,6 @@
 #include "GraphicsComponent.h"
 #include <vector>
 
-class BoardIterator;
-
 class Chessboard : public GameObject
 {
 private:
@@ -26,8 +24,6 @@ public:
 
 	void const buildChessboard();
 	void const addBoardToRender();
-
-	BoardIterator createIterator();
 	
 };
 

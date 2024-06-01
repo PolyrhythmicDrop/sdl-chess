@@ -18,7 +18,7 @@ Piece::Piece(Figure type, PieceColor color) :
 	LOG(TRACE) << "Piece Type: " << _type << " | Color: " << _pieceColor << " created!";
 }
 
-// Deep Copy Constructor
+//// Deep Copy Constructor
 Piece::Piece(const Piece& piece)
 {
 	_mediator = piece._mediator;
@@ -32,8 +32,7 @@ Piece::Piece(const Piece& piece)
 	_alive = piece._alive;
 	_firstMove = piece._firstMove;
 	_input = piece._input;
-	_graphics = new PieceGraphicsComponent();
-	*_graphics = *(piece._graphics);
+	_graphics = piece._graphics;
 	LOG(TRACE) << "Piece deep copy constructor called!";
 }
 
@@ -161,7 +160,6 @@ void Piece::setSelected(bool selected)
 {
 	_selected = selected;
 
-
 	if (!_selected)
 	{
 		_graphics->removeSelectedIcon(this);
@@ -182,6 +180,17 @@ void Piece::setSelected(bool selected)
 			this->_mediator->notify(this, "pieceSelected");
 		}
 	}
+}
+
+void Piece::setAlive(bool alive)
+{
+	_alive = alive;
+
+	if (this->_mediator != nullptr)
+	{
+		alive ? _mediator->notify(this, "pieceRevived") : _mediator->notify(this, "pieceCaptured");
+	}
+	
 }
 
 void Piece::setFenName(char fen)
