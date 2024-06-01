@@ -231,9 +231,6 @@
     <ClCompile Include="SelectionManager.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="BoardIterator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PieceContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -401,9 +398,6 @@
     <ClInclude Include="SelectionManager.h">
       <Filter>Header Files\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="BoardIterator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PieceContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -504,5 +498,10 @@
     <Text Include="chess-log.log">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="stockfish.exe">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

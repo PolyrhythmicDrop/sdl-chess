@@ -288,6 +288,9 @@
   <ItemGroup>
     <Text Include="chess-log.log" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="stockfish.exe" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
