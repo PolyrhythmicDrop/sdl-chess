@@ -79,7 +79,7 @@ void Square::setOccupied(bool occupy, Piece* occupant)
 			_occupied = occupy;
 			_currentPiece = occupant;
 			_mediator->notify(this, "squareOccupied");
-			LOG(INFO) << "Square" << _name << "occupied by " << occupant->getName();
+			LOG(INFO) << "Square " << _name << " occupied by " << occupant->getName();
 		}
 		else if (_occupied == true && occupy == false)
 		{
