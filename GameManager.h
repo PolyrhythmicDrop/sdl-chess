@@ -135,6 +135,7 @@ public:
 	// Checks for check on the current player's king.
 	bool checkForCheck();
 
+	// Check if castling is available
 	void checkForCastle(Piece* piece);
 
 	// Notifies the game state machine to change the turn.
@@ -144,8 +145,7 @@ public:
 
 	// **********************
 
-	// Handler functions
-	// ***********************
+	// ** Handler Functions **
 
 	void handleClick();
 	void onPieceMove(Piece* piece);
