@@ -252,6 +252,9 @@
     <ClCompile Include="HumanPlayer.cpp">
       <Filter>Source Files\Players</Filter>
     </ClCompile>
+    <ClCompile Include="FenManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SDLfunc.h">
@@ -427,6 +430,9 @@
     </ClInclude>
     <ClInclude Include="HumanPlayer.h">
       <Filter>Header Files\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="FenManager.h">
+      <Filter>Header Files\Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

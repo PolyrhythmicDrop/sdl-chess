@@ -4,6 +4,7 @@
 #include "Rules.h"
 #include "SelectionManager.h"
 #include "HighlightManager.h"
+#include "FenManager.h"
 #include "GameStateMachine.h"
 #include "Stockfish.h"
 #include <memory>
@@ -15,6 +16,7 @@ class Square;
 class HighlightManager;
 class ActionManager;
 class SelectionManager;
+class FenManager;
 class Player;
 
 class GameManager : public IMediator
@@ -22,6 +24,7 @@ class GameManager : public IMediator
 	friend class HighlightManager;
 	friend class ActionManager;
 	friend class SelectionManager;
+	friend class FenManager;
 
 private:
 
@@ -39,27 +42,18 @@ private:
 	// The currently selected piece
 	Piece* _selectedPiece;
 
-	// ** FEN/Stockfish Strings ** //
-	// *************************** //
-	
-	// Record of past moves, as strings
-	std::vector<std::string> _history;
-	// A text version of an action, in long algebraic notation for UCI. Should be able to be parsed by Stockfish and SDL Chess, to be used in the history list and for Stockfish move calculation
-	std::string _textAction;
-	// Stringified version of game setup. Should be in UCI-readable format, using FEN. Hard-coded to start with, but in later versions of SDL Chess I'd like to let users put in their own starting positions
-	std::string _textSetup;
-	// The current placement of all the pieces on the board. FEN: first field
-	std::string _textPlacement;
-
 	// ** Manager Components ** //
 	// ************************ //
 	
 	std::unique_ptr<Rules> _rules;
 	std::unique_ptr<GameStateMachine> _gsm;
+	std::unique_ptr<Stockfish> _stockfish;
+
 	std::unique_ptr<HighlightManager> _highlightManager;
 	std::unique_ptr<ActionManager> _actionManager;
 	std::unique_ptr<SelectionManager> _selectionManager;
-	std::unique_ptr<Stockfish> _stockfish;
+	std::unique_ptr<FenManager> _fenManager;
+	
 
 	// *****************************
 

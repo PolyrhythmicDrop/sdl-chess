@@ -1,6 +1,5 @@
 #pragma once
 #include <memory>
-#include <optional>
 
 class GameManager;
 class Piece;

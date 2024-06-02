@@ -1,8 +1,6 @@
-#include "ActionManager.h"
 #include "easylogging++.h"
 #include "GameManager.h"
 #include "GameScene.h"
-#include "HighlightManager.h"
 #include "IdleGameState.h"
 #include "InitGameState.h"
 #include "PieceIterator.h"
@@ -17,14 +15,11 @@ GameManager::GameManager(GameScene* gameScene) :
 	_currentPlayer(NULL),
 	_aiMode(false),
 	_selectedPiece(nullptr),
-	_history({}),
-	_textAction(""),
-	_textSetup("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"),
-	_textPlacement(_textSetup),
 	_highlightManager(std::make_unique<HighlightManager>(this)),
 	_actionManager(std::make_unique<ActionManager>(this)),
 	_selectionManager(std::make_unique<SelectionManager>(this)),
 	_stockfish(std::make_unique<Stockfish>()),
+	_fenManager(std::make_unique<FenManager>(this)),
 	_currentState(&IdleGameState::getInstance()),
 	_previousState(nullptr)
 {
