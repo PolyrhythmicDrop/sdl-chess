@@ -192,6 +192,7 @@
     <ClCompile Include="InEscMenuState.cpp" />
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="SquareGraphicsComponent.cpp" />
+    <ClCompile Include="Stockfish.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TurnBlackGameState.cpp" />
     <ClCompile Include="TurnWhiteGameState.cpp" />
@@ -249,6 +250,7 @@
     <ClInclude Include="InEscMenuState.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="SquareGraphicsComponent.h" />
+    <ClInclude Include="Stockfish.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TurnBlackGameState.h" />
     <ClInclude Include="TurnWhiteGameState.h" />
