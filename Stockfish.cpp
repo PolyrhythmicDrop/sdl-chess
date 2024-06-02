@@ -51,7 +51,7 @@ bool Stockfish::createStockfishProcess()
         NULL,                       // Process handle not inheritable
         NULL,                       // Thread handle not inheritable
         TRUE,                       // Set handle inheritance to TRUE (!IMPORTANT!)
-        0,                          // No creation flags
+        CREATE_NO_WINDOW,                          // No creation flags
         NULL,                       // Use parent environment blocks
         NULL,                       // Use parent starting directory
         &_startupInfo,               // Pointer to the startup info structure that contains the handles to use
@@ -83,7 +83,7 @@ bool Stockfish::newGameStockfish(std::string fen)
     _fishOutput = readStockfishOutput();
 
     // Determine if the response contains "uciok", signifying that the engine is ready for UCI input.
-    if (std::find(_fishOutput.begin(), _fishOutput.end(), "uciok") == _fishOutput.end())
+    if (std::find(_fishOutput.begin(), _fishOutput.end(), "uciok\r") == _fishOutput.end())
     {
         LOG(DEBUG) << "uciok message not found! Stockfish could not create a new game.";
         return newGame;
@@ -151,7 +151,7 @@ bool Stockfish::isStockfishReady()
     _fishOutput = readStockfishOutput();
 
     // Determine if the response contains "uciok", signifying that the engine is ready.
-    if (std::find(_fishOutput.begin(), _fishOutput.end(), "readyok") == _fishOutput.end())
+    if (std::find(_fishOutput.begin(), _fishOutput.end(), "readyok\r") == _fishOutput.end())
     {
         LOG(DEBUG) << "Stockfish not ready!";
         ready = false;

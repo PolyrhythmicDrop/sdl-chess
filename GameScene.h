@@ -44,8 +44,8 @@ public:
 
 	inline Player* getPlayerOne() { return &_playerOne; };
 	inline Player* getPlayerTwo() { return &_playerTwo; };
-	void setPlayerOne(std::string name, int color);
-	void setPlayerTwo(std::string name, int color);
+	void setPlayerOne(std::string name, int color, Player::PlayerType type);
+	void setPlayerTwo(std::string name, int color, Player::PlayerType type);
 
 	inline GameManager* getManager() { return _manager.get(); };
 

@@ -152,6 +152,7 @@
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
     <ClCompile Include="HighlightManager.cpp" />
+    <ClCompile Include="HumanPlayer.cpp" />
     <ClCompile Include="IdleGameState.cpp" />
     <ClCompile Include="IGameState.cpp" />
     <ClCompile Include="IMediator.cpp" />
@@ -193,6 +194,7 @@
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="SquareGraphicsComponent.cpp" />
     <ClCompile Include="Stockfish.cpp" />
+    <ClCompile Include="StockfishPlayer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TurnBlackGameState.cpp" />
     <ClCompile Include="TurnWhiteGameState.cpp" />
@@ -209,6 +211,7 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GameStateMachine.h" />
     <ClInclude Include="HighlightManager.h" />
+    <ClInclude Include="HumanPlayer.h" />
     <ClInclude Include="IdleGameState.h" />
     <ClInclude Include="IGameState.h" />
     <ClInclude Include="IMediator.h" />
@@ -251,6 +254,7 @@
     <ClInclude Include="Square.h" />
     <ClInclude Include="SquareGraphicsComponent.h" />
     <ClInclude Include="Stockfish.h" />
+    <ClInclude Include="StockfishPlayer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TurnBlackGameState.h" />
     <ClInclude Include="TurnWhiteGameState.h" />

@@ -5,6 +5,7 @@
 #include "SelectionManager.h"
 #include "HighlightManager.h"
 #include "GameStateMachine.h"
+#include "Stockfish.h"
 #include <memory>
 #include <vector>
 
@@ -28,8 +29,12 @@ private:
 
 	// The current turn. 0 = Black, 1 = White.
 	int _currentTurn; 
+
 	// The player whose turn it currently is.
 	Player* _currentPlayer;
+
+	// Whether or not the game being played is against the AI. True if against AI, false if human to human game.
+	bool _aiMode;
 
 	// The currently selected piece
 	Piece* _selectedPiece;
@@ -54,6 +59,7 @@ private:
 	std::unique_ptr<HighlightManager> _highlightManager;
 	std::unique_ptr<ActionManager> _actionManager;
 	std::unique_ptr<SelectionManager> _selectionManager;
+	std::unique_ptr<Stockfish> _stockfish;
 
 	// *****************************
 
@@ -110,9 +116,13 @@ public:
 
 	void parseFEN(std::string position);
 	void setUpGame();
+	bool setGameMode();
 	void setUpPlayers();
 	void setUpBoard();
 	void setUpPieces();
+	// If using Stockfish chess engine, initialize it for Player Two, the AI player.
+	void setUpStockfish();
+	
 
 	// *****************************
 

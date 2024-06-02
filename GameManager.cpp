@@ -4,10 +4,10 @@
 #include "GameScene.h"
 #include "HighlightManager.h"
 #include "IdleGameState.h"
-#include "TurnBlackGameState.h"
-#include "TurnWhiteGameState.h"
 #include "InitGameState.h"
 #include "PieceIterator.h"
+#include "TurnBlackGameState.h"
+#include "TurnWhiteGameState.h"
 
 GameManager::GameManager(GameScene* gameScene) :
 	_gameScene(gameScene),
@@ -15,6 +15,7 @@ GameManager::GameManager(GameScene* gameScene) :
 	_gsm(std::make_unique<GameStateMachine>(this)),
 	_currentTurn(NULL),
 	_currentPlayer(NULL),
+	_aiMode(false),
 	_selectedPiece(nullptr),
 	_history({}),
 	_textAction(""),
@@ -23,6 +24,7 @@ GameManager::GameManager(GameScene* gameScene) :
 	_highlightManager(std::make_unique<HighlightManager>(this)),
 	_actionManager(std::make_unique<ActionManager>(this)),
 	_selectionManager(std::make_unique<SelectionManager>(this)),
+	_stockfish(std::make_unique<Stockfish>()),
 	_currentState(&IdleGameState::getInstance()),
 	_previousState(nullptr)
 {
@@ -132,23 +134,83 @@ void GameManager::parseFEN(std::string position)
 
 void GameManager::setUpGame()
 {
+	setGameMode();
 	setUpPlayers();
 	setUpBoard();
 	setUpPieces();
+	if (_aiMode)
+	{
+		setUpStockfish();
+	}
+	else
+	{
+		return;
+	}
+	return;
+}
+
+bool GameManager::setGameMode()
+{
+	bool gameSelect = false;
+	// TODO: Create GUI for this. Put it in the console for now to test.
+	while (!gameSelect)
+	{
+		std::cout << "Select your game mode:\n" << "1. Single Player\n" << "2. Head to Head\n";
+		char choice;
+		std::cin >> choice;
+
+		try
+		{
+			switch (choice)
+			{
+			default:
+				LOG(ERROR) << "Invalid choice!";
+				throw choice;
+				break;
+			case '1':
+				_aiMode = true;
+				gameSelect = true;
+				break;
+			case '2':
+				_aiMode = false;
+				gameSelect = true;
+				break;
+			}
+		}
+		catch (char e)
+		{
+			LOG(ERROR) << e << " is an invalid choice! Try again.\n";
+			continue;
+		}
+	}
+
 }
 
 void GameManager::setUpPlayers()
 {
 	// ** Player Initialization ** //
 	std::string p1Name, p2Name;
-	std::cout << "Player One, enter your name:\n";
-	std::cin >> p1Name;
-	std::cout << "Player Two, enter your name:\n";
-	std::cin >> p2Name;
 
-	// TODO: Let the players select their color. For now, hard-coding who goes first.
-	_gameScene->setPlayerOne(p1Name, 1);
-	_gameScene->setPlayerTwo(p2Name, 0);
+	// Change the string depending on whether or not the player is playing against AI
+	switch (_aiMode)
+	{
+	case false:
+		std::cout << "Player One, enter your name:\n";
+		std::cin >> p1Name;
+		std::cout << "Player Two, enter your name:\n";
+		std::cin >> p2Name;
+		break;
+	case true:
+		std::cout << "Player One, enter your name:\n";
+		std::cin >> p1Name;
+		std::cout << "Enter a name for your AI opponent:\n";
+		std::cin >> p2Name;
+		break;
+	}
+
+	// TODO: Let the players select their color. For now, hard-coding Player One to be white and go first. 
+	_gameScene->setPlayerOne(p1Name, 1, Player::HUMAN);
+	_aiMode ? _gameScene->setPlayerTwo(p2Name, 0, Player::STOCKFISH) : _gameScene->setPlayerTwo(p2Name, 0, Player::HUMAN);
 
 	// Set the current player to whoever chose white
 	if (_gameScene->getPlayerOne()->getColor() == 1)
@@ -275,6 +337,12 @@ void GameManager::setUpPieces()
 	ServiceLocator::getGraphics().addToRenderMap(2, rendVect);
 	// ***********
 
+}
+
+void GameManager::setUpStockfish()
+{
+	_stockfish.get()->createStockfishProcess();
+	_stockfish.get()->newGameStockfish();
 }
 
 void GameManager::setTurn(int turn)

@@ -17,7 +17,6 @@ private:
 	HANDLE _hOutRead = NULL;
 	HANDLE _hOutWrite = NULL;
 
-
 	STARTUPINFO _startupInfo;
 	PROCESS_INFORMATION _processInfo;
 	SECURITY_ATTRIBUTES _security;

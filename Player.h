@@ -1,8 +1,36 @@
 #pragma once
 #include <iostream>
 
+class HumanPlayer;
+class StockfishPlayer;
+
 class Player
 {
+
+public:
+
+	enum PlayerType {
+		HUMAN,
+		STOCKFISH
+	};
+
+	Player(std::string name, int color, PlayerType type = PlayerType::HUMAN);
+	Player(const Player& player);
+	Player& operator=(const Player& other);
+
+	virtual ~Player() {};
+
+	HumanPlayer createHumanPlayer();
+	StockfishPlayer createStockfishPlayer();
+
+	std::string getName();
+	void setName(std::string name);
+
+	int getColor();
+	void setColor(int color);
+
+	bool getCheck();
+	void setCheck(bool check);
 
 private:
 
@@ -13,22 +41,7 @@ private:
 	// is this player currently in check?
 	bool _check = false;
 
-public:
-
-	Player(std::string name, int color);
-	Player(const Player& player);
-	Player& operator=(const Player& other);
-
-	~Player() {};
-
-	std::string getName();
-	void setName(std::string name);
-
-	int getColor();
-	void setColor(int color);
-
-	bool getCheck();
-	void setCheck(bool check);
+	PlayerType _playerType;
 
 };
 
