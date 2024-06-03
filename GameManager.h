@@ -108,15 +108,17 @@ public:
 
 	// ** Game Initialization Functions **
 
-	void parseFEN(std::string position);
+	
 	void setUpGame();
 	bool setGameMode();
 	void setUpPlayers();
+	void fenToBoard(std::string position);
+	// Takes a board layout and translates it to a FEN string for use with Stockfish
+	std::string boardToFen();
 	void setUpBoard();
 	void setUpPieces();
 	// If using Stockfish chess engine, initialize it for Player Two, the AI player.
 	void setUpStockfish();
-	
 
 	// *****************************
 
@@ -150,6 +152,7 @@ public:
 	void handleClick();
 	void onPieceMove(Piece* piece);
 	void onTurnChange();
+	
 
 };
 

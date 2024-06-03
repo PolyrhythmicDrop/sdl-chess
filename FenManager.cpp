@@ -23,7 +23,6 @@ std::string FenManager::createFishFen()
 	std::string fishFen = "position fen " + fen + " moves " + _fenMove;
 
 	return fishFen;
-
 }
 
 void FenManager::addToFenHistory(std::string move)

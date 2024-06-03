@@ -122,9 +122,65 @@ void GameManager::notify(std::string eString)
 	}
 }
 
-void GameManager::parseFEN(std::string position)
+void GameManager::fenToBoard(std::string position)
 {
 
+}
+
+std::string GameManager::boardToFen()
+{
+	auto boardGrid = _gameScene->getBoard()->getBoardGrid();
+	std::string fenPos = "";
+	int emptySq = 0;
+
+	// Reverse-iterate through the board
+	for (int row = 7; row >= 0; --row)
+	{		
+		for (int col = 0; col < boardGrid->at(row).size(); ++col)
+		{
+			// If the square at the iterator is occupied...
+			if (boardGrid->at(row).at(col).getOccupied())
+			{
+				// If the emptySq count is greater than 0...
+				if (emptySq > 0)
+				{
+					// Append the emptySq integer to the FEN string, since we've encountered a piece,
+					// before putting the piece in the FEN string.
+					char emptyChar = '0' + emptySq;
+					fenPos = fenPos + emptyChar;
+					// Reset the empty square count.
+					emptySq = 0;
+				}
+				// Get the FEN name of the piece on the square...
+				char piece = boardGrid->at(row).at(col).getOccupant()->getFenName();
+				// ...and append it to the FEN string.
+				fenPos = fenPos + piece;
+			}
+			// If the square at the iterator is empty...
+			else
+			{
+				// ...increment the empty square count so it can be added to the string later.
+				++emptySq;
+			}
+		}
+		// Add the slash denoting end of row, and any remaining empty squares
+		if (emptySq > 0)
+		{
+			char emptyChar = '0' + emptySq;
+			fenPos = fenPos + emptyChar;
+			// Reset the empty square count.
+			emptySq = 0;
+		}
+		fenPos = fenPos + '/';
+	}
+
+	// Remove the last forward slash from the string
+	fenPos.pop_back();
+
+	// Add the FEN position string to the FEN Manager's FEN position member.
+	_fenManager->setFenPosition(fenPos);
+
+	return fenPos;
 }
 
 void GameManager::setUpGame()
@@ -530,6 +586,11 @@ void GameManager::onTurnChange()
 			LOG(INFO) << _currentPlayer->getName() << " is in check! Be careful...";
 		}
 	}
+
+	// Set the FEN string so you can send it to Stockfish when the time is right.
+	boardToFen();
+	_fenManager->createFenString();
+	_fenManager->addToFenHistory(_fenManager->createFishFen());
 }
 
 

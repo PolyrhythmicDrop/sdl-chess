@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
-#include <vector>
 #include <string>
+#include <vector>
 
 class GameManager;
 
@@ -51,13 +51,20 @@ public:
 	FenManager(GameManager* gm);
 	~FenManager() {};
 
+	// ** Concatenators **
+
+	// Creates a standard FEN string, without the Stockfish-specific sections.
 	std::string createFenString();
 	// Creates a Stockfish-ready FEN string
 	std::string createFishFen();
 
+	// ** History Functions **
+
 	void addToFenHistory(std::string move);
 	std::vector<std::string>* getFenHistory();
 	void clearFenHistory();
+
+	// ** Set FEN Components **
 
 	void setFenMove(std::string move);
 	void setFenPosition(std::string pos);
@@ -66,9 +73,10 @@ public:
 	/// <summary>
 	/// Sets the modifier for castling.
 	/// </summary>
-	/// <parameter="castle">Whether or not castling is available</parameter>
-	/// <parameter="color">The color that can castle. 0 = black, 1 = white</parameter>
+	/// <param name="castle">Whether or not castling is available</param>
+	/// <param name="color">The color that can castle. 0 = black, 1 = white</param>
 	std::string setCastleByColor(bool castle, int color, bool kingside, bool queenside);
+	// Sets the FEN castling string. Should be used in conjunction with setCastleByColor, which sets the castling string for each side.
 	void setFenCastle(std::string white, std::string black);
 
 	void setFenPassant(std::string squareName);
