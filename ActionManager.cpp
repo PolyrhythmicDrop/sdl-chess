@@ -22,29 +22,12 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 	std::pair<int, int> moveDistance = { 0, 0 };
 	moveDistance = { target->getBoardIndex().first - piece->getSquare()->getBoardIndex().first,
 					target->getBoardIndex().second - piece->getSquare()->getBoardIndex().second };
-
-	// Pawn-specific movement and rules
-	// *********************************
-
-	// If this was the piece's first move, set first move to false for future moves.
-	if (piece->getFirstMove())
+	
+	// If the piece was passantable before this move, it should no longer be passantable after the move. Change passantable to false.
+	if (piece->getPassantable() == true)
 	{
-		piece->setFirstMove(false);
-		// Set whether or not the piece can be captured en passant.
-		if (piece->getPieceType() == Piece::PAWN && abs(moveDistance.first) == 2)
-		{
-			piece->setPassantable(true);
-		}
+		piece->setPassantable(false);
 	}
-	else
-	{
-		// If the piece was passantable before this move, it should no longer be passantable after the move. Change passantable to false.
-		if (piece->getPassantable() == true)
-		{
-			piece->setPassantable(false);
-		}
-	}
-	// ********************************
 
 	// If the target square is unoccupied...
 	if (!target->getOccupied())
@@ -60,7 +43,7 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 	if (_gm->checkForCheck())
 	{
 		LOG(INFO) << "This move would put your king in check! Illegal move.";
-		// Revert the move
+		// Revert the move if the move would put the king in check.
 		if (!_undoBuffer.defender)
 		{
 			undoAction(piece, nullptr);
@@ -71,10 +54,50 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 		}
 		_gm->notify("undoAction");
 	}
+	// If the move is valid and will not put the player's king in check...
 	else
 	{
+		// If this was the piece's first move, set first move to false for future moves. Perform other "first move" tasks.
+		if (piece->getFirstMove())
+		{
+			modifyFirstMove(piece, moveDistance);
+		}
+
 		// Notify the GameManager that the position has changed.
 		_gm->notify(piece, "pieceMove");
+	}
+
+}
+
+void ActionManager::modifyFirstMove(Piece* piece, std::pair<int, int> moveDistance)
+{
+	// Set First Move to false for the piece
+	piece->setFirstMove(false);
+
+	// Set whether or not the piece can be captured en passant.
+	if (piece->getPieceType() == Piece::PAWN && abs(moveDistance.first) == 2)
+	{
+		piece->setPassantable(true);
+	}
+
+	// Set the FEN castling modifier for kings and rooks
+	if (piece->getPieceType() == Piece::KING)
+	{
+		// Set castling to this side to false because the king moved
+		_gm->_fenManager->setCastleByColor(false, _gm->getTurn(), false, false);
+	}
+	else if (piece->getPieceType() == Piece::ROOK)
+	{
+		if (piece->getSquare()->getBoardIndex().second == 0)
+		{
+			// Set queenside castling to false because the queenside rook just moved.
+			_gm->_fenManager->setCastleByColor(true, _gm->getTurn(), std::nullopt, false);
+		}
+		else if (piece->getSquare()->getBoardIndex().second == 7)
+		{
+			// Set kingside castling to false because the kingside rook just moved.
+			_gm->_fenManager->setCastleByColor(true, _gm->getTurn(), false, std::nullopt);
+		}
 	}
 
 }

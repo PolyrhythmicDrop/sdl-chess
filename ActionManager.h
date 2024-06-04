@@ -42,6 +42,9 @@ public:
 	/// <param name="target">The square to move to.</param>
 	void movePiece(Piece* piece, Square* target);
 
+	// Actions that take place after a piece's first move
+	void modifyFirstMove(Piece* piece, std::pair<int, int> moveDistance);
+
 	/// <summary>
 	/// Captures the specified piece.
 	/// </summary>

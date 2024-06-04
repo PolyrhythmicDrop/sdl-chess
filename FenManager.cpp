@@ -6,13 +6,20 @@ FenManager::FenManager(GameManager* gm) :
 	_history({}),
 	_fenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"),
 	_fenColor('w'),
+	_fenCastle("KQkq"),
 	_fenHalfMove('0'),
 	_fenFullMove('0')
 {};
 
 std::string FenManager::createFenString()
 {
-	std::string fen = _fenPosition + _fenColor + _fenCastle + _fenPassant + _fenHalfMove + _fenFullMove;
+	// Concatenate all the components of the FEN string
+	std::string fen = _fenPosition + " " + _fenColor + " " + _fenCastle + " " + _fenPassant + " " + _fenHalfMove + " " + _fenFullMove;
+	// Set the current FEN string
+	_fenString = fen;
+	// Add the string to the FEN history
+	addToFenHistory(fen);
+	// Return the string.
 	return fen;
 }
 
@@ -55,59 +62,71 @@ void FenManager::setFenColor(char color)
 	_fenColor = color;
 }
 
-std::string FenManager::setCastleByColor(bool castle, int color, bool kingside, bool queenside)
+void FenManager::setCastleByColor(bool castle, int color, std::optional<bool> kingside, std::optional<bool> queenside)
 {
-	char king, queen;
-	std::string castleString = "";
+	char king = '\0';
+	char queen = '\0';
 
 	if (castle)
 	{
 		switch (color)
 		{
 		case 0:
-			if (kingside)
+			if (kingside.has_value())
 			{
-				king = 'k';
+				if (kingside == true)
+				{
+					king = 'k';
+				}				
 			}
-			if (queenside)
+			if (queenside.has_value())
 			{
-				queen = 'q';
+				if (queenside == true)
+				{
+					queen = 'q';
+				}
 			}
+			_fenBlackCastle = king + queen;
 			break;
 		case 1:
-			if (kingside)
+			if (kingside.has_value())
 			{
-				king = 'K';
+				if (kingside == true)
+				{
+					king = 'K';
+				}
 			}
-			if (queenside)
+			if (queenside.has_value())
 			{
-				queen = 'Q';
+				if (queenside == true)
+				{
+					queen = 'Q';
+				}
 			}
+			_fenWhiteCastle = king + queen;
 			break;
 		}
 	}
 	else
 	{
-		return castleString;
+		switch (color)
+		{
+		case 0:
+			_fenBlackCastle = "";
+			break;
+		case 1:
+			_fenWhiteCastle = "";
+		}
 	}
-	
-	castleString = king + queen;
-	return castleString;
-
 }
 
-void FenManager::setFenCastle(std::string white, std::string black)
+void FenManager::setFenCastle()
 {
-	std::string fenCastle = white + black;
-	if (fenCastle == "")
+	_fenCastle = _fenWhiteCastle + _fenBlackCastle;
+	if (_fenCastle == "")
 	{
 		_fenCastle = "-";
 	}
-	else
-	{
-		_fenCastle = fenCastle;
-	}
-
 }
 
 void FenManager::setFenPassant(std::string squareName)
@@ -118,6 +137,11 @@ void FenManager::setFenPassant(std::string squareName)
 void FenManager::plusFenHalfMove()
 {
 	++_fenHalfMove;
+}
+
+void FenManager::resetFenHalfMove()
+{
+	_fenHalfMove = 0;
 }
 
 void FenManager::plusFenFullMove()

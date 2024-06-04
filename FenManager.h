@@ -2,6 +2,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <optional>
 
 class GameManager;
 
@@ -19,6 +20,7 @@ private:
 	// Total concatenated FEN notation line
 	std::string _fenString = "";
 	// Move modifier for a FEN string. Used only for Stockfish
+	// Format: square moved from + square moved to, i.e. "e2e4"
 	std::string _fenMove = "";
 
 	// 1. Position modifier for a FEN string
@@ -28,13 +30,17 @@ private:
 	// 'w' = white, 'b' = black.
 	char _fenColor;
 
-	// 3. Castle modifier for a FEN string.
-	// UP = white, low = black, K = kingside, Q = queenside. '-' = neither side can castle
-	std::string _fenCastle = "";
+	// 3. Castle modifier for a FEN string.  
+	// Castling rights do not specify whether castling is actually possible, only whether or not the king has moved and the rooks have moved or been captured.
+	// UP = white, low = black, K = kingside, Q = queenside. '-' = neither side has castling rights.
+	std::string _fenCastle = "KQkq";
+
+	std::string _fenWhiteCastle = "KQ";
+	std::string _fenBlackCastle = "kq";
 
 	// 4. Passant modifier for a FEN string. 
 	// Square behind the pawn to be captured en passant, e.x. 'e3'. '-' = no passant available.
-	std::string _fenPassant = "";
+	std::string _fenPassant = "-";
 
 	// 5. Half move clock modifier for a FEN string. 
 	// How many moves both players have made since last pawn advance or piece capture. 
@@ -75,12 +81,17 @@ public:
 	/// </summary>
 	/// <param name="castle">Whether or not castling is available</param>
 	/// <param name="color">The color that can castle. 0 = black, 1 = white</param>
-	std::string setCastleByColor(bool castle, int color, bool kingside, bool queenside);
-	// Sets the FEN castling string. Should be used in conjunction with setCastleByColor, which sets the castling string for each side.
-	void setFenCastle(std::string white, std::string black);
+	/// <param name="kingside">Whether the specified color can castle kingside.</param>
+	/// <param name="queenside">Whether the specified color can castle queenside.</param>
+	void setCastleByColor(bool castle, int color, std::optional<bool>kingside, std::optional<bool> queenside);
+
+	// Sets the FEN castling string by combining the _fenWhiteCastle and _fenBlackCastle strings.
+	// Should be used in conjunction with setCastleByColor, which sets the castling string for each side.
+	void setFenCastle();
 
 	void setFenPassant(std::string squareName);
 	void plusFenHalfMove();
+	void resetFenHalfMove();
 	void plusFenFullMove();
 
 };

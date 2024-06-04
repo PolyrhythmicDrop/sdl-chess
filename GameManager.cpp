@@ -564,10 +564,12 @@ void GameManager::onTurnChange()
 	if (_currentState == &TurnWhiteGameState::getInstance())
 	{
 		setTurn(1);
+		_fenManager->setFenMove("w");
 	}
 	else if (_currentState == &TurnBlackGameState::getInstance())
 	{
 		setTurn(0);
+		_fenManager->setFenMove("b");
 	}
 
 	// Set any active en passant flags for this color to false so that any en passant captures must occur directly after pawn's first move
@@ -587,10 +589,17 @@ void GameManager::onTurnChange()
 		}
 	}
 
-	// Set the FEN string so you can send it to Stockfish when the time is right.
+	handleFen();
+}
+
+void GameManager::handleFen()
+{
+	// Set the FEN board position so you can send it to Stockfish when the time is right.
 	boardToFen();
+	// Combine the FEN castling modifiers
+	_fenManager->setFenCastle();
+	// Combine all the existing FEN strings together.
 	_fenManager->createFenString();
-	_fenManager->addToFenHistory(_fenManager->createFishFen());
 }
 
 

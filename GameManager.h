@@ -152,6 +152,9 @@ public:
 	void handleClick();
 	void onPieceMove(Piece* piece);
 	void onTurnChange();
+
+	// Handles end of turn FEN string creation and concatenation.
+	void handleFen();
 	
 
 };
