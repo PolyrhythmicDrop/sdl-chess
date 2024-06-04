@@ -132,6 +132,8 @@ void ActionManager::captureEnPassant(Piece* attacker, Square* square)
 	
 	if (defPos != nullptr && defPos->getOccupied())
 	{
+		// Add the relevant objects to the undo buffer
+		addToUndoBuffer(attacker, defPos->getOccupant());
 		// Unalive the defender
 		defPos->getOccupant()->setAlive(false);
 		// De-occupy the defender's square
