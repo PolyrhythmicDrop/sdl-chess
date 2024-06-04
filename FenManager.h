@@ -89,7 +89,14 @@ public:
 	// Should be used in conjunction with setCastleByColor, which sets the castling string for each side.
 	void setFenCastle();
 
-	void setFenPassant(std::string squareName);
+	/// <summary>
+	/// Sets the en passant modifier for the FEN string. Concatenates any passed squareName to the existing _fenPassant value.
+	/// </summary>
+	/// <param name="squareName">The name of the square to use as the en passant modifier. If you pass std::nullopt as the squareName, _fenPassant will reset to "-", signifying that there are no en passant moves available.</param>
+	void setFenPassant(std::optional<std::string> squareName);
+	// Removes a square from the FEN passant modifier. Use this once a pawn moves after its first move.
+	void removeFenPassantSquare(std::string squareName);
+
 	void plusFenHalfMove();
 	void resetFenHalfMove();
 	void plusFenFullMove();

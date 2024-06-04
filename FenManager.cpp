@@ -1,5 +1,6 @@
 #include "FenManager.h"
 #include "GameManager.h"
+#include "easylogging++.h"
 
 FenManager::FenManager(GameManager* gm) :
 	_gm(gm),
@@ -129,9 +130,47 @@ void FenManager::setFenCastle()
 	}
 }
 
-void FenManager::setFenPassant(std::string squareName)
+void FenManager::setFenPassant(std::optional<std::string> squareName)
 {
-	_fenPassant = squareName;
+	if (squareName.has_value())
+	{
+		if (_fenPassant != "-")
+		{
+			_fenPassant = _fenPassant + squareName.value();
+		}
+		else
+		{
+			_fenPassant = squareName.value();
+		}
+	}
+	else
+	{
+		_fenPassant = "-";
+	}
+}
+
+void FenManager::removeFenPassantSquare(std::string squareName)
+{
+	auto sqIndex = _fenPassant.find(squareName);
+	if (sqIndex != std::string::npos)
+	{
+		// Remove the square if found
+		_fenPassant.erase(sqIndex, squareName.length());
+		// If there are no other squares to en passant (jeez), set _fenPassant to "-"
+		if (_fenPassant.size() == 0)
+		{
+			setFenPassant(std::nullopt);
+		}
+		else
+		{
+			return;
+		}
+	}
+	else
+	{
+		LOG(DEBUG) << "Passant modifier square not found! Check your modifier.";
+		return;
+	}
 }
 
 void FenManager::plusFenHalfMove()

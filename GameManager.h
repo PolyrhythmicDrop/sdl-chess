@@ -112,6 +112,7 @@ public:
 	void setUpGame();
 	bool setGameMode();
 	void setUpPlayers();
+	// Takes a FEN string and translates it to a board layout
 	void fenToBoard(std::string position);
 	// Takes a board layout and translates it to a FEN string for use with Stockfish
 	std::string boardToFen();
@@ -152,6 +153,7 @@ public:
 	void handleClick();
 	void onPieceMove(Piece* piece);
 	void onTurnChange();
+	void onPassantChange(Piece* piece);
 
 	// Handles end of turn FEN string creation and concatenation.
 	void handleFen();

@@ -27,6 +27,8 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 	if (piece->getPassantable() == true)
 	{
 		piece->setPassantable(false);
+		// Set the passant modifier in the FEN Manager
+		
 	}
 
 	// If the target square is unoccupied...
@@ -78,6 +80,7 @@ void ActionManager::modifyFirstMove(Piece* piece, std::pair<int, int> moveDistan
 	if (piece->getPieceType() == Piece::PAWN && abs(moveDistance.first) == 2)
 	{
 		piece->setPassantable(true);
+		_gm->notify(piece, "piecePassant");
 	}
 
 	// Set the FEN castling modifier for kings and rooks

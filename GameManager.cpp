@@ -95,6 +95,10 @@ void GameManager::notify(GameObject* object, std::string eString)
 		_gameScene->getPieceContainer()->removePieceFromCapturedPieces(dynamic_cast <Piece*>(object));
 		_gameScene->updateCaptureDump();
 	}
+	else if (eString == "piecePassant")
+	{
+		onPassantChange(dynamic_cast <Piece*>(object));
+	}
 
 	// Square notifications
 	// *********************
@@ -516,6 +520,7 @@ void GameManager::endPassant()
 			if (pawn->getPassantable())
 			{
 				pawn->setPassantable(false);
+				notify(pawn, "piecePassant");
 			}
 		}
 	}
@@ -526,6 +531,7 @@ void GameManager::endPassant()
 			if (pawn->getPassantable())
 			{
 				pawn->setPassantable(false);
+				notify(pawn, "piecePassant");
 			}
 		}
 	}
@@ -564,12 +570,12 @@ void GameManager::onTurnChange()
 	if (_currentState == &TurnWhiteGameState::getInstance())
 	{
 		setTurn(1);
-		_fenManager->setFenMove("w");
+		_fenManager->setFenColor('w');
 	}
 	else if (_currentState == &TurnBlackGameState::getInstance())
 	{
 		setTurn(0);
-		_fenManager->setFenMove("b");
+		_fenManager->setFenColor('b');
 	}
 
 	// Set any active en passant flags for this color to false so that any en passant captures must occur directly after pawn's first move
@@ -590,6 +596,33 @@ void GameManager::onTurnChange()
 	}
 
 	handleFen();
+}
+
+void GameManager::onPassantChange(Piece* piece)
+{
+	// Set the FEN passant modifier
+	std::string passantSqName;
+
+	// Get the name of the square that will be passantable
+	if (piece->getPieceColor() == Piece::BLACK)
+	{
+		passantSqName = _gameScene->getBoard()->getBoardGrid()->at(piece->getSquare()->getBoardIndex().first + 1).at(piece->getSquare()->getBoardIndex().second).getName();
+	}
+	else
+	{
+		passantSqName = _gameScene->getBoard()->getBoardGrid()->at(piece->getSquare()->getBoardIndex().first - 1).at(piece->getSquare()->getBoardIndex().second).getName();
+	}
+
+	// If the piece's en passant modifier has been set to TRUE, add the square to the list
+	if (piece->getPassantable())
+	{
+		_fenManager->setFenPassant(passantSqName);
+	}
+	// If the piece's en passant modifier has been set to FALSE, remove the square from the list.
+	else
+	{
+		_fenManager->removeFenPassantSquare(passantSqName);
+	}
 }
 
 void GameManager::handleFen()
