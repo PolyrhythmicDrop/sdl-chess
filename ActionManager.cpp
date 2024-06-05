@@ -65,6 +65,12 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 			modifyFirstMove(piece, moveDistance);
 		}
 
+		// If this move involved a capture (which is knowable from looking at the Undo Buffer), notify that we should reset the half move counter.
+		if (_undoBuffer.defender)
+		{
+			_gm->notify("halfMoveReset");
+		}
+
 		// Notify the GameManager that the position has changed.
 		_gm->notify(piece, "pieceMove");
 	}

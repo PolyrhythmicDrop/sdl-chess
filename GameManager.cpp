@@ -124,6 +124,10 @@ void GameManager::notify(std::string eString)
 		_selectionManager->deselectPieces();
 		_actionManager->clearUndoBuffer();
 	}
+	if (eString == "halfMoveReset")
+	{
+		_fenManager->resetFenHalfMove();
+	}
 }
 
 void GameManager::fenToBoard(std::string position)
@@ -508,6 +512,13 @@ void GameManager::checkForCastle(Piece* king)
 
 void GameManager::endTurn()
 {
+	// Increment the half-move counter at the end of every turn (counter may have been reset to -1 during turn, in which case this will set it to 0)
+	_fenManager->plusFenHalfMove();
+	// If black is ending their turn, increment the full-move counter.
+	if (_currentTurn == 0)
+	{
+		_fenManager->plusFenFullMove();
+	}
 	_gsm->changeState(this, "changeTurn");
 }
 
@@ -546,6 +557,12 @@ void GameManager::handleClick()
 void GameManager::onPieceMove(Piece* piece)
 {
 	_selectionManager->deselectPieces();
+
+	// Reset the half-move counter if a pawn moved.
+	if (piece->getPieceType() == Piece::PAWN)
+	{
+		notify("halfMoveReset");
+	}
 
 	// Pawn promotion
 	if (piece->isAlive() && piece->getSquare()->getBoardIndex().second == piece->getSquare()->getBoardIndex().second)

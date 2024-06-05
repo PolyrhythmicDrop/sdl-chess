@@ -7,8 +7,8 @@ FenManager::FenManager(GameManager* gm) :
 	_history({}),
 	_fenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"),
 	_fenColor('w'),
-	_fenHalfMove('0'),
-	_fenFullMove('0')
+	_fenHalfMove(0),
+	_fenFullMove(0)
 {
 	_fenWhiteCastle = _whiteKingside + _whiteQueenside;
 	_fenBlackCastle = _blackKingside + _blackQueenside;
@@ -18,8 +18,10 @@ FenManager::FenManager(GameManager* gm) :
 
 std::string FenManager::createFenString()
 {
+	char half = '0' + _fenHalfMove;
+	char full = '0' + _fenFullMove;
 	// Concatenate all the components of the FEN string
-	std::string fen = _fenPosition + " " + _fenColor + " " + _fenCastle + " " + _fenPassant + " " + _fenHalfMove + " " + _fenFullMove;
+	std::string fen = _fenPosition + " " + _fenColor + " " + _fenCastle + " " + _fenPassant + " " + half + " " + full;
 	// Set the current FEN string
 	_fenString = fen;
 	// Add the string to the FEN history
@@ -214,7 +216,9 @@ void FenManager::plusFenHalfMove()
 
 void FenManager::resetFenHalfMove()
 {
-	_fenHalfMove = 0;
+	// Set to -1, since the reset occurs right after a pawn is moved or a piece captured, but technically before the end of the turn.
+	// Since the half move counter increments at the end of a player's turn, it will be 0 at the start of the next player's turn if it was reset during the previous turn.
+	_fenHalfMove = -1;
 }
 
 void FenManager::plusFenFullMove()

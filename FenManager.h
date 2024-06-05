@@ -50,11 +50,11 @@ private:
 	// 5. Half move clock modifier for a FEN string. 
 	// How many moves both players have made since last pawn advance or piece capture. 
 	// When this counter reaches 100, game should be a draw.
-	char _fenHalfMove;
+	int _fenHalfMove;
 
 	// 6. Full move modifier for a FEN string.
 	// The number of completed turns in a game. Should increment every time black completes a move.
-	char _fenFullMove;
+	int _fenFullMove;
 	
 
 public:
@@ -104,6 +104,7 @@ public:
 
 	void plusFenHalfMove();
 	void resetFenHalfMove();
+
 	void plusFenFullMove();
 
 };
