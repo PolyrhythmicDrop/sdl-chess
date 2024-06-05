@@ -33,10 +33,15 @@ private:
 	// 3. Castle modifier for a FEN string.  
 	// Castling rights do not specify whether castling is actually possible, only whether or not the king has moved and the rooks have moved or been captured.
 	// UP = white, low = black, K = kingside, Q = queenside. '-' = neither side has castling rights.
-	std::string _fenCastle = "KQkq";
+	std::string _fenCastle;
 
-	std::string _fenWhiteCastle = "KQ";
-	std::string _fenBlackCastle = "kq";
+	std::string _fenWhiteCastle;
+	std::string _whiteKingside = "K";
+	std::string _whiteQueenside = "Q";
+
+	std::string _fenBlackCastle;
+	std::string _blackKingside = "k";
+	std::string _blackQueenside = "q";
 
 	// 4. Passant modifier for a FEN string. 
 	// Square behind the pawn to be captured en passant, e.x. 'e3'. '-' = no passant available.

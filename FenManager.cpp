@@ -7,10 +7,14 @@ FenManager::FenManager(GameManager* gm) :
 	_history({}),
 	_fenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"),
 	_fenColor('w'),
-	_fenCastle("KQkq"),
 	_fenHalfMove('0'),
 	_fenFullMove('0')
-{};
+{
+	_fenWhiteCastle = _whiteKingside + _whiteQueenside;
+	_fenBlackCastle = _blackKingside + _blackQueenside;
+
+	setFenCastle();
+};
 
 std::string FenManager::createFenString()
 {
@@ -65,9 +69,6 @@ void FenManager::setFenColor(char color)
 
 void FenManager::setCastleByColor(bool castle, int color, std::optional<bool> kingside, std::optional<bool> queenside)
 {
-	char king = '\0';
-	char queen = '\0';
-
 	if (castle)
 	{
 		switch (color)
@@ -75,36 +76,68 @@ void FenManager::setCastleByColor(bool castle, int color, std::optional<bool> ki
 		case 0:
 			if (kingside.has_value())
 			{
-				if (kingside == true)
+				if (kingside.value() == true)
 				{
-					king = 'k';
-				}				
+					_blackKingside = 'k';
+				}
+				else if (kingside.value() == false)
+				{
+					_blackKingside = "";
+				}
+			}
+			else
+			{
+				_blackKingside = _blackKingside;
 			}
 			if (queenside.has_value())
 			{
-				if (queenside == true)
+				if (queenside.value() == true)
 				{
-					queen = 'q';
+					_blackQueenside = 'q';
+				}
+				else if (queenside.value() == false)
+				{
+					_blackQueenside = "";
 				}
 			}
-			_fenBlackCastle = king + queen;
+			else
+			{
+				_blackQueenside = _blackQueenside;
+			}
+			_fenBlackCastle = _blackKingside + _blackQueenside;
 			break;
 		case 1:
 			if (kingside.has_value())
 			{
-				if (kingside == true)
+				if (kingside.value() == true)
 				{
-					king = 'K';
+					_whiteKingside = 'K';
 				}
+				else if (kingside.value() == false)
+				{
+					_whiteKingside = "";
+				}
+			}
+			else
+			{
+				_whiteKingside = _whiteKingside;
 			}
 			if (queenside.has_value())
 			{
 				if (queenside == true)
 				{
-					queen = 'Q';
+					_whiteQueenside = 'Q';
+				}
+				else if (queenside.value() == false)
+				{
+					_whiteQueenside = "";
 				}
 			}
-			_fenWhiteCastle = king + queen;
+			else
+			{
+				_whiteQueenside = _whiteQueenside;
+			}
+			_fenWhiteCastle = _whiteKingside + _whiteQueenside;
 			break;
 		}
 	}
@@ -117,6 +150,7 @@ void FenManager::setCastleByColor(bool castle, int color, std::optional<bool> ki
 			break;
 		case 1:
 			_fenWhiteCastle = "";
+			break;
 		}
 	}
 }
