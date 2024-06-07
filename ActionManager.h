@@ -36,19 +36,6 @@ public:
 	~ActionManager() {};
 
 	/// <summary>
-	/// Moves a piece to the target square.
-	/// </summary>
-	/// <param name="piece">The piece to move.</param>
-	/// <param name="target">The square to move to.</param>
-	void movePiece(Piece* piece, Square* target);
-
-	// Check to see if an action is a valid one.
-	bool testAction(Piece* piece);
-
-	// Actions that take place after a piece's first move
-	void postFirstMove(Piece* piece, std::pair<int, int> moveDistance);
-
-	/// <summary>
 	/// Captures the specified piece.
 	/// </summary>
 	/// <param name="attacker">The piece that is capturing.</param>
@@ -62,6 +49,19 @@ public:
 	/// <param name="attacker">The capturing piece.</param>
 	/// <param name="square">The square the capturing piece will move to after capture.</param>
 	void captureEnPassant(Piece* attacker, Square* square);
+
+	/// <summary>
+	/// Moves a piece to the target square.
+	/// </summary>
+	/// <param name="piece">The piece to move.</param>
+	/// <param name="target">The square to move to.</param>
+	void movePiece(Piece* piece, Square* target);
+
+	// Check to see if an action is a valid one.
+	bool testAction(Piece* piece);
+
+	// Actions that take place after a piece's first move
+	void postFirstMove(Piece* piece, std::pair<int, int> moveDistance);
 
 	/// <summary>
 	/// Promotes a pawn to a different piece type once it reaches the opposite rank of the board.

@@ -9,6 +9,43 @@ ActionManager::ActionManager(GameManager* gm) :
 	_undoBuffer({new UndoValues(), new UndoValues()})
 {}
 
+void ActionManager::capturePiece(Piece* attacker, Piece* defender)
+{
+	// Add the relevant objects to the undo buffer
+	addToUndoBuffer(attacker, defender);
+	// Unalive the defender
+	defender->setAlive(false);
+	// De-occupy the defender's square
+	defender->getSquare()->setOccupied(false);
+	// Move the attacking piece into the defender's position
+	movePiece(attacker, defender->getSquare());
+}
+
+void ActionManager::captureEnPassant(Piece* attacker, Square* square)
+{
+	Square* defPos = nullptr;
+
+	if (attacker->getFenName() == 'P')
+	{
+		defPos = &_gm->_gameScene->getBoard()->getBoardGrid()->at(square->getBoardIndex().first - 1).at(square->getBoardIndex().second);
+	}
+	else if (attacker->getFenName() == 'p')
+	{
+		defPos = &_gm->_gameScene->getBoard()->getBoardGrid()->at(square->getBoardIndex().first + 1).at(square->getBoardIndex().second);
+	}
+
+	if (defPos != nullptr && defPos->getOccupied())
+	{
+		capturePiece(attacker, defPos->getOccupant());
+		return;
+	}
+	else
+	{
+		LOG(ERROR) << "No piece in the available square to capture en passant!";
+		return;
+	}
+}
+
 void ActionManager::movePiece(Piece* piece, Square* target)
 {
 
@@ -35,6 +72,7 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 	}
 
 	postMove(piece, &srcSq, target);
+
 	return;
 
 }
@@ -98,53 +136,6 @@ void ActionManager::postFirstMove(Piece* piece, std::pair<int, int> moveDistance
 		}
 	}
 
-}
-
-void ActionManager::capturePiece(Piece* attacker, Piece* defender)
-{
-	Square* defPos = defender->getSquare();
-
-	// Add the relevant objects to the undo buffer
-	addToUndoBuffer(attacker, defender);
-
-	// Unalive the defender
-	defender->setAlive(false);
-	// De-occupy the defender's square
-	defPos->setOccupied(false);
-	// Move the attacking piece into the defender's position
-	movePiece(attacker, defPos);
-}
-
-void ActionManager::captureEnPassant(Piece* attacker, Square* square)
-{
-	Square* defPos = nullptr;
-
-	if (attacker->getFenName() == 'P')
-	{
-		defPos = &_gm->_gameScene->getBoard()->getBoardGrid()->at(square->getBoardIndex().first - 1).at(square->getBoardIndex().second);
-	}
-	else if (attacker->getFenName() == 'p')
-	{
-		defPos = &_gm->_gameScene->getBoard()->getBoardGrid()->at(square->getBoardIndex().first + 1).at(square->getBoardIndex().second);
-	}
-	
-	if (defPos != nullptr && defPos->getOccupied())
-	{
-		// Add the relevant objects to the undo buffer
-		addToUndoBuffer(attacker, defPos->getOccupant());
-		// Unalive the defender
-		defPos->getOccupant()->setAlive(false);
-		// De-occupy the defender's square
-		defPos->setOccupied(false);
-		// Move the attacking piece into the specified position
-		movePiece(attacker, square);
-	}
-	else
-	{
-		LOG(ERROR) << "No piece in the available square to capture en passant!";
-	}
-
-	LOG(INFO) << "Piece on square " << square->getName() << " captured en passant!";
 }
 
 void ActionManager::promotePawn(Piece* piece)
