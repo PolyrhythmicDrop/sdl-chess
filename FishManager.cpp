@@ -29,19 +29,7 @@ void FishManager::setCurrentPosition(std::string position)
 	LOG(TRACE) << "Stockfish Current Position: " << _currentPosition;
 }
 
-void FishManager::sendLastPositionToFish()
-{
-	// Query Stockfish to see if it's ready
-	while (!_stockfish->isStockfishReady())
-	{
-		LOG(TRACE) << "Waiting...";
-		Sleep(500);
-	}
-
-	_stockfish->commandStockfish(_lastPosition);
-}
-
-std::string FishManager::getBestMove()
+std::string FishManager::calculateFishMove()
 {
 	std::string bestMove = "";
 
@@ -52,10 +40,8 @@ std::string FishManager::getBestMove()
 		Sleep(500);
 	}
 
-	// Send the last board position & the move from that position to Stockfish
-	sendLastPositionToFish();
+	_stockfish->commandStockfish(_lastPosition);
 
-	// Send the current board position to Stockfish
 	_stockfish->commandStockfish(_currentPosition);
 
 	// Tell Stockfish to start calculating a move
@@ -71,6 +57,20 @@ std::string FishManager::getBestMove()
 	bestMove = _stockfish->_bestMove;
 
 	LOG(TRACE) << bestMove;
+
+	return bestMove;
+}
+
+std::pair<std::string, std::string> FishManager::parseBestMove(std::string move)
+{
+	std::string fullMove = move.substr(9, 4);
+	std::string sq1 = fullMove.substr(0, 2);
+	std::string sq2 = fullMove.substr(2, 2);
+
+	_moveOrigin = sq1;
+	_moveTarget = sq2;
+
+	std::pair<std::string, std::string> bestMove = { sq1, sq2 };
 
 	return bestMove;
 }

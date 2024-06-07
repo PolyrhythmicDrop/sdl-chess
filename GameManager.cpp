@@ -6,6 +6,7 @@
 #include "PieceIterator.h"
 #include "TurnBlackGameState.h"
 #include "TurnWhiteGameState.h"
+#include <thread>
 
 GameManager::GameManager(GameScene* gameScene) :
 	_gameScene(gameScene),
@@ -650,24 +651,40 @@ void GameManager::FenPassantChange(Piece* piece)
 
 void GameManager::onStockfishTurn()
 {
-	// Append the move to the last position
+	// Set up FEN move string
 	std::string lastPosition = *(_fenManager->getFenHistory()->rbegin() + 1);
 	_fishManager->setLastMovePosition(_fenManager->createFishFen(lastPosition, true));
 	_fishManager->setCurrentPosition(_fenManager->createFishFen(*(_fenManager->getFenHistory()->rbegin()), false));
 	
-	// TODO: Mock controller interaction. "Pretend" that Stockfish is clicking/selecting pieces and then attempting to move them.
-	// This will allow for cleaner transitions between turns when playing against Stockfish, and also allow me to apply
-	// rules (like castling, en passant) to Stockfish moves, instead of blindly executing the move it gives me.
-	// Also consider changing my game loop to either render on a separate thread (so the player's move gets rendered when it occurs,
-	// instead of after Stockfish moves) or apply an update() function to the loop that will run after the player moves.
+	// Create new thread to run the Stockfish move and allow rendering to occur simultaneously
+	std::thread fishThread([this] 
+		{
+		// Calculate the best move and get the string pairs for that move
+		std::pair<std::string, std::string> fishMove = _fishManager->parseBestMove(_fishManager->calculateFishMove());
 
+		// Simulate fish click on piece
+		Square& originSq = *_gameScene->getBoard()->getSquareByName(fishMove.first);
+		_selectionManager->handleClickOnPiece(originSq.getOccupant());
 
-	executeFishMove(_fishManager->getBestMove());
+		// Simulate fish clicking on a square or opposing piece
+		Square& targetSq = *_gameScene->getBoard()->getSquareByName(fishMove.second);
+		if (targetSq.getOccupied())
+		{
+			_selectionManager->handleClickOnPiece(targetSq.getOccupant());
+		}
+		else
+		{
+			_selectionManager->handleClickOnEmptySquare(&targetSq);
+		}
+		});
+
+	fishThread.join();
+
 }
 
 void GameManager::executeFishMove(std::string move)
 {
-	std::string fullMove = move.substr(9, 4);
+	/*std::string fullMove = move.substr(9, 4);
 	std::string sq1 = fullMove.substr(0, 2);
 	std::string sq2 = fullMove.substr(2, 2);
 
@@ -681,7 +698,7 @@ void GameManager::executeFishMove(std::string move)
 	else
 	{
 		_actionManager->movePiece(originSq.getOccupant(), &targetSq);
-	}
+	}*/
 
 }
 

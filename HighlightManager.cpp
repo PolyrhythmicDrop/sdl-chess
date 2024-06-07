@@ -867,9 +867,9 @@ void HighlightManager::highlightCastle(Piece* king, Square* rookLSq, Square* roo
 				{
 					king->getSquare()->setOccupied(false);
 					// Temporarily set the king's position so we can check it for check.
-					king->setSquare(&grid->at(0).at(kingIndex.second - kingMove));
+					king->setSquare(&grid->at(0).at(kingIndex.second + kingMove));
 					// Check if any square that the king will pass through would result in a check.
-					if (highlightCheck(&grid->at(0).at(kingIndex.second - kingMove)))
+					if (highlightCheck(&grid->at(0).at(kingIndex.second + kingMove)))
 					{
 						// Reset the king's position to its initial position.
 						king->getSquare()->setOccupied(false);
