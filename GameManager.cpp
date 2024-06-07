@@ -176,7 +176,6 @@ void GameManager::setUpGame()
 	setUpPlayers();
 	setUpBoard();
 	setUpPieces();
-	setCurrentFen();
 	setUpStockfish();
 	return;
 }
@@ -532,19 +531,21 @@ void GameManager::onPieceMove(Piece* piece)
 	}
 
 	// Pawn promotion
-	char promotion;
 	if (piece->isAlive() && piece->getSquare()->getBoardIndex().second == piece->getSquare()->getBoardIndex().second)
 	{
+		char promotion;
 		if (piece->getFenName() == 'P' && piece->getSquare()->getBoardIndex().first == 7)
 		{
 			_actionManager->promotePawn(piece);
+			promotion = piece->getFenName();
+			_fenManager->addPromoteToFenMove(promotion);
 		}
 		else if (piece->getFenName() == 'p' && piece->getSquare()->getBoardIndex().first == 0)
 		{
 			_actionManager->promotePawn(piece);
+			promotion = piece->getFenName();
+			_fenManager->addPromoteToFenMove(promotion);
 		}
-		promotion = piece->getFenName();
-		_fenManager->addPromoteToFenMove(promotion);
 	}
 
 	_actionManager->clearUndoBuffer();

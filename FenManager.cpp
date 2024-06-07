@@ -1,6 +1,7 @@
 #include "FenManager.h"
 #include "GameManager.h"
 #include "easylogging++.h"
+#include <sstream>
 
 FenManager::FenManager(GameManager* gm) :
 	_gm(gm),
@@ -17,10 +18,11 @@ FenManager::FenManager(GameManager* gm) :
 
 std::string FenManager::createFenString()
 {
-	char half = '0' + _fenHalfMove;
-	char full = '0' + _fenFullMove;
+	std::stringstream moveCounter{};
+	moveCounter << _fenHalfMove << ' ' << _fenFullMove;
+	
 	// Concatenate all the components of the FEN string
-	std::string fen = _fenPosition + " " + _fenColor + " " + _fenCastle + " " + _fenPassant + " " + half + " " + full;
+	std::string fen = _fenPosition + " " + _fenColor + " " + _fenCastle + " " + _fenPassant + " " + moveCounter.str();
 	// Set the current FEN string
 	_fenString = fen;
 	// Return the string.

@@ -20,11 +20,13 @@ void FishManager::newStockfishGame(std::string fen)
 void FishManager::setLastMovePosition(std::string position)
 {
 	_lastPosition = position;
+	LOG(TRACE) << "Stockfish Last Position: " << _lastPosition;
 }
 
 void FishManager::setCurrentPosition(std::string position)
 {
 	_currentPosition = position;
+	LOG(TRACE) << "Stockfish Current Position: " << _currentPosition;
 }
 
 void FishManager::sendLastPositionToFish()
