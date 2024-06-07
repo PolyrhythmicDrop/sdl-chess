@@ -6,6 +6,8 @@
 #include "easylogging++.h"
 #include "GameStateMachine.h"
 #include "GameScene.h"
+#include <atomic>
+#include <thread>
 
 
 // Initialize static variables
@@ -18,6 +20,11 @@ bool GameStateMachine::_instantiated = false;
 bool GameScene::_instantiated = false;
 IGraphics* ServiceLocator::_graphicsService;
 NullGraphicsService ServiceLocator::_nullGraphicsService;
+
+// Atomic and thread globals
+std::atomic_bool active = true;
+std::atomic_bool updateFlag = false;
+
 
 void initializeLogging()
 {
@@ -35,6 +42,16 @@ void initializeLogging()
 	defaultConf.set(el::Level::Trace, el::ConfigurationType::Filename, "chess-log.log");
 	defaultConf.set(el::Level::Debug, el::ConfigurationType::Filename, "chess-debug.log");
 	el::Loggers::reconfigureLogger("default", defaultConf);
+}
+
+void render()
+{
+	ServiceLocator::getGraphics().render();
+}
+
+void update()
+{
+
 }
 
 // ** Main loop **
@@ -89,7 +106,7 @@ int main( int argc, char* args[] )
 		eManager.HandleEvents(&quit);
 								
 		// Render graphics
-		ServiceLocator::getGraphics().render();
+		render();
 
 		// Adjust time step
 		nextGameTick += skipTicks;
