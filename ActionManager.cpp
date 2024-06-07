@@ -21,10 +21,12 @@ void ActionManager::capturePiece(Piece* attacker, Piece* defender, bool passant,
 	if (!passant)
 	{
 		movePiece(attacker, defender->getSquare());
+		return;
 	}
 	else if (passant && passantSq.has_value())
 	{
 		movePiece(attacker, passantSq.value());
+		return;
 	}
 }
 
@@ -142,7 +144,6 @@ void ActionManager::postFirstMove(Piece* piece, std::pair<int, int> moveDistance
 			_gm->_fenManager->setCastleByColor(true, _gm->getTurn(), false, std::nullopt);
 		}
 	}
-
 }
 
 void ActionManager::promotePawn(Piece* piece)

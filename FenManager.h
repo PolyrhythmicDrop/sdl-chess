@@ -94,7 +94,7 @@ public:
 
 	// Sets the FEN castling string by combining the _fenWhiteCastle and _fenBlackCastle strings.
 	// Should be used in conjunction with setCastleByColor, which sets the castling string for each side.
-	void setFenCastle();
+	void updateFenCastle();
 
 	/// <summary>
 	/// Sets the en passant modifier for the FEN string. Concatenates any passed squareName to the existing _fenPassant value.

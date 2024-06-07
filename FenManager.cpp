@@ -12,7 +12,7 @@ FenManager::FenManager(GameManager* gm) :
 {
 	_fenWhiteCastle = _whiteKingside + _whiteQueenside;
 	_fenBlackCastle = _blackKingside + _blackQueenside;
-	setFenCastle();
+	updateFenCastle();
 };
 
 std::string FenManager::createFenString()
@@ -166,7 +166,7 @@ void FenManager::setCastleByColor(bool castle, int color, std::optional<bool> ki
 	}
 }
 
-void FenManager::setFenCastle()
+void FenManager::updateFenCastle()
 {
 	_fenCastle = _fenWhiteCastle + _fenBlackCastle;
 	if (_fenCastle == "")

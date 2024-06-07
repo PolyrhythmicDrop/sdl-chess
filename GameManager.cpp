@@ -687,7 +687,7 @@ void GameManager::handleFen()
 	// Set the FEN board position so you can send it to Stockfish when the time is right.
 	boardToFen();
 	// Combine the FEN castling modifiers
-	_fenManager->setFenCastle();
+	_fenManager->updateFenCastle();
 	// Combine all the existing FEN strings together.
 	_fenManager->createFenString();
 }
