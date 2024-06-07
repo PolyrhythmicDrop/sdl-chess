@@ -21,8 +21,6 @@ private:
 	PROCESS_INFORMATION _processInfo;
 	SECURITY_ATTRIBUTES _security;
 
-	std::string fenPosition = "";
-
 	CHAR _chBuf[BUFSIZE];
 
 public:
@@ -30,6 +28,7 @@ public:
 	Stockfish();
 
 	std::vector<std::string> _fishOutput;
+	std::string _bestMove = "";
 
 	/// <summary>
 	/// Initializes Stockfish child process and sets up input and output handles to communicate with Stockfish.
@@ -56,6 +55,8 @@ public:
 	/// <param name="delay">The read delay. This could eventually be converted into a peek instead.</param>
 	/// <returns>A vector of strings that Stockfish has outputted.</returns>
 	std::vector<std::string> readStockfishOutput(DWORD delay = 500);
+
+	bool waitForBestMove();
 
 
 };

@@ -42,8 +42,11 @@ public:
 	/// <param name="target">The square to move to.</param>
 	void movePiece(Piece* piece, Square* target);
 
+	// Check to see if an action is a valid one.
+	bool testAction(Piece* piece);
+
 	// Actions that take place after a piece's first move
-	void modifyFirstMove(Piece* piece, std::pair<int, int> moveDistance);
+	void postFirstMove(Piece* piece, std::pair<int, int> moveDistance);
 
 	/// <summary>
 	/// Captures the specified piece.
@@ -73,7 +76,9 @@ public:
 	/// <param name="square">The square the king should move to.</param>
 	void castleKing(Piece* king, Square* square);
 
-	// ** Undo Funtions **
+	void postMove(Piece* piece, Square* srcSq, Square* tarSq);
+
+	// ** Undo Functions **
 
 	void addToUndoBuffer(Piece* attacker = nullptr, Piece* defender = nullptr);
 	UndoBuffer getUndoBuffer();

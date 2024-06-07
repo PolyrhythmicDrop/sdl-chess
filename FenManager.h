@@ -19,7 +19,9 @@ private:
 
 	// Total concatenated FEN notation line
 	std::string _fenString = "";
-	// Move modifier for a FEN string. Used only for Stockfish
+
+	// Move modifier for a FEN string. Used only for Stockfish.
+	// This modifier applies only to the position it's coupled with, aka the position is the position of the board before the move was made.
 	// Format: square moved from + square moved to, i.e. "e2e4"
 	std::string _fenMove = "";
 
@@ -66,8 +68,8 @@ public:
 
 	// Creates a standard FEN string, without the Stockfish-specific sections.
 	std::string createFenString();
-	// Creates a Stockfish-ready FEN string
-	std::string createFishFen();
+	// Creates a Stockfish-ready FEN string. If "move" is true, appends the last move to the string.
+	std::string createFishFen(bool move = false);
 
 	// ** History Functions **
 
@@ -76,8 +78,8 @@ public:
 	void clearFenHistory();
 
 	// ** Set FEN Components **
-
-	void setFenMove(std::string move);
+	void addPromoteToFenMove(char piece);
+	void setFenMove(std::string startSq, std::string targetSq);
 	void setFenPosition(std::string pos);
 	void setFenColor(char color);
 

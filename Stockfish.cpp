@@ -92,7 +92,7 @@ bool Stockfish::newGameStockfish(std::string fen)
     {
         for (std::string str : _fishOutput)
         {
-            LOG(TRACE) << "Stockfish: " << str << "\n";
+            LOG(TRACE) << "Stockfish: " << str;
         }
     }
 
@@ -100,7 +100,7 @@ bool Stockfish::newGameStockfish(std::string fen)
     while (!isStockfishReady())
     {
         LOG(DEBUG) << "Stockfish not ready!";
-        Sleep(1000);
+        Sleep(500);
     }
     
     commandStockfish("ucinewgame");
@@ -110,20 +110,19 @@ bool Stockfish::newGameStockfish(std::string fen)
     while (!isStockfishReady())
     {
         LOG(DEBUG) << "Stockfish not ready!";
-        Sleep(1000);
+        Sleep(500);
     }
 
     _fishOutput.clear();
-    std::string position = "position fen ";
 
     commandStockfish("position startpos");
-    commandStockfish(position + fen);
+    commandStockfish(fen);
 
     // Check for the "readyok" from Stockfish
     while (!isStockfishReady())
     {
         LOG(DEBUG) << "Stockfish not ready!";
-        Sleep(1000);
+        Sleep(500);
     }
 
     LOG(TRACE) << "New Stockfish game created, position set!";
@@ -139,7 +138,7 @@ void Stockfish::commandStockfish(std::string command)
     command += '\n';
     if (!WriteFile(_hInWrite, command.c_str(), command.length(), &bytesWritten, NULL))
     {
-        printf("Command not sent!\n");
+        LOG(DEBUG) << "Command not sent!";
     }
 }
 
@@ -170,7 +169,7 @@ std::vector<std::string> Stockfish::readStockfishOutput(DWORD delay)
 {
     // Waits for output from Stockfish. Probably could implement some sort of Peek here instead of a naive Wait
     Sleep(delay);
-    printf("Reading from Stockfish...\n");
+    LOG(TRACE) << "Reading from Stockfish...";
 
     std::vector<std::string> output;
     DWORD bytesRead = 0;
@@ -181,7 +180,7 @@ std::vector<std::string> Stockfish::readStockfishOutput(DWORD delay)
         // Check if Read operation was successful
         if (!ReadFile(_hOutRead, buffer, sizeof(buffer), &bytesRead, NULL))
         {
-            printf("Failed to read from Stockfish! Bytes read: %ld\n", bytesRead);
+            LOG(ERROR) << "Failed to read from Stockfish! Bytes read: " << bytesRead;
             DWORD errorCode = GetLastError();
             if (errorCode == ERROR_BROKEN_PIPE)
             {
@@ -189,7 +188,7 @@ std::vector<std::string> Stockfish::readStockfishOutput(DWORD delay)
             }
             else
             {
-                printf("Error occurred while reading from the pipe: %d\n", errorCode);
+                LOG(ERROR) << "Error occurred while reading from the pipe: " << errorCode;
             }
             break;
         }
@@ -209,5 +208,35 @@ std::vector<std::string> Stockfish::readStockfishOutput(DWORD delay)
     }
 
     return output;
+
+}
+
+bool Stockfish::waitForBestMove()
+{
+    bool move = false;
+    _fishOutput.clear();
+
+    std::vector<std::string>::iterator itr;
+
+    while (!move)
+    {
+        _fishOutput = readStockfishOutput(500);
+        itr = std::find_if(_fishOutput.begin(), _fishOutput.end(), [](const std::string& str) {
+            return str.find("bestmove") != std::string::npos; 
+            });
+        if (itr != _fishOutput.end())
+        {
+            // Put the "bestmove" string into Stockfish's _bestMove member variable.
+            _bestMove = *itr;
+            move = true;
+        }
+        else
+        {
+            move = false;
+            continue;
+        }
+    }
+
+    return move;
 
 }

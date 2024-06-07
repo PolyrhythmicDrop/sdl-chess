@@ -12,7 +12,6 @@ FenManager::FenManager(GameManager* gm) :
 {
 	_fenWhiteCastle = _whiteKingside + _whiteQueenside;
 	_fenBlackCastle = _blackKingside + _blackQueenside;
-
 	setFenCastle();
 };
 
@@ -24,17 +23,22 @@ std::string FenManager::createFenString()
 	std::string fen = _fenPosition + " " + _fenColor + " " + _fenCastle + " " + _fenPassant + " " + half + " " + full;
 	// Set the current FEN string
 	_fenString = fen;
-	// Add the string to the FEN history
-	addToFenHistory(fen);
 	// Return the string.
 	return fen;
 }
 
-std::string FenManager::createFishFen()
+std::string FenManager::createFishFen(bool move)
 {
-	std::string fen = createFenString();
+	std::string fishFen = "";
 
-	std::string fishFen = "position fen " + fen + " moves " + _fenMove;
+	if (!move)
+	{
+		fishFen = "position fen " + _fenString;
+	}
+	else
+	{
+		fishFen = "position fen " + _fenString + " moves " + _fenMove;
+	}
 
 	return fishFen;
 }
@@ -54,9 +58,14 @@ void FenManager::clearFenHistory()
 	_history.clear();
 }
 
-void FenManager::setFenMove(std::string move)
+void FenManager::addPromoteToFenMove(char piece)
 {
-	_fenMove = move;
+	_fenMove.push_back(piece);
+}
+
+void FenManager::setFenMove(std::string startSq, std::string targetSq)
+{
+	_fenMove = startSq + targetSq;
 }
 
 void FenManager::setFenPosition(std::string pos)

@@ -149,6 +149,7 @@
     <ClCompile Include="easylogging++.cc" />
     <ClCompile Include="EndGameState.cpp" />
     <ClCompile Include="FenManager.cpp" />
+    <ClCompile Include="FishManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="easylogging++.h" />
     <ClInclude Include="EndGameState.h" />
     <ClInclude Include="FenManager.h" />
+    <ClInclude Include="FishManager.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GameStateMachine.h" />

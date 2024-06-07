@@ -6,7 +6,7 @@
 #include "HighlightManager.h"
 #include "FenManager.h"
 #include "GameStateMachine.h"
-#include "Stockfish.h"
+#include "FishManager.h"
 #include <memory>
 #include <vector>
 
@@ -17,6 +17,7 @@ class HighlightManager;
 class ActionManager;
 class SelectionManager;
 class FenManager;
+class FishManager;
 class Player;
 
 class GameManager : public IMediator
@@ -25,6 +26,7 @@ class GameManager : public IMediator
 	friend class ActionManager;
 	friend class SelectionManager;
 	friend class FenManager;
+	friend class FishManager;
 
 private:
 
@@ -42,25 +44,24 @@ private:
 	// The currently selected piece
 	Piece* _selectedPiece;
 
+	std::unique_ptr<Rules> _rules;
+
+	std::unique_ptr<GameStateMachine> _gsm;
+
 	// ** Manager Components ** //
 	// ************************ //
 	
-	std::unique_ptr<Rules> _rules;
-	std::unique_ptr<GameStateMachine> _gsm;
-	std::unique_ptr<Stockfish> _stockfish;
-
+	std::unique_ptr<FishManager> _fishManager;
 	std::unique_ptr<HighlightManager> _highlightManager;
 	std::unique_ptr<ActionManager> _actionManager;
 	std::unique_ptr<SelectionManager> _selectionManager;
 	std::unique_ptr<FenManager> _fenManager;
-	
 
 	// *****************************
 
 	// Private State Machine Functions
 	inline void setCurrentState(IGameState& state) { _currentState = &state; };
 	inline void setPreviousState(IGameState& state) { _previousState = &state; };
-
 
 public:
 
@@ -94,11 +95,7 @@ public:
 	/// </summary>
 	void setMediators();
 
-	/// <summary>
-	/// Game object notifications
-	/// </summary>
-	/// <param name="sender"></param>
-	/// <param name="eString"></param>
+	// Game object notifications
 	void notify(GameObject* sender, std::string eString);
 
 	// Notify overload for events that do not come from a specific game object.
@@ -118,7 +115,7 @@ public:
 	std::string boardToFen();
 	void setUpBoard();
 	void setUpPieces();
-	// If using Stockfish chess engine, initialize it for Player Two, the AI player.
+	// Initialize the Stockfish chess engine for use as an AI player or to deduce checkmate
 	void setUpStockfish();
 
 	// *****************************
@@ -152,8 +149,14 @@ public:
 
 	void handleClick();
 	void onPieceMove(Piece* piece);
+	void onPieceCapture(Piece* piece);
+	void onPieceRevive(Piece* piece);
+
 	void onTurnChange();
 	void onPassantChange(Piece* piece);
+
+	void onStockfishTurn();
+	void executeFishMove(std::string move);
 
 	// Handles end of turn FEN string creation and concatenation.
 	void handleFen();

@@ -394,3 +394,21 @@ void const Chessboard::printSquarePositions()
 		}
 	}
 }
+
+Square* Chessboard::getSquareByName(std::string name)
+{
+	std::vector<Square>::iterator itr;
+
+	for (int row = 0; row < _boardGrid.size(); ++row)
+	{
+		for (int col = 0; col < _boardGrid.at(row).size(); ++col)
+		{
+			if (_boardGrid.at(row).at(col).getName() == name)
+			{
+				return &_boardGrid.at(row).at(col);
+			}
+		}
+	}
+
+	return nullptr;
+}

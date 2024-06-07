@@ -29,6 +29,8 @@ public:
 	int getColor();
 	void setColor(int color);
 
+	PlayerType getPlayerType();
+
 	bool getCheck();
 	void setCheck(bool check);
 

@@ -18,28 +18,30 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 		addToUndoBuffer(piece);
 	}
 
-	// Move distance is the piece's board index subtracted from the target's move index.
-	std::pair<int, int> moveDistance = { 0, 0 };
-	moveDistance = { target->getBoardIndex().first - piece->getSquare()->getBoardIndex().first,
-					target->getBoardIndex().second - piece->getSquare()->getBoardIndex().second };
-	
-	// If the piece was passantable before this move, it should no longer be passantable after the move. Change passantable to false.
-	if (piece->getPassantable() == true)
-	{
-		piece->setPassantable(false);
-		// Set the passant modifier in the FEN Manager
-		
-	}
+	// Set the source square before you move the piece so you can pass it to FEN
+	Square& srcSq = *piece->getSquare();
 
-	// If the target square is unoccupied...
+	// Perform the actual move
 	if (!target->getOccupied())
 	{
-		// Unoccupy the square the piece is currently on
 		piece->getSquare()->setOccupied(false);
-
-		// Move the piece to the target position and occupy the square.
 		piece->setSquare(target);
 	}
+
+	// Check if move is valid. If not, end the function.
+	if (!testAction(piece))
+	{
+		return;
+	}
+
+	postMove(piece, &srcSq, target);
+	return;
+
+}
+
+bool ActionManager::testAction(Piece* piece)
+{
+	bool valid = false;
 
 	// Check if move would put the player's king in check
 	if (_gm->checkForCheck())
@@ -55,29 +57,16 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 			undoAction(piece, _gm->_gameScene->getPieceContainer()->getLastCapturedPiece());
 		}
 		_gm->notify("undoAction");
+		return valid;
 	}
-	// If the move is valid and will not put the player's king in check...
 	else
 	{
-		// If this was the piece's first move, set first move to false for future moves. Perform other "first move" tasks.
-		if (piece->getFirstMove())
-		{
-			modifyFirstMove(piece, moveDistance);
-		}
-
-		// If this move involved a capture (which is knowable from looking at the Undo Buffer), notify that we should reset the half move counter.
-		if (_undoBuffer.defender)
-		{
-			_gm->notify("halfMoveReset");
-		}
-
-		// Notify the GameManager that the position has changed.
-		_gm->notify(piece, "pieceMove");
+		valid = true;
+		return valid;
 	}
-
 }
 
-void ActionManager::modifyFirstMove(Piece* piece, std::pair<int, int> moveDistance)
+void ActionManager::postFirstMove(Piece* piece, std::pair<int, int> moveDistance)
 {
 	// Set First Move to false for the piece
 	piece->setFirstMove(false);
@@ -293,6 +282,40 @@ void ActionManager::castleKing(Piece* king, Square* square)
 
 	// Move the king.
 	movePiece(king, square);
+
+}
+
+void ActionManager::postMove(Piece* piece, Square* srcSq, Square* tarSq)
+{
+
+	// Get the distance the piece moved
+	std::pair<int, int> moveDistance = { 0, 0 };
+	moveDistance = { tarSq->getBoardIndex().first - srcSq->getBoardIndex().first,
+					tarSq->getBoardIndex().second - srcSq->getBoardIndex().second };
+
+	// If the piece was passantable before this move, it should no longer be passantable after the move.
+	if (piece->getPassantable() == true)
+	{
+		piece->setPassantable(false);
+	}
+
+	// If this was the piece's first move, set first move to false for future moves.
+	if (piece->getFirstMove())
+	{
+		postFirstMove(piece, moveDistance);
+	}
+
+	// Update the FEN Manager with the move string
+	_gm->_fenManager->setFenMove(srcSq->getName(), tarSq->getName());
+
+	// If this move involved a capture (which is knowable from looking at the Undo Buffer), notify that we should reset the half move counter.
+	if (_undoBuffer.defender)
+	{
+		_gm->notify("halfMoveReset");
+	}
+
+	// Notify the GameManager that the position has changed.
+	_gm->notify(piece, "pieceMove");
 
 }
 

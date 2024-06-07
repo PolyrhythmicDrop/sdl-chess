@@ -18,7 +18,7 @@ GameManager::GameManager(GameScene* gameScene) :
 	_highlightManager(std::make_unique<HighlightManager>(this)),
 	_actionManager(std::make_unique<ActionManager>(this)),
 	_selectionManager(std::make_unique<SelectionManager>(this)),
-	_stockfish(std::make_unique<Stockfish>()),
+	_fishManager(std::make_unique<FishManager>(this)),
 	_fenManager(std::make_unique<FenManager>(this)),
 	_currentState(&IdleGameState::getInstance()),
 	_previousState(nullptr)
@@ -70,7 +70,6 @@ void GameManager::notify(GameObject* object, std::string eString)
 	// A piece has changed the square it's on
 	if (eString == "pieceMove")
 	{
-		LOG(DEBUG) << object->getName() << " has moved to square " << dynamic_cast <Piece*>(object)->getSquare()->getName();
 		onPieceMove(dynamic_cast <Piece*>(object));
 	}
 	else if (eString == "pieceSelected")
@@ -83,17 +82,11 @@ void GameManager::notify(GameObject* object, std::string eString)
 	}
 	else if (eString == "pieceCaptured")
 	{
-		// Set the piece's position to null
-		dynamic_cast <Piece*>(object)->setSquare(nullptr);
-		// Add the piece to the captured piece location
-		_gameScene->getPieceContainer()->addToCapturedPieces(dynamic_cast <Piece*>(object));
-		_gameScene->updateCaptureDump();
-		LOG(INFO) << object->getName() << " was captured!";
+		onPieceCapture(dynamic_cast <Piece*>(object));
 	}
 	else if (eString == "pieceRevived")
 	{
-		_gameScene->getPieceContainer()->removePieceFromCapturedPieces(dynamic_cast <Piece*>(object));
-		_gameScene->updateCaptureDump();
+		onPieceRevive(dynamic_cast <Piece*>(object));
 	}
 	else if (eString == "piecePassant")
 	{
@@ -141,42 +134,30 @@ std::string GameManager::boardToFen()
 	std::string fenPos = "";
 	int emptySq = 0;
 
-	// Reverse-iterate through the board
 	for (int row = 7; row >= 0; --row)
 	{		
 		for (int col = 0; col < boardGrid->at(row).size(); ++col)
 		{
-			// If the square at the iterator is occupied...
 			if (boardGrid->at(row).at(col).getOccupied())
 			{
-				// If the emptySq count is greater than 0...
 				if (emptySq > 0)
 				{
-					// Append the emptySq integer to the FEN string, since we've encountered a piece,
-					// before putting the piece in the FEN string.
 					char emptyChar = '0' + emptySq;
 					fenPos = fenPos + emptyChar;
-					// Reset the empty square count.
 					emptySq = 0;
 				}
-				// Get the FEN name of the piece on the square...
 				char piece = boardGrid->at(row).at(col).getOccupant()->getFenName();
-				// ...and append it to the FEN string.
 				fenPos = fenPos + piece;
 			}
-			// If the square at the iterator is empty...
 			else
 			{
-				// ...increment the empty square count so it can be added to the string later.
 				++emptySq;
 			}
 		}
-		// Add the slash denoting end of row, and any remaining empty squares
 		if (emptySq > 0)
 		{
 			char emptyChar = '0' + emptySq;
 			fenPos = fenPos + emptyChar;
-			// Reset the empty square count.
 			emptySq = 0;
 		}
 		fenPos = fenPos + '/';
@@ -185,7 +166,6 @@ std::string GameManager::boardToFen()
 	// Remove the last forward slash from the string
 	fenPos.pop_back();
 
-	// Add the FEN position string to the FEN Manager's FEN position member.
 	_fenManager->setFenPosition(fenPos);
 
 	return fenPos;
@@ -197,14 +177,8 @@ void GameManager::setUpGame()
 	setUpPlayers();
 	setUpBoard();
 	setUpPieces();
-	if (_aiMode)
-	{
-		setUpStockfish();
-	}
-	else
-	{
-		return;
-	}
+	handleFen();
+	setUpStockfish();
 	return;
 }
 
@@ -400,8 +374,8 @@ void GameManager::setUpPieces()
 
 void GameManager::setUpStockfish()
 {
-	_stockfish.get()->createStockfishProcess();
-	_stockfish.get()->newGameStockfish();
+	/*_fishManager->initializeStockfish();*/
+	_fishManager->newStockfishGame(_fenManager->createFishFen());
 }
 
 void GameManager::setTurn(int turn)
@@ -514,11 +488,17 @@ void GameManager::endTurn()
 {
 	// Increment the half-move counter at the end of every turn (counter may have been reset to -1 during turn, in which case this will set it to 0)
 	_fenManager->plusFenHalfMove();
+
 	// If black is ending their turn, increment the full-move counter.
 	if (_currentTurn == 0)
 	{
 		_fenManager->plusFenFullMove();
 	}
+
+	// Send the position for the turn that is ending (complete with the move) to the FishManager
+	_fenManager->createFenString();
+	_fishManager->setLastPosition(_fenManager->createFishFen(true));
+
 	_gsm->changeState(this, "changeTurn");
 }
 
@@ -564,6 +544,7 @@ void GameManager::onPieceMove(Piece* piece)
 		notify("halfMoveReset");
 	}
 
+	char promotion;
 	// Pawn promotion
 	if (piece->isAlive() && piece->getSquare()->getBoardIndex().second == piece->getSquare()->getBoardIndex().second)
 	{
@@ -575,6 +556,7 @@ void GameManager::onPieceMove(Piece* piece)
 		{
 			_actionManager->promotePawn(piece);
 		}
+		promotion = piece->getFenName();
 	}
 
 	_actionManager->clearUndoBuffer();
@@ -582,8 +564,25 @@ void GameManager::onPieceMove(Piece* piece)
 	
 }
 
+void GameManager::onPieceCapture(Piece* piece)
+{
+	piece->setSquare(nullptr);
+	// Add the piece to the captured piece location
+	_gameScene->getPieceContainer()->addToCapturedPieces(piece);
+	_gameScene->updateCaptureDump();
+	LOG(INFO) << piece->getName() << " was captured!";
+}
+
+void GameManager::onPieceRevive(Piece* piece)
+{
+	_gameScene->getPieceContainer()->removePieceFromCapturedPieces(piece);
+	_gameScene->updateCaptureDump();
+	return;
+}
+
 void GameManager::onTurnChange()
 {
+	// Set the current turn for the GM and set the FEN string based on the current turn state
 	if (_currentState == &TurnWhiteGameState::getInstance())
 	{
 		setTurn(1);
@@ -595,11 +594,13 @@ void GameManager::onTurnChange()
 		_fenManager->setFenColor('b');
 	}
 
-	// Set any active en passant flags for this color to false so that any en passant captures must occur directly after pawn's first move
+	// Set any active en passant flags for this color to false so that
+	// any en passant captures must occur directly after pawn's first move
 	endPassant();
 
 	// Check for check. Set player check to false if player not in check. 
-	// If this returns true, the player's check flag has already been set to true by the Highlight Manager, so you do not need to set it here.
+	// If this returns true, the player's check flag has already been set to true by the Highlight Manager,
+	// so you do not need to set it here.
 	if (_previousState != &InitGameState::getInstance())
 	{
 		if (!checkForCheck())
@@ -612,7 +613,12 @@ void GameManager::onTurnChange()
 		}
 	}
 
+	// Create a FEN string for the start of this turn
 	handleFen();
+
+	// Return control to the state
+	return;
+
 }
 
 void GameManager::onPassantChange(Piece* piece)
@@ -640,6 +646,40 @@ void GameManager::onPassantChange(Piece* piece)
 	{
 		_fenManager->removeFenPassantSquare(passantSqName);
 	}
+}
+
+void GameManager::onStockfishTurn()
+{
+	_fishManager->setCurrentPosition(_fenManager->createFishFen(false));
+	
+	// TODO: Mock controller interaction. "Pretend" that Stockfish is clicking/selecting pieces and then attempting to move them.
+	// This will allow for cleaner transitions between turns when playing against Stockfish, and also allow me to apply
+	// rules (like castling, en passant) to Stockfish moves, instead of blindly executing the move it gives me.
+	// Also consider changing my game loop to either render on a separate thread (so the player's move gets rendered when it occurs,
+	// instead of after Stockfish moves) or apply an update() function to the loop that will run after the player moves.
+
+
+	executeFishMove(_fishManager->getBestMove());
+}
+
+void GameManager::executeFishMove(std::string move)
+{
+	std::string fullMove = move.substr(9, 4);
+	std::string sq1 = fullMove.substr(0, 2);
+	std::string sq2 = fullMove.substr(2, 2);
+
+	Square& originSq = *_gameScene->getBoard()->getSquareByName(sq1);
+	Square& targetSq = *_gameScene->getBoard()->getSquareByName(sq2);
+
+	if (targetSq.getOccupied())
+	{
+		_actionManager->capturePiece(originSq.getOccupant(), targetSq.getOccupant());
+	}
+	else
+	{
+		_actionManager->movePiece(originSq.getOccupant(), &targetSq);
+	}
+
 }
 
 void GameManager::handleFen()

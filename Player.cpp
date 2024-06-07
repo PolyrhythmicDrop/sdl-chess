@@ -67,6 +67,11 @@ void Player::setColor(int color)
 	_color = color;
 }
 
+Player::PlayerType Player::getPlayerType()
+{
+	return _playerType;
+}
+
 bool Player::getCheck()
 {
 	return _check;

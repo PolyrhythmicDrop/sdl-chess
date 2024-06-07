@@ -11,8 +11,15 @@ void TurnBlackGameState::enter(GameStateMachine* gsm)
 	// Notify the game manager that the turn has changed
 	gsm->getGameManager()->notify("turnChange");
 
-	// Subscribe to the event manager
-	subscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
+	if (gsm->getGameManager()->getCurrentPlayer()->getPlayerType() == Player::HUMAN)
+	{
+		subscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
+	}
+	else
+	{
+		// Perform an AI turn
+		gsm->getGameManager()->onStockfishTurn();
+	}
 }
 
 void TurnBlackGameState::changeState(GameStateMachine* gsm, std::string eventString)
@@ -25,8 +32,11 @@ void TurnBlackGameState::changeState(GameStateMachine* gsm, std::string eventStr
 
 void TurnBlackGameState::exit(GameStateMachine* gsm)
 {
+	if (gsm->getGameManager()->getCurrentPlayer()->getPlayerType() == Player::HUMAN)
+	{
+		unsubscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
+	}
 	LOG(TRACE) << "Black Turn Game State exited!";
-	unsubscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
 }
 
 IGameState& TurnBlackGameState::getInstance()
