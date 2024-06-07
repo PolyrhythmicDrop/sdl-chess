@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <optional>
 
 class GameManager;
 class Piece;
@@ -40,7 +41,7 @@ public:
 	/// </summary>
 	/// <param name="attacker">The piece that is capturing.</param>
 	/// <param name="defender">The piece to be captured.</param>
-	void capturePiece(Piece* attacker, Piece* defender);
+	void capturePiece(Piece* attacker, Piece* defender, bool passant = false, std::optional<Square*> passantSq = std::nullopt);
 
 	/// <summary>
 	/// Captures a pawn _en passant_. 

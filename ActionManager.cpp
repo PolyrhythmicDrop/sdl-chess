@@ -9,7 +9,7 @@ ActionManager::ActionManager(GameManager* gm) :
 	_undoBuffer({new UndoValues(), new UndoValues()})
 {}
 
-void ActionManager::capturePiece(Piece* attacker, Piece* defender)
+void ActionManager::capturePiece(Piece* attacker, Piece* defender, bool passant, std::optional<Square*> passantSq)
 {
 	// Add the relevant objects to the undo buffer
 	addToUndoBuffer(attacker, defender);
@@ -17,8 +17,15 @@ void ActionManager::capturePiece(Piece* attacker, Piece* defender)
 	defender->setAlive(false);
 	// De-occupy the defender's square
 	defender->getSquare()->setOccupied(false);
-	// Move the attacking piece into the defender's position
-	movePiece(attacker, defender->getSquare());
+	
+	if (!passant)
+	{
+		movePiece(attacker, defender->getSquare());
+	}
+	else if (passant && passantSq.has_value())
+	{
+		movePiece(attacker, passantSq.value());
+	}
 }
 
 void ActionManager::captureEnPassant(Piece* attacker, Square* square)
@@ -36,7 +43,7 @@ void ActionManager::captureEnPassant(Piece* attacker, Square* square)
 
 	if (defPos != nullptr && defPos->getOccupied())
 	{
-		capturePiece(attacker, defPos->getOccupant());
+		capturePiece(attacker, defPos->getOccupant(), true, square);
 		return;
 	}
 	else

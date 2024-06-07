@@ -79,7 +79,6 @@ void Square::setOccupied(bool occupy, Piece* occupant)
 			_occupied = occupy;
 			_currentPiece = occupant;
 			_mediator->notify(this, "squareOccupied");
-			LOG(INFO) << "Square " << _name << " occupied by " << occupant->getName();
 		}
 		else if (_occupied == true && occupy == false)
 		{
@@ -103,7 +102,6 @@ void Square::setOccupied(bool occupy, Piece* occupant)
 		else if (_occupied == true && occupy == false)
 		{
 			_occupied = occupy;
-			LOG(INFO) << "Piece moved from square " << _name << "!";
 		}
 		else if (_occupied == false && occupy == false)
 		{
