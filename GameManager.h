@@ -153,7 +153,7 @@ public:
 
 	void FenPassantChange(Piece* piece);
 	void onStockfishTurn();
-	void executeFishMove(std::string move);
+	void executeFishMove();
 
 	// Handles end of turn FEN string creation and concatenation.
 	void setCurrentFen();

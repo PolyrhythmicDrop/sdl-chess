@@ -657,48 +657,31 @@ void GameManager::onStockfishTurn()
 	_fishManager->setCurrentPosition(_fenManager->createFishFen(*(_fenManager->getFenHistory()->rbegin()), false));
 	
 	// Create new thread to run the Stockfish move and allow rendering to occur simultaneously
-	std::thread fishThread([this] 
-		{
-		// Calculate the best move and get the string pairs for that move
-		std::pair<std::string, std::string> fishMove = _fishManager->parseBestMove(_fishManager->calculateFishMove());
-
-		// Simulate fish click on piece
-		Square& originSq = *_gameScene->getBoard()->getSquareByName(fishMove.first);
-		_selectionManager->handleClickOnPiece(originSq.getOccupant());
-
-		// Simulate fish clicking on a square or opposing piece
-		Square& targetSq = *_gameScene->getBoard()->getSquareByName(fishMove.second);
-		if (targetSq.getOccupied())
-		{
-			_selectionManager->handleClickOnPiece(targetSq.getOccupant());
-		}
-		else
-		{
-			_selectionManager->handleClickOnEmptySquare(&targetSq);
-		}
-		});
-
+	std::thread fishThread(&GameManager::executeFishMove, this);
+	Sleep(1000);
 	fishThread.join();
-
 }
 
-void GameManager::executeFishMove(std::string move)
+void GameManager::executeFishMove()
 {
-	/*std::string fullMove = move.substr(9, 4);
-	std::string sq1 = fullMove.substr(0, 2);
-	std::string sq2 = fullMove.substr(2, 2);
 
-	Square& originSq = *_gameScene->getBoard()->getSquareByName(sq1);
-	Square& targetSq = *_gameScene->getBoard()->getSquareByName(sq2);
+	// Calculate the best move and get the string pairs for that move
+	std::pair<std::string, std::string> fishMove = _fishManager->parseBestMove(_fishManager->calculateFishMove());
 
+	// Simulate fish click on piece
+	Square& originSq = *_gameScene->getBoard()->getSquareByName(fishMove.first);
+	_selectionManager->handleClickOnPiece(originSq.getOccupant());
+
+	// Simulate fish clicking on a square or opposing piece
+	Square& targetSq = *_gameScene->getBoard()->getSquareByName(fishMove.second);
 	if (targetSq.getOccupied())
 	{
-		_actionManager->capturePiece(originSq.getOccupant(), targetSq.getOccupant());
+		_selectionManager->handleClickOnPiece(targetSq.getOccupant());
 	}
 	else
 	{
-		_actionManager->movePiece(originSq.getOccupant(), &targetSq);
-	}*/
+		_selectionManager->handleClickOnEmptySquare(&targetSq);
+	}
 
 }
 
