@@ -108,9 +108,9 @@ void GameManager::notify(std::string eString)
 	// Turn/State notifications
 	// *************************
 
-	if (eString == "turnChange")
+	if (eString == "startTurn")
 	{
-		onTurnChange();
+		onTurnStart();
 	}
 	if (eString == "undoAction")
 	{
@@ -378,12 +378,12 @@ void GameManager::setUpStockfish()
 	_fishManager->newStockfishGame(_fenManager->createFishFen());
 }
 
-void GameManager::setTurn(int turn)
+void GameManager::setTurn(bool color)
 {
-	_currentTurn = turn;
+	_currentTurn = color;
 
 	// Set the current player to whoever's turn we're changing to.
-	if (_gameScene->getPlayerOne()->getColor() == turn)
+	if (_gameScene->getPlayerOne()->getColor() == color)
 	{
 		_currentPlayer = _gameScene->getPlayerOne();
 	}
@@ -580,7 +580,7 @@ void GameManager::onPieceRevive(Piece* piece)
 	return;
 }
 
-void GameManager::onTurnChange()
+void GameManager::onTurnStart()
 {
 	// Set the current turn for the GM and set the FEN string based on the current turn state
 	if (_currentState == &TurnWhiteGameState::getInstance())

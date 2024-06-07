@@ -33,7 +33,7 @@ private:
 	GameScene* _gameScene;
 
 	// The current turn. 0 = Black, 1 = White.
-	int _currentTurn; 
+	int _currentTurn;
 
 	// The player whose turn it currently is.
 	Player* _currentPlayer;
@@ -50,7 +50,7 @@ private:
 
 	// ** Manager Components ** //
 	// ************************ //
-	
+
 	std::unique_ptr<FishManager> _fishManager;
 	std::unique_ptr<HighlightManager> _highlightManager;
 	std::unique_ptr<ActionManager> _actionManager;
@@ -85,7 +85,7 @@ public:
 	inline IGameState* getCurrentState() const { return _currentState; };
 	inline IGameState* getPreviousState() const { return _previousState; };
 	inline void setGameState(IGameState& state) { _gsm->setGameState(this, state); };
-	
+
 	// ********************************
 
 	// ** Mediator Functions **
@@ -105,7 +105,7 @@ public:
 
 	// ** Game Initialization Functions **
 
-	
+
 	void setUpGame();
 	bool setGameMode();
 	void setUpPlayers();
@@ -129,7 +129,8 @@ public:
 
 	// ** Turn Functions **
 
-	void setTurn(int turn);
+	// Sets what turn it is. True/1 = white, False/0 = black.
+	void setTurn(bool color);
 	inline int getTurn() const { return _currentTurn; };
 
 	// Checks for check on the current player's king.
@@ -152,7 +153,7 @@ public:
 	void onPieceCapture(Piece* piece);
 	void onPieceRevive(Piece* piece);
 
-	void onTurnChange();
+	void onTurnStart();
 	void onPassantChange(Piece* piece);
 
 	void onStockfishTurn();
@@ -160,7 +161,7 @@ public:
 
 	// Handles end of turn FEN string creation and concatenation.
 	void handleFen();
-	
+
 
 };
 

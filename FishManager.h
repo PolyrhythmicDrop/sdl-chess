@@ -38,7 +38,5 @@ public:
 	// The position supplied should be the board's position at the start of Stockfish's turn.
 	std::string getBestMove();
 
-	void executeFishMove(std::string move);
-
 };
 

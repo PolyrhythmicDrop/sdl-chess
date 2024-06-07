@@ -9,7 +9,7 @@ void TurnBlackGameState::enter(GameStateMachine* gsm)
 	LOG(TRACE) << "Black Turn Game State entered!";
 
 	// Notify the game manager that the turn has changed
-	gsm->getGameManager()->notify("turnChange");
+	gsm->getGameManager()->notify("startTurn");
 
 	if (gsm->getGameManager()->getCurrentPlayer()->getPlayerType() == Player::HUMAN)
 	{
