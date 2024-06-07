@@ -658,7 +658,6 @@ void GameManager::onStockfishTurn()
 	
 	// Create new thread to run the Stockfish move and allow rendering to occur simultaneously
 	std::thread fishThread(&GameManager::executeFishMove, this);
-	Sleep(1000);
 	fishThread.join();
 }
 
