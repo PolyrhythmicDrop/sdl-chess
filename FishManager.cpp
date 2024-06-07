@@ -17,7 +17,7 @@ void FishManager::newStockfishGame(std::string fen)
 	_stockfish.get()->newGameStockfish(fen);
 }
 
-void FishManager::setLastPosition(std::string position)
+void FishManager::setLastMovePosition(std::string position)
 {
 	_lastPosition = position;
 }

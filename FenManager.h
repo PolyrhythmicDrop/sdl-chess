@@ -69,7 +69,7 @@ public:
 	// Creates a standard FEN string, without the Stockfish-specific sections.
 	std::string createFenString();
 	// Creates a Stockfish-ready FEN string. If "move" is true, appends the last move to the string.
-	std::string createFishFen(bool move = false);
+	std::string createFishFen(std::string fen, bool move = false);
 
 	// ** History Functions **
 

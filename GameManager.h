@@ -120,14 +120,8 @@ public:
 
 	// *****************************
 
-	// ** Getters and Setters **
-
 	inline Rules* getRules() { return _rules.get(); };
 	inline Player* getCurrentPlayer() { return _currentPlayer; };
-
-	// *************************
-
-	// ** Turn Functions **
 
 	// Sets what turn it is. True/1 = white, False/0 = black.
 	void setTurn(bool color);
@@ -139,28 +133,30 @@ public:
 	// Check if castling is available
 	void checkForCastle(Piece* piece);
 
-	// Notifies the game state machine to change the turn.
-	void endTurn();
-	// Disables en passant capturing for any pawns that moved two squares up on the previous turn.
-	void endPassant();
-
 	// **********************
 
 	// ** Handler Functions **
 
 	void handleClick();
+
 	void onPieceMove(Piece* piece);
 	void onPieceCapture(Piece* piece);
 	void onPieceRevive(Piece* piece);
 
 	void onTurnStart();
-	void onPassantChange(Piece* piece);
+	// Disables en passant capturing for any pawns that moved two squares up on the previous turn.
+	void endPassant();
 
+	void fenTurnEnd();
+	// Perform end-of-turn actions and change the state to the next turn.
+	void endTurn();
+
+	void FenPassantChange(Piece* piece);
 	void onStockfishTurn();
 	void executeFishMove(std::string move);
 
 	// Handles end of turn FEN string creation and concatenation.
-	void handleFen();
+	void setCurrentFen();
 
 
 };

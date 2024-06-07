@@ -313,7 +313,7 @@ void ActionManager::postMove(Piece* piece, Square* srcSq, Square* tarSq)
 		_gm->notify("halfMoveReset");
 	}
 
-	// Notify the GameManager that the position has changed.
+	// Notify the GameManager that the piece has moved and all post-move cleanup has occurred.
 	_gm->notify(piece, "pieceMove");
 
 }

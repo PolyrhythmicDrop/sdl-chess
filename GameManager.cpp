@@ -67,7 +67,6 @@ void GameManager::notify(GameObject* object, std::string eString)
 	// Piece notifications
 	// ********************
 	
-	// A piece has changed the square it's on
 	if (eString == "pieceMove")
 	{
 		onPieceMove(dynamic_cast <Piece*>(object));
@@ -90,7 +89,7 @@ void GameManager::notify(GameObject* object, std::string eString)
 	}
 	else if (eString == "piecePassant")
 	{
-		onPassantChange(dynamic_cast <Piece*>(object));
+		FenPassantChange(dynamic_cast <Piece*>(object));
 	}
 
 	// Square notifications
@@ -177,7 +176,7 @@ void GameManager::setUpGame()
 	setUpPlayers();
 	setUpBoard();
 	setUpPieces();
-	handleFen();
+	setCurrentFen();
 	setUpStockfish();
 	return;
 }
@@ -375,15 +374,15 @@ void GameManager::setUpPieces()
 void GameManager::setUpStockfish()
 {
 	/*_fishManager->initializeStockfish();*/
-	_fishManager->newStockfishGame(_fenManager->createFishFen());
+	_fishManager->newStockfishGame(_fenManager->createFishFen(_fenManager->createFenString(), false));
 }
 
 void GameManager::setTurn(bool color)
 {
-	_currentTurn = color;
+	_currentTurn = (int)color;
 
 	// Set the current player to whoever's turn we're changing to.
-	if (_gameScene->getPlayerOne()->getColor() == color)
+	if (_gameScene->getPlayerOne()->getColor() == (int)color)
 	{
 		_currentPlayer = _gameScene->getPlayerOne();
 	}
@@ -486,19 +485,7 @@ void GameManager::checkForCastle(Piece* king)
 
 void GameManager::endTurn()
 {
-	// Increment the half-move counter at the end of every turn (counter may have been reset to -1 during turn, in which case this will set it to 0)
-	_fenManager->plusFenHalfMove();
-
-	// If black is ending their turn, increment the full-move counter.
-	if (_currentTurn == 0)
-	{
-		_fenManager->plusFenFullMove();
-	}
-
-	// Send the position for the turn that is ending (complete with the move) to the FishManager
-	_fenManager->createFenString();
-	_fishManager->setLastPosition(_fenManager->createFishFen(true));
-
+	fenTurnEnd();
 	_gsm->changeState(this, "changeTurn");
 }
 
@@ -544,8 +531,8 @@ void GameManager::onPieceMove(Piece* piece)
 		notify("halfMoveReset");
 	}
 
-	char promotion;
 	// Pawn promotion
+	char promotion;
 	if (piece->isAlive() && piece->getSquare()->getBoardIndex().second == piece->getSquare()->getBoardIndex().second)
 	{
 		if (piece->getFenName() == 'P' && piece->getSquare()->getBoardIndex().first == 7)
@@ -557,6 +544,7 @@ void GameManager::onPieceMove(Piece* piece)
 			_actionManager->promotePawn(piece);
 		}
 		promotion = piece->getFenName();
+		_fenManager->addPromoteToFenMove(promotion);
 	}
 
 	_actionManager->clearUndoBuffer();
@@ -614,14 +602,25 @@ void GameManager::onTurnStart()
 	}
 
 	// Create a FEN string for the start of this turn
-	handleFen();
+	setCurrentFen();
 
 	// Return control to the state
 	return;
 
 }
 
-void GameManager::onPassantChange(Piece* piece)
+void GameManager::fenTurnEnd()
+{
+	_fenManager->plusFenHalfMove();
+
+	if (_currentTurn == 0)
+	{
+		_fenManager->plusFenFullMove();
+	}
+
+}
+
+void GameManager::FenPassantChange(Piece* piece)
 {
 	// Set the FEN passant modifier
 	std::string passantSqName;
@@ -650,7 +649,10 @@ void GameManager::onPassantChange(Piece* piece)
 
 void GameManager::onStockfishTurn()
 {
-	_fishManager->setCurrentPosition(_fenManager->createFishFen(false));
+	// Append the move to the last position
+	std::string lastPosition = *(_fenManager->getFenHistory()->rbegin() + 1);
+	_fishManager->setLastMovePosition(_fenManager->createFishFen(lastPosition, true));
+	_fishManager->setCurrentPosition(_fenManager->createFishFen(*(_fenManager->getFenHistory()->rbegin()), false));
 	
 	// TODO: Mock controller interaction. "Pretend" that Stockfish is clicking/selecting pieces and then attempting to move them.
 	// This will allow for cleaner transitions between turns when playing against Stockfish, and also allow me to apply
@@ -682,14 +684,14 @@ void GameManager::executeFishMove(std::string move)
 
 }
 
-void GameManager::handleFen()
+void GameManager::setCurrentFen()
 {
-	// Set the FEN board position so you can send it to Stockfish when the time is right.
+	// Set the FEN board position
 	boardToFen();
 	// Combine the FEN castling modifiers
 	_fenManager->updateFenCastle();
 	// Combine all the existing FEN strings together.
-	_fenManager->createFenString();
+	_fenManager->addToFenHistory(_fenManager->createFenString());
 }
 
 

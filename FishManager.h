@@ -28,7 +28,7 @@ public:
 
 	void newStockfishGame(std::string fen);
 
-	void setLastPosition(std::string position);
+	void setLastMovePosition(std::string position);
 	void setCurrentPosition(std::string position);
 
 	// Sends the last position and the move made from that position to Stockfish.

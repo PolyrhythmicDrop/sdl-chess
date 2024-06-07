@@ -27,17 +27,17 @@ std::string FenManager::createFenString()
 	return fen;
 }
 
-std::string FenManager::createFishFen(bool move)
+std::string FenManager::createFishFen(std::string fen, bool move)
 {
 	std::string fishFen = "";
 
 	if (!move)
 	{
-		fishFen = "position fen " + _fenString;
+		fishFen = "position fen " + fen;
 	}
 	else
 	{
-		fishFen = "position fen " + _fenString + " moves " + _fenMove;
+		fishFen = "position fen " + fen + " moves " + _fenMove;
 	}
 
 	return fishFen;
@@ -179,14 +179,7 @@ void FenManager::setFenPassant(std::optional<std::string> squareName)
 {
 	if (squareName.has_value())
 	{
-		if (_fenPassant != "-")
-		{
-			_fenPassant = _fenPassant + squareName.value();
-		}
-		else
-		{
-			_fenPassant = squareName.value();
-		}
+		_fenPassant = squareName.value();
 	}
 	else
 	{
