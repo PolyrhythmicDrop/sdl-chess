@@ -258,6 +258,8 @@ void ActionManager::castleKing(Piece* king, Square* square)
 			rook->getSquare()->setOccupied(false);
 			rook->setSquare(&_gm->_gameScene->getBoard()->getBoardGrid()->at(7).at(5));
 		}
+		// Remove castle fen string for this player
+		_gm->_fenManager->setCastleByColor(false, 0, std::nullopt, std::nullopt);
 	}
 	else if (king->getPieceColor() == Piece::WHITE)
 	{
@@ -277,7 +279,10 @@ void ActionManager::castleKing(Piece* king, Square* square)
 			rook->getSquare()->setOccupied(false);
 			rook->setSquare(&_gm->_gameScene->getBoard()->getBoardGrid()->at(0).at(5));
 		}
+		_gm->_fenManager->setCastleByColor(false, 1, std::nullopt, std::nullopt);
 	}
+
+	
 
 	// Move the king.
 	movePiece(king, square);
