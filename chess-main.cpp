@@ -86,7 +86,7 @@ int main( int argc, char* args[] )
 	// Initialize the event manager
 	EventManager& eManager = EventManager::getEventManagerInstance();
 
-	// Initialize the game state machine
+	// Initialize the program state machine
 	ProgramStateMachine psm;
 
 	// Constants for the game loop
@@ -102,11 +102,12 @@ int main( int argc, char* args[] )
 	// While the application is running...
 	while (!quit)
 	{
+
 		// Handle events
 		eManager.HandleEvents(&quit);
-								
+
 		// Render graphics
-		render();
+		render();			
 
 		// Adjust time step
 		nextGameTick += skipTicks;

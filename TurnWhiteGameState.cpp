@@ -60,7 +60,6 @@ void TurnWhiteGameState::subscribeToEventManager(EventManager& manager, GameStat
 void TurnWhiteGameState::unsubscribeToEventManager(EventManager& manager, GameStateMachine* gsm)
 {
 	// TODO: Make sure to unsubscribe from the active boolean when exiting this state.
-
 	manager.Unsubscribe(SDL_MOUSEBUTTONUP);
 }
 
