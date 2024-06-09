@@ -6,6 +6,11 @@ EndGameState::EndGameState() {};
 void EndGameState::enter(GameStateMachine* gsm)
 {
 	LOG(TRACE) << "End Game State entered!";
+
+	if (gsm->getGameManager()->getVictoryCondition() == 0)
+	{
+		LOG(INFO) << "Checkmate! " << gsm->getGameManager()->getVictor() << " is the victor!!";
+	}
 }
 
 void EndGameState::changeState(GameStateMachine* gsm, std::string eventString)

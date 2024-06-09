@@ -373,13 +373,13 @@ void GameManager::setUpPieces()
 
 void GameManager::setUpStockfish()
 {
-	/*_fishManager->initializeStockfish();*/
 	_fishManager->newStockfishGame(_fenManager->createFishFen(_fenManager->createFenString(), false));
 }
 
 void GameManager::setTurn(bool color)
 {
 	_currentTurn = (int)color;
+	_previousPlayer = _currentPlayer;
 
 	// Set the current player to whoever's turn we're changing to.
 	if (_gameScene->getPlayerOne()->getColor() == (int)color)
@@ -412,6 +412,20 @@ bool GameManager::checkForCheck()
 
 	return check;
 
+}
+
+bool GameManager::checkForCheckmate()
+{
+	_fishManager->setUpStockfishPosition();
+	std::string fishMove{_fishManager->calculateFishMove()};
+	if (fishMove == "bestmove (none)\r")
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void GameManager::checkForCastle(Piece* king)
@@ -605,6 +619,9 @@ void GameManager::onTurnStart()
 	// any en passant captures must occur directly after pawn's first move
 	endPassant();
 
+	// Create a FEN string for the start of this turn
+	setCurrentFen();
+
 	// Check for check. Set player check to false if player not in check. 
 	// If this returns true, the player's check flag has already been set to true by the Highlight Manager,
 	// so you do not need to set it here.
@@ -617,11 +634,12 @@ void GameManager::onTurnStart()
 		else
 		{
 			LOG(INFO) << _currentPlayer->getName() << " is in check! Be careful...";
+			if (checkForCheckmate())
+			{
+				onCheckmate();
+			}
 		}
 	}
-
-	// Create a FEN string for the start of this turn
-	setCurrentFen();
 
 	// Return control to the state
 	return;
@@ -668,12 +686,7 @@ void GameManager::FenPassantChange(Piece* piece)
 
 void GameManager::onStockfishTurn()
 {
-	// Set up FEN move string
-	std::string lastPosition = *(_fenManager->getFenHistory()->rbegin() + 1);
-	_fishManager->setLastMovePosition(_fenManager->createFishFen(lastPosition, true));
-	_fishManager->setCurrentPosition(_fenManager->createFishFen(*(_fenManager->getFenHistory()->rbegin()), false));
-	
-	// Create new thread to run the Stockfish move and allow rendering to occur simultaneously
+	_fishManager->setUpStockfishPosition();
 	std::thread fishThread(&GameManager::executeFishMove, this);
 	fishThread.detach();
 }
@@ -682,7 +695,15 @@ void GameManager::executeFishMove()
 {
 
 	// Calculate the best move and get the string pairs for that move
-	std::pair<std::string, std::string> fishMove = _fishManager->parseBestMove(_fishManager->calculateFishMove());
+	std::string move{ _fishManager->calculateFishMove() };
+	if (move == "bestmove (none)")
+	{
+		// checkmate
+
+		return;
+	}
+
+	std::pair<std::string, std::string> fishMove = _fishManager->parseBestMove(move);
 
 	// Simulate fish click on piece
 	Square& originSq = *_gameScene->getBoard()->getSquareByName(fishMove.first);
@@ -711,6 +732,13 @@ void GameManager::setCurrentFen()
 	_fenManager->updateFenCastle();
 	// Combine all the existing FEN strings together.
 	_fenManager->addToFenHistory(_fenManager->createFenString());
+}
+
+void GameManager::onCheckmate()
+{
+	_victor = _previousPlayer;
+	_victory = VictoryCondition::CHECKMATE;
+	_gsm->changeState(this, "endGame");
 }
 
 

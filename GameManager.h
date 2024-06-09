@@ -37,12 +37,24 @@ private:
 
 	// The player whose turn it currently is.
 	Player* _currentPlayer;
+	Player* _previousPlayer;
+
+	// The winner of the game. Set after checkmate.
+	Player* _victor = nullptr;
 
 	// Whether or not the game being played is against the AI. True if against AI, false if human to human game.
 	bool _aiMode;
 
 	// The currently selected piece
 	Piece* _selectedPiece;
+
+	enum VictoryCondition {
+		CHECKMATE,
+		DRAW,
+		NONE
+	};
+
+	VictoryCondition _victory = VictoryCondition::NONE;
 
 	std::unique_ptr<Rules> _rules;
 
@@ -122,6 +134,8 @@ public:
 
 	inline Rules* getRules() { return _rules.get(); };
 	inline Player* getCurrentPlayer() { return _currentPlayer; };
+	inline VictoryCondition* getVictoryCondition() { return &_victory; };
+	inline Player* getVictor() { return _victor; };
 
 	// Sets what turn it is. True/1 = white, False/0 = black.
 	void setTurn(bool color);
@@ -129,6 +143,7 @@ public:
 
 	// Checks for check on the current player's king.
 	bool checkForCheck();
+	bool checkForCheckmate();
 
 	// Check if castling is available
 	void checkForCastle(Piece* piece);
@@ -142,8 +157,8 @@ public:
 	void onPieceMove(Piece* piece);
 	void onPieceCapture(Piece* piece);
 	void onPieceRevive(Piece* piece);
-
 	void onTurnStart();
+
 	// Disables en passant capturing for any pawns that moved two squares up on the previous turn.
 	void endPassant();
 
@@ -158,6 +173,7 @@ public:
 	// Handles end of turn FEN string creation and concatenation.
 	void setCurrentFen();
 
+	void onCheckmate();
 
 };
 

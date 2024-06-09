@@ -1,5 +1,6 @@
 #include "TurnWhiteGameState.h"
 #include "TurnBlackGameState.h"
+#include "EndGameState.h"
 #include "easylogging++.h"
 
 TurnWhiteGameState::TurnWhiteGameState() {};
@@ -27,6 +28,10 @@ void TurnWhiteGameState::changeState(GameStateMachine* gsm, std::string eventStr
 	if (eventString == "changeTurn")
 	{
 		gsm->setGameState(gsm->getGameManager(), TurnBlackGameState::getInstance());
+	}
+	if (eventString == "endGame")
+	{
+		gsm->setGameState(gsm->getGameManager(), EndGameState::getInstance());
 	}
 }
 

@@ -27,9 +27,9 @@ public:
 	FishManager(GameManager* gm);
 	~FishManager() {};
 
-	void initializeStockfish();
-
 	void newStockfishGame(std::string fen);
+
+	void setUpStockfishPosition();
 
 	void setLastMovePosition(std::string position);
 	void setCurrentPosition(std::string position);

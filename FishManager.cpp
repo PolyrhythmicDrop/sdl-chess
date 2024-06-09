@@ -7,14 +7,17 @@ FishManager::FishManager(GameManager* gm) :
 	_stockfish(std::make_unique<Stockfish>())
 {}
 
-void FishManager::initializeStockfish()
-{
-	_stockfish.get()->createStockfishProcess();
-}
-
 void FishManager::newStockfishGame(std::string fen)
 {
 	_stockfish.get()->newGameStockfish(fen);
+}
+
+void FishManager::setUpStockfishPosition()
+{
+	// Set up FEN move string
+	std::string lastPosition = *(_gm->_fenManager->getFenHistory()->rbegin() + 1);
+	setLastMovePosition(_gm->_fenManager->createFishFen(lastPosition, true));
+	setCurrentPosition(_gm->_fenManager->createFishFen(*(_gm->_fenManager->getFenHistory()->rbegin()), false));
 }
 
 void FishManager::setLastMovePosition(std::string position)
@@ -31,7 +34,7 @@ void FishManager::setCurrentPosition(std::string position)
 
 std::string FishManager::calculateFishMove()
 {
-	std::string bestMove = "";
+	std::string bestMove{};
 
 	// Query Stockfish to see if it's ready
 	while (!_stockfish->isStockfishReady())
@@ -45,7 +48,7 @@ std::string FishManager::calculateFishMove()
 	_stockfish->commandStockfish(_currentPosition);
 
 	// Tell Stockfish to start calculating a move
-	_stockfish->commandStockfish("go depth 10");
+	_stockfish->commandStockfish("go depth 20");
 
 	// Wait until Stockfish returns "bestmove"
 	while (!_stockfish->waitForBestMove())
