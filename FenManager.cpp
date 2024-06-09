@@ -48,6 +48,8 @@ std::string FenManager::createFishFen(std::string fen, bool move)
 void FenManager::addToFenHistory(std::string move)
 {
 	_history.push_back(move);
+	// Debug checking
+	LOG(TRACE) << move;
 }
 
 std::vector<std::string>* FenManager::getFenHistory()

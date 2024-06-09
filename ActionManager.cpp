@@ -13,10 +13,26 @@ void ActionManager::capturePiece(Piece* attacker, Piece* defender, bool passant,
 {
 	// Add the relevant objects to the undo buffer
 	addToUndoBuffer(attacker, defender);
+
+	// Perform FEN adjustment
+	if (defender->getPieceType() == Piece::ROOK)
+	{
+		if (defender->getSquare()->getBoardIndex().second == 0)
+		{
+			disableFenCastle(true, false);
+		}
+		else if (defender->getSquare()->getBoardIndex().second == 7)
+		{
+			disableFenCastle(true, true);
+		}
+	}
+
 	// Unalive the defender
 	defender->setAlive(false);
 	// De-occupy the defender's square
 	defender->getSquare()->setOccupied(false);
+
+	
 	
 	if (!passant)
 	{
@@ -113,7 +129,7 @@ bool ActionManager::testAction(Piece* piece)
 	}
 }
 
-void ActionManager::postFirstMove(Piece* piece, std::pair<int, int> moveDistance)
+void ActionManager::postFirstMove(Piece* piece, std::pair<int, int> moveDistance, Square* srcSq)
 {
 	// Set First Move to false for the piece
 	piece->setFirstMove(false);
@@ -125,23 +141,53 @@ void ActionManager::postFirstMove(Piece* piece, std::pair<int, int> moveDistance
 		_gm->notify(piece, "piecePassant");
 	}
 
-	// Set the FEN castling modifier for kings and rooks
 	if (piece->getPieceType() == Piece::KING)
 	{
-		// Set castling to this side to false because the king moved
-		_gm->_fenManager->setCastleByColor(false, _gm->getTurn(), false, false);
+		disableFenCastle();
 	}
 	else if (piece->getPieceType() == Piece::ROOK)
 	{
-		if (piece->getSquare()->getBoardIndex().second == 0)
+		if (srcSq->getBoardIndex().second == 0)
 		{
-			// Set queenside castling to false because the queenside rook just moved.
-			_gm->_fenManager->setCastleByColor(true, _gm->getTurn(), std::nullopt, false);
+			disableFenCastle(false, false);
 		}
-		else if (piece->getSquare()->getBoardIndex().second == 7)
+		else if (srcSq->getBoardIndex().second == 7)
 		{
-			// Set kingside castling to false because the kingside rook just moved.
-			_gm->_fenManager->setCastleByColor(true, _gm->getTurn(), false, std::nullopt);
+			disableFenCastle(false, true);
+		}
+	}
+	
+}
+
+void ActionManager::disableFenCastle(bool capture, std::optional<bool> kingside)
+{
+	// Set the FEN castling modifier for kings and rooks
+	if (!kingside.has_value())
+	{
+		// Set castling to this side to false because the king moved		
+		_gm->_fenManager->setCastleByColor(false, _gm->getTurn(), false, false);
+	}
+	else
+	{
+		int castleColor{};
+		if (_gm->getTurn() == 0)
+		{
+			capture ? castleColor = 1 : castleColor = 0;
+		}
+		else if (_gm->getTurn() == 1)
+		{
+			capture ? castleColor = 0 : castleColor = 1;
+		}
+
+		if (kingside.value() == false)
+		{
+			// Set queenside castling to false because the queenside rook just moved or was captured.
+			_gm->_fenManager->setCastleByColor(true, castleColor, std::nullopt, false);
+		}
+		else if (kingside.value() == true)
+		{
+			// Set kingside castling to false because the kingside rook just moved or was captured.
+			_gm->_fenManager->setCastleByColor(true, castleColor, false, std::nullopt);
 		}
 	}
 }
@@ -282,8 +328,6 @@ void ActionManager::castleKing(Piece* king, Square* square)
 		_gm->_fenManager->setCastleByColor(false, 1, std::nullopt, std::nullopt);
 	}
 
-	
-
 	// Move the king.
 	movePiece(king, square);
 
@@ -306,7 +350,7 @@ void ActionManager::postMove(Piece* piece, Square* srcSq, Square* tarSq)
 	// If this was the piece's first move, set first move to false for future moves.
 	if (piece->getFirstMove())
 	{
-		postFirstMove(piece, moveDistance);
+		postFirstMove(piece, moveDistance, srcSq);
 	}
 
 	// Update the FEN Manager with the move string

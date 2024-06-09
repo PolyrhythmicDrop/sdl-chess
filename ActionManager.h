@@ -62,7 +62,7 @@ public:
 	bool testAction(Piece* piece);
 
 	// Actions that take place after a piece's first move
-	void postFirstMove(Piece* piece, std::pair<int, int> moveDistance);
+	void postFirstMove(Piece* piece, std::pair<int, int> moveDistance, Square* srcSq);
 
 	/// <summary>
 	/// Promotes a pawn to a different piece type once it reaches the opposite rank of the board.
@@ -76,6 +76,13 @@ public:
 	/// <param name="king">The king to castle with.</param>
 	/// <param name="square">The square the king should move to.</param>
 	void castleKing(Piece* king, Square* square);
+
+	/// <summary>
+	/// Disables the FEN castle modifier on rook/king move or rook capture
+	/// </summary>
+	/// <param name="piece">The piece that moved or was captured</param>
+	/// <param name="kingside">True if the kingside rook moved or was captured, false if queenside rook moved or was captured, nullopt if the king moved</param>
+	void disableFenCastle(bool capture = false, std::optional<bool> kingside = std::nullopt);
 
 	void postMove(Piece* piece, Square* srcSq, Square* tarSq);
 

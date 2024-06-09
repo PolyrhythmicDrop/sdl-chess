@@ -570,6 +570,20 @@ void GameManager::onPieceRevive(Piece* piece)
 {
 	_gameScene->getPieceContainer()->removePieceFromCapturedPieces(piece);
 	_gameScene->updateCaptureDump();
+
+	// Reset FEN castle on capture undo
+	if (piece->getPieceType() == Piece::ROOK && piece->getFirstMove())
+	{
+		if (piece->getSquare()->getBoardIndex().second == 0)
+		{
+			_fenManager->setCastleByColor(true, getTurn(), std::nullopt, true);
+		}
+		else if (piece->getSquare()->getBoardIndex().second == 7)
+		{
+			_fenManager->setCastleByColor(true, getTurn(), true, std::nullopt);
+		}
+	}
+
 	return;
 }
 
