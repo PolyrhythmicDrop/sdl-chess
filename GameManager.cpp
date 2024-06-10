@@ -279,8 +279,9 @@ void GameManager::setUpBoard()
 std::string GameManager::setUpScenario(std::string fen)
 {
 	// Put in error checking later
-	_fenManager->setFenPosition(fen);
-	return _fenManager->_fenPosition;
+	_fenManager->parseFenString(fen);
+	_fenManager->createFenString();
+	return _fenManager->_fenString;
 }
 
 void GameManager::setUpPieces()

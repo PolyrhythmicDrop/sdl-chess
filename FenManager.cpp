@@ -29,6 +29,90 @@ std::string FenManager::createFenString()
 	return fen;
 }
 
+void FenManager::parseFenString(std::string fen)
+{
+	std::string position{};
+	char color{};
+	std::string castle{};
+	std::string passant{};
+	int halfMove{};
+	int fullMove{};
+
+	int posSize{};
+	int colorIndex{};
+	int castleSize{};
+	int passantSize{};
+	int halfSize{};
+	int fullSize{};
+
+	std::string::iterator fenItr{ fen.begin() };
+	std::string::iterator fenPrevItr{};
+
+	// Get position substring
+	fenItr = std::find(fen.begin(), fen.end(), ' ');
+	if (fenItr != fen.end())
+	{
+		posSize = std::distance(fen.begin(), fenItr);
+		position = fen.substr(0, posSize);
+		_fenPosition = position;
+		fenPrevItr = fenItr;
+		++fenItr;
+	}
+
+	if (fenItr != fen.end())
+	{
+		colorIndex = std::distance(fen.begin(), fenItr);
+		color = fen.at(colorIndex);
+		_fenColor = color;
+		fenItr = fenItr + 2;
+		fenPrevItr = fenItr;
+	}
+
+	// Get castle string
+	fenItr = std::find(fenItr, fen.end(), ' ');
+	if (fenItr != fen.end())
+	{
+		castleSize = std::distance(fenPrevItr, fenItr);
+		castle = fen.substr(std::distance(fen.begin(), fenPrevItr), castleSize);
+		_fenCastle = castle;
+		++fenItr;
+		fenPrevItr = fenItr;
+	}
+
+	// Get passant string
+	fenItr = std::find(fenItr, fen.end(), ' ');
+	if (fenItr != fen.end())
+	{
+		passantSize = std::distance(fenPrevItr, fenItr);
+		passant = fen.substr(std::distance(fen.begin(), fenPrevItr), passantSize);
+		_fenPassant = passant;
+		++fenItr;
+		fenPrevItr = fenItr;
+	}
+
+	// Get the half-move count
+	fenItr = std::find(fenItr, fen.end(), ' ');
+	if (fenItr != fen.end())
+	{ 
+		halfSize = std::distance(fenPrevItr, fenItr);
+		halfMove = std::stoi(fen.substr(std::distance(fen.begin(), fenPrevItr), halfSize));
+		_fenHalfMove = halfMove;
+		++fenItr;
+		fenPrevItr = fenItr;
+	}
+
+	// Get the full-move count
+	fenItr = std::find(fenItr, fen.end(), ' ');
+	if (fenItr != fen.end())
+	{
+		fullSize = std::distance(fenPrevItr, fenItr);
+		fullMove = std::stoi(fen.substr(std::distance(fen.begin(), fenPrevItr), fullSize));
+		_fenFullMove = fullMove;
+		fenPrevItr = fenItr;
+	}
+	
+}
+
 std::string FenManager::createFishFen(std::string fen, bool move)
 {
 	std::string fishFen = "";

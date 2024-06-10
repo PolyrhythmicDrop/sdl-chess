@@ -68,6 +68,9 @@ public:
 
 	// Creates a standard FEN string, without the Stockfish-specific sections.
 	std::string createFenString();
+
+	// Divvies up a FEN string into its modifiers, and then sets those modifiers to the FEN Manager's member variables.
+	void parseFenString(std::string fen);
 	// Creates a Stockfish-ready FEN string. If "move" is true, appends the last move to the string.
 	std::string createFishFen(std::string fen, bool move = false);
 

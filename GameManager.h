@@ -127,8 +127,8 @@ public:
 	std::string boardToFen();
 	void setUpBoard();
 
-	// Takes a custom FEN, sets the FEN Manager's position using it, and returns the same string.
-	std::string setUpScenario(std::string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+	// Takes a custom FEN, sets the FEN Manager's position using it, and returns the same string. Default is default starting position.
+	std::string setUpScenario(std::string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
 	// Sets pieces on the board in the default starting position. 
 	// Consider folding this into fenToBoard, or renaming fenToBoard to setUpPieces() to allow for different starting positions.
