@@ -103,13 +103,12 @@ void FenManager::parseFenString(std::string fen)
 
 	// Get the full-move count
 	fenItr = std::find(fenItr, fen.end(), ' ');
-	if (fenItr != fen.end())
-	{
-		fullSize = std::distance(fenPrevItr, fenItr);
-		fullMove = std::stoi(fen.substr(std::distance(fen.begin(), fenPrevItr), fullSize));
-		_fenFullMove = fullMove;
-		fenPrevItr = fenItr;
-	}
+
+	fullSize = std::distance(fenPrevItr, fenItr);
+	fullMove = std::stoi(fen.substr(std::distance(fen.begin(), fenPrevItr), fullSize));
+	_fenFullMove = fullMove;
+	fenPrevItr = fenItr;
+	
 	
 }
 

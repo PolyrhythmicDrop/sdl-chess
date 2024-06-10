@@ -177,7 +177,7 @@ void GameManager::setUpGame()
 	setUpPlayers();
 	setUpBoard();
 	// Use the default starting position for now, supply a custom FEN as argument later
-	setUpScenario();
+	setUpScenario("rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2");
 	setUpPieces();
 	setUpStockfish();
 	return;
@@ -281,6 +281,7 @@ std::string GameManager::setUpScenario(std::string fen)
 	// Put in error checking later
 	_fenManager->parseFenString(fen);
 	_fenManager->createFenString();
+	_fenManager->_fenColor == 'w' ? setTurn(1) : setTurn(0);
 	return _fenManager->_fenString;
 }
 
@@ -355,6 +356,8 @@ void GameManager::setUpPieces()
 						if (blkPawnItr != blkPawnVect.end())
 						{
 							(*blkPawnItr)->setSquare(&boardGrid->at(row).at(col));
+							(*blkPawnItr)->getSquare()->getBoardIndex().first != 6 ? 
+								(*blkPawnItr)->setFirstMove(false) : (*blkPawnItr)->setFirstMove(true);
 							++blkPawnItr;
 						}
 						else
@@ -366,6 +369,8 @@ void GameManager::setUpPieces()
 						if (whtPawnItr != whtPawnVect.end())
 						{
 							(*whtPawnItr)->setSquare(&boardGrid->at(row).at(col));
+							(*whtPawnItr)->getSquare()->getBoardIndex().first != 1 ? 
+								(*whtPawnItr)->setFirstMove(false) : (*whtPawnItr)->setFirstMove(true);
 							++whtPawnItr;
 						}
 						else
@@ -377,6 +382,12 @@ void GameManager::setUpPieces()
 						if (blkRookItr != blkRookVect.end())
 						{
 							(*blkRookItr)->setSquare(&boardGrid->at(row).at(col));
+
+							((*blkRookItr)->getSquare()->getBoardIndex().first == 7) && ((*blkRookItr)->getSquare()->getBoardIndex().second == 0) ?
+								(*blkRookItr)->setFirstMove(true) : (*blkRookItr)->setFirstMove(false);
+							((*blkRookItr)->getSquare()->getBoardIndex().first == 7) && ((*blkRookItr)->getSquare()->getBoardIndex().second == 7) ?
+								(*blkRookItr)->setFirstMove(true) : (*blkRookItr)->setFirstMove(false);
+
 							++blkRookItr;
 						}
 						else
@@ -388,6 +399,12 @@ void GameManager::setUpPieces()
 						if (whtRookItr != whtRookVect.end())
 						{
 							(*whtRookItr)->setSquare(&boardGrid->at(row).at(col));
+
+							((*whtRookItr)->getSquare()->getBoardIndex().first == 0) && ((*whtRookItr)->getSquare()->getBoardIndex().second == 0) ?
+								(*whtRookItr)->setFirstMove(true) : (*whtRookItr)->setFirstMove(false);
+							((*whtRookItr)->getSquare()->getBoardIndex().first == 0) && ((*whtRookItr)->getSquare()->getBoardIndex().second == 7) ?
+								(*whtRookItr)->setFirstMove(true) : (*whtRookItr)->setFirstMove(false);
+
 							++whtRookItr;
 						}
 						else
@@ -465,6 +482,10 @@ void GameManager::setUpPieces()
 						if (blkKingItr != blkKingVect.end())
 						{
 							(*blkKingItr)->setSquare(&boardGrid->at(row).at(col));
+
+							((*blkKingItr)->getSquare()->getBoardIndex().first == 7) && ((*blkKingItr)->getSquare()->getBoardIndex().second == 4) ?
+								(*blkKingItr)->setFirstMove(true) : (*blkKingItr)->setFirstMove(false);
+
 							++blkKingItr;
 						}
 						else
@@ -476,6 +497,10 @@ void GameManager::setUpPieces()
 						if (whtKingItr != whtKingVect.end())
 						{
 							(*whtKingItr)->setSquare(&boardGrid->at(row).at(col));
+
+							((*whtKingItr)->getSquare()->getBoardIndex().first == 0) && ((*whtKingItr)->getSquare()->getBoardIndex().second == 4) ?
+								(*whtKingItr)->setFirstMove(true) : (*whtKingItr)->setFirstMove(false);
+
 							++whtKingItr;
 						}
 						else
@@ -573,7 +598,6 @@ void GameManager::setUpPieces()
 			}
 		}
 
-	// ***********
 	// Add the pieces to the render queue
 	std::vector<std::pair<GameObject*, SDL_Texture*>> rendVect;
 	PieceIterator pieceItr = pieces->createIterator();
@@ -586,83 +610,6 @@ void GameManager::setUpPieces()
 	}
 
 	ServiceLocator::getGraphics().addToRenderMap(2, rendVect);
-	// ***********
-
-	//// *******************************
-	//// Set WHITE
-	//// Set the white pawns
-	//std::vector<int> pawnVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('P');
-	//for (int i = 0; i < pawnVect.size(); ++i)
-	//{
-	//	_gameScene->getPieceContainer()->getAllPieces()->at(pawnVect.at(i)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(1).at(i));
-	//}
-
-	//// Set the white rooks
-	//std::vector<int> rookVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('R');
-	//_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(0));
-	//_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(7));
-	//rookVect.clear();
-
-	//// Set the white knights
-	//std::vector<int> knightVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('N');
-	//_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(1));
-	//_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(6));
-	//knightVect.clear();
-
-	//// Set the white bishops
-	//std::vector<int> bishopVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('B');
-	//_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(2));
-	//_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(5));
-	//bishopVect.clear();
-
-	//// Set the white queen
-	//std::vector<int> queenVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('Q');
-	//_gameScene->getPieceContainer()->getAllPieces()->at(queenVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(3));
-	//queenVect.clear();
-
-	//// Set the white king
-	//std::vector<int> kingVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('K');
-	//_gameScene->getPieceContainer()->getAllPieces()->at(kingVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(4));
-	//kingVect.clear();
-	//// *****************************
-
-	//// *****************************
-	//// Set BLACK
-	//// Set the black pawns
-	//pawnVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('p');
-	//for (int i = 0; i < pawnVect.size(); ++i)
-	//{
-	//	_gameScene->getPieceContainer()->getAllPieces()->at(pawnVect.at(i)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(6).at(i));
-	//}
-
-	//// Set the black rooks
-	//rookVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('r');
-	//_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(0));
-	//_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(7));
-	//rookVect.clear();
-
-	//// Set the black knights
-	//knightVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('n');
-	//_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(1));
-	//_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(6));
-	//knightVect.clear();
-
-	//// Set the black bishops
-	//bishopVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('b');
-	//_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(2));
-	//_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(5));
-	//bishopVect.clear();
-
-	//// Set the black queen
-	//queenVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('q');
-	//_gameScene->getPieceContainer()->getAllPieces()->at(queenVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(3));
-	//queenVect.clear();
-
-	//// Set the black king
-	//kingVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('k');
-	//_gameScene->getPieceContainer()->getAllPieces()->at(kingVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(4));
-	//kingVect.clear();
-	//// *****************************
 
 }
 

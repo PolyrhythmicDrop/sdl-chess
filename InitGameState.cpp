@@ -2,24 +2,29 @@
 #include "easylogging++.h"
 #include "GameScene.h"
 #include "TurnWhiteGameState.h"
+#include "TurnBlackGameState.h"
 
 InitGameState::InitGameState() {};
 
 void InitGameState::enter(GameStateMachine* gsm)
 {
 	LOG(TRACE) << "Initialize Game State entered!";
-
 	// Call the Game Manager to initialize the game
 	gsm->getGameManager()->setUpGame();
 
-	// Change the state to White's turn to go first.
 	changeState(gsm);
-
 }
 
 void InitGameState::changeState(GameStateMachine* gsm, std::string eventString)
 {
-	gsm->setGameState(gsm->getGameManager(), TurnWhiteGameState::getInstance());
+	if (gsm->getGameManager()->getTurn() == 0)
+	{
+		gsm->setGameState(gsm->getGameManager(), TurnBlackGameState::getInstance());
+	}
+	else if (gsm->getGameManager()->getTurn() == 1)
+	{
+		gsm->setGameState(gsm->getGameManager(), TurnWhiteGameState::getInstance());
+	}
 }
 
 void InitGameState::exit(GameStateMachine* gsm)
