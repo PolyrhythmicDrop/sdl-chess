@@ -24,7 +24,7 @@ public:
 
 	PieceIterator createIterator();
 
-	void initializePieces();
+	void initializePieces(std::string fen);
 
 	// Returns a pointer to the piece vector
 	inline std::vector<Piece>* getAllPieces() { return &_pieces; };

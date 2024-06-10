@@ -130,7 +130,7 @@ void GameManager::fenToBoard(std::string position)
 
 std::string GameManager::boardToFen()
 {
-	auto boardGrid = _gameScene->getBoard()->getBoardGrid();
+	const auto& boardGrid = _gameScene->getBoard()->getBoardGrid();
 	std::string fenPos = "";
 	int emptySq = 0;
 
@@ -176,6 +176,8 @@ void GameManager::setUpGame()
 	setGameMode();
 	setUpPlayers();
 	setUpBoard();
+	// Use the default starting position for now, supply a custom FEN as argument later
+	setUpScenario();
 	setUpPieces();
 	setUpStockfish();
 	return;
@@ -274,92 +276,308 @@ void GameManager::setUpBoard()
 
 }
 
+std::string GameManager::setUpScenario(std::string fen)
+{
+	// Put in error checking later
+	_fenManager->setFenPosition(fen);
+	return _fenManager->_fenPosition;
+}
+
 void GameManager::setUpPieces()
 {
+
+	_gameScene->getPieceContainer()->initializePieces(_fenManager->_fenPosition);
+
 	// Add the Game Manager as the mediator for all the objects in the game scene
-	this->setMediators();
+	setMediators();
 
-	// *******************************
-	// Set WHITE
-	// Set the white pawns
-	std::vector<int> pawnVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('P');
-	for (int i = 0; i < pawnVect.size(); ++i)
-	{
-		_gameScene->getPieceContainer()->getAllPieces()->at(pawnVect.at(i)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(1).at(i));
-	}
+	// Creation of piece vectors and iterators for the individual pieces
 
-	// Set the white rooks
-	std::vector<int> rookVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('R');
-	_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(0));
-	_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(7));
-	rookVect.clear();
+	const auto& pieces = _gameScene->getPieceContainer();
 
-	// Set the white knights
-	std::vector<int> knightVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('N');
-	_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(1));
-	_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(6));
-	knightVect.clear();
+	const auto& blkPawnVect = pieces->getPiecesByFen('p');
+	std::vector<Piece*>::const_iterator blkPawnItr = blkPawnVect.begin();
 
-	// Set the white bishops
-	std::vector<int> bishopVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('B');
-	_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(2));
-	_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(5));
-	bishopVect.clear();
+	const auto& whtPawnVect = pieces->getPiecesByFen('P');
+	std::vector<Piece*>::const_iterator whtPawnItr = whtPawnVect.begin();
 
-	// Set the white queen
-	std::vector<int> queenVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('Q');
-	_gameScene->getPieceContainer()->getAllPieces()->at(queenVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(3));
-	queenVect.clear();
+	const auto& blkRookVect = pieces->getPiecesByFen('r');
+	std::vector<Piece*>::const_iterator blkRookItr = blkRookVect.begin();
 
-	// Set the white king
-	std::vector<int> kingVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('K');
-	_gameScene->getPieceContainer()->getAllPieces()->at(kingVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(4));
-	kingVect.clear();
-	// *****************************
+	const auto& whtRookVect = pieces->getPiecesByFen('R');
+	std::vector<Piece*>::const_iterator whtRookItr = whtRookVect.begin();
 
-	// *****************************
-	// Set BLACK
-	// Set the black pawns
-	pawnVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('p');
-	for (int i = 0; i < pawnVect.size(); ++i)
-	{
-		_gameScene->getPieceContainer()->getAllPieces()->at(pawnVect.at(i)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(6).at(i));
-	}
+	const auto& blkKnightVect = pieces->getPiecesByFen('n');
+	std::vector<Piece*>::const_iterator blkKnightItr = blkKnightVect.begin();
 
-	// Set the black rooks
-	rookVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('r');
-	_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(0));
-	_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(7));
-	rookVect.clear();
+	const auto& whtKnightVect = pieces->getPiecesByFen('N');
+	std::vector<Piece*>::const_iterator whtKnightItr = whtKnightVect.begin();
 
-	// Set the black knights
-	knightVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('n');
-	_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(1));
-	_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(6));
-	knightVect.clear();
+	const auto& blkBishopVect = pieces->getPiecesByFen('b');
+	std::vector<Piece*>::const_iterator blkBishopItr = blkBishopVect.begin();
 
-	// Set the black bishops
-	bishopVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('b');
-	_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(2));
-	_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(5));
-	bishopVect.clear();
+	const auto& whtBishopVect = pieces->getPiecesByFen('B');
+	std::vector<Piece*>::const_iterator whtBishopItr = whtBishopVect.begin();
 
-	// Set the black queen
-	queenVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('q');
-	_gameScene->getPieceContainer()->getAllPieces()->at(queenVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(3));
-	queenVect.clear();
+	const auto& blkQueenVect = pieces->getPiecesByFen('q');
+	std::vector<Piece*>::const_iterator blkQueenItr = blkQueenVect.begin();
 
-	// Set the black king
-	kingVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('k');
-	_gameScene->getPieceContainer()->getAllPieces()->at(kingVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(4));
-	kingVect.clear();
-	// *****************************
+	const auto& whtQueenVect = pieces->getPiecesByFen('Q');
+	std::vector<Piece*>::const_iterator whtQueenItr = whtQueenVect.begin();
+
+	const auto& blkKingVect = pieces->getPiecesByFen('k');
+	std::vector<Piece*>::const_iterator blkKingItr = blkKingVect.begin();
+
+	const auto& whtKingVect = pieces->getPiecesByFen('K');
+	std::vector<Piece*>::const_iterator whtKingItr = whtKingVect.begin();
+
+	// Loop variables
+
+	const auto& boardGrid = _gameScene->getBoard()->getBoardGrid();
+	const std::string& fen = _fenManager->_fenPosition;
+	std::string::const_iterator posItr = fen.begin();
+
+	// Set position loop
+
+		for (int row = 7; row >= 0; --row)
+		{
+			for (int col = 0; col <= boardGrid->at(row).size(); ++col)
+			{
+				if (posItr != fen.end())
+				{
+					switch (*posItr)
+					{
+					case (char)47:
+						col = col + 8;
+						break;
+					case 'p':
+						if (blkPawnItr != blkPawnVect.end())
+						{
+							(*blkPawnItr)->setSquare(&boardGrid->at(row).at(col));
+							++blkPawnItr;
+						}
+						else
+						{
+							LOG(ERROR) << "No more pieces of type 'p' in vector!";
+						}
+						break;
+					case 'P':
+						if (whtPawnItr != whtPawnVect.end())
+						{
+							(*whtPawnItr)->setSquare(&boardGrid->at(row).at(col));
+							++whtPawnItr;
+						}
+						else
+						{
+							LOG(ERROR) << "No more pieces of type 'P' in vector!";
+						}
+						break;
+					case 'r':
+						if (blkRookItr != blkRookVect.end())
+						{
+							(*blkRookItr)->setSquare(&boardGrid->at(row).at(col));
+							++blkRookItr;
+						}
+						else
+						{
+							LOG(ERROR) << "No more pieces of type 'r' in vector!";
+						}
+						break;
+					case 'R':
+						if (whtRookItr != whtRookVect.end())
+						{
+							(*whtRookItr)->setSquare(&boardGrid->at(row).at(col));
+							++whtRookItr;
+						}
+						else
+						{
+							LOG(ERROR) << "No more pieces of type 'R' in vector!";
+						}
+						break;
+					case 'n':
+						if (blkKnightItr != blkKnightVect.end())
+						{
+							(*blkKnightItr)->setSquare(&boardGrid->at(row).at(col));
+							++blkKnightItr;
+						}
+						else
+						{
+							LOG(ERROR) << "No more pieces of type 'n' in vector!";
+						}
+						break;
+					case 'N':
+						if (whtKnightItr != whtKnightVect.end())
+						{
+							(*whtKnightItr)->setSquare(&boardGrid->at(row).at(col));
+							++whtKnightItr;
+						}
+						else
+						{
+							LOG(ERROR) << "No more pieces of type 'N' in vector!";
+						}
+						break;
+					case 'b':
+						if (blkBishopItr != blkBishopVect.end())
+						{
+							(*blkBishopItr)->setSquare(&boardGrid->at(row).at(col));
+							++blkBishopItr;
+						}
+						else
+						{
+							LOG(ERROR) << "No more pieces of type 'b' in vector!";
+						}
+						break;
+					case 'B':
+						if (whtBishopItr != whtBishopVect.end())
+						{
+							(*whtBishopItr)->setSquare(&boardGrid->at(row).at(col));
+							++whtBishopItr;
+						}
+						else
+						{
+							LOG(ERROR) << "No more pieces of type 'B' in vector!";
+						}
+						break;
+					case 'q':
+						if (blkQueenItr != blkQueenVect.end())
+						{
+							(*blkQueenItr)->setSquare(&boardGrid->at(row).at(col));
+							++blkQueenItr;
+						}
+						else
+						{
+							LOG(ERROR) << "No more pieces of type 'q' in vector!";
+						}
+						break;
+					case 'Q':
+						if (whtQueenItr != whtQueenVect.end())
+						{
+							(*whtQueenItr)->setSquare(&boardGrid->at(row).at(col));
+							++whtQueenItr;
+						}
+						else
+						{
+							LOG(ERROR) << "No more pieces of type 'Q' in vector!";
+						}
+						break;
+					case 'k':
+						if (blkKingItr != blkKingVect.end())
+						{
+							(*blkKingItr)->setSquare(&boardGrid->at(row).at(col));
+							++blkKingItr;
+						}
+						else
+						{
+							LOG(ERROR) << "No more pieces of type 'k' in vector!";
+						}
+						break;
+					case 'K':
+						if (whtKingItr != whtKingVect.end())
+						{
+							(*whtKingItr)->setSquare(&boardGrid->at(row).at(col));
+							++whtKingItr;
+						}
+						else
+						{
+							LOG(ERROR) << "No more pieces of type 'K' in vector!";
+						}
+						break;
+					case '1':
+						if (col <= boardGrid->at(row).size())
+						{
+							col;
+						}
+						else
+						{
+							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+						}
+						break;
+					case '2':
+						if (col + 1 <= boardGrid->at(row).size())
+						{
+							col = col + 1;
+						}
+						else
+						{
+							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+						}
+						break;
+					case '3':
+						if (col + 2 <= boardGrid->at(row).size())
+						{
+							col = col + 2;
+						}
+						else
+						{
+							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+						}
+						break;
+					case '4':
+						if (col + 3 <= boardGrid->at(row).size())
+						{
+							col = col + 3;
+						}
+						else
+						{
+							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+						}
+						break;
+					case '5':
+						if (col + 4 <= boardGrid->at(row).size())
+						{
+							col = col + 4;
+						}
+						else
+						{
+							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+						}
+						break;
+					case '6':
+						if (col + 5 <= boardGrid->at(row).size())
+						{
+							col = col + 5;
+						}
+						else
+						{
+							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+						}
+						break;
+					case '7':
+						if (col + 6 <= boardGrid->at(row).size())
+						{
+							col = col + 6;
+						}
+						else
+						{
+							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+						}
+						break;
+					case '8':
+						if (col + 7 <= boardGrid->at(row).size())
+						{
+							col = col + 7;
+						}
+						else
+						{
+							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+						}
+						break;
+					}
+					++posItr;
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
 
 	// ***********
 	// Add the pieces to the render queue
 	std::vector<std::pair<GameObject*, SDL_Texture*>> rendVect;
-	PieceIterator pieceItr = _gameScene->getPieceContainer()->createIterator();
-	
+	PieceIterator pieceItr = pieces->createIterator();
+	pieceItr.goToStart();
+
 	for (int i = 0; i < pieceItr.getSize(); ++i)
 	{
 		pieceItr.goToIndex(i);
@@ -368,6 +586,82 @@ void GameManager::setUpPieces()
 
 	ServiceLocator::getGraphics().addToRenderMap(2, rendVect);
 	// ***********
+
+	//// *******************************
+	//// Set WHITE
+	//// Set the white pawns
+	//std::vector<int> pawnVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('P');
+	//for (int i = 0; i < pawnVect.size(); ++i)
+	//{
+	//	_gameScene->getPieceContainer()->getAllPieces()->at(pawnVect.at(i)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(1).at(i));
+	//}
+
+	//// Set the white rooks
+	//std::vector<int> rookVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('R');
+	//_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(0));
+	//_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(7));
+	//rookVect.clear();
+
+	//// Set the white knights
+	//std::vector<int> knightVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('N');
+	//_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(1));
+	//_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(6));
+	//knightVect.clear();
+
+	//// Set the white bishops
+	//std::vector<int> bishopVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('B');
+	//_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(2));
+	//_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(5));
+	//bishopVect.clear();
+
+	//// Set the white queen
+	//std::vector<int> queenVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('Q');
+	//_gameScene->getPieceContainer()->getAllPieces()->at(queenVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(3));
+	//queenVect.clear();
+
+	//// Set the white king
+	//std::vector<int> kingVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('K');
+	//_gameScene->getPieceContainer()->getAllPieces()->at(kingVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(0).at(4));
+	//kingVect.clear();
+	//// *****************************
+
+	//// *****************************
+	//// Set BLACK
+	//// Set the black pawns
+	//pawnVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('p');
+	//for (int i = 0; i < pawnVect.size(); ++i)
+	//{
+	//	_gameScene->getPieceContainer()->getAllPieces()->at(pawnVect.at(i)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(6).at(i));
+	//}
+
+	//// Set the black rooks
+	//rookVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('r');
+	//_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(0));
+	//_gameScene->getPieceContainer()->getAllPieces()->at(rookVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(7));
+	//rookVect.clear();
+
+	//// Set the black knights
+	//knightVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('n');
+	//_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(1));
+	//_gameScene->getPieceContainer()->getAllPieces()->at(knightVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(6));
+	//knightVect.clear();
+
+	//// Set the black bishops
+	//bishopVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('b');
+	//_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(2));
+	//_gameScene->getPieceContainer()->getAllPieces()->at(bishopVect.at(1)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(5));
+	//bishopVect.clear();
+
+	//// Set the black queen
+	//queenVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('q');
+	//_gameScene->getPieceContainer()->getAllPieces()->at(queenVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(3));
+	//queenVect.clear();
+
+	//// Set the black king
+	//kingVect = _gameScene->getPieceContainer()->getPieceIndexByFEN('k');
+	//_gameScene->getPieceContainer()->getAllPieces()->at(kingVect.at(0)).setSquare(&_gameScene->getBoard()->getBoardGrid()->at(7).at(4));
+	//kingVect.clear();
+	//// *****************************
 
 }
 

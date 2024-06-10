@@ -5,11 +5,11 @@
 
 GameScene::GameScene() :
 	_board(std::unique_ptr<Chessboard>(new Chessboard)),
-	_pieceContainer(PieceContainer()),
+	_pieceContainer(PieceContainer{}),
 	_whiteCapturePoint({0, 0}),
 	_blackCapturePoint({0, 0}),
-	_playerOne(Player("", ' ')),
-	_playerTwo(Player("", ' ')),
+	_playerOne(Player{ "", ' ' }),
+	_playerTwo(Player{"", ' '}),
 	_manager(std::make_unique<GameManager>(this))	
 {
 	assert(!_instantiated);

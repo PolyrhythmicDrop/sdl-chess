@@ -6,7 +6,7 @@
 FenManager::FenManager(GameManager* gm) :
 	_gm(gm),
 	_history({}),
-	_fenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"),
+	_fenPosition({}),
 	_fenColor('w'),
 	_fenHalfMove(0),
 	_fenFullMove(0)

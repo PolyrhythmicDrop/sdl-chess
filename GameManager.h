@@ -126,6 +126,12 @@ public:
 	// Takes a board layout and translates it to a FEN string for use with Stockfish
 	std::string boardToFen();
 	void setUpBoard();
+
+	// Takes a custom FEN, sets the FEN Manager's position using it, and returns the same string.
+	std::string setUpScenario(std::string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+
+	// Sets pieces on the board in the default starting position. 
+	// Consider folding this into fenToBoard, or renaming fenToBoard to setUpPieces() to allow for different starting positions.
 	void setUpPieces();
 	// Initialize the Stockfish chess engine for use as an AI player or to deduce checkmate
 	void setUpStockfish();
