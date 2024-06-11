@@ -68,7 +68,8 @@ public:
 	/// Promotes a pawn to a different piece type once it reaches the opposite rank of the board.
 	/// </summary>
 	/// <param name="piece">The piece to promote.</param>
-	void promotePawn(Piece* piece);
+	/// <param name="fish">Whether or not the promoting player is an AI (true) or human (false).</param>
+	void promotePawn(Piece* piece, bool fish);
 
 	/// <summary>
 	/// Performs a castle move with the king and the nearest rook.

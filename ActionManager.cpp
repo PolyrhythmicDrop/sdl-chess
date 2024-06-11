@@ -192,91 +192,123 @@ void ActionManager::disableFenCastle(bool capture, std::optional<bool> kingside)
 	}
 }
 
-void ActionManager::promotePawn(Piece* piece)
+void ActionManager::promotePawn(Piece* piece, bool fish)
 {
 	// TODO: Handle in the console for now, later I'll make a GUI for it
 	
-	bool run = true;
-	char input = NULL;
+	bool run{ true };
+	char input{};
 
 	// Render map vectors for updating the texture if necessary
-	std::vector<std::pair<GameObject*, SDL_Texture*>> vect;
-	std::pair<GameObject*, SDL_Texture*> pair;
+	std::vector<std::pair<GameObject*, SDL_Texture*>> vect{};
+	std::pair<GameObject*, SDL_Texture*> pair{};
 	pair.first = piece;
 	pair.second = piece->getGraphics()->getSdlTexture();
 	vect.push_back(pair);
 
-	while (run == true)
+	if (fish)
 	{
-		system("cls");
-		try
+		ServiceLocator::getGraphics().removeFromRenderMap(vect);
+
+		switch (_gm->_fishManager->getPromote())
 		{
-			std::cout << "Do you want to promote the pawn on " << piece->getSquare()->getName() << "?\nY/n\n";
-			input = _getch();
-			if (input != 'Y' && input != 'y' && input != 'n' && input != 'N')
+		case 'q':
+		case 'Q':
+			piece->changeType(Piece::Figure::QUEEN);
+			break;
+		case 'r':
+		case 'R':
+			piece->changeType(Piece::Figure::ROOK);
+			break;
+		case 'b':
+		case 'B':
+			piece->changeType(Piece::Figure::BISHOP);
+			break;
+		case 'n':
+		case 'N':
+			piece->changeType(Piece::Figure::KNIGHT);
+			break;
+		case 'p':
+		case 'P':
+			ServiceLocator::getGraphics().addToRenderMap(2, vect);
+			break;
+		}
+	}
+	else
+	{
+		while (run == true)
+		{
+			system("cls");
+			try
 			{
-				throw input;
-			}
-			else if (input == 'Y' || input == 'y')
-			{
-				ServiceLocator::getGraphics().removeFromRenderMap(vect);
-				try
+				std::cout << "Do you want to promote the pawn on " << piece->getSquare()->getName() << "?\nY/n\n";
+				input = _getch();
+				if (input != 'Y' && input != 'y' && input != 'n' && input != 'N')
 				{
-				// Select piece to turn into
-				std::cout << "Select which figure to promote to:\n1. Queen\n2. Rook\n3. Bishop\n4. Knight\n";
-				char choice = _getch();
-				
-					switch (choice)
+					throw input;
+				}
+				else if (input == 'Y' || input == 'y')
+				{
+					ServiceLocator::getGraphics().removeFromRenderMap(vect);
+					try
 					{
-					case '1':
-						piece->changeType(Piece::Figure::QUEEN);
-						run = false;
-						break;
-					case '2':
-						piece->changeType(Piece::Figure::ROOK);
-						run = false;
-						break;
-					case '3':
-						piece->changeType(Piece::Figure::BISHOP);
-						run = false;
-						break;
-					case '4':
-						piece->changeType(Piece::Figure::KNIGHT);
-						run = false;
-						break;
-					default:
-						throw choice;
+						// Select piece to turn into
+						std::cout << "Select which figure to promote to:\n1. Queen\n2. Rook\n3. Bishop\n4. Knight\n";
+						char choice = _getch();
+
+						switch (choice)
+						{
+						case '1':
+							piece->changeType(Piece::Figure::QUEEN);
+							run = false;
+							break;
+						case '2':
+							piece->changeType(Piece::Figure::ROOK);
+							run = false;
+							break;
+						case '3':
+							piece->changeType(Piece::Figure::BISHOP);
+							run = false;
+							break;
+						case '4':
+							piece->changeType(Piece::Figure::KNIGHT);
+							run = false;
+							break;
+						default:
+							throw choice;
+							continue;
+						}
+					}
+					catch (char e)
+					{
+						LOG(ERROR) << "Invalid input: " << e;
+						ServiceLocator::getGraphics().addToRenderMap(2, vect);
 						continue;
 					}
 				}
-				catch (char e)
+				else if (input == 'N' || input == 'n')
 				{
-					LOG(ERROR) << "Invalid input: " << e;
-					ServiceLocator::getGraphics().addToRenderMap(2, vect);
-					continue;
+					run = false;
+					break;
 				}
-				vect.clear();
-				pair.first = piece;
-				pair.second = piece->getGraphics()->getSdlTexture();
-				vect.push_back(pair);
-				ServiceLocator::getGraphics().addToRenderMap(2, vect);
 			}
-			else if (input == 'N' || input == 'n')
+			catch (char c)
 			{
-				run = false;
-				break;
+				LOG(ERROR) << "Invalid input: " << c;
+				continue;
 			}
-		}
-		catch (char c)
-		{
-			LOG(ERROR) << "Invalid input: " << c;
-			continue;
-		}
 
-		SDL_RaiseWindow(ServiceLocator::getGraphics().getWindow()->getWindow());
-		run = false;	
-		break;
+			SDL_RaiseWindow(ServiceLocator::getGraphics().getWindow()->getWindow());
+			run = false;
+			break;
+		}
 	}
+
+	vect.clear();
+	pair.first = piece;
+	pair.second = piece->getGraphics()->getSdlTexture();
+	vect.push_back(pair);
+	ServiceLocator::getGraphics().addToRenderMap(2, vect);
 
 	vect.clear();
 

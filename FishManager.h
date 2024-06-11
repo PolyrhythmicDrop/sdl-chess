@@ -22,6 +22,9 @@ private:
 	std::string _moveOrigin;
 	std::string _moveTarget;
 
+	// The piece Stockfish wants to promote a pawn to
+	char _promote;
+
 public:
 
 	FishManager(GameManager* gm);
@@ -41,6 +44,8 @@ public:
 	// Splits up the "best move" and adds the moves to the _moveOrigin and _moveTarget member variables
 	// Returns a pair of strings. First = origin square, second = target square.
 	std::pair<std::string, std::string> parseBestMove(std::string move);
+
+	const char getPromote();
 
 };
 

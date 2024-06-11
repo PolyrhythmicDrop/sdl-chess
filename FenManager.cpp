@@ -35,11 +35,11 @@ void FenManager::parseFenString(std::string fen)
 	int fullMove{};
 
 	__int64 posSize{};
-	int colorIndex{};
-	int castleSize{};
-	int passantSize{};
-	int halfSize{};
-	int fullSize{};
+	__int64 colorIndex{};
+	__int64 castleSize{};
+	__int64 passantSize{};
+	__int64 halfSize{};
+	__int64 fullSize{};
 
 	std::string::iterator fenItr{ fen.begin() };
 	std::string::iterator fenPrevItr{};

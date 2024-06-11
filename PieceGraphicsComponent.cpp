@@ -27,7 +27,7 @@ void PieceGraphicsComponent::loadTexture()
 void PieceGraphicsComponent::loadTexture(Piece* piece)
 {
 	this->_pieceTexture = _textureLoader->loadTextureFromImage(_imgPath);
-	Texture* selected = new Texture();
+	Texture* selected{new Texture()};
 	_selectedTexture = selected->loadTextureFromImage("images/selected.png");
 
 	int pieceW, pieceH;

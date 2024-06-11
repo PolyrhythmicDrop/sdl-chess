@@ -9,13 +9,13 @@ GraphicsService::GraphicsService(Window* window) :
 	// Asserts that there are no existing instances of the Graphics Service
 	assert(!_instantiated);
 	_instantiated = true;
-	LOG(INFO) << "Graphics Service initialized!";
+	LOG(TRACE) << "Graphics Service initialized!";
 }
 
 GraphicsService::~GraphicsService()
 {
 	_instantiated = false;
-	LOG(INFO) << "Graphics Service destructed";
+	LOG(TRACE) << "Graphics Service destructed";
 }
 
 Window* GraphicsService::getWindow()
@@ -75,12 +75,12 @@ void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject
 	{
 		// Add objects to the render map if they are not already in the render map
 		_renderMap[rendLayer].insert(_renderMap[rendLayer].begin(), pairs.begin(), pairs.end());
-		LOG(TRACE) << "Objects added to render map!";
+		LOG(DEBUG) << "Objects added to render map!";
 		sortRenderMap();
 	}
 	else
 	{
-		LOG(TRACE) << "Objects already in render map!";
+		LOG(DEBUG) << "Objects already in render map!";
 	}
 }
 
@@ -98,11 +98,11 @@ void GraphicsService::removeFromRenderMap(std::vector<std::pair<GameObject*, SDL
 			if (iVect != _renderMap[(Layer)layer].end())
 			{
 				_renderMap[(Layer)layer].erase(iVect);
-				LOG(TRACE) << "Object erased from render layer " << (Layer)layer << "!";
+				LOG(DEBUG) << "Object erased from render layer " << (Layer)layer << "!";
 			}
 		}
 	}
-	LOG(TRACE) << "No more objects to erase in render queue!";
+	LOG(DEBUG) << "No more objects to erase in render queue!";
 
 }
 
@@ -126,9 +126,9 @@ std::vector<std::pair<GameObject*, SDL_Texture*>> GraphicsService::findInRenderM
 			cnt = std::count(_renderMap[(Layer)layer].begin(), _renderMap[(Layer)layer].end(), target);
 			if (cnt > 0)
 			{
-				LOG(TRACE) << "Target found in render layer " << (Layer)layer << "!";
+				LOG(DEBUG) << "Target found in render layer " << (Layer)layer << "!";
 				foundVect.push_back(target);
-				LOG(TRACE) << "Target added to found objects vector!";				
+				LOG(DEBUG) << "Target added to found objects vector!";				
 			}
 		}
 	}

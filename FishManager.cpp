@@ -4,7 +4,9 @@
 
 FishManager::FishManager(GameManager* gm) :
 	_gm(gm),
-	_stockfish(std::make_unique<Stockfish>())
+	_stockfish(std::make_unique<Stockfish>()),
+	_lastPosition(""),
+	_promote(NULL)
 {}
 
 void FishManager::newStockfishGame(std::string fen)
@@ -15,8 +17,11 @@ void FishManager::newStockfishGame(std::string fen)
 void FishManager::setUpStockfishPosition()
 {
 	// Set up FEN move string
-	std::string lastPosition = *(_gm->_fenManager->getFenHistory()->rbegin() + 1);
-	setLastMovePosition(_gm->_fenManager->createFishFen(lastPosition, true));
+	if (_lastPosition != "")
+	{
+		std::string lastPosition = *(_gm->_fenManager->getFenHistory()->rbegin() + 1);
+		setLastMovePosition(_gm->_fenManager->createFishFen(lastPosition, true));
+	}
 	setCurrentPosition(_gm->_fenManager->createFishFen(*(_gm->_fenManager->getFenHistory()->rbegin()), false));
 }
 
@@ -66,9 +71,20 @@ std::string FishManager::calculateFishMove()
 
 std::pair<std::string, std::string> FishManager::parseBestMove(std::string move)
 {
-	std::string fullMove = move.substr(9, 4);
+	std::string::iterator moveItr = move.begin();
+	std::advance(moveItr, 9);
+	auto bestItr = std::find(moveItr, move.end(), ' ');
+	__int64 distance = std::distance(moveItr, bestItr);
+
+	std::string fullMove = move.substr(9, distance);
 	std::string sq1 = fullMove.substr(0, 2);
 	std::string sq2 = fullMove.substr(2, 2);
+
+	if (fullMove.size() > 4)
+	{
+		char promo = (*fullMove.rbegin());
+		_promote = promo;
+	}
 
 	_moveOrigin = sq1;
 	_moveTarget = sq2;
@@ -76,4 +92,9 @@ std::pair<std::string, std::string> FishManager::parseBestMove(std::string move)
 	std::pair<std::string, std::string> bestMove = { sq1, sq2 };
 
 	return bestMove;
+}
+
+const char FishManager::getPromote()
+{
+	return _promote;
 }

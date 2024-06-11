@@ -178,7 +178,7 @@ void GameManager::setUpGame()
 	setUpPlayers();
 	setUpBoard();
 	// Use the default starting position for now, supply a custom FEN as argument later
-	setUpScenario();
+	setUpScenario("r1bqkbnr/p1p1pppp/n7/8/1P1P4/2RP4/p2N1PPP/2B1KBNR b Kkq - 1 9");
 	setUpPieces();
 	setUpStockfish();
 	return;
@@ -772,21 +772,20 @@ void GameManager::onPieceMove(Piece* piece)
 	}
 
 	// Pawn promotion
-	if (piece->isAlive() && piece->getSquare()->getBoardIndex().second == piece->getSquare()->getBoardIndex().second)
+	if ((piece->isAlive() && piece->getSquare()->getBoardIndex().second == piece->getSquare()->getBoardIndex().second) &&
+		((piece->getFenName() == 'P' && piece->getSquare()->getBoardIndex().first == 7) ||
+			(piece->getFenName() == 'p' && piece->getSquare()->getBoardIndex().first == 0)))
 	{
-		char promotion;
-		if (piece->getFenName() == 'P' && piece->getSquare()->getBoardIndex().first == 7)
+		if (_currentPlayer->getPlayerType() == Player::HUMAN)
 		{
-			_actionManager->promotePawn(piece);
-			promotion = piece->getFenName();
-			_fenManager->addPromoteToFenMove(promotion);
+			_actionManager->promotePawn(piece, false);
 		}
-		else if (piece->getFenName() == 'p' && piece->getSquare()->getBoardIndex().first == 0)
+		else
 		{
-			_actionManager->promotePawn(piece);
-			promotion = piece->getFenName();
-			_fenManager->addPromoteToFenMove(promotion);
+			_actionManager->promotePawn(piece, true);
 		}
+		char promotion{ piece->getFenName() };
+		_fenManager->addPromoteToFenMove(promotion);
 	}
 
 	_actionManager->clearUndoBuffer();
