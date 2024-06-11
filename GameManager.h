@@ -140,6 +140,7 @@ public:
 
 	inline Rules* getRules() { return _rules.get(); };
 	inline Player* getCurrentPlayer() { return _currentPlayer; };
+	inline Player* getPreviousPlayer() { return _previousPlayer; };
 	inline VictoryCondition getVictoryCondition() { return _victory; };
 	inline Player* getVictor() { return _victor; };
 
@@ -147,9 +148,9 @@ public:
 	void setTurn(bool color);
 	inline int getTurn() const { return _currentTurn; };
 
-	// Checks for check on the current player's king.
 	bool checkForCheck();
 	bool checkForCheckmate();
+	bool askForDraw();
 
 	// Check if castling is available
 	void checkForCastle(Piece* piece);

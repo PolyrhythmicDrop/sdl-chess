@@ -6,7 +6,7 @@
 
 ActionManager::ActionManager(GameManager* gm) :
 	_gm(gm),
-	_undoBuffer({new UndoValues(), new UndoValues()})
+	_undoBuffer({nullptr, nullptr})
 {}
 
 void ActionManager::capturePiece(Piece* attacker, Piece* defender, bool passant, std::optional<Square*> passantSq)
@@ -77,7 +77,7 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 	// If there's nothing in the undo buffer (aka if this is a pure move with no capture), add moving piece to the undo buffer.
 	if (!_undoBuffer.attacker && !_undoBuffer.defender)
 	{
-		addToUndoBuffer(piece);
+		addToUndoBuffer(piece, nullptr);
 	}
 
 	// Set the source square before you move the piece so you can pass it to FEN
@@ -389,7 +389,7 @@ void ActionManager::postMove(Piece* piece, Square* srcSq, Square* tarSq)
 	_gm->_fenManager->setFenMove(srcSq->getName(), tarSq->getName());
 
 	// If this move involved a capture (which is knowable from looking at the Undo Buffer), notify that we should reset the half move counter.
-	if (_undoBuffer.defender)
+	if (_undoBuffer.defender != nullptr)
 	{
 		_gm->notify("halfMoveReset");
 	}
@@ -428,7 +428,7 @@ ActionManager::UndoBuffer ActionManager::getUndoBuffer()
 
 void ActionManager::clearUndoBuffer()
 {
-	_undoBuffer = { nullptr, nullptr};
+	_undoBuffer = { nullptr, nullptr };
 }
 
 void ActionManager::undoAction(Piece* attacker, Piece* defender)

@@ -13,6 +13,10 @@ void EndGameState::enter(GameStateMachine* gsm)
 	{
 		LOG(INFO) << "Checkmate! " << gsm->getGameManager()->getVictor()->getName() << " is the victor!!";
 	}
+	else if (gsm->getGameManager()->getVictoryCondition() == 1)
+	{
+		std::cout << "It's a draw!\nGood game, " << gsm->getGameManager()->getCurrentPlayer()->getName() << " and " << gsm->getGameManager()->getPreviousPlayer()->getName() << "!\n";
+	}
 }
 
 void EndGameState::changeState(GameStateMachine* gsm, std::string eventString)

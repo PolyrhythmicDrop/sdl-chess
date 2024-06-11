@@ -7,6 +7,7 @@
 #include "PieceIterator.h"
 #include "TurnBlackGameState.h"
 #include "TurnWhiteGameState.h"
+#include <conio.h>
 #include <thread>
 
 GameManager::GameManager(GameScene* gameScene) :
@@ -179,7 +180,7 @@ void GameManager::setUpGame()
 	setUpPlayers();
 	setUpBoard();
 	// Use the default starting position for now, supply a custom FEN as argument later
-	setUpScenario("r3kbnr/p1p1pppp/n7/N7/1PPq4/8/4KPPP/2q2BNR b kq - 0 16");
+	setUpScenario("r3kbnr/p1p1pppp/n7/N7/1PPq4/8/4KPPP/2q2BNR w kq - 49 66");
 	setUpPieces();
 	setUpStockfish();
 	return;
@@ -652,6 +653,41 @@ bool GameManager::checkForCheckmate()
 	}
 }
 
+bool GameManager::askForDraw()
+{
+	bool draw{ false };
+	bool run{ true };
+
+	while (run)
+	{
+		system("cls");
+		std::cout << "You have reached " << _fenManager->_fenHalfMove << " half moves.\nWould you like to end this game in a draw?\nEnter 'y' or 'n'\n";
+		char choice = _getch();
+		switch (choice)
+		{
+		case 'y':
+		case 'Y':
+			std::cout << "Draw selected!\n";
+			draw = true;
+			run = false;
+			break;
+		case 'n':
+		case 'N':
+			std::cout << "The battle resumes!\n";
+			draw = false;
+			run = false;
+			break;
+		default:
+			std::cout << "Invalid selection! Try again.\n";
+			Sleep(500);
+			run = true;
+			break;
+		}
+	}
+
+	return draw;
+}
+
 void GameManager::checkForCastle(Piece* king)
 {
 	bool rookLeftFirstMove = false;
@@ -861,6 +897,16 @@ void GameManager::onTurnStart()
 			{
 				onCheckmate();
 			}
+		}
+	}
+
+	// Check for 50-move draw rule
+	if (_fenManager->_fenHalfMove >= 50)
+	{
+		if (askForDraw())
+		{
+			_victory = GameManager::DRAW;
+			_gsm->changeState(this, "endGame");
 		}
 	}
 
