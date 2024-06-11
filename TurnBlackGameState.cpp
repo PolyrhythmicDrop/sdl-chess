@@ -12,14 +12,22 @@ void TurnBlackGameState::enter(GameStateMachine* gsm)
 	// Notify the game manager that the turn has changed
 	gsm->getGameManager()->notify("startTurn");
 
-	if (gsm->getGameManager()->getCurrentPlayer()->getPlayerType() == Player::HUMAN)
+	// Only continue with the turn if the game is not over.
+	if (gsm->getGameManager()->getVictoryCondition() == 2)
 	{
-		subscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
+		if (gsm->getGameManager()->getCurrentPlayer()->getPlayerType() == Player::HUMAN)
+		{
+			subscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
+		}
+		else
+		{
+			// Perform an AI turn
+			gsm->getGameManager()->onStockfishTurn();
+		}
 	}
 	else
 	{
-		// Perform an AI turn
-		gsm->getGameManager()->onStockfishTurn();
+		return;
 	}
 }
 

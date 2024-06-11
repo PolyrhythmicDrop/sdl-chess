@@ -140,7 +140,7 @@ public:
 
 	inline Rules* getRules() { return _rules.get(); };
 	inline Player* getCurrentPlayer() { return _currentPlayer; };
-	inline VictoryCondition* getVictoryCondition() { return &_victory; };
+	inline VictoryCondition getVictoryCondition() { return _victory; };
 	inline Player* getVictor() { return _victor; };
 
 	// Sets what turn it is. True/1 = white, False/0 = black.

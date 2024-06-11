@@ -3,6 +3,7 @@
 #include "GameScene.h"
 #include "IdleGameState.h"
 #include "InitGameState.h"
+#include "EndGameState.h"
 #include "PieceIterator.h"
 #include "TurnBlackGameState.h"
 #include "TurnWhiteGameState.h"
@@ -178,7 +179,7 @@ void GameManager::setUpGame()
 	setUpPlayers();
 	setUpBoard();
 	// Use the default starting position for now, supply a custom FEN as argument later
-	setUpScenario("r1bqkbnr/p1p1pppp/n7/8/1P1P4/2RP4/p2N1PPP/2B1KBNR b Kkq - 1 9");
+	setUpScenario("r3kbnr/p1p1pppp/n7/N7/1PPq4/8/4KPPP/2q2BNR b kq - 0 16");
 	setUpPieces();
 	setUpStockfish();
 	return;
@@ -847,7 +848,7 @@ void GameManager::onTurnStart()
 	// Check for check. Set player check to false if player not in check. 
 	// If this returns true, the player's check flag has already been set to true by the Highlight Manager,
 	// so you do not need to set it here.
-	if (_previousState != &InitGameState::getInstance())
+	if (_previousState != &InitGameState::getInstance() || _previousState != &EndGameState::getInstance())
 	{
 		if (!checkForCheck())
 		{
@@ -918,30 +919,33 @@ void GameManager::executeFishMove()
 
 	// Calculate the best move and get the string pairs for that move
 	std::string move{ _fishManager->calculateFishMove() };
-	if (move == "bestmove (none)")
+	if (move == "bestmove (none)\r")
 	{
 		// checkmate
-
+		onCheckmate();
 		return;
-	}
-
-	std::pair<std::string, std::string> fishMove = _fishManager->parseBestMove(move);
-
-	// Simulate fish click on piece
-	Square& originSq = *_gameScene->getBoard()->getSquareByName(fishMove.first);
-	_selectionManager->handleClickOnPiece(originSq.getOccupant());
-
-	Sleep(500);
-
-	// Simulate fish clicking on a square or opposing piece
-	Square& targetSq = *_gameScene->getBoard()->getSquareByName(fishMove.second);
-	if (targetSq.getOccupied())
-	{
-		_selectionManager->handleClickOnPiece(targetSq.getOccupant());
 	}
 	else
 	{
-		_selectionManager->handleClickOnEmptySquare(&targetSq);
+		std::pair<std::string, std::string> fishMove = _fishManager->parseBestMove(move);
+
+		// Simulate fish click on piece
+		Square& originSq = *_gameScene->getBoard()->getSquareByName(fishMove.first);
+		_selectionManager->handleClickOnPiece(originSq.getOccupant());
+
+		Sleep(500);
+
+		// Simulate fish clicking on a square or opposing piece
+		Square& targetSq = *_gameScene->getBoard()->getSquareByName(fishMove.second);
+		if (targetSq.getOccupied())
+		{
+			_selectionManager->handleClickOnPiece(targetSq.getOccupant());
+		}
+		else
+		{
+			_selectionManager->handleClickOnEmptySquare(&targetSq);
+		}
+		return;
 	}
 
 }

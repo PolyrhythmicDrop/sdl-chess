@@ -7,9 +7,11 @@ void EndGameState::enter(GameStateMachine* gsm)
 {
 	LOG(TRACE) << "End Game State entered!";
 
+	LOG(DEBUG) << "Here's where the end state is entered";
+
 	if (gsm->getGameManager()->getVictoryCondition() == 0)
 	{
-		LOG(INFO) << "Checkmate! " << gsm->getGameManager()->getVictor() << " is the victor!!";
+		LOG(INFO) << "Checkmate! " << gsm->getGameManager()->getVictor()->getName() << " is the victor!!";
 	}
 }
 
