@@ -12,8 +12,9 @@ GameManager::GameManager(GameScene* gameScene) :
 	_gameScene(gameScene),
 	_rules(std::make_unique<Rules>()),
 	_gsm(std::make_unique<GameStateMachine>(this)),
-	_currentTurn(NULL),
-	_currentPlayer(NULL),
+	_currentTurn(0),
+	_currentPlayer(nullptr),
+	_previousPlayer(nullptr),
 	_aiMode(false),
 	_selectedPiece(nullptr),
 	_highlightManager(std::make_unique<HighlightManager>(this)),
@@ -131,8 +132,8 @@ void GameManager::fenToBoard(std::string position)
 std::string GameManager::boardToFen()
 {
 	const auto& boardGrid = _gameScene->getBoard()->getBoardGrid();
-	std::string fenPos = "";
-	int emptySq = 0;
+	std::string fenPos{};
+	int emptySq{ 0 };
 
 	for (int row = 7; row >= 0; --row)
 	{		
@@ -177,7 +178,7 @@ void GameManager::setUpGame()
 	setUpPlayers();
 	setUpBoard();
 	// Use the default starting position for now, supply a custom FEN as argument later
-	setUpScenario("4k2r/1b2p3/rqn2n1b/ppppNppp/PPPP2PP/RQN4B/1B2PP2/4K2R w - - 4 18");
+	setUpScenario();
 	setUpPieces();
 	setUpStockfish();
 	return;

@@ -206,7 +206,7 @@ void ActionManager::promotePawn(Piece* piece)
 	pair.second = piece->getGraphics()->getSdlTexture();
 	vect.push_back(pair);
 
-	while (run = true)
+	while (run == true)
 	{
 		system("cls");
 		try

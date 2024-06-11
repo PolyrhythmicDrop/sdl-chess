@@ -34,7 +34,7 @@ void FenManager::parseFenString(std::string fen)
 	int halfMove{};
 	int fullMove{};
 
-	int posSize{};
+	__int64 posSize{};
 	int colorIndex{};
 	int castleSize{};
 	int passantSize{};
