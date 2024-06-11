@@ -180,7 +180,7 @@ void GameManager::setUpGame()
 	setUpPlayers();
 	setUpBoard();
 	// Use the default starting position for now, supply a custom FEN as argument later
-	setUpScenario("r3kbnr/p1p1pppp/n7/N7/1PPq4/8/4KPPP/2q2BNR w kq - 49 66");
+	setUpScenario();
 	setUpPieces();
 	setUpStockfish();
 	return;
