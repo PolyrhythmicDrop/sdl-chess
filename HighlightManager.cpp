@@ -697,7 +697,7 @@ void HighlightManager::highlightCastle(Piece* king, Square* rookLSq, Square* roo
 		while (castle)
 		{
 			// Black castle checking on the left.
-			if (_gm->_currentTurn == 0)
+			if (_gm->_currentTurn == 0 && _gm->_fenManager->_blackQueenside == "q")
 			{
 				// Gap is the rook column - the king column. Since we're checking left, the gap will be negative until it iterates up to 0.
 				for (int gap = rookLSq->getBoardIndex().second - kingIndex.second + 1; gap < 0; ++gap)
@@ -743,7 +743,7 @@ void HighlightManager::highlightCastle(Piece* king, Square* rookLSq, Square* roo
 				break;
 			}
 			// White castle checking on the left.
-			if (_gm->_currentTurn == 1)
+			if (_gm->_currentTurn == 1 && _gm->_fenManager->_whiteQueenside == "Q")
 			{
 				// Gap is the rook column - the king column. Since we're checking left, the gap will be negative until it iterates up to 0.
 				for (int gap = rookLSq->getBoardIndex().second - kingIndex.second + 1; gap < 0; ++gap)
@@ -795,13 +795,13 @@ void HighlightManager::highlightCastle(Piece* king, Square* rookLSq, Square* roo
 
 	castle = true;
 
-	// Highlight castling toward the right rook next.
+	// Highlight castling toward the kingside rook next.
 	if (rookRSq != nullptr)
 	{
 		while (castle)
 		{
 			// Black castle checking on the right.
-			if (_gm->_currentTurn == 0)
+			if (_gm->_currentTurn == 0 && _gm->_fenManager->_blackKingside == "k")
 			{
 				// Gap is the rook column - the king column. Since we're checking right, the gap will be positive until it iterates down to 0.
 				for (int gap = rookRSq->getBoardIndex().second - kingIndex.second - 1; gap > 0; --gap)
@@ -847,7 +847,7 @@ void HighlightManager::highlightCastle(Piece* king, Square* rookLSq, Square* roo
 				break;
 			}
 			// White castle checking on the right.
-			if (_gm->_currentTurn == 1)
+			if (_gm->_currentTurn == 1 && _gm->_fenManager->_whiteKingside == "K")
 			{
 				// Gap is the rook column - the king column. Since we're checking right, the gap will be positive until it iterates down to 0.
 				for (int gap = rookRSq->getBoardIndex().second - kingIndex.second - 1; gap > 0; --gap)

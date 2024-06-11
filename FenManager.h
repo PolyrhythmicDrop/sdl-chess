@@ -9,6 +9,7 @@ class GameManager;
 class FenManager
 {
 	friend class GameManager;
+	friend class HighlightManager;
 
 private:
 
@@ -38,16 +39,16 @@ private:
 	std::string _fenCastle;
 
 	std::string _fenWhiteCastle;
-	std::string _whiteKingside = "K";
-	std::string _whiteQueenside = "Q";
+	std::string _whiteKingside;
+	std::string _whiteQueenside;
 
 	std::string _fenBlackCastle;
-	std::string _blackKingside = "k";
-	std::string _blackQueenside = "q";
+	std::string _blackKingside;
+	std::string _blackQueenside;
 
 	// 4. Passant modifier for a FEN string. 
 	// Square behind the pawn to be captured en passant, e.x. 'e3'. '-' = no passant available.
-	std::string _fenPassant = "-";
+	std::string _fenPassant;
 
 	// 5. Half move clock modifier for a FEN string. 
 	// How many moves both players have made since last pawn advance or piece capture. 

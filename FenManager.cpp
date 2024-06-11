@@ -10,11 +10,7 @@ FenManager::FenManager(GameManager* gm) :
 	_fenColor('w'),
 	_fenHalfMove(0),
 	_fenFullMove(0)
-{
-	_fenWhiteCastle = _whiteKingside + _whiteQueenside;
-	_fenBlackCastle = _blackKingside + _blackQueenside;
-	updateFenCastle();
-};
+{};
 
 std::string FenManager::createFenString()
 {
@@ -75,6 +71,29 @@ void FenManager::parseFenString(std::string fen)
 		castleSize = std::distance(fenPrevItr, fenItr);
 		castle = fen.substr(std::distance(fen.begin(), fenPrevItr), castleSize);
 		_fenCastle = castle;
+
+		// Get the individual components of the castle string
+		for (char c : castle)
+		{
+			switch (c)
+			{
+			case 'k':
+				_blackKingside.push_back(c);
+				break;
+			case 'K':
+				_whiteKingside.push_back(c);
+				break;
+			case 'q':
+				_blackQueenside.push_back(c);
+				break;
+			case 'Q':
+				_whiteQueenside.push_back(c);
+			}
+		}
+		_fenWhiteCastle = _whiteKingside + _whiteQueenside;
+		_fenBlackCastle = _blackKingside + _blackQueenside;
+		updateFenCastle();
+
 		++fenItr;
 		fenPrevItr = fenItr;
 	}
@@ -108,7 +127,8 @@ void FenManager::parseFenString(std::string fen)
 	fullMove = std::stoi(fen.substr(std::distance(fen.begin(), fenPrevItr), fullSize));
 	_fenFullMove = fullMove;
 	fenPrevItr = fenItr;
-	
+
+	createFenString();
 	
 }
 

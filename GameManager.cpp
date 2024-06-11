@@ -177,7 +177,7 @@ void GameManager::setUpGame()
 	setUpPlayers();
 	setUpBoard();
 	// Use the default starting position for now, supply a custom FEN as argument later
-	setUpScenario("rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2");
+	setUpScenario("4k2r/1b2p3/rqn2n1b/ppppNppp/PPPP2PP/RQN4B/1B2PP2/4K2R w - - 4 18");
 	setUpPieces();
 	setUpStockfish();
 	return;
@@ -280,7 +280,6 @@ std::string GameManager::setUpScenario(std::string fen)
 {
 	// Put in error checking later
 	_fenManager->parseFenString(fen);
-	_fenManager->createFenString();
 	_fenManager->_fenColor == 'w' ? setTurn(1) : setTurn(0);
 	return _fenManager->_fenString;
 }
@@ -340,263 +339,244 @@ void GameManager::setUpPieces()
 	std::string::const_iterator posItr = fen.begin();
 
 	// Set position loop
-
-		for (int row = 7; row >= 0; --row)
+	for (int row = 7; row >= 0; --row)
+	{
+		for (int col = 0; col <= boardGrid->at(row).size(); ++col)
 		{
-			for (int col = 0; col <= boardGrid->at(row).size(); ++col)
+			if (posItr != fen.end())
 			{
-				if (posItr != fen.end())
+				switch (*posItr)
 				{
-					switch (*posItr)
+				case (char)47:
+					col = col + 8;
+					break;
+				case 'p':
+					if (blkPawnItr != blkPawnVect.end())
 					{
-					case (char)47:
-						col = col + 8;
-						break;
-					case 'p':
-						if (blkPawnItr != blkPawnVect.end())
-						{
-							(*blkPawnItr)->setSquare(&boardGrid->at(row).at(col));
-							(*blkPawnItr)->getSquare()->getBoardIndex().first != 6 ? 
-								(*blkPawnItr)->setFirstMove(false) : (*blkPawnItr)->setFirstMove(true);
-							++blkPawnItr;
-						}
-						else
-						{
-							LOG(ERROR) << "No more pieces of type 'p' in vector!";
-						}
-						break;
-					case 'P':
-						if (whtPawnItr != whtPawnVect.end())
-						{
-							(*whtPawnItr)->setSquare(&boardGrid->at(row).at(col));
-							(*whtPawnItr)->getSquare()->getBoardIndex().first != 1 ? 
-								(*whtPawnItr)->setFirstMove(false) : (*whtPawnItr)->setFirstMove(true);
-							++whtPawnItr;
-						}
-						else
-						{
-							LOG(ERROR) << "No more pieces of type 'P' in vector!";
-						}
-						break;
-					case 'r':
-						if (blkRookItr != blkRookVect.end())
-						{
-							(*blkRookItr)->setSquare(&boardGrid->at(row).at(col));
-
-							((*blkRookItr)->getSquare()->getBoardIndex().first == 7) && ((*blkRookItr)->getSquare()->getBoardIndex().second == 0) ?
-								(*blkRookItr)->setFirstMove(true) : (*blkRookItr)->setFirstMove(false);
-							((*blkRookItr)->getSquare()->getBoardIndex().first == 7) && ((*blkRookItr)->getSquare()->getBoardIndex().second == 7) ?
-								(*blkRookItr)->setFirstMove(true) : (*blkRookItr)->setFirstMove(false);
-
-							++blkRookItr;
-						}
-						else
-						{
-							LOG(ERROR) << "No more pieces of type 'r' in vector!";
-						}
-						break;
-					case 'R':
-						if (whtRookItr != whtRookVect.end())
-						{
-							(*whtRookItr)->setSquare(&boardGrid->at(row).at(col));
-
-							((*whtRookItr)->getSquare()->getBoardIndex().first == 0) && ((*whtRookItr)->getSquare()->getBoardIndex().second == 0) ?
-								(*whtRookItr)->setFirstMove(true) : (*whtRookItr)->setFirstMove(false);
-							((*whtRookItr)->getSquare()->getBoardIndex().first == 0) && ((*whtRookItr)->getSquare()->getBoardIndex().second == 7) ?
-								(*whtRookItr)->setFirstMove(true) : (*whtRookItr)->setFirstMove(false);
-
-							++whtRookItr;
-						}
-						else
-						{
-							LOG(ERROR) << "No more pieces of type 'R' in vector!";
-						}
-						break;
-					case 'n':
-						if (blkKnightItr != blkKnightVect.end())
-						{
-							(*blkKnightItr)->setSquare(&boardGrid->at(row).at(col));
-							++blkKnightItr;
-						}
-						else
-						{
-							LOG(ERROR) << "No more pieces of type 'n' in vector!";
-						}
-						break;
-					case 'N':
-						if (whtKnightItr != whtKnightVect.end())
-						{
-							(*whtKnightItr)->setSquare(&boardGrid->at(row).at(col));
-							++whtKnightItr;
-						}
-						else
-						{
-							LOG(ERROR) << "No more pieces of type 'N' in vector!";
-						}
-						break;
-					case 'b':
-						if (blkBishopItr != blkBishopVect.end())
-						{
-							(*blkBishopItr)->setSquare(&boardGrid->at(row).at(col));
-							++blkBishopItr;
-						}
-						else
-						{
-							LOG(ERROR) << "No more pieces of type 'b' in vector!";
-						}
-						break;
-					case 'B':
-						if (whtBishopItr != whtBishopVect.end())
-						{
-							(*whtBishopItr)->setSquare(&boardGrid->at(row).at(col));
-							++whtBishopItr;
-						}
-						else
-						{
-							LOG(ERROR) << "No more pieces of type 'B' in vector!";
-						}
-						break;
-					case 'q':
-						if (blkQueenItr != blkQueenVect.end())
-						{
-							(*blkQueenItr)->setSquare(&boardGrid->at(row).at(col));
-							++blkQueenItr;
-						}
-						else
-						{
-							LOG(ERROR) << "No more pieces of type 'q' in vector!";
-						}
-						break;
-					case 'Q':
-						if (whtQueenItr != whtQueenVect.end())
-						{
-							(*whtQueenItr)->setSquare(&boardGrid->at(row).at(col));
-							++whtQueenItr;
-						}
-						else
-						{
-							LOG(ERROR) << "No more pieces of type 'Q' in vector!";
-						}
-						break;
-					case 'k':
-						if (blkKingItr != blkKingVect.end())
-						{
-							(*blkKingItr)->setSquare(&boardGrid->at(row).at(col));
-
-							((*blkKingItr)->getSquare()->getBoardIndex().first == 7) && ((*blkKingItr)->getSquare()->getBoardIndex().second == 4) ?
-								(*blkKingItr)->setFirstMove(true) : (*blkKingItr)->setFirstMove(false);
-
-							++blkKingItr;
-						}
-						else
-						{
-							LOG(ERROR) << "No more pieces of type 'k' in vector!";
-						}
-						break;
-					case 'K':
-						if (whtKingItr != whtKingVect.end())
-						{
-							(*whtKingItr)->setSquare(&boardGrid->at(row).at(col));
-
-							((*whtKingItr)->getSquare()->getBoardIndex().first == 0) && ((*whtKingItr)->getSquare()->getBoardIndex().second == 4) ?
-								(*whtKingItr)->setFirstMove(true) : (*whtKingItr)->setFirstMove(false);
-
-							++whtKingItr;
-						}
-						else
-						{
-							LOG(ERROR) << "No more pieces of type 'K' in vector!";
-						}
-						break;
-					case '1':
-						if (col <= boardGrid->at(row).size())
-						{
-							col;
-						}
-						else
-						{
-							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
-						}
-						break;
-					case '2':
-						if (col + 1 <= boardGrid->at(row).size())
-						{
-							col = col + 1;
-						}
-						else
-						{
-							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
-						}
-						break;
-					case '3':
-						if (col + 2 <= boardGrid->at(row).size())
-						{
-							col = col + 2;
-						}
-						else
-						{
-							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
-						}
-						break;
-					case '4':
-						if (col + 3 <= boardGrid->at(row).size())
-						{
-							col = col + 3;
-						}
-						else
-						{
-							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
-						}
-						break;
-					case '5':
-						if (col + 4 <= boardGrid->at(row).size())
-						{
-							col = col + 4;
-						}
-						else
-						{
-							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
-						}
-						break;
-					case '6':
-						if (col + 5 <= boardGrid->at(row).size())
-						{
-							col = col + 5;
-						}
-						else
-						{
-							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
-						}
-						break;
-					case '7':
-						if (col + 6 <= boardGrid->at(row).size())
-						{
-							col = col + 6;
-						}
-						else
-						{
-							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
-						}
-						break;
-					case '8':
-						if (col + 7 <= boardGrid->at(row).size())
-						{
-							col = col + 7;
-						}
-						else
-						{
-							LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
-						}
-						break;
+						(*blkPawnItr)->setSquare(&boardGrid->at(row).at(col));
+						(*blkPawnItr)->getSquare()->getBoardIndex().first != 6 ? 
+							(*blkPawnItr)->setFirstMove(false) : (*blkPawnItr)->setFirstMove(true);
+						++blkPawnItr;
 					}
-					++posItr;
-				}
-				else
-				{
+					else
+					{
+						LOG(ERROR) << "No more pieces of type 'p' in vector!";
+					}
+					break;
+				case 'P':
+					if (whtPawnItr != whtPawnVect.end())
+					{
+						(*whtPawnItr)->setSquare(&boardGrid->at(row).at(col));
+						(*whtPawnItr)->getSquare()->getBoardIndex().first != 1 ? 
+							(*whtPawnItr)->setFirstMove(false) : (*whtPawnItr)->setFirstMove(true);
+						++whtPawnItr;
+					}
+					else
+					{
+						LOG(ERROR) << "No more pieces of type 'P' in vector!";
+					}
+					break;
+				case 'r':
+					if (blkRookItr != blkRookVect.end())
+					{
+						(*blkRookItr)->setSquare(&boardGrid->at(row).at(col));
+						++blkRookItr;
+					}
+					else
+					{
+						LOG(ERROR) << "No more pieces of type 'r' in vector!";
+					}
+					break;
+				case 'R':
+					if (whtRookItr != whtRookVect.end())
+					{
+						(*whtRookItr)->setSquare(&boardGrid->at(row).at(col));
+						++whtRookItr;
+					}
+					else
+					{
+						LOG(ERROR) << "No more pieces of type 'R' in vector!";
+					}
+					break;
+				case 'n':
+					if (blkKnightItr != blkKnightVect.end())
+					{
+						(*blkKnightItr)->setSquare(&boardGrid->at(row).at(col));
+						++blkKnightItr;
+					}
+					else
+					{
+						LOG(ERROR) << "No more pieces of type 'n' in vector!";
+					}
+					break;
+				case 'N':
+					if (whtKnightItr != whtKnightVect.end())
+					{
+						(*whtKnightItr)->setSquare(&boardGrid->at(row).at(col));
+						++whtKnightItr;
+					}
+					else
+					{
+						LOG(ERROR) << "No more pieces of type 'N' in vector!";
+					}
+					break;
+				case 'b':
+					if (blkBishopItr != blkBishopVect.end())
+					{
+						(*blkBishopItr)->setSquare(&boardGrid->at(row).at(col));
+						++blkBishopItr;
+					}
+					else
+					{
+						LOG(ERROR) << "No more pieces of type 'b' in vector!";
+					}
+					break;
+				case 'B':
+					if (whtBishopItr != whtBishopVect.end())
+					{
+						(*whtBishopItr)->setSquare(&boardGrid->at(row).at(col));
+						++whtBishopItr;
+					}
+					else
+					{
+						LOG(ERROR) << "No more pieces of type 'B' in vector!";
+					}
+					break;
+				case 'q':
+					if (blkQueenItr != blkQueenVect.end())
+					{
+						(*blkQueenItr)->setSquare(&boardGrid->at(row).at(col));
+						++blkQueenItr;
+					}
+					else
+					{
+						LOG(ERROR) << "No more pieces of type 'q' in vector!";
+					}
+					break;
+				case 'Q':
+					if (whtQueenItr != whtQueenVect.end())
+					{
+						(*whtQueenItr)->setSquare(&boardGrid->at(row).at(col));
+						++whtQueenItr;
+					}
+					else
+					{
+						LOG(ERROR) << "No more pieces of type 'Q' in vector!";
+					}
+					break;
+				case 'k':
+					if (blkKingItr != blkKingVect.end())
+					{
+						(*blkKingItr)->setSquare(&boardGrid->at(row).at(col));
+
+						++blkKingItr;
+					}
+					else
+					{
+						LOG(ERROR) << "No more pieces of type 'k' in vector!";
+					}
+					break;
+				case 'K':
+					if (whtKingItr != whtKingVect.end())
+					{
+						(*whtKingItr)->setSquare(&boardGrid->at(row).at(col));
+						++whtKingItr;
+					}
+					else
+					{
+						LOG(ERROR) << "No more pieces of type 'K' in vector!";
+					}
+					break;
+				case '1':
+					if (col <= boardGrid->at(row).size())
+					{
+						col;
+					}
+					else
+					{
+						LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+					}
+					break;
+				case '2':
+					if (col + 1 <= boardGrid->at(row).size())
+					{
+						col = col + 1;
+					}
+					else
+					{
+						LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+					}
+					break;
+				case '3':
+					if (col + 2 <= boardGrid->at(row).size())
+					{
+						col = col + 2;
+					}
+					else
+					{
+						LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+					}
+					break;
+				case '4':
+					if (col + 3 <= boardGrid->at(row).size())
+					{
+						col = col + 3;
+					}
+					else
+					{
+						LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+					}
+					break;
+				case '5':
+					if (col + 4 <= boardGrid->at(row).size())
+					{
+						col = col + 4;
+					}
+					else
+					{
+						LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+					}
+					break;
+				case '6':
+					if (col + 5 <= boardGrid->at(row).size())
+					{
+						col = col + 5;
+					}
+					else
+					{
+						LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+					}
+					break;
+				case '7':
+					if (col + 6 <= boardGrid->at(row).size())
+					{
+						col = col + 6;
+					}
+					else
+					{
+						LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+					}
+					break;
+				case '8':
+					if (col + 7 <= boardGrid->at(row).size())
+					{
+						col = col + 7;
+					}
+					else
+					{
+						LOG(ERROR) << "Empty space exceeds size of board! Check your FEN.";
+					}
 					break;
 				}
+				++posItr;
+			}
+			else
+			{
+				break;
 			}
 		}
+	}
+
 
 	// Add the pieces to the render queue
 	std::vector<std::pair<GameObject*, SDL_Texture*>> rendVect;
@@ -698,12 +678,12 @@ void GameManager::checkForCastle(Piece* king)
 			// Get living rooks of this turn and check whether or not it is their first move.
 			for (Piece* p : _gameScene->getPieceContainer()->getPiecesByFen(rook))
 			{
-				if (p->isAlive() && p->getSquare()->getBoardIndex().second == 0)
+				if (p->isAlive() && p->getSquare()->getBoardIndex().second == 0 && (p->getSquare()->getBoardIndex().first == 0 || p->getSquare()->getBoardIndex().first == 7))
 				{
 					rookLeftFirstMove = p->getFirstMove();
 					leftRook = p;
 				}
-				else if (p->isAlive() && p->getSquare()->getBoardIndex().second == 7)
+				else if (p->isAlive() && p->getSquare()->getBoardIndex().second == 7 && (p->getSquare()->getBoardIndex().first == 0 || p->getSquare()->getBoardIndex().first == 7))
 				{
 					rookRightFirstMove = p->getFirstMove();
 					rightRook = p;
