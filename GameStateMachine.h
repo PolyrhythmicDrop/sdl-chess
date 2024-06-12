@@ -6,7 +6,6 @@
 class GameManager;
 class IGameState;
 
-
 class GameStateMachine
 {
 private:

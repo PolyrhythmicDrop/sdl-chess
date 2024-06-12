@@ -1,5 +1,6 @@
 #include "TurnWhiteGameState.h"
 #include "TurnBlackGameState.h"
+#include "EndGameState.h"
 #include "easylogging++.h"
 
 TurnWhiteGameState::TurnWhiteGameState() {};
@@ -8,11 +9,26 @@ void TurnWhiteGameState::enter(GameStateMachine* gsm)
 {
 	LOG(TRACE) << "White Turn Game State entered!";
 
-	// Notify the game manager that the turn has changed
-	gsm->getGameManager()->notify("turnChange");
+	// Notify the game manager that the turn has changed.
+	gsm->getGameManager()->notify("startTurn");
 
-	// Subscribe to the event manager
-	subscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
+	// Only continue with the turn if the game is not over.
+	if (gsm->getGameManager()->getVictoryCondition() == 2)
+	{
+		if (gsm->getGameManager()->getCurrentPlayer()->getPlayerType() == Player::HUMAN)
+		{
+			subscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
+		}
+		else
+		{
+			// Perform an AI turn
+			gsm->getGameManager()->onStockfishTurn();
+		}
+	}
+	else
+	{
+		return;
+	}
 }
 
 void TurnWhiteGameState::changeState(GameStateMachine* gsm, std::string eventString)
@@ -21,11 +37,18 @@ void TurnWhiteGameState::changeState(GameStateMachine* gsm, std::string eventStr
 	{
 		gsm->setGameState(gsm->getGameManager(), TurnBlackGameState::getInstance());
 	}
+	if (eventString == "endGame")
+	{
+		gsm->setGameState(gsm->getGameManager(), EndGameState::getInstance());
+	}
 }
 
 void TurnWhiteGameState::exit(GameStateMachine* gsm)
 {
-	unsubscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
+	if (gsm->getGameManager()->getCurrentPlayer()->getPlayerType() == Player::HUMAN)
+	{
+		unsubscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
+	}
 	LOG(TRACE) << "White Turn Game State exited!";
 }
 
@@ -50,7 +73,6 @@ void TurnWhiteGameState::subscribeToEventManager(EventManager& manager, GameStat
 void TurnWhiteGameState::unsubscribeToEventManager(EventManager& manager, GameStateMachine* gsm)
 {
 	// TODO: Make sure to unsubscribe from the active boolean when exiting this state.
-
 	manager.Unsubscribe(SDL_MOUSEBUTTONUP);
 }
 

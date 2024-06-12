@@ -148,10 +148,13 @@
     <ClCompile Include="Chessboard.cpp" />
     <ClCompile Include="easylogging++.cc" />
     <ClCompile Include="EndGameState.cpp" />
+    <ClCompile Include="FenManager.cpp" />
+    <ClCompile Include="FishManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
     <ClCompile Include="HighlightManager.cpp" />
+    <ClCompile Include="HumanPlayer.cpp" />
     <ClCompile Include="IdleGameState.cpp" />
     <ClCompile Include="IGameState.cpp" />
     <ClCompile Include="IMediator.cpp" />
@@ -192,6 +195,8 @@
     <ClCompile Include="InEscMenuState.cpp" />
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="SquareGraphicsComponent.cpp" />
+    <ClCompile Include="Stockfish.cpp" />
+    <ClCompile Include="StockfishPlayer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TurnBlackGameState.cpp" />
     <ClCompile Include="TurnWhiteGameState.cpp" />
@@ -204,10 +209,13 @@
     <ClInclude Include="Chessboard.h" />
     <ClInclude Include="easylogging++.h" />
     <ClInclude Include="EndGameState.h" />
+    <ClInclude Include="FenManager.h" />
+    <ClInclude Include="FishManager.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GameStateMachine.h" />
     <ClInclude Include="HighlightManager.h" />
+    <ClInclude Include="HumanPlayer.h" />
     <ClInclude Include="IdleGameState.h" />
     <ClInclude Include="IGameState.h" />
     <ClInclude Include="IMediator.h" />
@@ -249,6 +257,8 @@
     <ClInclude Include="InEscMenuState.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="SquareGraphicsComponent.h" />
+    <ClInclude Include="Stockfish.h" />
+    <ClInclude Include="StockfishPlayer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TurnBlackGameState.h" />
     <ClInclude Include="TurnWhiteGameState.h" />
@@ -287,6 +297,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="chess-log.log" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="stockfish.exe" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

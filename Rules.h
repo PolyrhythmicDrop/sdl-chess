@@ -62,7 +62,7 @@ public:
 	Rules::RulePackage getWhtPawnRules(bool firstMove = false);
 
 	// Rules package for black pawns
-	Rules::RulePackage getBlkPawnRules(bool firstMove = false);
+	Rules::RulePackage getPawnRules(bool firstMove = false);
 
 	Rules::RulePackage getRookRules(bool firstMove = false);
 

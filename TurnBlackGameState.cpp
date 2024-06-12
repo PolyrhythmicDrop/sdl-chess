@@ -1,5 +1,6 @@
 #include "TurnBlackGameState.h"
 #include "TurnWhiteGameState.h"
+#include "EndGameState.h"
 #include "easylogging++.h"
 
 TurnBlackGameState::TurnBlackGameState() {};
@@ -9,10 +10,25 @@ void TurnBlackGameState::enter(GameStateMachine* gsm)
 	LOG(TRACE) << "Black Turn Game State entered!";
 
 	// Notify the game manager that the turn has changed
-	gsm->getGameManager()->notify("turnChange");
+	gsm->getGameManager()->notify("startTurn");
 
-	// Subscribe to the event manager
-	subscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
+	// Only continue with the turn if the game is not over.
+	if (gsm->getGameManager()->getVictoryCondition() == 2)
+	{
+		if (gsm->getGameManager()->getCurrentPlayer()->getPlayerType() == Player::HUMAN)
+		{
+			subscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
+		}
+		else
+		{
+			// Perform an AI turn
+			gsm->getGameManager()->onStockfishTurn();
+		}
+	}
+	else
+	{
+		return;
+	}
 }
 
 void TurnBlackGameState::changeState(GameStateMachine* gsm, std::string eventString)
@@ -21,12 +37,19 @@ void TurnBlackGameState::changeState(GameStateMachine* gsm, std::string eventStr
 	{
 		gsm->setGameState(gsm->getGameManager(), TurnWhiteGameState::getInstance());
 	}
+	if (eventString == "endGame")
+	{
+		gsm->setGameState(gsm->getGameManager(), EndGameState::getInstance());
+	}
 }
 
 void TurnBlackGameState::exit(GameStateMachine* gsm)
 {
+	if (gsm->getGameManager()->getCurrentPlayer()->getPlayerType() == Player::HUMAN)
+	{
+		unsubscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
+	}
 	LOG(TRACE) << "Black Turn Game State exited!";
-	unsubscribeToEventManager(EventManager::getEventManagerInstance(), gsm);
 }
 
 IGameState& TurnBlackGameState::getInstance()

@@ -19,6 +19,7 @@ void EventManager::HandleEvents(bool* quit)
 		}
 		Event();
 	}
+	return;
 }
 
 void EventManager::Subscribe(SDL_EventType type, eventCallback callback)

@@ -11,10 +11,8 @@ Rules::RulePackage Rules::getRulesPackage(char fen, bool firstMove)
 	switch (fen)
 	{
 	case 'P':
-		rules = getWhtPawnRules(firstMove);
-		break;
 	case 'p':
-		rules = getBlkPawnRules(firstMove);
+		rules = getPawnRules(firstMove);
 		break;
 	case 'R': 
 	case 'r':
@@ -44,46 +42,7 @@ Rules::RulePackage Rules::getRulesPackage(char fen, bool firstMove)
 	return rules;
 }
 
-Rules::RulePackage Rules::getWhtPawnRules(bool firstMove)
-{
-	Rules::RulePackage pawnRules;
-
-	// Set the move rules
-	// ******************
-	pawnRules.moveRules.orthoMove = true;
-
-	// If it is the pawn's first move, set the move distance to 2 columns. If not, set it to 1 row.
-	if (firstMove = true)
-	{
-		pawnRules.moveRules.row = 2;
-		pawnRules.moveRules.column = 0;
-	}
-	else
-	{
-		pawnRules.moveRules.row = 1;
-		pawnRules.moveRules.column = 0;
-	}
-
-	// Set the capture rules
-	// **********************
-
-	pawnRules.captureRules.diagCapture = true;
-	pawnRules.captureRules.row = 1;
-	pawnRules.captureRules.column = 1;
-
-	// Determine whether or not the piece can attack en passant
-	pawnRules.captureRules.enPassant = true;
-
-	// Set the special rules
-	// ***********************
-	
-	// Set whether the piece can be promoted
-	pawnRules.specialActions.promote = true;
-
-	return pawnRules;
-}
-
-Rules::RulePackage Rules::getBlkPawnRules(bool firstMove)
+Rules::RulePackage Rules::getPawnRules(bool firstMove)
 {
 	Rules::RulePackage pawnRules;
 

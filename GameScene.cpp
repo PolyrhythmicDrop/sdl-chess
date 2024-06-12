@@ -1,11 +1,15 @@
 #include "GameScene.h"
+#include "HumanPlayer.h"
+#include "StockfishPlayer.h"
 #include "easylogging++.h"
 
 GameScene::GameScene() :
 	_board(std::unique_ptr<Chessboard>(new Chessboard)),
-	_pieceContainer(PieceContainer()),
-	_playerOne(Player("", ' ')),
-	_playerTwo(Player("", ' ')),
+	_pieceContainer(PieceContainer{}),
+	_whiteCapturePoint({0, 0}),
+	_blackCapturePoint({0, 0}),
+	_playerOne(Player{ "", ' ' }),
+	_playerTwo(Player{"", ' '}),
 	_manager(std::make_unique<GameManager>(this))	
 {
 	assert(!_instantiated);
@@ -48,14 +52,36 @@ void GameScene::updateCaptureDump()
 	}
 }
 
-void GameScene::setPlayerOne(std::string name, int color)
+void GameScene::setPlayerOne(std::string name, int color, Player::PlayerType type)
 { 
+
 	_playerOne.setName(name);
-	_playerOne.setColor(color); 
+	_playerOne.setColor(color);
+
+	switch (type)
+	{
+	case Player::HUMAN:
+		_playerOne = _playerOne.createHumanPlayer();
+		break;
+	case Player::STOCKFISH:
+		_playerOne = _playerOne.createStockfishPlayer();
+		break;
+	}
+	
 }
 
-void GameScene::setPlayerTwo(std::string name, int color)
+void GameScene::setPlayerTwo(std::string name, int color, Player::PlayerType type)
 {
 	_playerTwo.setName(name);
-	_playerTwo.setColor(color); 
+	_playerTwo.setColor(color);
+
+	switch (type)
+	{
+	case Player::HUMAN:
+		_playerTwo = _playerTwo.createHumanPlayer();
+		break;
+	case Player::STOCKFISH:
+		_playerTwo = _playerTwo.createStockfishPlayer();
+		break;
+	}
 }

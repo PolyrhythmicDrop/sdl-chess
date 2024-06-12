@@ -8,6 +8,7 @@
 #include "GameScene.h"
 
 
+
 // Initialize static variables
 INITIALIZE_EASYLOGGINGPP;
 int GameObject::gameObjectCount = 0;
@@ -42,9 +43,6 @@ void initializeLogging()
 int main( int argc, char* args[] )
 {	
 	initializeLogging();
-
-	// Initialize the game context
-	GameContext gc;
 	
 	// Initialize the SDL Engine
 	SDLfunc sdlEngine{};
@@ -72,7 +70,7 @@ int main( int argc, char* args[] )
 	// Initialize the event manager
 	EventManager& eManager = EventManager::getEventManagerInstance();
 
-	// Initialize the game state machine
+	// Initialize the program state machine
 	ProgramStateMachine psm;
 
 	// Constants for the game loop
@@ -82,47 +80,16 @@ int main( int argc, char* args[] )
 
 	int sleepTime = 0;
 
-	/* 
-	******************************
-	// Square overlay testing
-	Chessboard board;
-	board.buildChessboard();
-			
-	// Test adding objects to render queue
-	std::vector<std::pair<GameObject*, SDL_Texture*>> testVect;
-	std::vector<std::vector<Square>> boardGrid = board.getBoardGrid();
-
-	LOG(INFO) << "The size of the board grid is: " << boardGrid.size() << " rows and " << boardGrid[0].size() << " columns.";
-
-	// Debug: get the coordinates for each item in the grid and put them in the log
-	for (int row = 0; row < boardGrid.size(); ++row)
-	{
-		LOG(INFO) << "";
-		for (int column = 0; column < boardGrid[row].size(); ++column)
-		{
-			LOG(INFO) << "[ " << boardGrid[row][column].getName() << " ]\nX: " << boardGrid[row][column].getX() << "\nY: " << boardGrid[row][column].getY() << "\nZ: " << boardGrid[row][column].getZ() << "\nW: " << boardGrid[row][column].getWidth() << "\nH: " << boardGrid[row][column].getHeight();
-		}
-	}
-
-	for (int row = 0; row < boardGrid.size(); ++row)
-	{
-		for (int column = 0; column < boardGrid[row].size(); ++column)
-		testVect.push_back(std::pair<GameObject*, SDL_Texture*>(&boardGrid[row][column], boardGrid[row][column].getGraphicsComponent()->getSdlTexture()));
-	}	
-
-	ServiceLocator::getGraphics().addToRenderMap(1, testVect);
-	*******************************
-	*/ 
-
 	// Main quit flag for the loop
 	bool quit = false;				
 
 	// While the application is running...
 	while (!quit)
 	{
+
 		// Handle events
 		eManager.HandleEvents(&quit);
-								
+
 		// Render graphics
 		ServiceLocator::getGraphics().render();
 
