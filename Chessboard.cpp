@@ -374,7 +374,7 @@ void const Chessboard::addBoardToRender()
 	for (int row = 0; row < _boardGrid.size(); ++row)
 	{
 		for (int column = 0; column < _boardGrid[row].size(); ++column)
-			renderVect.push_back(std::pair<GameObject*, SDL_Texture*>(&_boardGrid[row][column], _boardGrid[row][column].getGraphicsComponent()->getSdlTexture()));
+			renderVect.push_back(std::pair<GameObject*, SDL_Texture*>(&_boardGrid[row][column], _boardGrid[row][column].getGraphicsComponent()->getCurrentTexture()));
 	}
 
 	ServiceLocator::getGraphics().addToRenderMap(1, renderVect);

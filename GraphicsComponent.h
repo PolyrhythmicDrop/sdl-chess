@@ -1,12 +1,16 @@
 #pragma once
 #include "IDrawable.h"
 #include "Texture.h"
+#include <memory>
+
+class IDrawable;
 
 class GraphicsComponent: public IDrawable
 {
 private:
-	Texture* _textureLoader;
-	SDL_Texture* _sdlTexture;
+
+	std::unique_ptr<Texture> _textureLoader;
+	
 	std::string _imgPath;	
 
 public:
@@ -18,8 +22,6 @@ public:
 	void setImgPath(std::string path);
 
 	void loadTexture();
-
-	SDL_Texture* getSdlTexture();
 
 	GraphicsComponent* getGraphicsComponent();
 

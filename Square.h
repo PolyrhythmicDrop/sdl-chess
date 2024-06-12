@@ -5,10 +5,6 @@ class SquareGraphicsComponent;
 class Chessboard;
 class Piece;
 
-struct Color {
-	Uint8 r, g, b, a;
-};
-
 // A square on the chessboard.
 class Square : public GameObject
 {
@@ -58,22 +54,10 @@ public:
 	inline void setBoardIndex(int row, int column) { this->_boardIndex.first = row; this->_boardIndex.second = column; };
 
 	// Overlay functions
-
-	inline const Color* getMoveOverlayColor() { return &_moveOverlayColor; };
-	inline const Color* getTakeOverlayColor() { return &_takeOverlayColor; };
-	void setMoveOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-	void setTakeOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 	void setOverlayType(Overlay overlay);
 	inline Overlay getOverlayType() const { return _overlay; };
 	
-	// Tile color functions
-
-	inline const Color* getLightTileColor() const { return &_lightTileColor; };
-	inline const Color* getDarkTileColor() const { return &_darkTileColor; };
-	inline const TileType getTileType() const { return _tileType; };
-	void setLightTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-	void setDarkTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-
+	TileType getTileType();
 	void setTileType(TileType type);
 
 private:
@@ -85,12 +69,6 @@ private:
 	Piece* _currentPiece;
 
 	std::pair<int, int> _boardIndex;
-
-	Color _moveOverlayColor;
-	Color _takeOverlayColor;
-
-	Color _lightTileColor;
-	Color _darkTileColor;
 
 	SquareGraphicsComponent* _graphics;
 

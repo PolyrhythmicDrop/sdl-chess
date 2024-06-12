@@ -87,32 +87,32 @@ void Piece::changeType(Figure type)
 		{
 		case Figure::PAWN:
 			_graphics->setImgPath("images/whtPawn.png");
-			_graphics->loadTexture(this);
+			_graphics->loadTexture();
 			setFenName('P');
 			break;
 		case Figure::BISHOP:
 			_graphics->setImgPath("images/whtBishop.png");
-			_graphics->loadTexture(this);
+			_graphics->loadTexture();
 			setFenName('B');
 			break;
 		case Figure::KNIGHT:
 			_graphics->setImgPath("images/whtKnight.png");
-			_graphics->loadTexture(this);
+			_graphics->loadTexture();
 			setFenName('N');
 			break;
 		case Figure::ROOK:
 			_graphics->setImgPath("images/whtRook.png");
-			_graphics->loadTexture(this);
+			_graphics->loadTexture();
 			setFenName('R');
 			break;
 		case Figure::QUEEN:
 			_graphics->setImgPath("images/whtQueen.png");
-			_graphics->loadTexture(this);
+			_graphics->loadTexture();
 			setFenName('Q');
 			break;
 		case Figure::KING:
 			_graphics->setImgPath("images/whtKing.png");
-			_graphics->loadTexture(this);
+			_graphics->loadTexture();
 			setFenName('K');
 			break;
 		}
@@ -122,32 +122,32 @@ void Piece::changeType(Figure type)
 		{
 		case Figure::PAWN:
 			_graphics->setImgPath("images/blkPawn.png");
-			_graphics->loadTexture(this);
+			_graphics->loadTexture();
 			setFenName('p');
 			break;
 		case Figure::BISHOP:
 			_graphics->setImgPath("images/blkBishop.png");
-			_graphics->loadTexture(this);
+			_graphics->loadTexture();
 			setFenName('b');
 			break;
 		case Figure::KNIGHT:
 			_graphics->setImgPath("images/blkKnight.png");
-			_graphics->loadTexture(this);
+			_graphics->loadTexture();
 			setFenName('n');
 			break;
 		case Figure::ROOK:
 			_graphics->setImgPath("images/blkRook.png");
-			_graphics->loadTexture(this);
+			_graphics->loadTexture();
 			setFenName('r');
 			break;
 		case Figure::QUEEN:
 			_graphics->setImgPath("images/blkQueen.png");
-			_graphics->loadTexture(this);
+			_graphics->loadTexture();
 			setFenName('q');
 			break;
 		case Figure::KING:
 			_graphics->setImgPath("images/blkKing.png");
-			_graphics->loadTexture(this);
+			_graphics->loadTexture();
 			setFenName('k');
 			break;
 		}
@@ -162,7 +162,7 @@ void Piece::setSelected(bool selected)
 
 	if (!_selected)
 	{
-		_graphics->removeSelectedIcon(this);
+		_graphics->removeSelectedIcon();
 
 		if (this->_mediator != nullptr)
 		{
@@ -172,7 +172,7 @@ void Piece::setSelected(bool selected)
 	}
 	else
 	{
-		_graphics->addSelectedIcon(this);
+		_graphics->addSelectedIcon();
 
 		if (this->_mediator != nullptr)
 		{

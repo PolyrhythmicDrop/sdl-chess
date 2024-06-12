@@ -2,9 +2,9 @@
 #include "easylogging++.h"
 
 GraphicsComponent::GraphicsComponent() :
-	_imgPath(""), _textureLoader(NULL), _sdlTexture(NULL)
+	_imgPath(""),
+	_textureLoader(std::make_unique<Texture>())	
 {
-	_textureLoader = new Texture();
 	LOG(TRACE) << "Graphics component constructed!";
 }
 
@@ -16,17 +16,13 @@ GraphicsComponent::~GraphicsComponent()
 
 void GraphicsComponent::loadTexture()
 {
-	_sdlTexture = _textureLoader->loadTextureFromImage(_imgPath);
+	 _currentTexture = _textureLoader->loadTextureFromImage(_imgPath);
+	 setDrawScaleByTexture();
 }
 
 void GraphicsComponent::setImgPath(std::string path)
 {
 	_imgPath = path;
-}
-
-SDL_Texture* GraphicsComponent::getSdlTexture()
-{
-	return _sdlTexture;
 }
 
 GraphicsComponent* GraphicsComponent::getGraphicsComponent()

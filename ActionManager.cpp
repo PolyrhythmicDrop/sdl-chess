@@ -203,7 +203,7 @@ void ActionManager::promotePawn(Piece* piece, bool fish)
 	std::vector<std::pair<GameObject*, SDL_Texture*>> vect{};
 	std::pair<GameObject*, SDL_Texture*> pair{};
 	pair.first = piece;
-	pair.second = piece->getGraphics()->getSdlTexture();
+	pair.second = piece->getGraphics()->getCurrentTexture();
 	vect.push_back(pair);
 
 	if (fish)
@@ -306,7 +306,7 @@ void ActionManager::promotePawn(Piece* piece, bool fish)
 
 	vect.clear();
 	pair.first = piece;
-	pair.second = piece->getGraphics()->getSdlTexture();
+	pair.second = piece->getGraphics()->getCurrentTexture();
 	vect.push_back(pair);
 	ServiceLocator::getGraphics().addToRenderMap(2, vect);
 

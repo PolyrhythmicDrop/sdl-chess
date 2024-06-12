@@ -589,7 +589,7 @@ void GameManager::setUpPieces()
 	for (int i = 0; i < pieceItr.getSize(); ++i)
 	{
 		pieceItr.goToIndex(i);
-		rendVect.push_back(std::pair<GameObject*, SDL_Texture*>(&(*pieceItr.getCurrentPosition()), (*pieceItr.getCurrentPosition()).getGraphics()->getSdlTexture()));
+		rendVect.push_back(std::pair<GameObject*, SDL_Texture*>(&(*pieceItr.getCurrentPosition()), (*pieceItr.getCurrentPosition()).getGraphics()->getCurrentTexture()));
 	}
 
 	ServiceLocator::getGraphics().addToRenderMap(2, rendVect);

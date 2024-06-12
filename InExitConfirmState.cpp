@@ -84,9 +84,9 @@ void InExitConfirmState::buildMenu(SceneEscMenu* menuScene)
 	);
 	
 	// Add to scene map
-	menuScene->addObject(menuScene->_exitConfirmMenuBg, menuScene->_exitConfirmMenuBg->getGraphicsComponent()->getSdlTexture());
-	menuScene->addObject(menuScene->_yes, menuScene->_yes->getGraphicsComponent()->getSdlTexture());
-	menuScene->addObject(menuScene->_no, menuScene->_no->getGraphicsComponent()->getSdlTexture());
+	menuScene->addObject(menuScene->_exitConfirmMenuBg, menuScene->_exitConfirmMenuBg->getGraphicsComponent()->getCurrentTexture());
+	menuScene->addObject(menuScene->_yes, menuScene->_yes->getGraphicsComponent()->getCurrentTexture());
+	menuScene->addObject(menuScene->_no, menuScene->_no->getGraphicsComponent()->getCurrentTexture());
 
 	// Add to render queue
 	ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());
@@ -100,17 +100,17 @@ void InExitConfirmState::destroyMenu(SceneEscMenu* menuScene)
 
 	if (menuScene->_exitConfirmMenuBg != nullptr)
 	{
-		menuScene->removeObject(menuScene->_exitConfirmMenuBg, menuScene->_exitConfirmMenuBg->getGraphicsComponent()->getSdlTexture());
+		menuScene->removeObject(menuScene->_exitConfirmMenuBg, menuScene->_exitConfirmMenuBg->getGraphicsComponent()->getCurrentTexture());
 		menuScene->_exitConfirmMenuBg->~Decoration();
 	}
 	if (menuScene->_yes != nullptr)
 	{
-		menuScene->removeObject(menuScene->_yes, menuScene->_yes->getGraphicsComponent()->getSdlTexture());
+		menuScene->removeObject(menuScene->_yes, menuScene->_yes->getGraphicsComponent()->getCurrentTexture());
 		menuScene->_yes->~Button();
 	}
 	if (menuScene->_no != nullptr)
 	{
-		menuScene->removeObject(menuScene->_no, menuScene->_no->getGraphicsComponent()->getSdlTexture());
+		menuScene->removeObject(menuScene->_no, menuScene->_no->getGraphicsComponent()->getCurrentTexture());
 		menuScene->_no->~Button();
 	}
 	

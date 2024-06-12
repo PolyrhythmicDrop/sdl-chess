@@ -2,6 +2,7 @@
 #include <iostream>
 #include "EventManager.h"
 #include "IMediator.h"
+#include <concepts>
 
 // Pure abstract class for game objects
 class GameObject
@@ -21,7 +22,6 @@ protected:
 
 	// Keeps track of the current number of game objects.
 	int static gameObjectCount;
-
 
 public:
 

@@ -6,7 +6,7 @@ class Decoration : public GameObject
 {
 private:
 
-	GraphicsComponent* _graphics;
+	std::unique_ptr<GraphicsComponent> _graphics;
 
 public:
 
