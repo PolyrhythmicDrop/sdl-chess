@@ -23,11 +23,16 @@ public:
 	};
 
 	// Default constructor
-	Square(std::string notation, Chessboard* board);
+	Square(std::string notation);
 	// Deep copy constructor
 	Square(const Square& square);
-	// Assignment operator
+	// Copy assignment operator
 	Square& operator=(const Square& other);
+
+	// Move constructor
+	Square(Square&& sq) noexcept;
+	// Move assignment operator
+	Square& operator=(Square&& sq) noexcept;
 
 	~Square();
 
@@ -61,7 +66,6 @@ public:
 	void setTileType(TileType type);
 
 private:
-	Chessboard* _chessboard;
 
 	// True if the square is occupied, false if empty. If occupied, the square will use the take overlay. If empty, the square will use the move overlay.
 	bool _occupied;

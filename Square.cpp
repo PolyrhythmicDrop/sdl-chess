@@ -1,23 +1,15 @@
 #include "Square.h"
-#include "ServiceLocator.h"
 #include "easylogging++.h"
 #include "SquareGraphicsComponent.h"
-#include "Chessboard.h"
 
-Square::Square(std::string notation, Chessboard* board) :
+Square::Square(std::string notation) :
 	_occupied(false),
 	_graphics(new SquareGraphicsComponent(this)),
 	_tileType(DARK),
 	_overlay(NONE),
-	_chessboard(board),
 	_currentPiece(nullptr)
 {
 	_name = notation;
-	_dimensions = {0, 0, this->_chessboard->getDimensions()->w / 8, this->_chessboard->getDimensions()->h / 8 };
-	_draw = false;
-	_graphics->setOverlayImgPath("images/square_Overlay.png");
-	_graphics->loadTexture(this);
-	_graphics->sumImage(this);
 }
 
 // Deep copy constructor
@@ -32,8 +24,7 @@ Square::Square(const Square& square)
 	_boardIndex = square._boardIndex;
 	_currentPiece = square._currentPiece;
 	_tileType = square._tileType;
-	_graphics = square._graphics;
-	_chessboard = (square._chessboard);
+	_graphics = new SquareGraphicsComponent(this);
 	_overlay = square._overlay;
 
 	LOG(INFO) << "Deep copy constructor called!";
@@ -43,6 +34,60 @@ Square& Square::operator=(const Square& other)
 {
 	LOG(INFO) << "Assignment operator called!";
 	return *this;
+}
+
+// Move constructor
+Square::Square(Square&& sq) noexcept :
+	_occupied(sq._occupied),
+	_boardIndex(sq._boardIndex),
+	_currentPiece(sq._currentPiece),
+	_tileType(sq._tileType),
+	_graphics(sq._graphics),
+	_overlay(sq._overlay)
+{
+	_mediator = sq._mediator;
+	_name = sq._name;
+	_dimensions = sq._dimensions;
+	_zIndex = sq._zIndex;
+	_draw = sq._draw;
+
+	LOG(TRACE) << "Square move constructor called!";
+}
+
+// Move assignment operator
+Square& Square::operator=(Square&& sq) noexcept
+{
+	// Self-assignment detection
+	if (&sq == this)
+	{
+		return *this;
+	}
+
+	// Delete any pointers
+	delete _graphics;
+	delete _currentPiece;
+
+	// Copy from the source object
+	_mediator = sq._mediator;
+	_name = sq._name;
+	_dimensions = sq._dimensions;
+	_zIndex = sq._zIndex;
+	_draw = sq._draw;
+	_occupied = sq._occupied;
+	_boardIndex = sq._boardIndex;
+	_currentPiece = sq._currentPiece;
+	_tileType = sq._tileType;
+	_graphics = sq._graphics;
+	_overlay = sq._overlay;
+
+	// Release any pointers from the source object
+	sq._currentPiece = nullptr;
+	sq._graphics = nullptr;
+
+	LOG(TRACE) << "Square move assignment operator called!";
+
+	return *this;
+
 }
 
 Square::~Square()

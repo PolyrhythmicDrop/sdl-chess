@@ -14,6 +14,9 @@ SquareGraphicsComponent::SquareGraphicsComponent(Square* square) :
 	_squareTexture(nullptr),
 	_overlayTexture(nullptr)
 {
+	setOverlayImgPath("images/square_Overlay.png");
+	loadTexture(_square);
+	sumImage(_square);
 	_zIndex = 1;
 	_drawDimensions = { square->getDimensions()->x, square->getDimensions()->y, square->getDimensions()->w, square->getDimensions()->h };
 	LOG(INFO) << "Square graphics component constructed!";

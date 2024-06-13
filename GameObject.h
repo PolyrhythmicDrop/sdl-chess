@@ -2,7 +2,6 @@
 #include <iostream>
 #include "EventManager.h"
 #include "IMediator.h"
-#include <concepts>
 
 // Pure abstract class for game objects
 class GameObject

@@ -27,6 +27,23 @@ Chessboard::~Chessboard()
 	LOG(INFO) << "Chessboard destructed!";
 }
 
+Square Chessboard::createSquare(std::string name)
+{
+	Square square{ name };
+	square.setScale(_dimensions.w / 8, _dimensions.h / 8);
+	return square;
+}
+
+void Chessboard::setRowSquarePosition(SDL_Point origin, std::vector<Square>& sqVect, int rowNum)
+{
+	sqVect[0].setPosition(origin.x, origin.y - (sqVect[0].getHeight() * rowNum));
+	sqVect[1].setPosition(origin.x + sqVect[0].getWidth(), sqVect[0].getY());
+	for (int i = 2; i < sqVect.size(); ++i)
+	{
+		sqVect[i].setPosition(sqVect[i - 1].getX() + sqVect[i - 1].getWidth(), sqVect[i - 1].getY());
+	}
+}
+
 void const Chessboard::buildChessboard()
 {
 	// Set the position of the chessboard
@@ -44,30 +61,19 @@ void const Chessboard::buildChessboard()
 
 	// The point at the bottom left of the board, A1 square
 	SDL_Point boardBottomLeft = { _dimensions.x, (_dimensions.y + _dimensions.h) };
-	//
-	int squareSideSize = _dimensions.h / 8;
 
 	// *** //
 	// Create the first row of squares
-	Square a1("a1", this);
-	Square b1("b1", this);
-	Square c1("c1", this);
-	Square d1("d1", this);
-	Square e1("e1", this);
-	Square f1("f1", this);
-	Square g1("g1", this);
-	Square h1("h1", this);
 
-	// Set the size of each square
-	std::vector<Square> row1Vect = { a1, b1, c1, d1, e1, f1, g1, h1 };
+	std::vector<std::string> sqNames{ "a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1" };
+	std::vector<Square> row1Vect{};
+
+	for (int i = 0; i < sqNames.size(); ++i)
+	{
+		row1Vect.push_back(createSquare(sqNames[i]));
+	}
 
 	LOG(TRACE) << "Squares added to Row 1 Vector!";
-
-	for (Square& square : row1Vect)
-	{
-		square.setScale(squareSideSize, squareSideSize);
-		square._draw = true;
-	}
 
 	// Alternate the tile type, depending on the row
 	for (int i = 1; i < row1Vect.size(); ++i)
@@ -75,29 +81,23 @@ void const Chessboard::buildChessboard()
 		row1Vect[i].setTileType(Square::LIGHT);
 		++i;
 	}
-	
-	// Set the positions for the first row of squares
-	row1Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - row1Vect[0].getHeight());
-	row1Vect[1].setPosition(boardBottomLeft.x + row1Vect[0].getWidth(), row1Vect[0].getY());
-	for (int i = 2; i < row1Vect.size(); ++i)
-	{
-		row1Vect[i].setPosition(row1Vect[i -1].getX() + row1Vect[i - 1].getWidth(), row1Vect[i - 1].getY());
-	}
+
+	setRowSquarePosition(boardBottomLeft, row1Vect, 1);
+
+	sqNames.clear();
 	// *** //
 
 	// *** //
 	// Create the second row of squares
-	Square a2("a2", this);
-	Square b2("b2", this);
-	Square c2("c2", this);
-	Square d2("d2", this);
-	Square e2("e2", this);
-	Square f2("f2", this);
-	Square g2("g2", this);
-	Square h2("h2", this);
 
-	// Set the size of each square
-	std::vector<Square> row2Vect = { a2, b2, c2, d2, e2, f2, g2, h2 };
+	sqNames = { "a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2" };
+	std::vector<Square> row2Vect{};
+
+	for (int i = 0; i < sqNames.size(); ++i)
+	{
+		row2Vect.push_back(createSquare(sqNames[i]));
+	}
+
 	LOG(TRACE) << "Squares added to Row 2 Vector!";
 
 	// Alternate the tile type, depending on the row
@@ -107,36 +107,22 @@ void const Chessboard::buildChessboard()
 		++i;
 	}
 
-	for (Square square : row2Vect)
-	{
-		square.setScale(squareSideSize, squareSideSize);
-		square._draw = true;
-	}
+	setRowSquarePosition(boardBottomLeft, row2Vect, 2);
 
-	// Set the positions for the first row of squares
-	row2Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row2Vect[0].getHeight() * 2));
-	row2Vect[1].setPosition(boardBottomLeft.x + row2Vect[0].getWidth(), row2Vect[0].getY());
-	for (int i = 2; i < row2Vect.size(); ++i)
-	{
-		row2Vect[i].setPosition(row2Vect[i - 1].getX() + row2Vect[i - 1].getWidth(), row2Vect[i - 1].getY());
-	}
+	sqNames.clear();
 	// *** //
 
 	// *** //
 	// Create the third row of squares
-	Square a3("a3", this);
-	Square b3("b3", this);
-	Square c3("c3", this);
-	Square d3("d3", this);
-	Square e3("e3", this);
-	Square f3("f3", this);
-	Square g3("g3", this);
-	Square h3("h3", this);
+	sqNames = { "a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3" };
+	std::vector<Square> row3Vect{};
 
-	// Set the size of each square
-	std::vector<Square> row3Vect = { a3, b3, c3, d3, e3, f3, g3, h3 };
+	for (int i = 0; i < sqNames.size(); ++i)
+	{
+		row3Vect.push_back(createSquare(sqNames[i]));
+	}
+
 	LOG(TRACE) << "Squares added to Row 3 Vector!";
-
 
 	// Alternate the tile type, depending on the row
 	for (int i = 1; i < row3Vect.size(); i += 2)
@@ -144,109 +130,68 @@ void const Chessboard::buildChessboard()
 		row3Vect[i].setTileType(Square::LIGHT);
 	}
 
-	for (Square square : row3Vect)
-	{
-		square.setScale(squareSideSize, squareSideSize);
-		square._draw = true;
-	}
+	setRowSquarePosition(boardBottomLeft, row3Vect, 3);
 
-	// Set the positions for the first row of squares
-	row3Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row3Vect[0].getHeight() * 3));
-	row3Vect[1].setPosition(boardBottomLeft.x + row3Vect[0].getWidth(), row3Vect[0].getY());
-	for (int i = 2; i < row3Vect.size(); ++i)
-	{
-		row3Vect[i].setPosition(row3Vect[i - 1].getX() + row3Vect[i - 1].getWidth(), row3Vect[i - 1].getY());
-	}
+	sqNames.clear();
 	// *** //
 
 	// *** //
 	// Create the fourth row of squares
-	Square a4("a4", this);
-	Square b4("b4", this);
-	Square c4("c4", this);
-	Square d4("d4", this);
-	Square e4("e4", this);
-	Square f4("f4", this);
-	Square g4("g4", this);
-	Square h4("h4", this);
+	sqNames = { "a4", "b4", "c4", "d4", "e4", "f4", "g4", "h4" };
+	std::vector<Square> row4Vect{};
 
-	// Set the size of each square
-	std::vector<Square> row4Vect = { a4, b4, c4, d4, e4, f4, g4, h4 };
+	for (int i = 0; i < sqNames.size(); ++i)
+	{
+		row4Vect.push_back(createSquare(sqNames[i]));
+	}
+
 	LOG(TRACE) << "Squares added to Row 4 Vector!";
 
+	// Alternate the tile type, depending on the row
 	for (int i = 0; i < row4Vect.size(); ++i)
 	{
 		row4Vect[i].setTileType(Square::LIGHT);
-		i++;
+		++i;
 	}
 
-	for (Square square : row4Vect)
-	{
-		square.setScale(squareSideSize, squareSideSize);
-		square._draw = true;
-	}
+	setRowSquarePosition(boardBottomLeft, row4Vect, 4);
 
-
-	// Set the positions for the fourth row of squares
-	row4Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row4Vect[0].getHeight() * 4));
-	row4Vect[1].setPosition(boardBottomLeft.x + row4Vect[0].getWidth(), row4Vect[0].getY());
-	for (int i = 2; i < row4Vect.size(); ++i)
-	{
-		row4Vect[i].setPosition(row4Vect[i - 1].getX() + row4Vect[i - 1].getWidth(), row4Vect[i - 1].getY());
-	}
+	sqNames.clear();
 	// *** //
 
 	// *** //
 	// Create the fifth row of squares
-	Square a5("a5", this);
-	Square b5("b5", this);
-	Square c5("c5", this);
-	Square d5("d5", this);
-	Square e5("e5", this);
-	Square f5("f5", this);
-	Square g5("g5", this);
-	Square h5("h5", this);
+	sqNames = { "a5", "b5", "c5", "d5", "e5", "f5", "g5", "h5" };
+	std::vector<Square> row5Vect{};
 
-	// Set the size of each square
-	std::vector<Square> row5Vect = { a5, b5, c5, d5, e5, f5, g5, h5 };
+	for (int i = 0; i < sqNames.size(); ++i)
+	{
+		row5Vect.push_back(createSquare(sqNames[i]));
+	}
+
 	LOG(TRACE) << "Squares added to Row 5 Vector!";
 
 	// Alternate the tile type, depending on the row
-	for (int i = 1; i < row5Vect.size(); ++i)
+	for (int i = 1; i < row5Vect.size(); i += 2)
 	{
 		row5Vect[i].setTileType(Square::LIGHT);
-		++i;
 	}
 
-	for (Square square : row5Vect)
-	{
-		square.setScale(squareSideSize, squareSideSize);
-		square._draw = true;
-	}
+	setRowSquarePosition(boardBottomLeft, row5Vect, 5);
 
-
-	// Set the positions for the first row of squares
-	row5Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row5Vect[0].getHeight() * 5));
-	row5Vect[1].setPosition(boardBottomLeft.x + row5Vect[0].getWidth(), row5Vect[0].getY());
-	for (int i = 2; i < row5Vect.size(); ++i)
-	{
-		row5Vect[i].setPosition(row5Vect[i - 1].getX() + row5Vect[i - 1].getWidth(), row5Vect[i - 1].getY());
-	}
+	sqNames.clear();
 	// *** //
 
 	// *** //
 	// Create the sixth row of squares
-	Square a6("a6", this);
-	Square b6("b6", this);
-	Square c6("c6", this);
-	Square d6("d6", this);
-	Square e6("e6", this);
-	Square f6("f6", this);
-	Square g6("g6", this);
-	Square h6("h6", this);
+	sqNames = { "a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6" };
+	std::vector<Square> row6Vect{};
 
-	// Set the size of each square
-	std::vector<Square> row6Vect = { a6, b6, c6, d6, e6, f6, g6, h6 };
+	for (int i = 0; i < sqNames.size(); ++i)
+	{
+		row6Vect.push_back(createSquare(sqNames[i]));
+	}
+
 	LOG(TRACE) << "Squares added to Row 6 Vector!";
 
 	// Alternate the tile type, depending on the row
@@ -256,73 +201,45 @@ void const Chessboard::buildChessboard()
 		++i;
 	}
 
-	for (Square square : row6Vect)
-	{
-		square.setScale(squareSideSize, squareSideSize);
-		square._draw = true;		
-	}
+	setRowSquarePosition(boardBottomLeft, row6Vect, 6);
 
-	// Set the positions for the first row of squares
-	row6Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row6Vect[0].getHeight() * 6));
-	row6Vect[1].setPosition(boardBottomLeft.x + row6Vect[0].getWidth(), row6Vect[0].getY());
-	for (int i = 2; i < row6Vect.size(); ++i)
-	{
-		row6Vect[i].setPosition(row6Vect[i - 1].getX() + row6Vect[i - 1].getWidth(), row6Vect[i - 1].getY());
-	}
+	sqNames.clear();
 	// *** //
 
 	// *** //
 	// Create the seventh row of squares
-	Square a7("a7", this);
-	Square b7("b7", this);
-	Square c7("c7", this);
-	Square d7("d7", this);
-	Square e7("e7", this);
-	Square f7("f7", this);
-	Square g7("g7", this);
-	Square h7("h7", this);
+	sqNames = { "a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7" };
+	std::vector<Square> row7Vect{};
 
-	// Set the size of each square
-	std::vector<Square> row7Vect = { a7, b7, c7, d7, e7, f7, g7, h7 };
+	for (int i = 0; i < sqNames.size(); ++i)
+	{
+		row7Vect.push_back(createSquare(sqNames[i]));
+	}
+
 	LOG(TRACE) << "Squares added to Row 7 Vector!";
 
 	// Alternate the tile type, depending on the row
-	for (int i = 1; i < row7Vect.size(); ++i)
+	for (int i = 1; i < row7Vect.size(); i += 2)
 	{
 		row7Vect[i].setTileType(Square::LIGHT);
-		++i;
 	}
 
-	for (Square square : row7Vect)
-	{
-		square.setScale(squareSideSize, squareSideSize);
-		square._draw = true;
-		
-	}
+	setRowSquarePosition(boardBottomLeft, row7Vect, 7);
 
-	// Set the positions for the first row of squares
-	row7Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row7Vect[0].getHeight() * 7));
-	row7Vect[1].setPosition(boardBottomLeft.x + row7Vect[0].getWidth(), row7Vect[0].getY());
-	for (int i = 2; i < row7Vect.size(); ++i)
-	{
-		row7Vect[i].setPosition(row7Vect[i - 1].getX() + row7Vect[i - 1].getWidth(), row7Vect[i - 1].getY());
-	}
+	sqNames.clear();
 	// *** //
 
 	// *** //
 	// Create the eigth row of squares
-	Square a8("a8", this);
-	Square b8("b8", this);
-	Square c8("c8", this);
-	Square d8("d8", this);
-	Square e8("e8", this);
-	Square f8("f8", this);
-	Square g8("g8", this);
-	Square h8("h8", this);
+	sqNames = { "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8" };
+	std::vector<Square> row8Vect{};
 
-	// Set the size of each square
-	std::vector<Square> row8Vect = { a8, b8, c8, d8, e8, f8, g8, h8 };
-	LOG(INFO) << "Squares added to Row 8 Vector!";
+	for (int i = 0; i < sqNames.size(); ++i)
+	{
+		row8Vect.push_back(createSquare(sqNames[i]));
+	}
+
+	LOG(TRACE) << "Squares added to Row 8 Vector!";
 
 	// Alternate the tile type, depending on the row
 	for (int i = 0; i < row8Vect.size(); ++i)
@@ -331,30 +248,20 @@ void const Chessboard::buildChessboard()
 		++i;
 	}
 
-	for (Square square : row8Vect)
-	{
-		square.setScale(squareSideSize, squareSideSize);
-		square._draw = true;
-	}
+	setRowSquarePosition(boardBottomLeft, row8Vect, 8);
 
-	// Set the positions for the first row of squares
-	row8Vect[0].setPosition(boardBottomLeft.x, boardBottomLeft.y - (row8Vect[0].getHeight() * 8));
-	row8Vect[1].setPosition(boardBottomLeft.x + row8Vect[0].getWidth(), row8Vect[0].getY());
-	for (int i = 2; i < row8Vect.size(); ++i)
-	{
-		row8Vect[i].setPosition(row8Vect[i - 1].getX() + row8Vect[i - 1].getWidth(), row8Vect[i - 1].getY());
-	}
+	sqNames.clear();
 	// *** //
 	
 	// Add the row vectors to the board grid vector
-	this->_boardGrid.push_back(row1Vect);
-	this->_boardGrid.push_back(row2Vect);
-	this->_boardGrid.push_back(row3Vect);
-	this->_boardGrid.push_back(row4Vect);
-	this->_boardGrid.push_back(row5Vect);
-	this->_boardGrid.push_back(row6Vect);
-	this->_boardGrid.push_back(row7Vect);
-	this->_boardGrid.push_back(row8Vect);
+	_boardGrid.push_back(row1Vect);
+	_boardGrid.push_back(row2Vect);
+	_boardGrid.push_back(row3Vect);
+	_boardGrid.push_back(row4Vect);
+	_boardGrid.push_back(row5Vect);
+	_boardGrid.push_back(row6Vect);
+	_boardGrid.push_back(row7Vect);
+	_boardGrid.push_back(row8Vect);
 
 	// Set the board index for every square in the board
 	for (int row = 0; row < _boardGrid.size(); ++row)
