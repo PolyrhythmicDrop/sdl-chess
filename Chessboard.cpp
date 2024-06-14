@@ -27,11 +27,25 @@ Chessboard::~Chessboard()
 	LOG(INFO) << "Chessboard destructed!";
 }
 
-Square Chessboard::createSquare(std::string name)
+SDL_Point Chessboard::setBoardDimensionsToWindow()
 {
-	Square square{ name };
-	square.setScale(_dimensions.w / 8, _dimensions.h / 8);
-	return square;
+	// Set the position of the chessboard
+	int windowW;
+	int windowH;
+	ServiceLocator::getGraphics().getWindow()->getWindowSize(&windowW, &windowH);
+	// Set the board side length to the 2/3rds the size of the minimum dimension of the window size
+	int minWindowDimension = (((windowW) < (windowH)) ? (windowW) : (windowH));
+
+	_dimensions.w = (minWindowDimension * 5 / 6);
+	_dimensions.h = (minWindowDimension * 5 / 6);
+
+	_dimensions.x = (windowW / 2) - (_dimensions.w / 2);
+	_dimensions.y = (windowH / 2) - (_dimensions.h / 2);
+
+	// The point at the bottom left of the board, A1 square
+	SDL_Point boardBottomLeft = { _dimensions.x, (_dimensions.y + _dimensions.h) };
+
+	return boardBottomLeft;
 }
 
 void Chessboard::setRowSquarePosition(SDL_Point origin, std::vector<Square>& sqVect, int rowNum)
@@ -44,23 +58,28 @@ void Chessboard::setRowSquarePosition(SDL_Point origin, std::vector<Square>& sqV
 	}
 }
 
+void Chessboard::setRowTileType(bool odd, std::vector<Square>& sqVect)
+{
+	int i = odd;
+	for (i; i < sqVect.size(); i += 2)
+	{
+		sqVect[i].setTileType(Square::LIGHT);
+	}
+}
+
+Square Chessboard::createSquare(std::string name)
+{
+	Square square{ name };
+	square.setScale(_dimensions.w / 8, _dimensions.h / 8);
+	return square;
+}
+
 void const Chessboard::buildChessboard()
 {
-	// Set the position of the chessboard
-	int windowW;
-	int windowH;
-	ServiceLocator::getGraphics().getWindow()->getWindowSize(&windowW, &windowH);
-	// Set the board side length to the 2/3rds the size of the minimum dimension of the window size
-	int minWindowDimension = (((windowW) < (windowH)) ? (windowW) : (windowH));
+	SDL_Point boardBottomLeft{ setBoardDimensionsToWindow() };
 
-	_dimensions.w = (minWindowDimension * 5/6);
-	_dimensions.h = (minWindowDimension * 5/6);
+	// 
 
-	_dimensions.x = (windowW / 2) - (_dimensions.w / 2);
-	_dimensions.y = (windowH / 2) - (_dimensions.h / 2);
-
-	// The point at the bottom left of the board, A1 square
-	SDL_Point boardBottomLeft = { _dimensions.x, (_dimensions.y + _dimensions.h) };
 
 	// *** //
 	// Create the first row of squares
@@ -75,12 +94,7 @@ void const Chessboard::buildChessboard()
 
 	LOG(TRACE) << "Squares added to Row 1 Vector!";
 
-	// Alternate the tile type, depending on the row
-	for (int i = 1; i < row1Vect.size(); ++i)
-	{
-		row1Vect[i].setTileType(Square::LIGHT);
-		++i;
-	}
+	setRowTileType(true, row1Vect);
 
 	setRowSquarePosition(boardBottomLeft, row1Vect, 1);
 
@@ -100,12 +114,7 @@ void const Chessboard::buildChessboard()
 
 	LOG(TRACE) << "Squares added to Row 2 Vector!";
 
-	// Alternate the tile type, depending on the row
-	for (int i = 0; i < row2Vect.size(); ++i)
-	{
-		row2Vect[i].setTileType(Square::LIGHT);
-		++i;
-	}
+	setRowTileType(false, row2Vect);
 
 	setRowSquarePosition(boardBottomLeft, row2Vect, 2);
 
@@ -124,11 +133,7 @@ void const Chessboard::buildChessboard()
 
 	LOG(TRACE) << "Squares added to Row 3 Vector!";
 
-	// Alternate the tile type, depending on the row
-	for (int i = 1; i < row3Vect.size(); i += 2)
-	{
-		row3Vect[i].setTileType(Square::LIGHT);
-	}
+	setRowTileType(true, row3Vect);
 
 	setRowSquarePosition(boardBottomLeft, row3Vect, 3);
 
@@ -147,12 +152,7 @@ void const Chessboard::buildChessboard()
 
 	LOG(TRACE) << "Squares added to Row 4 Vector!";
 
-	// Alternate the tile type, depending on the row
-	for (int i = 0; i < row4Vect.size(); ++i)
-	{
-		row4Vect[i].setTileType(Square::LIGHT);
-		++i;
-	}
+	setRowTileType(false, row4Vect);
 
 	setRowSquarePosition(boardBottomLeft, row4Vect, 4);
 
@@ -171,11 +171,7 @@ void const Chessboard::buildChessboard()
 
 	LOG(TRACE) << "Squares added to Row 5 Vector!";
 
-	// Alternate the tile type, depending on the row
-	for (int i = 1; i < row5Vect.size(); i += 2)
-	{
-		row5Vect[i].setTileType(Square::LIGHT);
-	}
+	setRowTileType(true, row5Vect);
 
 	setRowSquarePosition(boardBottomLeft, row5Vect, 5);
 
@@ -194,13 +190,8 @@ void const Chessboard::buildChessboard()
 
 	LOG(TRACE) << "Squares added to Row 6 Vector!";
 
-	// Alternate the tile type, depending on the row
-	for (int i = 0; i < row6Vect.size(); ++i)
-	{
-		row6Vect[i].setTileType(Square::LIGHT);
-		++i;
-	}
-
+	setRowTileType(false, row6Vect);
+	
 	setRowSquarePosition(boardBottomLeft, row6Vect, 6);
 
 	sqNames.clear();
@@ -218,11 +209,7 @@ void const Chessboard::buildChessboard()
 
 	LOG(TRACE) << "Squares added to Row 7 Vector!";
 
-	// Alternate the tile type, depending on the row
-	for (int i = 1; i < row7Vect.size(); i += 2)
-	{
-		row7Vect[i].setTileType(Square::LIGHT);
-	}
+	setRowTileType(true, row7Vect);
 
 	setRowSquarePosition(boardBottomLeft, row7Vect, 7);
 
@@ -241,12 +228,7 @@ void const Chessboard::buildChessboard()
 
 	LOG(TRACE) << "Squares added to Row 8 Vector!";
 
-	// Alternate the tile type, depending on the row
-	for (int i = 0; i < row8Vect.size(); ++i)
-	{
-		row8Vect[i].setTileType(Square::LIGHT);
-		++i;
-	}
+	setRowTileType(false, row8Vect);
 
 	setRowSquarePosition(boardBottomLeft, row8Vect, 8);
 
