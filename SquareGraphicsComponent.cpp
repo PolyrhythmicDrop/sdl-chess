@@ -2,8 +2,7 @@
 #include "SquareGraphicsComponent.h"
 #include "easylogging++.h"
 
-SquareGraphicsComponent::SquareGraphicsComponent(Square* square) :
-	_square(square),
+SquareGraphicsComponent::SquareGraphicsComponent() :
 	_squareImgPath(""),
 	_overlayImgPath(""),
 	_textureLoader(std::make_unique<Texture>()),
@@ -14,12 +13,90 @@ SquareGraphicsComponent::SquareGraphicsComponent(Square* square) :
 	_squareTexture(nullptr),
 	_overlayTexture(nullptr)
 {
-	setOverlayImgPath("images/square_Overlay.png");
-	loadTexture(_square);
-	sumImage(_square);
+	_currentTexture = nullptr;
 	_zIndex = 1;
-	_drawDimensions = { square->getDimensions()->x, square->getDimensions()->y, square->getDimensions()->w, square->getDimensions()->h };
+	_drawDimensions = {};
 	LOG(INFO) << "Square graphics component constructed!";
+}
+
+// Deep copy constructor
+SquareGraphicsComponent::SquareGraphicsComponent(const SquareGraphicsComponent& sq)
+{
+	_textureLoader = std::make_unique<Texture>();
+	_squareImgPath = sq._squareImgPath;
+	_overlayImgPath = sq._overlayImgPath;
+	_moveOverlayColor = sq._moveOverlayColor;
+	_takeOverlayColor = sq._takeOverlayColor;
+	_lightTileColor = sq._lightTileColor;
+	_darkTileColor = sq._darkTileColor;
+	_squareTexture = sq._squareTexture;
+	_overlayTexture = sq._overlayTexture;
+	_zIndex = sq._zIndex;
+	_draw = sq._draw;
+	
+
+	LOG(INFO) << "Square GC Deep copy constructor called!";
+}
+
+SquareGraphicsComponent& SquareGraphicsComponent::operator=(const SquareGraphicsComponent& other)
+{
+	LOG(TRACE) << "Square GC assignment operator called!";
+	return *this;
+}
+
+// Move constructor
+SquareGraphicsComponent::SquareGraphicsComponent(SquareGraphicsComponent&& sq) noexcept :
+	_squareImgPath(sq._squareImgPath),
+	_overlayImgPath(sq._overlayImgPath),
+	_moveOverlayColor(sq._moveOverlayColor),
+	_takeOverlayColor(sq._takeOverlayColor),
+	_lightTileColor(sq._lightTileColor),
+	_darkTileColor(sq._darkTileColor),
+	_squareTexture(sq._squareTexture),
+	_overlayTexture(sq._overlayTexture)
+{
+	_currentTexture = sq._currentTexture;
+	_textureLoader.swap(sq._textureLoader);
+	_zIndex = sq._zIndex;
+	_drawDimensions = sq._drawDimensions;
+
+	LOG(TRACE) << "Square GC move constructor called!";
+}
+
+// Move assignment operator
+SquareGraphicsComponent& SquareGraphicsComponent::operator=(SquareGraphicsComponent&& sq) noexcept
+{
+	// Self-assignment detection
+	if (&sq == this)
+	{
+		return *this;
+	}
+
+	// Delete any pointers
+	_textureLoader = std::move(sq._textureLoader);
+
+	// Copy from the source object
+	_squareImgPath = sq._squareImgPath;
+	_overlayImgPath = sq._overlayImgPath;
+	_moveOverlayColor = sq._moveOverlayColor;
+	_takeOverlayColor = sq._takeOverlayColor;
+	_lightTileColor = sq._lightTileColor;
+	_darkTileColor = sq._darkTileColor;
+	_squareTexture = sq._squareTexture;
+	_overlayTexture = sq._overlayTexture;
+	_currentTexture = sq._currentTexture;
+	_zIndex = sq._zIndex;
+	_draw = sq._draw;
+
+	// Release any pointers from the source object
+	sq._squareTexture = nullptr;
+	sq._overlayTexture = nullptr;
+	sq._currentTexture = nullptr;
+
+	LOG(TRACE) << "Square GC move assignment operator called!";
+
+	return *this;
+
 }
 
 SquareGraphicsComponent::~SquareGraphicsComponent()
@@ -49,25 +126,21 @@ SDL_Texture* SquareGraphicsComponent::getOverlayTexture()
 void SquareGraphicsComponent::setMoveOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	_moveOverlayColor = { r, g, b, a };
-	sumImage(_square);
 }
 
 void SquareGraphicsComponent::setTakeOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	_takeOverlayColor = { r, g, b, a };
-	sumImage(_square);
 }
 
 void SquareGraphicsComponent::setLightTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	_lightTileColor = { r, g, b, a };
-	sumImage(_square);
 }
 
 void SquareGraphicsComponent::setDarkTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	_darkTileColor = { r, g, b, a };
-	sumImage(_square);
 }
 
 void SquareGraphicsComponent::setSquareImgPath(std::string path)

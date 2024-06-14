@@ -4,12 +4,16 @@
 
 Square::Square(std::string notation) :
 	_occupied(false),
-	_graphics(new SquareGraphicsComponent(this)),
+	_graphics(new SquareGraphicsComponent()),
 	_tileType(DARK),
 	_overlay(NONE),
 	_currentPiece(nullptr)
 {
+	_graphics->setOverlayImgPath("images/square_Overlay.png");
+	_graphics->loadTexture(this);
+	_graphics->sumImage(this);
 	_name = notation;
+	_zIndex = 1;
 }
 
 // Deep copy constructor
@@ -24,7 +28,8 @@ Square::Square(const Square& square)
 	_boardIndex = square._boardIndex;
 	_currentPiece = square._currentPiece;
 	_tileType = square._tileType;
-	_graphics = new SquareGraphicsComponent(this);
+	_graphics = new SquareGraphicsComponent();
+	*_graphics = *(square._graphics);
 	_overlay = square._overlay;
 
 	LOG(INFO) << "Deep copy constructor called!";
@@ -42,11 +47,12 @@ Square::Square(Square&& sq) noexcept :
 	_boardIndex(sq._boardIndex),
 	_currentPiece(sq._currentPiece),
 	_tileType(sq._tileType),
-	_graphics(sq._graphics),
-	_overlay(sq._overlay)
+	_overlay(sq._overlay),
+	_graphics(new SquareGraphicsComponent())
 {
 	_mediator = sq._mediator;
 	_name = sq._name;
+	_graphics = sq._graphics;
 	_dimensions = sq._dimensions;
 	_zIndex = sq._zIndex;
 	_draw = sq._draw;
@@ -77,7 +83,8 @@ Square& Square::operator=(Square&& sq) noexcept
 	_boardIndex = sq._boardIndex;
 	_currentPiece = sq._currentPiece;
 	_tileType = sq._tileType;
-	_graphics = sq._graphics;
+	_graphics = new SquareGraphicsComponent();
+	*_graphics = *(sq._graphics);
 	_overlay = sq._overlay;
 
 	// Release any pointers from the source object

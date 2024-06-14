@@ -10,7 +10,6 @@ struct Color {
 class SquareGraphicsComponent : public IDrawable
 {
 private:
-	Square* _square;
 
 	std::unique_ptr<Texture> _textureLoader;
 
@@ -28,7 +27,19 @@ private:
 
 public:
 
-	SquareGraphicsComponent(Square* square);
+	SquareGraphicsComponent();
+
+	// Deep copy constructor
+	SquareGraphicsComponent(const SquareGraphicsComponent& sq);
+	// Copy assignment operator
+	SquareGraphicsComponent& operator=(const SquareGraphicsComponent& sq);
+
+	// Move constructor
+	SquareGraphicsComponent(SquareGraphicsComponent&& sq) noexcept;
+	// Move assignment operator
+	SquareGraphicsComponent& operator=(SquareGraphicsComponent&& sq) noexcept;
+
+
 	~SquareGraphicsComponent();
 
 	// IDrawable functions

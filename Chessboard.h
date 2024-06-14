@@ -9,6 +9,8 @@ private:
 	// Grid that contains all the squares on the board
 	std::vector<std::vector<Square>> _boardGrid;
 
+	void initializeBoardGrid();
+
 	SDL_Point setBoardDimensionsToWindow();
 
 	// Set the positions for row squares
