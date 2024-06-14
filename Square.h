@@ -1,8 +1,8 @@
 #pragma once
 #include "Piece.h"
+#include <memory>
 
 class SquareGraphicsComponent;
-class Chessboard;
 class Piece;
 
 // A square on the chessboard.
@@ -74,7 +74,7 @@ private:
 
 	std::pair<int, int> _boardIndex;
 
-	SquareGraphicsComponent* _graphics;
+	std::unique_ptr<SquareGraphicsComponent> _graphics;
 
 	Overlay _overlay;
 	TileType _tileType;

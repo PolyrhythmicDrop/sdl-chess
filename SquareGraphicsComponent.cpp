@@ -14,6 +14,7 @@ SquareGraphicsComponent::SquareGraphicsComponent() :
 	_overlayTexture(nullptr)
 {
 	_currentTexture = nullptr;
+	setOverlayImgPath("images/square_Overlay.png");
 	_zIndex = 1;
 	_drawDimensions = {};
 	LOG(INFO) << "Square graphics component constructed!";
@@ -56,7 +57,7 @@ SquareGraphicsComponent::SquareGraphicsComponent(SquareGraphicsComponent&& sq) n
 	_overlayTexture(sq._overlayTexture)
 {
 	_currentTexture = sq._currentTexture;
-	_textureLoader.swap(sq._textureLoader);
+	std::swap(_textureLoader, sq._textureLoader);
 	_zIndex = sq._zIndex;
 	_drawDimensions = sq._drawDimensions;
 
@@ -73,7 +74,7 @@ SquareGraphicsComponent& SquareGraphicsComponent::operator=(SquareGraphicsCompon
 	}
 
 	// Delete any pointers
-	_textureLoader = std::move(sq._textureLoader);
+	std::swap(_textureLoader, sq._textureLoader);
 
 	// Copy from the source object
 	_squareImgPath = sq._squareImgPath;
@@ -92,6 +93,7 @@ SquareGraphicsComponent& SquareGraphicsComponent::operator=(SquareGraphicsCompon
 	sq._squareTexture = nullptr;
 	sq._overlayTexture = nullptr;
 	sq._currentTexture = nullptr;
+	sq._textureLoader.reset();
 
 	LOG(TRACE) << "Square GC move assignment operator called!";
 

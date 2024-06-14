@@ -2,16 +2,14 @@
 #include "easylogging++.h"
 #include "SquareGraphicsComponent.h"
 
+
 Square::Square(std::string notation) :
 	_occupied(false),
-	_graphics(new SquareGraphicsComponent()),
+	_graphics(std::make_unique<SquareGraphicsComponent>()),
 	_tileType(DARK),
 	_overlay(NONE),
 	_currentPiece(nullptr)
 {
-	_graphics->setOverlayImgPath("images/square_Overlay.png");
-	_graphics->loadTexture(this);
-	_graphics->sumImage(this);
 	_name = notation;
 	_zIndex = 1;
 }
@@ -28,8 +26,8 @@ Square::Square(const Square& square)
 	_boardIndex = square._boardIndex;
 	_currentPiece = square._currentPiece;
 	_tileType = square._tileType;
-	_graphics = new SquareGraphicsComponent();
-	*_graphics = *(square._graphics);
+	_graphics = std::make_unique<SquareGraphicsComponent>();
+	
 	_overlay = square._overlay;
 
 	LOG(INFO) << "Deep copy constructor called!";
@@ -48,14 +46,17 @@ Square::Square(Square&& sq) noexcept :
 	_currentPiece(sq._currentPiece),
 	_tileType(sq._tileType),
 	_overlay(sq._overlay),
-	_graphics(new SquareGraphicsComponent())
+	_graphics(std::make_unique<SquareGraphicsComponent>())
 {
 	_mediator = sq._mediator;
 	_name = sq._name;
-	_graphics = sq._graphics;
 	_dimensions = sq._dimensions;
 	_zIndex = sq._zIndex;
 	_draw = sq._draw;
+	_graphics.swap(sq._graphics);
+
+	// Reset the passed unique ptr
+	sq._graphics.reset();
 
 	LOG(TRACE) << "Square move constructor called!";
 }
@@ -70,7 +71,7 @@ Square& Square::operator=(Square&& sq) noexcept
 	}
 
 	// Delete any pointers
-	delete _graphics;
+	_graphics.reset();
 	delete _currentPiece;
 
 	// Copy from the source object
@@ -83,13 +84,13 @@ Square& Square::operator=(Square&& sq) noexcept
 	_boardIndex = sq._boardIndex;
 	_currentPiece = sq._currentPiece;
 	_tileType = sq._tileType;
-	_graphics = new SquareGraphicsComponent();
-	*_graphics = *(sq._graphics);
+	_graphics = std::make_unique<SquareGraphicsComponent>();
+	_graphics.swap(sq._graphics);
 	_overlay = sq._overlay;
 
 	// Release any pointers from the source object
 	sq._currentPiece = nullptr;
-	sq._graphics = nullptr;
+	sq._graphics.reset();
 
 	LOG(TRACE) << "Square move assignment operator called!";
 
@@ -102,7 +103,7 @@ Square::~Square()
 
 SquareGraphicsComponent* Square::getGraphicsComponent()
 {
-	return _graphics;
+	return _graphics.get();
 }
 
 void Square::setOccupied(bool occupy, Piece* occupant)
