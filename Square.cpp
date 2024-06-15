@@ -167,19 +167,35 @@ Piece* Square::getOccupant()
 
 }
 
-void Square::setOverlayType(Overlay overlay)
+const std::pair<int, int> Square::getBoardIndex() const
+{ 
+	return _boardIndex;
+}
+
+void Square::setBoardIndex(int row, int column) 
+{ 
+	_boardIndex.first = row;
+	_boardIndex.second = column;
+}
+
+void Square::setOverlayType(const Overlay& overlay)
 {
 	_overlay = overlay;
 	_graphics->sumImage(this);
 }
 
-void Square::setTileType(TileType type)
+const Square::Overlay& Square::getOverlayType() const
+{ 
+	return _overlay;
+}
+
+void Square::setTileType(const TileType& type)
 {
 	_tileType = type;
 	_graphics->sumImage(this);
 }
 
-Square::TileType Square::getTileType()
+const Square::TileType& Square::getTileType() const
 { 
 	return _tileType; 
 }
