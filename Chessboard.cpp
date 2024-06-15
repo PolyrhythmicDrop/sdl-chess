@@ -81,7 +81,7 @@ Square Chessboard::createSquare(std::string name)
 {
 	Square square{ name };
 	square.setScale(_dimensions.w / 8, _dimensions.h / 8);
-	square.getGraphicsComponent()->loadTexture(&square);
+	square.getGraphicsComponent()->loadTexture(square);
 	square.getGraphicsComponent()->sumImage(&square);
 	return square;
 }

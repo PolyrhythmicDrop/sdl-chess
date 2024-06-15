@@ -20,15 +20,20 @@ GameObject::~GameObject()
 
 void GameObject::setMediator(IMediator* mediator)
 {
-	this->_mediator = mediator;
+	_mediator = mediator;
 }
 
-std::string const GameObject::getName()
+const std::string& GameObject::getName() const
 {
-	return this->_name;
+	return _name;
 }
 
-SDL_Rect* GameObject::getDimensions()
+void GameObject::setName(const std::string& name) 
+{ 
+	_name = name;
+}
+
+const SDL_Rect* GameObject::getDimensions() const 
 {
 	return &_dimensions;
 }
@@ -39,12 +44,12 @@ void GameObject::setScale(int w, int h)
 	_dimensions.h = h;
 }
 
-int GameObject::getWidth()
+int GameObject::getWidth() const
 {
 	return _dimensions.w;
 }
 
-int GameObject::getHeight()
+int GameObject::getHeight() const
 {
 	return _dimensions.h;
 }

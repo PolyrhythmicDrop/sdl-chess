@@ -54,26 +54,26 @@ char const Piece::getFenName() const
 	}
 }
 
-void Piece::setSquare(Square* square)
+void Piece::setSquare(Square& square)
 {
-	if (square != nullptr)
+	if (square.getOccupant() == nullptr)
 	{
-		if (square->getOccupant() == nullptr)
-		{
-			_position = square;
-			_dimensions = *square->getDimensions();
-			square->setOccupied(true, this);
-		}
-		else
-		{
-			LOG(ERROR) << "Square currently occupied! Take the piece on the square first.";
-		}
+		_position = &square;
+		_dimensions = *(square.getDimensions());
+		square.setOccupied(true, this);
 	}
 	else
 	{
+		LOG(ERROR) << "Square currently occupied! Take the piece on the square first.";
+	}	
+}
+
+void Piece::setSquare(Square* square)
+{
+	if (square == nullptr)
+	{
 		LOG(INFO) << "Piece removed from board!";
 	}
-	
 }
 
 void Piece::changeType(Figure type)

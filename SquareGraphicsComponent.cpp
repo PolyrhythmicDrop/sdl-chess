@@ -109,9 +109,9 @@ SquareGraphicsComponent::~SquareGraphicsComponent()
 void SquareGraphicsComponent::loadTexture()
 {}
 
-void SquareGraphicsComponent::loadTexture(Square* square)
+void SquareGraphicsComponent::loadTexture(const Square& square)
 {
-	_currentTexture = SDL_CreateTexture(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, square->getDimensions()->w, square->getDimensions()->h);
+	_currentTexture = SDL_CreateTexture(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, square.getDimensions()->w, square.getDimensions()->h);
 	_overlayTexture = _textureLoader->loadTextureFromImage(_overlayImgPath);
 }
 

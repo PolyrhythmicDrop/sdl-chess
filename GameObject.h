@@ -36,14 +36,14 @@ public:
 	/// <param name="mediator">The mediator for this object</param>
 	virtual void setMediator(IMediator* mediator);
 
-	virtual const std::string getName();
-	inline virtual void setName(std::string name) { _name = name; };
+	virtual const std::string& getName() const;
+	virtual void setName(const std::string& name);
 
 	/// <summary>
 	/// Get Rect (nerd). Returns the _dimensions of the game object, which is an SDL Rect.
 	/// </summary>
 	/// <returns></returns>
-	virtual SDL_Rect* getDimensions();
+	virtual const SDL_Rect* getDimensions() const;
 
 	/// <summary>
 	/// Set the width and height of the game object.
@@ -52,9 +52,9 @@ public:
 	/// <param name="h"></param>
 	virtual void setScale(int w, int h);
 
-	virtual int getWidth();
+	virtual int getWidth() const;
 
-	virtual int getHeight();
+	virtual int getHeight() const;
 
 	int getZ();
 

@@ -35,7 +35,9 @@ public:
 	/// Moves the piece.
 	/// </summary>
 	/// <param name="square">The square to move to.</param>
-	void setSquare(Square* square);
+	void setSquare(Square& square);
+	// setSquare overload for setting the square to null. Occurs typically when a piece is captured or otherwise removed from the board.
+	void setSquare(Square* square = nullptr);
 	inline Square* getSquare() { return _position; };
 
 	inline PieceColor getPieceColor() { return _pieceColor; };
