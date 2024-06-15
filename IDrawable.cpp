@@ -4,8 +4,13 @@ IDrawable::IDrawable() :
 	_drawDimensions({0, 0, 0, 0}),
 	_zIndex(0),
 	_currentTexture(nullptr),
-	_draw(false)
+	_draw(true)
 {}
+
+void IDrawable::setDrawDimByObjDim(SDL_Rect dim)
+{
+	_drawDimensions = dim;
+}
 
 SDL_Texture*& IDrawable::getCurrentTexture()
 {

@@ -144,6 +144,7 @@ void Piece::setSquare(Square* square)
 		{
 			_position = square;
 			_dimensions = *square->getDimensions();
+			_graphics->setDrawDimByObjDim(_dimensions);
 			square->setOccupied(true, this);
 		}
 		else
@@ -285,5 +286,13 @@ void Piece::setFenName(char fen)
 	std::string f{ fen };
 	this->setName(f);
 	this->_name;
+}
+
+void Piece::setPosition(int x, int y)
+{
+	_dimensions.x = x;
+	_dimensions.y = y;
+
+	_graphics->setDrawDimByObjDim(_dimensions);
 }
 

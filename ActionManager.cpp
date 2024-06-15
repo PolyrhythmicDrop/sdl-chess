@@ -199,17 +199,8 @@ void ActionManager::promotePawn(Piece* piece, bool fish)
 	bool run{ true };
 	char input{};
 
-	// Render map vectors for updating the texture if necessary
-	// TODO: Update rendering functionality so I don't have to remove objects from render map and then re-add them to update.
-	std::vector<std::pair<GameObject*, SDL_Texture*>> vect{};
-	std::pair<GameObject*, SDL_Texture*> pair{};
-	pair.first = piece;
-	pair.second = piece->getGraphics()->getCurrentTexture();
-	vect.push_back(pair);
-
 	if (fish)
 	{
-		ServiceLocator::getGraphics().removeFromRenderMap(vect);
 
 		switch (_gm->_fishManager->getPromote())
 		{
@@ -231,7 +222,6 @@ void ActionManager::promotePawn(Piece* piece, bool fish)
 			break;
 		case 'p':
 		case 'P':
-			ServiceLocator::getGraphics().addToRenderMap(2, vect);
 			break;
 		}
 	}
@@ -250,7 +240,6 @@ void ActionManager::promotePawn(Piece* piece, bool fish)
 				}
 				else if (input == 'Y' || input == 'y')
 				{
-					ServiceLocator::getGraphics().removeFromRenderMap(vect);
 					try
 					{
 						// Select piece to turn into
@@ -283,7 +272,6 @@ void ActionManager::promotePawn(Piece* piece, bool fish)
 					catch (char e)
 					{
 						LOG(ERROR) << "Invalid input: " << e;
-						ServiceLocator::getGraphics().addToRenderMap(2, vect);
 						continue;
 					}
 				}
@@ -304,14 +292,6 @@ void ActionManager::promotePawn(Piece* piece, bool fish)
 			break;
 		}
 	}
-
-	vect.clear();
-	pair.first = piece;
-	pair.second = piece->getGraphics()->getCurrentTexture();
-	vect.push_back(pair);
-	ServiceLocator::getGraphics().addToRenderMap(2, vect);
-
-	vect.clear();
 
 }
 

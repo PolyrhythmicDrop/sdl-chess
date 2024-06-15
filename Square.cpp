@@ -199,3 +199,11 @@ const Square::TileType& Square::getTileType() const
 { 
 	return _tileType; 
 }
+
+void Square::setPosition(int x, int y)
+{
+	_dimensions.x = x;
+	_dimensions.y = y;
+
+	_graphics->setDrawDimByObjDim(_dimensions);
+}

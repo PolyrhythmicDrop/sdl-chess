@@ -102,14 +102,14 @@ void InResoMenuState::buildMenu(SceneEscMenu* menuScene)
 	menuScene->addObject(menuScene->_backButton, menuScene->_backButton->getGraphicsComponent()->getCurrentTexture());
 
 	// Add to render queue
-	ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());
+	/*ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());*/
 
 }
 
 void InResoMenuState::destroyMenu(SceneEscMenu* menuScene)
 {
 	// Remove the menuScene menu vector objects from the render map
-	ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());
+	/*ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());*/
 
 	if (menuScene->_resoMenuBg != nullptr)
 	{

@@ -582,14 +582,14 @@ void GameManager::setUpPieces()
 
 
 	// Add the pieces to the render queue
-	std::vector<std::pair<GameObject*, SDL_Texture*>> rendVect;
+	std::vector<IDrawable*> rendVect;
 	PieceIterator pieceItr = pieces->createIterator();
 	pieceItr.goToStart();
 
 	for (int i = 0; i < pieceItr.getSize(); ++i)
 	{
 		pieceItr.goToIndex(i);
-		rendVect.push_back(std::pair<GameObject*, SDL_Texture*>(&(*pieceItr.getCurrentPosition()), (*pieceItr.getCurrentPosition()).getGraphics()->getCurrentTexture()));
+		rendVect.push_back(pieceItr.getCurrentPosition()->getGraphics());
 	}
 
 	ServiceLocator::getGraphics().addToRenderMap(2, rendVect);

@@ -91,7 +91,7 @@ void InEscMenuState::buildMenu(SceneEscMenu* menuScene)
 
 
 	// Add the scene map to the render map in the Graphics Service
-	ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());
+	/*ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());*/
 	
 }
 
@@ -124,7 +124,7 @@ void InEscMenuState::unsubscribeToEventManager(EventManager& manager, SceneEscMe
 void InEscMenuState::destroyMenu(SceneEscMenu* menuScene)
 {
 	// Remove the objects from the render map
-	ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());
+	/*ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());*/
 	
 	
 	if (menuScene->_escMenuBg != nullptr)

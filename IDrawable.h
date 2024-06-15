@@ -21,11 +21,13 @@ public:
 	virtual ~IDrawable() {};
 
 	virtual void loadTexture() = 0;
+	virtual void setDrawDimByObjDim(SDL_Rect dim);
 	virtual SDL_Texture*& getCurrentTexture();
 
 	const SDL_Rect& getDrawDimensions();
 	void setDrawDimensions(int x, int y, int w, int h);
 	void setDrawPosition(int x, int y);
+	
 	void setDrawScale(int w, int h);
 	void setDrawScaleByTexture();
 

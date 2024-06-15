@@ -65,6 +65,8 @@ public:
 	const TileType& getTileType() const;
 	void setTileType(const TileType& type);
 
+	void setPosition(int x, int y);
+
 private:
 
 	// True if the square is occupied, false if empty. If occupied, the square will use the take overlay. If empty, the square will use the move overlay.

@@ -113,6 +113,12 @@ void SquareGraphicsComponent::loadTexture(const Square& square)
 {
 	_currentTexture = SDL_CreateTexture(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, square.getDimensions()->w, square.getDimensions()->h);
 	_overlayTexture = _textureLoader->loadTextureFromImage(_overlayImgPath);
+	setDrawScaleByTexture();
+}
+
+void SquareGraphicsComponent::setDrawDimByObjDim(SDL_Rect dim)
+{
+	_drawDimensions = dim;
 }
 
 SDL_Texture* SquareGraphicsComponent::getSquareTexture()
@@ -206,7 +212,8 @@ void SquareGraphicsComponent::sumImage(Square* square)
 		SDL_RenderCopy(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), _overlayTexture, nullptr, nullptr);
 		break;
 	}
-	// Render the square texture and the overlay texture to the sum texture
+	
+	setDrawScaleByTexture();
 	
 	// Set the render target back to the window
 	SDL_SetRenderTarget(ServiceLocator::getGraphics().getRenderer()->GetRenderer(), nullptr);

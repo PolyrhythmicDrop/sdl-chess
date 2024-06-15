@@ -2,27 +2,27 @@
 
 Window* NullGraphicsService::getWindow()
 {
-	return NULL;
+	return nullptr;
 }
 
 Renderer* NullGraphicsService::getRenderer()
 {
-	return NULL;
+	return nullptr;
 }
 
-void NullGraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject*, SDL_Texture*>> pairs)
+void NullGraphicsService::addToRenderMap(int layer, std::vector<IDrawable*> objects)
 {
 
 }
 
-void NullGraphicsService::removeFromRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects)
+void NullGraphicsService::removeFromRenderMap(std::vector<IDrawable*> objects)
 {
 
 }
 
-std::vector<std::pair<GameObject*, SDL_Texture*>> NullGraphicsService::findInRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects)
+std::vector<IDrawable*> NullGraphicsService::findInRenderMap(std::vector<IDrawable*> objects)
 {
-	return std::vector<std::pair<GameObject*, SDL_Texture*>>(NULL);
+	return objects;
 }
 
 void NullGraphicsService::render()

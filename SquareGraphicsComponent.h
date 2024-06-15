@@ -45,6 +45,7 @@ public:
 	// IDrawable functions
 	void loadTexture();
 	void loadTexture(const Square& square);
+	void setDrawDimByObjDim(SDL_Rect dim);
 
 	// Get the textures for the overlay and the square to edit their colors individually
 	SDL_Texture* getSquareTexture();

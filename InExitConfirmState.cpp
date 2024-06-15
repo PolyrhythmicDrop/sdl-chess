@@ -89,14 +89,14 @@ void InExitConfirmState::buildMenu(SceneEscMenu* menuScene)
 	menuScene->addObject(menuScene->_no, menuScene->_no->getGraphicsComponent()->getCurrentTexture());
 
 	// Add to render queue
-	ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());
+	//ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());
 
 }
 
 void InExitConfirmState::destroyMenu(SceneEscMenu* menuScene)
 {
 	// Remove the objects from the render map
-	ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());
+	/*ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());*/
 
 	if (menuScene->_exitConfirmMenuBg != nullptr)
 	{

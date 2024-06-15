@@ -39,7 +39,6 @@ public:
 	/// </summary>
 	/// <param name="square">The square to move to.</param>
 	void setSquare(Square* square = nullptr);
-
 	Square* getSquare() const;
 
 	inline const PieceColor getPieceColor() const { return _pieceColor; };
@@ -61,6 +60,8 @@ public:
 
 	inline PieceInputComponent* getInput() { return _input.get(); };
 	inline PieceGraphicsComponent* getGraphics() { return _graphics.get(); };
+
+	void setPosition(int x, int y);
 
 private:
 

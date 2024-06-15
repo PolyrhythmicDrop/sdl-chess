@@ -132,12 +132,12 @@ void const Chessboard::buildChessboard()
 
 void const Chessboard::addBoardToRender()
 {
-	std::vector<std::pair<GameObject*, SDL_Texture*>> renderVect;
+	std::vector<IDrawable*> renderVect;
 
 	for (int row = 0; row < _boardGrid.size(); ++row)
 	{
 		for (int column = 0; column < _boardGrid[row].size(); ++column)
-			renderVect.push_back(std::pair<GameObject*, SDL_Texture*>(&_boardGrid[row][column], _boardGrid[row][column].getGraphicsComponent()->getCurrentTexture()));
+			renderVect.push_back(_boardGrid[row][column].getGraphicsComponent());
 	}
 
 	ServiceLocator::getGraphics().addToRenderMap(1, renderVect);
