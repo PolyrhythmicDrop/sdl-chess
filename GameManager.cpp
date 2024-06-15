@@ -356,7 +356,7 @@ void GameManager::setUpPieces()
 				case 'p':
 					if (blkPawnItr != blkPawnVect.end())
 					{
-						(*blkPawnItr)->setSquare(boardGrid->at(row).at(col));
+						(*blkPawnItr)->setSquare(&boardGrid->at(row).at(col));
 						(*blkPawnItr)->getSquare()->getBoardIndex().first != 6 ? 
 							(*blkPawnItr)->setFirstMove(false) : (*blkPawnItr)->setFirstMove(true);
 						++blkPawnItr;
@@ -369,7 +369,7 @@ void GameManager::setUpPieces()
 				case 'P':
 					if (whtPawnItr != whtPawnVect.end())
 					{
-						(*whtPawnItr)->setSquare(boardGrid->at(row).at(col));
+						(*whtPawnItr)->setSquare(&boardGrid->at(row).at(col));
 						(*whtPawnItr)->getSquare()->getBoardIndex().first != 1 ? 
 							(*whtPawnItr)->setFirstMove(false) : (*whtPawnItr)->setFirstMove(true);
 						++whtPawnItr;
@@ -382,7 +382,7 @@ void GameManager::setUpPieces()
 				case 'r':
 					if (blkRookItr != blkRookVect.end())
 					{
-						(*blkRookItr)->setSquare(boardGrid->at(row).at(col));
+						(*blkRookItr)->setSquare(&boardGrid->at(row).at(col));
 						++blkRookItr;
 					}
 					else
@@ -393,7 +393,7 @@ void GameManager::setUpPieces()
 				case 'R':
 					if (whtRookItr != whtRookVect.end())
 					{
-						(*whtRookItr)->setSquare(boardGrid->at(row).at(col));
+						(*whtRookItr)->setSquare(&boardGrid->at(row).at(col));
 						++whtRookItr;
 					}
 					else
@@ -404,7 +404,7 @@ void GameManager::setUpPieces()
 				case 'n':
 					if (blkKnightItr != blkKnightVect.end())
 					{
-						(*blkKnightItr)->setSquare(boardGrid->at(row).at(col));
+						(*blkKnightItr)->setSquare(&boardGrid->at(row).at(col));
 						++blkKnightItr;
 					}
 					else
@@ -415,7 +415,7 @@ void GameManager::setUpPieces()
 				case 'N':
 					if (whtKnightItr != whtKnightVect.end())
 					{
-						(*whtKnightItr)->setSquare(boardGrid->at(row).at(col));
+						(*whtKnightItr)->setSquare(&boardGrid->at(row).at(col));
 						++whtKnightItr;
 					}
 					else
@@ -426,7 +426,7 @@ void GameManager::setUpPieces()
 				case 'b':
 					if (blkBishopItr != blkBishopVect.end())
 					{
-						(*blkBishopItr)->setSquare(boardGrid->at(row).at(col));
+						(*blkBishopItr)->setSquare(&boardGrid->at(row).at(col));
 						++blkBishopItr;
 					}
 					else
@@ -437,7 +437,7 @@ void GameManager::setUpPieces()
 				case 'B':
 					if (whtBishopItr != whtBishopVect.end())
 					{
-						(*whtBishopItr)->setSquare(boardGrid->at(row).at(col));
+						(*whtBishopItr)->setSquare(&boardGrid->at(row).at(col));
 						++whtBishopItr;
 					}
 					else
@@ -448,7 +448,7 @@ void GameManager::setUpPieces()
 				case 'q':
 					if (blkQueenItr != blkQueenVect.end())
 					{
-						(*blkQueenItr)->setSquare(boardGrid->at(row).at(col));
+						(*blkQueenItr)->setSquare(&boardGrid->at(row).at(col));
 						++blkQueenItr;
 					}
 					else
@@ -459,7 +459,7 @@ void GameManager::setUpPieces()
 				case 'Q':
 					if (whtQueenItr != whtQueenVect.end())
 					{
-						(*whtQueenItr)->setSquare(boardGrid->at(row).at(col));
+						(*whtQueenItr)->setSquare(&boardGrid->at(row).at(col));
 						++whtQueenItr;
 					}
 					else
@@ -470,7 +470,7 @@ void GameManager::setUpPieces()
 				case 'k':
 					if (blkKingItr != blkKingVect.end())
 					{
-						(*blkKingItr)->setSquare(boardGrid->at(row).at(col));
+						(*blkKingItr)->setSquare(&boardGrid->at(row).at(col));
 
 						++blkKingItr;
 					}
@@ -482,7 +482,7 @@ void GameManager::setUpPieces()
 				case 'K':
 					if (whtKingItr != whtKingVect.end())
 					{
-						(*whtKingItr)->setSquare(boardGrid->at(row).at(col));
+						(*whtKingItr)->setSquare(&boardGrid->at(row).at(col));
 						++whtKingItr;
 					}
 					else
@@ -976,20 +976,20 @@ void GameManager::executeFishMove()
 		std::pair<std::string, std::string> fishMove = _fishManager->parseBestMove(move);
 
 		// Simulate fish click on piece
-		Square& originSq = *_gameScene->getBoard()->getSquareByName(fishMove.first);
-		_selectionManager->handleClickOnPiece(originSq.getOccupant());
+		const std::shared_ptr<Square>& originSq = _gameScene->getBoard()->getSquareByName(fishMove.first);
+		_selectionManager->handleClickOnPiece(originSq->getOccupant());
 
 		Sleep(500);
 
 		// Simulate fish clicking on a square or opposing piece
-		Square& targetSq = *_gameScene->getBoard()->getSquareByName(fishMove.second);
-		if (targetSq.getOccupied())
+		const std::shared_ptr<Square>& targetSq = _gameScene->getBoard()->getSquareByName(fishMove.second);
+		if (targetSq->getOccupied())
 		{
-			_selectionManager->handleClickOnPiece(targetSq.getOccupant());
+			_selectionManager->handleClickOnPiece(targetSq->getOccupant());
 		}
 		else
 		{
-			_selectionManager->handleClickOnEmptySquare(&targetSq);
+			_selectionManager->handleClickOnEmptySquare(targetSq.get());
 		}
 		return;
 	}

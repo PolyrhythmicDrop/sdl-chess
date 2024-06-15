@@ -11,34 +11,116 @@ Piece::Piece(Figure type, PieceColor color) :
 	_firstMove(true),
 	_passantable(false),
 	_position(nullptr),
-	_graphics(new PieceGraphicsComponent),
-	_input(new PieceInputComponent)
+	_graphics(std::make_unique<PieceGraphicsComponent>()),
+	_input(std::make_unique<PieceInputComponent>())
 {
 	changeType(type);
 	LOG(TRACE) << "Piece Type: " << _type << " | Color: " << _pieceColor << " created!";
 }
 
-//// Deep Copy Constructor
-Piece::Piece(const Piece& piece)
+Piece::~Piece()
+{
+	LOG(TRACE) << "Piece Type: " << _type << " | Color: " << _pieceColor << " destroyed!";
+}
+
+// Deep Copy Constructor
+Piece::Piece(const Piece& piece) :
+	_pieceColor(piece._pieceColor)
 {
 	_mediator = piece._mediator;
 	_position = piece._position;
 	_passantable = piece._passantable;
-	_pieceColor = piece._pieceColor;
 	_type = piece._type;
 	_fenName = piece._fenName;
 	_name = piece._name;
 	_selected = piece._selected;
 	_alive = piece._alive;
 	_firstMove = piece._firstMove;
-	_input = piece._input;
-	_graphics = piece._graphics;
-	LOG(TRACE) << "Piece deep copy constructor called!";
+	_input = std::make_unique<PieceInputComponent>();
+	_graphics = std::make_unique<PieceGraphicsComponent>();
+
+	LOG(DEBUG) << "Piece deep copy constructor called!";
 }
 
-Piece::~Piece()
+// Copy assignment operator
+Piece& Piece::operator=(const Piece& other)
 {
-	LOG(TRACE) << "Piece Type: " << _type << " | Color: " << _pieceColor << " destroyed!";
+	LOG(DEBUG) << "Piece copy assignment operator called!";
+	return *this;
+}
+
+// Move constructor
+Piece::Piece(Piece&& piece) noexcept :
+	_position(nullptr),
+	_pieceColor(piece._pieceColor),
+	_type(piece._type),
+	_fenName(piece._fenName),
+	_firstMove(piece._firstMove),
+	_passantable(piece._passantable),
+	_selected(piece._selected),
+	_alive(piece._alive),
+	_input(std::make_unique<PieceInputComponent>()),
+	_graphics(std::make_unique<PieceGraphicsComponent>())
+{
+	_mediator = piece._mediator;
+	_name = piece._name;
+	_dimensions = piece._dimensions;
+	_zIndex = piece._zIndex;
+	_draw = piece._draw;
+	_position = piece._position;
+
+	_input.swap(piece._input);
+	_graphics.swap(piece._graphics);
+
+	piece._input.reset();
+	piece._graphics.reset();
+
+	LOG(DEBUG) << "Piece move constructor called!";
+}
+
+// Move assignment operator
+Piece& Piece::operator=(Piece&& piece) noexcept
+{
+	// Self-assignment detection
+	if (&piece == this)
+	{
+		return *this;
+	}
+
+	// Reset any pointers
+	_input.reset();
+	_graphics.reset();
+	delete _position;
+
+	// Copy from the source object
+	_position = piece._position;
+	_pieceColor = piece._pieceColor;
+	_type = piece._type;
+	_fenName = piece._fenName;
+	_firstMove = piece._firstMove;
+	_passantable = piece._passantable;
+	_selected = piece._selected;
+	_alive = piece._alive;
+	_input = std::make_unique<PieceInputComponent>();
+	_input.swap(piece._input);
+	_graphics = std::make_unique<PieceGraphicsComponent>();
+	_graphics.swap(piece._graphics);
+
+	_mediator = piece._mediator;
+	_name = piece._name;
+	_dimensions = piece._dimensions;
+	_zIndex = piece._zIndex;
+	_draw = piece._draw;
+	
+
+	// Release any pointers from the source object
+	piece._graphics.reset();
+	piece._input.reset();
+	delete piece._position;
+
+	LOG(TRACE) << "Piece move assignment operator called!";
+
+	return *this;
 }
 
 char const Piece::getFenName() const
@@ -54,29 +136,33 @@ char const Piece::getFenName() const
 	}
 }
 
-void Piece::setSquare(Square& square)
-{
-	if (square.getOccupant() == nullptr)
-	{
-		_position = &square;
-		_dimensions = *(square.getDimensions());
-		square.setOccupied(true, this);
-	}
-	else
-	{
-		LOG(ERROR) << "Square currently occupied! Take the piece on the square first.";
-	}	
-}
-
 void Piece::setSquare(Square* square)
 {
-	if (square == nullptr)
+	if (square != nullptr)
+	{
+		if (square->getOccupant() == nullptr)
+		{
+			_position = square;
+			_dimensions = *square->getDimensions();
+			square->setOccupied(true, this);
+		}
+		else
+		{
+			LOG(ERROR) << "Square currently occupied! Take the piece on the square first.";
+		}
+	}
+	else
 	{
 		LOG(INFO) << "Piece removed from board!";
 	}
 }
 
-void Piece::changeType(Figure type)
+Square* Piece::getSquare() const
+{ 
+	return _position;
+}
+
+void Piece::changeType(const Figure& type)
 {
 	_type = type;
 
@@ -164,20 +250,20 @@ void Piece::setSelected(bool selected)
 	{
 		_graphics->removeSelectedIcon();
 
-		if (this->_mediator != nullptr)
+		if (_mediator != nullptr)
 		{
 			// Notify the GM that this piece was deselected.
-			this->_mediator->notify(this, "pieceDeselected");
+			_mediator->notify(this, "pieceDeselected");
 		}
 	}
 	else
 	{
 		_graphics->addSelectedIcon();
 
-		if (this->_mediator != nullptr)
+		if (_mediator != nullptr)
 		{
 			// Notify the GM that this piece was selected.
-			this->_mediator->notify(this, "pieceSelected");
+			_mediator->notify(this, "pieceSelected");
 		}
 	}
 }

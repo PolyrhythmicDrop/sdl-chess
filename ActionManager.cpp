@@ -87,7 +87,7 @@ void ActionManager::movePiece(Piece* piece, Square* target)
 	if (!target->getOccupied())
 	{
 		piece->getSquare()->setOccupied(false);
-		piece->setSquare(*target);
+		piece->setSquare(target);
 	}
 
 	// Check if move is valid. If not, end the function.
@@ -200,6 +200,7 @@ void ActionManager::promotePawn(Piece* piece, bool fish)
 	char input{};
 
 	// Render map vectors for updating the texture if necessary
+	// TODO: Update rendering functionality so I don't have to remove objects from render map and then re-add them to update.
 	std::vector<std::pair<GameObject*, SDL_Texture*>> vect{};
 	std::pair<GameObject*, SDL_Texture*> pair{};
 	pair.first = piece;
@@ -326,7 +327,7 @@ void ActionManager::castleKing(Piece* king, Square* square)
 			rook = _gm->_gameScene->getBoard()->getBoardGrid()->at(7).at(0).getOccupant();
 			// Move the rook to the appropriate place.
 			rook->getSquare()->setOccupied(false);
-			rook->setSquare(_gm->_gameScene->getBoard()->getBoardGrid()->at(7).at(3));	
+			rook->setSquare(&_gm->_gameScene->getBoard()->getBoardGrid()->at(7).at(3));	
 		}
 		// ...or is it on the black right side?
 		else if (square->getBoardIndex().first == 7 && square->getBoardIndex().second == 6)
@@ -334,7 +335,7 @@ void ActionManager::castleKing(Piece* king, Square* square)
 			rook = _gm->_gameScene->getBoard()->getBoardGrid()->at(7).at(7).getOccupant();
 			// Move the rook to the appropriate place.
 			rook->getSquare()->setOccupied(false);
-			rook->setSquare(_gm->_gameScene->getBoard()->getBoardGrid()->at(7).at(5));
+			rook->setSquare(&_gm->_gameScene->getBoard()->getBoardGrid()->at(7).at(5));
 		}
 		// Remove castle fen string for this player
 		_gm->_fenManager->setCastleByColor(false, 0, std::nullopt, std::nullopt);
@@ -347,7 +348,7 @@ void ActionManager::castleKing(Piece* king, Square* square)
 			rook = _gm->_gameScene->getBoard()->getBoardGrid()->at(0).at(0).getOccupant();
 			// Move the rook to the appropriate place.
 			rook->getSquare()->setOccupied(false);
-			rook->setSquare(_gm->_gameScene->getBoard()->getBoardGrid()->at(0).at(3));
+			rook->setSquare(&_gm->_gameScene->getBoard()->getBoardGrid()->at(0).at(3));
 		}
 		// ...or is it on the white right side?
 		else if (square->getBoardIndex().first == 0 && square->getBoardIndex().second == 6)
@@ -355,7 +356,7 @@ void ActionManager::castleKing(Piece* king, Square* square)
 			rook = _gm->_gameScene->getBoard()->getBoardGrid()->at(0).at(7).getOccupant();
 			// Move the rook to the appropriate place.
 			rook->getSquare()->setOccupied(false);
-			rook->setSquare(_gm->_gameScene->getBoard()->getBoardGrid()->at(0).at(5));
+			rook->setSquare(&_gm->_gameScene->getBoard()->getBoardGrid()->at(0).at(5));
 		}
 		_gm->_fenManager->setCastleByColor(false, 1, std::nullopt, std::nullopt);
 	}
@@ -438,7 +439,7 @@ void ActionManager::undoAction(Piece* attacker, Piece* defender)
 		attacker->setFirstMove(_undoBuffer.attacker->firstMove);
 		attacker->setAlive(_undoBuffer.attacker->alive);
 		attacker->getSquare()->setOccupied(false);
-		attacker->setSquare(*_undoBuffer.attacker->square);
+		attacker->setSquare(_undoBuffer.attacker->square);
 		attacker->setPassantable(_undoBuffer.attacker->passantable);
 	}
 	if (defender != nullptr && _undoBuffer.defender != nullptr)
@@ -446,7 +447,7 @@ void ActionManager::undoAction(Piece* attacker, Piece* defender)
 		defender->setFirstMove(_undoBuffer.defender->firstMove);
 		defender->setAlive(_undoBuffer.defender->alive);
 		defender->getSquare()->setOccupied(false);
-		defender->setSquare(*_undoBuffer.defender->square);
+		defender->setSquare(_undoBuffer.defender->square);
 		defender->setPassantable(_undoBuffer.defender->passantable);
 	}
 	

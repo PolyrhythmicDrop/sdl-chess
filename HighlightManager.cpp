@@ -717,13 +717,13 @@ void HighlightManager::highlightCastle(Piece* king, Square* rookLSq, Square* roo
 				{
 					king->getSquare()->setOccupied(false);
 					// Temporarily set the king's position so we can check it for check.
-					king->setSquare(grid->at(7).at(kingIndex.second - kingMove));
+					king->setSquare(&grid->at(7).at(kingIndex.second - kingMove));
 					// Check if any square that the king will pass through would result in a check.
 					if (highlightCheck(&grid->at(7).at(kingIndex.second - kingMove)))
 					{
 						// Reset the king's position to its initial position.
 						king->getSquare()->setOccupied(false);
-						king->setSquare(grid->at(kingIndex.first).at(kingIndex.second));
+						king->setSquare(&grid->at(kingIndex.first).at(kingIndex.second));
 						// Set castle to false and break out of the loop.
 						castle = false;
 						break;
@@ -735,7 +735,7 @@ void HighlightManager::highlightCastle(Piece* king, Square* rookLSq, Square* roo
 				}
 				// Reset the king's position to its initial position.
 				king->getSquare()->setOccupied(false);
-				king->setSquare(grid->at(kingIndex.first).at(kingIndex.second));
+				king->setSquare(&grid->at(kingIndex.first).at(kingIndex.second));
 				king->getSquare()->setOccupied(true, king);
 				// Set the overlay to CASTLE for the square the king will move to, two spaces to the king's left.
 				grid->at(7).at(kingIndex.second - 2).setOverlayType(Square::CASTLE);
@@ -763,13 +763,13 @@ void HighlightManager::highlightCastle(Piece* king, Square* rookLSq, Square* roo
 				{
 					king->getSquare()->setOccupied(false);
 					// Temporarily set the king's position so we can check it for check.
-					king->setSquare(grid->at(0).at(kingIndex.second - kingMove));
+					king->setSquare(&grid->at(0).at(kingIndex.second - kingMove));
 					// Check if any square that the king will pass through would result in a check.
 					if (highlightCheck(&grid->at(0).at(kingIndex.second - kingMove)))
 					{
 						// Reset the king's position to its initial position.
 						king->getSquare()->setOccupied(false);
-						king->setSquare(grid->at(kingIndex.first).at(kingIndex.second));
+						king->setSquare(&grid->at(kingIndex.first).at(kingIndex.second));
 						// Set castle to false and break out of the loop.
 						castle = false;
 						break;
@@ -781,7 +781,7 @@ void HighlightManager::highlightCastle(Piece* king, Square* rookLSq, Square* roo
 				}
 				// Reset the king's position to its initial position.
 				king->getSquare()->setOccupied(false);
-				king->setSquare(grid->at(kingIndex.first).at(kingIndex.second));
+				king->setSquare(&grid->at(kingIndex.first).at(kingIndex.second));
 				king->getSquare()->setOccupied(true, king);
 				// Set the overlay to CASTLE for the square the king will move to, two spaces to the king's left.
 				grid->at(0).at(kingIndex.second - 2).setOverlayType(Square::CASTLE);
@@ -821,13 +821,13 @@ void HighlightManager::highlightCastle(Piece* king, Square* rookLSq, Square* roo
 				{
 					king->getSquare()->setOccupied(false);
 					// Temporarily set the king's position so we can check it for check.
-					king->setSquare(grid->at(7).at(kingIndex.second + kingMove));
+					king->setSquare(&grid->at(7).at(kingIndex.second + kingMove));
 					// Check if any square that the king will pass through would result in a check.
 					if (highlightCheck(&grid->at(7).at(kingIndex.second + kingMove)))
 					{
 						// Reset the king's position to its initial position.
 						king->getSquare()->setOccupied(false);
-						king->setSquare(grid->at(kingIndex.first).at(kingIndex.second));
+						king->setSquare(&grid->at(kingIndex.first).at(kingIndex.second));
 						// Set castle to false and break out of the loop.
 						castle = false;
 						break;
@@ -839,7 +839,7 @@ void HighlightManager::highlightCastle(Piece* king, Square* rookLSq, Square* roo
 				}
 				// Reset the king's position to its initial position.
 				king->getSquare()->setOccupied(false);
-				king->setSquare(grid->at(kingIndex.first).at(kingIndex.second));
+				king->setSquare(&grid->at(kingIndex.first).at(kingIndex.second));
 				king->getSquare()->setOccupied(true, king);
 				// Set the overlay to CASTLE for the square the king will move to, two spaces to the king's right.
 				grid->at(7).at(kingIndex.second + 2).setOverlayType(Square::CASTLE);
@@ -867,13 +867,13 @@ void HighlightManager::highlightCastle(Piece* king, Square* rookLSq, Square* roo
 				{
 					king->getSquare()->setOccupied(false);
 					// Temporarily set the king's position so we can check it for check.
-					king->setSquare(grid->at(0).at(kingIndex.second + kingMove));
+					king->setSquare(&grid->at(0).at(kingIndex.second + kingMove));
 					// Check if any square that the king will pass through would result in a check.
 					if (highlightCheck(&grid->at(0).at(kingIndex.second + kingMove)))
 					{
 						// Reset the king's position to its initial position.
 						king->getSquare()->setOccupied(false);
-						king->setSquare(grid->at(kingIndex.first).at(kingIndex.second));
+						king->setSquare(&grid->at(kingIndex.first).at(kingIndex.second));
 						// Set castle to false and break out of the loop.
 						castle = false;
 						break;
@@ -885,7 +885,7 @@ void HighlightManager::highlightCastle(Piece* king, Square* rookLSq, Square* roo
 				}
 				// Reset the king's position to its initial position.
 				king->getSquare()->setOccupied(false);
-				king->setSquare(grid->at(kingIndex.first).at(kingIndex.second));
+				king->setSquare(&grid->at(kingIndex.first).at(kingIndex.second));
 				king->getSquare()->setOccupied(true, king);
 				// Set the overlay to CASTLE for the square the king will move to, two spaces to the king's left.
 				grid->at(0).at(kingIndex.second + 2).setOverlayType(Square::CASTLE);

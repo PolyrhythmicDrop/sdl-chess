@@ -77,7 +77,7 @@ void Chessboard::setRowTileType(bool odd, std::vector<Square>& sqVect)
 	}
 }
 
-Square Chessboard::createSquare(std::string name)
+Square Chessboard::createSquare(const std::string& name)
 {
 	Square square{ name };
 	square.setScale(_dimensions.w / 8, _dimensions.h / 8);
@@ -158,7 +158,7 @@ void const Chessboard::printSquarePositions()
 	}
 }
 
-Square* Chessboard::getSquareByName(std::string name)
+std::shared_ptr<Square> Chessboard::getSquareByName(const std::string& name)
 {
 	std::vector<Square>::iterator itr;
 
@@ -168,7 +168,7 @@ Square* Chessboard::getSquareByName(std::string name)
 		{
 			if (_boardGrid.at(row).at(col).getName() == name)
 			{
-				return &_boardGrid.at(row).at(col);
+				return std::make_shared<Square>(_boardGrid.at(row).at(col));
 			}
 		}
 	}

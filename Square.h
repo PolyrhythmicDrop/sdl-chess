@@ -23,7 +23,7 @@ public:
 	};
 
 	// Default constructor
-	Square(std::string notation);
+	Square(std::string notation = "");
 	// Deep copy constructor
 	Square(const Square& square);
 	// Copy assignment operator
