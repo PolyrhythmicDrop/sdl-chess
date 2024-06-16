@@ -156,7 +156,7 @@ void const Chessboard::printSquarePositions()
 	}
 }
 
-std::shared_ptr<Square> Chessboard::getSquareByName(const std::string& name)
+Square* Chessboard::getSquareByName(const std::string& name)
 {
 	std::vector<Square>::iterator itr;
 
@@ -166,7 +166,7 @@ std::shared_ptr<Square> Chessboard::getSquareByName(const std::string& name)
 		{
 			if (_boardGrid.at(row).at(col).getName() == name)
 			{
-				return std::make_shared<Square>(_boardGrid.at(row).at(col));
+				return &_boardGrid.at(row).at(col);
 			}
 		}
 	}

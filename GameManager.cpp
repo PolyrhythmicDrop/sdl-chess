@@ -976,20 +976,20 @@ void GameManager::executeFishMove()
 		std::pair<std::string, std::string> fishMove = _fishManager->parseBestMove(move);
 
 		// Simulate fish click on piece
-		const std::shared_ptr<Square>& originSq = _gameScene->getBoard()->getSquareByName(fishMove.first);
+		Square* originSq{ _gameScene->getBoard()->getSquareByName(fishMove.first) };
 		_selectionManager->handleClickOnPiece(originSq->getOccupant());
 
 		Sleep(500);
 
 		// Simulate fish clicking on a square or opposing piece
-		const std::shared_ptr<Square>& targetSq = _gameScene->getBoard()->getSquareByName(fishMove.second);
+		Square* targetSq{ _gameScene->getBoard()->getSquareByName(fishMove.second) };
 		if (targetSq->getOccupied())
 		{
 			_selectionManager->handleClickOnPiece(targetSq->getOccupant());
 		}
 		else
 		{
-			_selectionManager->handleClickOnEmptySquare(targetSq.get());
+			_selectionManager->handleClickOnEmptySquare(targetSq);
 		}
 		return;
 	}

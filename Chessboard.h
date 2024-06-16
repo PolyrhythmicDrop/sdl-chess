@@ -31,7 +31,7 @@ public:
 	inline SDL_Rect getBoardDimensions() const { return _dimensions; };
 	inline std::vector<std::vector<Square>>* getBoardGrid() { return &_boardGrid; };
 	void const printSquarePositions();
-	std::shared_ptr<Square> getSquareByName(const std::string& name);
+	Square* getSquareByName(const std::string& name);
 
 	void const buildChessboard();
 	void const addBoardToRender();
