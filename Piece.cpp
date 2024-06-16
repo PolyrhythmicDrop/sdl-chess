@@ -65,8 +65,6 @@ Piece::Piece(Piece&& piece) noexcept :
 	_mediator = piece._mediator;
 	_name = piece._name;
 	_dimensions = piece._dimensions;
-	_zIndex = piece._zIndex;
-	_draw = piece._draw;
 	_position = piece._position;
 
 	_input.swap(piece._input);
@@ -108,10 +106,7 @@ Piece& Piece::operator=(Piece&& piece) noexcept
 
 	_mediator = piece._mediator;
 	_name = piece._name;
-	_dimensions = piece._dimensions;
-	_zIndex = piece._zIndex;
-	_draw = piece._draw;
-	
+	_dimensions = piece._dimensions;	
 
 	// Release any pointers from the source object
 	piece._graphics.reset();

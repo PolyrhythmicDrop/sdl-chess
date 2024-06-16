@@ -6,29 +6,12 @@
 // Pure abstract class for game objects
 class GameObject
 {
-protected:
-
-	IMediator* _mediator;
-
-	// Name of the game object
-	std::string _name;
-
-	// Structure of dimensions for game objects
-	SDL_Rect _dimensions;
-
-	// Z-index for drawing purposes. Higher values render on top of lower values.
-	int _zIndex;
-
-	// Keeps track of the current number of game objects.
-	int static gameObjectCount;
 
 public:
 
 	GameObject(std::string name = "", IMediator* mediator = nullptr);
 
 	~GameObject();
-
-	bool _draw;
 
 	/// <summary>
 	/// Sets the mediator for this object
@@ -56,14 +39,6 @@ public:
 
 	virtual int getHeight() const;
 
-	int getZ();
-
-	/// <summary>
-	/// Sets the Z-value for this object.
-	/// </summary>
-	/// <param name="z"></param>
-	void setZ(int z);
-
 	/// <summary>
 	/// Set the position of the game object.
 	/// </summary>
@@ -74,6 +49,19 @@ public:
 	virtual inline int getY() { return _dimensions.y; };
 
 	virtual void setScaleFromTexture(SDL_Texture* texture);
+
+protected:
+
+	IMediator* _mediator;
+
+	// Name of the game object
+	std::string _name;
+
+	// Dimensions for game objects
+	SDL_Rect _dimensions;
+
+	// Keeps track of the current number of game objects.
+	int static gameObjectCount;
 };
 
 

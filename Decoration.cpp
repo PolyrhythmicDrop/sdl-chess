@@ -19,7 +19,7 @@ Decoration::Decoration(DecorationType type)	:
 		_graphics->setImgPath("images/exit-confirm-menu_ConfirmExitBG.png");
 		break;
 	}
-	_draw = true;
+	_graphics->_draw = true;
 	// Load the texture using the image path in the constructor's switch statement
 	_graphics->loadTexture();
 	// Set the initial dimensions for the decoration using the texture

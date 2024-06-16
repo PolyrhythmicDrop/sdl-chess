@@ -6,12 +6,6 @@
 /// </summary>
 class IDrawable
 {
-protected:
-
-	SDL_Rect _drawDimensions;
-	int _zIndex;
-	SDL_Texture* _currentTexture;
-
 public:
 
 	bool _draw;
@@ -27,13 +21,22 @@ public:
 	const SDL_Rect& getDrawDimensions();
 	void setDrawDimensions(int x, int y, int w, int h);
 	void setDrawPosition(int x, int y);
-	
+
 	void setDrawScale(int w, int h);
 	void setDrawScaleByTexture();
 
-	const int& getZ();
+	const int& getZ() const;
 	void setZ(int z);
 
+
+protected:
+
+	SDL_Rect _drawDimensions;
+
+	// Z-index for drawing purposes. Higher values render on top of lower values.
+	int _zIndex;
+
+	SDL_Texture* _currentTexture;
 	
 };
 

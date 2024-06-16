@@ -8,7 +8,6 @@ Chessboard::Chessboard() :
 	_boardGrid({})
 {
 	_dimensions = { 0, 0, 1000, 1000 };
-	_zIndex = -1;
 	LOG(INFO) << "Chessboard object constructed!";
 }
 
@@ -17,7 +16,6 @@ Chessboard::Chessboard(const Chessboard& board)
 {
 	_mediator = board._mediator;
 	_dimensions = board._dimensions;
-	_zIndex = board._zIndex;
 	_boardGrid = board._boardGrid;
 	LOG(INFO) << "Chessboard deep copy constructor called!";
 }
@@ -153,7 +151,7 @@ void const Chessboard::printSquarePositions()
 		LOG(DEBUG) << "";
 		for (int column = 0; column < _boardGrid[row].size(); ++column)
 		{
-			LOG(DEBUG) << "[ " << _boardGrid[row][column].getName() << " Index: [ " << _boardGrid[row][column].getBoardIndex().first << ", " << _boardGrid[row][column].getBoardIndex().second << " ] " << " ]\nX: " << _boardGrid[row][column].getX() << "\nY: " << _boardGrid[row][column].getY() << "\nZ: " << _boardGrid[row][column].getZ() << "\nW: " << _boardGrid[row][column].getWidth() << "\nH: " << _boardGrid[row][column].getHeight();
+			LOG(DEBUG) << "[ " << _boardGrid[row][column].getName() << " Index: [ " << _boardGrid[row][column].getBoardIndex().first << ", " << _boardGrid[row][column].getBoardIndex().second << " ] " << " ]\nX: " << _boardGrid[row][column].getX() << "\nY: " << _boardGrid[row][column].getY() << "\nZ: " << _boardGrid[row][column].getGraphicsComponent()->getZ() << "\nW: " << _boardGrid[row][column].getWidth() << "\nH: " << _boardGrid[row][column].getHeight();
 		}
 	}
 }

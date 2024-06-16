@@ -11,7 +11,6 @@ Square::Square(std::string notation) :
 	_currentPiece(nullptr)
 {
 	_name = notation;
-	_zIndex = 1;
 }
 
 // Deep copy constructor
@@ -20,8 +19,6 @@ Square::Square(const Square& square)
 	_mediator = square._mediator;
 	_name = square._name;
 	_dimensions = square._dimensions;
-	_zIndex = square._zIndex;
-	_draw = square._draw;
 	_occupied = square._occupied;
 	_boardIndex = square._boardIndex;
 	_currentPiece = square._currentPiece;
@@ -51,8 +48,6 @@ Square::Square(Square&& sq) noexcept :
 	_mediator = sq._mediator;
 	_name = sq._name;
 	_dimensions = sq._dimensions;
-	_zIndex = sq._zIndex;
-	_draw = sq._draw;
 	_graphics.swap(sq._graphics);
 
 	// Reset the passed unique ptr
@@ -78,8 +73,6 @@ Square& Square::operator=(Square&& sq) noexcept
 	_mediator = sq._mediator;
 	_name = sq._name;
 	_dimensions = sq._dimensions;
-	_zIndex = sq._zIndex;
-	_draw = sq._draw;
 	_occupied = sq._occupied;
 	_boardIndex = sq._boardIndex;
 	_currentPiece = sq._currentPiece;

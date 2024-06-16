@@ -4,9 +4,7 @@
 GameObject::GameObject(std::string name, IMediator* mediator) :
 	_mediator(mediator),
 	_name(name),
-	_dimensions({0, 0, 0, 0}),
-	_zIndex(0),
-	_draw(false)
+	_dimensions({0, 0, 0, 0})
 {
 	gameObjectCount++;
 	LOG(TRACE) << "Object " << _name << " created! Game object count: " << gameObjectCount;
@@ -52,16 +50,6 @@ int GameObject::getWidth() const
 int GameObject::getHeight() const
 {
 	return _dimensions.h;
-}
-
-int GameObject::getZ()
-{
-	return _zIndex;
-}
-
-void GameObject::setZ(int z)
-{
-	this->_zIndex = z;
 }
 
 void GameObject::setPosition(int x, int y)

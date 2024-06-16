@@ -44,7 +44,7 @@ void IDrawable::setDrawScaleByTexture()
 	SDL_QueryTexture(_currentTexture, NULL, NULL, &_drawDimensions.w, &_drawDimensions.h);
 }
 
-const int& IDrawable::getZ()
+const int& IDrawable::getZ() const
 {
 	return _zIndex;
 }
