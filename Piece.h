@@ -24,10 +24,13 @@ public:
 	};
 
 	Piece(Figure type, PieceColor color);
+	~Piece();
+
 	Piece(const Piece& piece);
 	Piece& operator=(const Piece& other);
 
-	~Piece();
+	Piece(Piece&& piece) noexcept;
+	Piece& operator=(Piece&& piece) noexcept;
 
 	char const getFenName() const;
 
@@ -35,13 +38,13 @@ public:
 	/// Moves the piece.
 	/// </summary>
 	/// <param name="square">The square to move to.</param>
-	void setSquare(Square* square);
-	inline Square* getSquare() { return _position; };
+	void setSquare(Square* square = nullptr);
+	Square* getSquare() const;
 
-	inline PieceColor getPieceColor() { return _pieceColor; };
+	inline const PieceColor getPieceColor() const { return _pieceColor; };
 	inline const Figure getPieceType() const { return _type; };
 
-	void changeType(Figure type);
+	void changeType(const Figure& type);
 
 	void setSelected(bool selected);
 	inline bool getSelected() const { return _selected; };
@@ -55,8 +58,10 @@ public:
 	inline void setPassantable(bool p) { _passantable = p; };
 	inline bool getPassantable() { return _passantable; };
 
-	inline PieceInputComponent* getInput() { return _input; };
-	inline PieceGraphicsComponent* getGraphics() { return _graphics; };
+	inline PieceInputComponent* getInput() { return _input.get(); };
+	inline PieceGraphicsComponent* getGraphics() { return _graphics.get(); };
+
+	void setPosition(int x, int y);
 
 private:
 
@@ -73,8 +78,8 @@ private:
 	bool _selected;
 	bool _alive;
 
-	PieceInputComponent* _input;
-	PieceGraphicsComponent* _graphics;
+	std::unique_ptr<PieceInputComponent> _input;
+	std::unique_ptr<PieceGraphicsComponent> _graphics;
 
 
 

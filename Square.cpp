@@ -1,28 +1,16 @@
 #include "Square.h"
-#include "ServiceLocator.h"
 #include "easylogging++.h"
 #include "SquareGraphicsComponent.h"
-#include "Chessboard.h"
 
-Square::Square(std::string notation, Chessboard* board) :
+
+Square::Square(std::string notation) :
 	_occupied(false),
-	_graphics(new SquareGraphicsComponent()),
+	_graphics(std::make_unique<SquareGraphicsComponent>()),
 	_tileType(DARK),
 	_overlay(NONE),
-	_moveOverlayColor({ 81, 224, 240, 255 }),
-	_takeOverlayColor({ 240, 121, 81, 255 }),
-	_lightTileColor({ 255, 245, 207, 255 }),
-	_darkTileColor({ 143, 132, 89, 255 }),
-	_chessboard(board),
 	_currentPiece(nullptr)
 {
 	_name = notation;
-	_dimensions = {0, 0, this->_chessboard->getDimensions()->w / 8, this->_chessboard->getDimensions()->h / 8 };
-	_zIndex = 1;
-	_draw = false;
-	_graphics->setOverlayImgPath("images/square_Overlay.png");
-	_graphics->loadTexture(this);
-	_graphics->sumImage(this);
 }
 
 // Deep copy constructor
@@ -31,19 +19,12 @@ Square::Square(const Square& square)
 	_mediator = square._mediator;
 	_name = square._name;
 	_dimensions = square._dimensions;
-	_zIndex = square._zIndex;
-	_draw = square._draw;
 	_occupied = square._occupied;
 	_boardIndex = square._boardIndex;
 	_currentPiece = square._currentPiece;
-	_moveOverlayColor = square._moveOverlayColor;
-	_takeOverlayColor = square._takeOverlayColor;
-	_lightTileColor = square._lightTileColor;
-	_darkTileColor = square._darkTileColor;
 	_tileType = square._tileType;
-	_graphics = new SquareGraphicsComponent();
-	*_graphics = *(square._graphics);
-	_chessboard = (square._chessboard);
+	_graphics = std::make_unique<SquareGraphicsComponent>();
+	
 	_overlay = square._overlay;
 
 	LOG(INFO) << "Deep copy constructor called!";
@@ -55,12 +36,67 @@ Square& Square::operator=(const Square& other)
 	return *this;
 }
 
+// Move constructor
+Square::Square(Square&& sq) noexcept :
+	_occupied(sq._occupied),
+	_boardIndex(sq._boardIndex),
+	_currentPiece(sq._currentPiece),
+	_tileType(sq._tileType),
+	_overlay(sq._overlay),
+	_graphics(std::make_unique<SquareGraphicsComponent>())
+{
+	_mediator = sq._mediator;
+	_name = sq._name;
+	_dimensions = sq._dimensions;
+	_graphics.swap(sq._graphics);
+
+	// Reset the passed unique ptr
+	sq._graphics.reset();
+
+	LOG(TRACE) << "Square move constructor called!";
+}
+
+// Move assignment operator
+Square& Square::operator=(Square&& sq) noexcept
+{
+	// Self-assignment detection
+	if (&sq == this)
+	{
+		return *this;
+	}
+
+	// Delete any pointers
+	_graphics.reset();
+	delete _currentPiece;
+
+	// Copy from the source object
+	_mediator = sq._mediator;
+	_name = sq._name;
+	_dimensions = sq._dimensions;
+	_occupied = sq._occupied;
+	_boardIndex = sq._boardIndex;
+	_currentPiece = sq._currentPiece;
+	_tileType = sq._tileType;
+	_graphics = std::make_unique<SquareGraphicsComponent>();
+	_graphics.swap(sq._graphics);
+	_overlay = sq._overlay;
+
+	// Release any pointers from the source object
+	sq._currentPiece = nullptr;
+	sq._graphics.reset();
+
+	LOG(TRACE) << "Square move assignment operator called!";
+
+	return *this;
+
+}
+
 Square::~Square()
 {}
 
 SquareGraphicsComponent* Square::getGraphicsComponent()
 {
-	return _graphics;
+	return _graphics.get();
 }
 
 void Square::setOccupied(bool occupy, Piece* occupant)
@@ -124,37 +160,43 @@ Piece* Square::getOccupant()
 
 }
 
-void Square::setMoveOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
-{
-	_moveOverlayColor = { r, g, b, a };
-	_graphics->sumImage(this);
+const std::pair<int, int> Square::getBoardIndex() const
+{ 
+	return _boardIndex;
 }
 
-void Square::setTakeOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
-{
-	_takeOverlayColor = { r, g, b, a };
-	_graphics->sumImage(this);
+void Square::setBoardIndex(int row, int column) 
+{ 
+	_boardIndex.first = row;
+	_boardIndex.second = column;
 }
 
-void Square::setOverlayType(Overlay overlay)
+void Square::setOverlayType(const Overlay& overlay)
 {
 	_overlay = overlay;
 	_graphics->sumImage(this);
 }
 
-void Square::setLightTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
-{
-	_lightTileColor = { r, g, b, a };
+const Square::Overlay& Square::getOverlayType() const
+{ 
+	return _overlay;
 }
 
-void Square::setDarkTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
-{
-	_darkTileColor = { r, g, b, a };
-	getGraphicsComponent()->sumImage(this);
-}
-
-void Square::setTileType(TileType type)
+void Square::setTileType(const TileType& type)
 {
 	_tileType = type;
-	getGraphicsComponent()->sumImage(this);
+	_graphics->sumImage(this);
+}
+
+const Square::TileType& Square::getTileType() const
+{ 
+	return _tileType; 
+}
+
+void Square::setPosition(int x, int y)
+{
+	_dimensions.x = x;
+	_dimensions.y = y;
+
+	_graphics->setDrawDimByObjDim(_dimensions);
 }

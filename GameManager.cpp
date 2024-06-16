@@ -582,14 +582,14 @@ void GameManager::setUpPieces()
 
 
 	// Add the pieces to the render queue
-	std::vector<std::pair<GameObject*, SDL_Texture*>> rendVect;
+	std::vector<IDrawable*> rendVect;
 	PieceIterator pieceItr = pieces->createIterator();
 	pieceItr.goToStart();
 
 	for (int i = 0; i < pieceItr.getSize(); ++i)
 	{
 		pieceItr.goToIndex(i);
-		rendVect.push_back(std::pair<GameObject*, SDL_Texture*>(&(*pieceItr.getCurrentPosition()), (*pieceItr.getCurrentPosition()).getGraphics()->getSdlTexture()));
+		rendVect.push_back(pieceItr.getCurrentPosition()->getGraphics());
 	}
 
 	ServiceLocator::getGraphics().addToRenderMap(2, rendVect);
@@ -832,7 +832,7 @@ void GameManager::onPieceMove(Piece* piece)
 
 void GameManager::onPieceCapture(Piece* piece)
 {
-	piece->setSquare(nullptr);
+	piece->setSquare();
 	// Add the piece to the captured piece location
 	_gameScene->getPieceContainer()->addToCapturedPieces(piece);
 	_gameScene->updateCaptureDump();
@@ -976,20 +976,20 @@ void GameManager::executeFishMove()
 		std::pair<std::string, std::string> fishMove = _fishManager->parseBestMove(move);
 
 		// Simulate fish click on piece
-		Square& originSq = *_gameScene->getBoard()->getSquareByName(fishMove.first);
-		_selectionManager->handleClickOnPiece(originSq.getOccupant());
+		Square* originSq{ _gameScene->getBoard()->getSquareByName(fishMove.first) };
+		_selectionManager->handleClickOnPiece(originSq->getOccupant());
 
 		Sleep(500);
 
 		// Simulate fish clicking on a square or opposing piece
-		Square& targetSq = *_gameScene->getBoard()->getSquareByName(fishMove.second);
-		if (targetSq.getOccupied())
+		Square* targetSq{ _gameScene->getBoard()->getSquareByName(fishMove.second) };
+		if (targetSq->getOccupied())
 		{
-			_selectionManager->handleClickOnPiece(targetSq.getOccupant());
+			_selectionManager->handleClickOnPiece(targetSq->getOccupant());
 		}
 		else
 		{
-			_selectionManager->handleClickOnEmptySquare(&targetSq);
+			_selectionManager->handleClickOnEmptySquare(targetSq);
 		}
 		return;
 	}

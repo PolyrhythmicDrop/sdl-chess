@@ -7,8 +7,9 @@ class ButtonInputComponent;
 class Button : public GameObject
 {
 private:
-	GraphicsComponent* _graphics;
-	ButtonInputComponent* _input;
+
+	std::unique_ptr<GraphicsComponent> _graphics;
+	std::unique_ptr<ButtonInputComponent> _input;
 
 public:
 

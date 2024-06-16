@@ -2,7 +2,7 @@
 #include "easylogging++.h"
 
 Decoration::Decoration(DecorationType type)	:
-	_graphics(new GraphicsComponent())
+	_graphics(std::make_unique<GraphicsComponent>())
 {
 	switch (type)
 	{
@@ -19,11 +19,11 @@ Decoration::Decoration(DecorationType type)	:
 		_graphics->setImgPath("images/exit-confirm-menu_ConfirmExitBG.png");
 		break;
 	}
-	_draw = true;
+	_graphics->_draw = true;
 	// Load the texture using the image path in the constructor's switch statement
 	_graphics->loadTexture();
 	// Set the initial dimensions for the decoration using the texture
-	setScaleFromTexture(_graphics->getSdlTexture());
+	setScaleFromTexture(_graphics->getCurrentTexture());
 	LOG(TRACE) << "Decoration " << _name << " created!";
 }
 
@@ -34,7 +34,7 @@ Decoration::~Decoration()
 
 GraphicsComponent* Decoration::getGraphicsComponent()
 {
-	return _graphics->getGraphicsComponent();
+	return _graphics.get()->getGraphicsComponent();
 }
 
 

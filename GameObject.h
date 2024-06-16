@@ -6,22 +6,6 @@
 // Pure abstract class for game objects
 class GameObject
 {
-protected:
-
-	IMediator* _mediator;
-
-	// Name of the game object
-	std::string _name;
-
-	// Structure of dimensions for game objects
-	SDL_Rect _dimensions;
-
-	// Z-index for drawing purposes. Higher values render on top of lower values.
-	int _zIndex;
-
-	// Keeps track of the current number of game objects.
-	int static gameObjectCount;
-
 
 public:
 
@@ -29,22 +13,20 @@ public:
 
 	~GameObject();
 
-	bool _draw;
-
 	/// <summary>
 	/// Sets the mediator for this object
 	/// </summary>
 	/// <param name="mediator">The mediator for this object</param>
 	virtual void setMediator(IMediator* mediator);
 
-	virtual const std::string getName();
-	inline virtual void setName(std::string name) { _name = name; };
+	virtual const std::string& getName() const;
+	virtual void setName(const std::string& name);
 
 	/// <summary>
 	/// Get Rect (nerd). Returns the _dimensions of the game object, which is an SDL Rect.
 	/// </summary>
 	/// <returns></returns>
-	virtual SDL_Rect* getDimensions();
+	virtual const SDL_Rect* getDimensions() const;
 
 	/// <summary>
 	/// Set the width and height of the game object.
@@ -53,17 +35,9 @@ public:
 	/// <param name="h"></param>
 	virtual void setScale(int w, int h);
 
-	virtual int getWidth();
+	virtual int getWidth() const;
 
-	virtual int getHeight();
-
-	int getZ();
-
-	/// <summary>
-	/// Sets the Z-value for this object.
-	/// </summary>
-	/// <param name="z"></param>
-	void setZ(int z);
+	virtual int getHeight() const;
 
 	/// <summary>
 	/// Set the position of the game object.
@@ -75,6 +49,19 @@ public:
 	virtual inline int getY() { return _dimensions.y; };
 
 	virtual void setScaleFromTexture(SDL_Texture* texture);
+
+protected:
+
+	IMediator* _mediator;
+
+	// Name of the game object
+	std::string _name;
+
+	// Dimensions for game objects
+	SDL_Rect _dimensions;
+
+	// Keeps track of the current number of game objects.
+	int static gameObjectCount;
 };
 
 

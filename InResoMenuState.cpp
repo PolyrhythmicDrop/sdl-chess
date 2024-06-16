@@ -62,7 +62,7 @@ void InResoMenuState::buildMenu(SceneEscMenu* menuScene)
 	menuScene->_backButton = new Button(Button::BACK);
 
 	// Set the Z-values
-	menuScene->_resoMenuBg->setZ(-1);
+	menuScene->_resoMenuBg->getGraphicsComponent()->setZ(-1);
 
 	// Get window variables
 	int windowW;
@@ -96,39 +96,39 @@ void InResoMenuState::buildMenu(SceneEscMenu* menuScene)
 	);
 	
 	// Add to scene map
-	menuScene->addObject(menuScene->_resoMenuBg, menuScene->_resoMenuBg->getGraphicsComponent()->getSdlTexture());
-	menuScene->addObject(menuScene->_1024, menuScene->_1024->getGraphicsComponent()->getSdlTexture());
-	menuScene->addObject(menuScene->_1920, menuScene->_1920->getGraphicsComponent()->getSdlTexture());
-	menuScene->addObject(menuScene->_backButton, menuScene->_backButton->getGraphicsComponent()->getSdlTexture());
+	menuScene->addObject(menuScene->_resoMenuBg, menuScene->_resoMenuBg->getGraphicsComponent()->getCurrentTexture());
+	menuScene->addObject(menuScene->_1024, menuScene->_1024->getGraphicsComponent()->getCurrentTexture());
+	menuScene->addObject(menuScene->_1920, menuScene->_1920->getGraphicsComponent()->getCurrentTexture());
+	menuScene->addObject(menuScene->_backButton, menuScene->_backButton->getGraphicsComponent()->getCurrentTexture());
 
 	// Add to render queue
-	ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());
+	/*ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());*/
 
 }
 
 void InResoMenuState::destroyMenu(SceneEscMenu* menuScene)
 {
 	// Remove the menuScene menu vector objects from the render map
-	ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());
+	/*ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());*/
 
 	if (menuScene->_resoMenuBg != nullptr)
 	{
-		menuScene->removeObject(menuScene->_resoMenuBg, menuScene->_resoMenuBg->getGraphicsComponent()->getSdlTexture());
+		menuScene->removeObject(menuScene->_resoMenuBg, menuScene->_resoMenuBg->getGraphicsComponent()->getCurrentTexture());
 		menuScene->_resoMenuBg->~Decoration();
 	}
 	if (menuScene->_1024 != nullptr)
 	{
-		menuScene->removeObject(menuScene->_1024, menuScene->_1024->getGraphicsComponent()->getSdlTexture());
+		menuScene->removeObject(menuScene->_1024, menuScene->_1024->getGraphicsComponent()->getCurrentTexture());
 		menuScene->_1024->~Button();
 	}
 	if (menuScene->_1920 != nullptr)
 	{
-		menuScene->removeObject(menuScene->_1920, menuScene->_1920->getGraphicsComponent()->getSdlTexture());
+		menuScene->removeObject(menuScene->_1920, menuScene->_1920->getGraphicsComponent()->getCurrentTexture());
 		menuScene->_1920->~Button();
 	}
 	if (menuScene->_backButton != nullptr)
 	{
-		menuScene->removeObject(menuScene->_backButton, menuScene->_backButton->getGraphicsComponent()->getSdlTexture());
+		menuScene->removeObject(menuScene->_backButton, menuScene->_backButton->getGraphicsComponent()->getCurrentTexture());
 		menuScene->_backButton->~Button();
 	}
 	// Clear the menu vector if it is not empty

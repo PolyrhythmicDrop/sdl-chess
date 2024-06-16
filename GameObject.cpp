@@ -4,9 +4,7 @@
 GameObject::GameObject(std::string name, IMediator* mediator) :
 	_mediator(mediator),
 	_name(name),
-	_dimensions({0, 0, 0, 0}),
-	_zIndex(0),
-	_draw(false)
+	_dimensions({0, 0, 0, 0})
 {
 	gameObjectCount++;
 	LOG(TRACE) << "Object " << _name << " created! Game object count: " << gameObjectCount;
@@ -20,15 +18,20 @@ GameObject::~GameObject()
 
 void GameObject::setMediator(IMediator* mediator)
 {
-	this->_mediator = mediator;
+	_mediator = mediator;
 }
 
-std::string const GameObject::getName()
+const std::string& GameObject::getName() const
 {
-	return this->_name;
+	return _name;
 }
 
-SDL_Rect* GameObject::getDimensions()
+void GameObject::setName(const std::string& name) 
+{ 
+	_name = name;
+}
+
+const SDL_Rect* GameObject::getDimensions() const 
 {
 	return &_dimensions;
 }
@@ -39,24 +42,14 @@ void GameObject::setScale(int w, int h)
 	_dimensions.h = h;
 }
 
-int GameObject::getWidth()
+int GameObject::getWidth() const
 {
 	return _dimensions.w;
 }
 
-int GameObject::getHeight()
+int GameObject::getHeight() const
 {
 	return _dimensions.h;
-}
-
-int GameObject::getZ()
-{
-	return _zIndex;
-}
-
-void GameObject::setZ(int z)
-{
-	this->_zIndex = z;
 }
 
 void GameObject::setPosition(int x, int y)

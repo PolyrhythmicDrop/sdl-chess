@@ -50,10 +50,10 @@ SDL_Texture* Texture::getTexture()
 void Texture::freeTexture()
 {
 	// Free texture if it exists
-	if (_loadedTexture != NULL)
+	if (_loadedTexture != nullptr)
 	{
 		SDL_DestroyTexture(_loadedTexture);
-		_loadedTexture = NULL;		
+		_loadedTexture = nullptr;		
 	}
 	
 }

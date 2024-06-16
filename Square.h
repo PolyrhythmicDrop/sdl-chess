@@ -1,13 +1,9 @@
 #pragma once
 #include "Piece.h"
+#include <memory>
 
 class SquareGraphicsComponent;
-class Chessboard;
 class Piece;
-
-struct Color {
-	Uint8 r, g, b, a;
-};
 
 // A square on the chessboard.
 class Square : public GameObject
@@ -27,11 +23,16 @@ public:
 	};
 
 	// Default constructor
-	Square(std::string notation, Chessboard* board);
+	Square(std::string notation = "");
 	// Deep copy constructor
 	Square(const Square& square);
-	// Assignment operator
+	// Copy assignment operator
 	Square& operator=(const Square& other);
+
+	// Move constructor
+	Square(Square&& sq) noexcept;
+	// Move assignment operator
+	Square& operator=(Square&& sq) noexcept;
 
 	~Square();
 
@@ -54,30 +55,19 @@ public:
 	/// Gets the square's position on the board.
 	/// </summary>
 	/// <returns>Square's board index. First = row, second = column.</returns>
-	inline std::pair<int, int> getBoardIndex() { return _boardIndex; };
-	inline void setBoardIndex(int row, int column) { this->_boardIndex.first = row; this->_boardIndex.second = column; };
+	const std::pair<int, int> getBoardIndex() const;
+	void setBoardIndex(int row, int column);
 
 	// Overlay functions
-
-	inline const Color* getMoveOverlayColor() { return &_moveOverlayColor; };
-	inline const Color* getTakeOverlayColor() { return &_takeOverlayColor; };
-	void setMoveOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-	void setTakeOverlayColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-	void setOverlayType(Overlay overlay);
-	inline Overlay getOverlayType() const { return _overlay; };
+	void setOverlayType(const Overlay& overlay);
+	const Overlay& getOverlayType() const;
 	
-	// Tile color functions
+	const TileType& getTileType() const;
+	void setTileType(const TileType& type);
 
-	inline const Color* getLightTileColor() const { return &_lightTileColor; };
-	inline const Color* getDarkTileColor() const { return &_darkTileColor; };
-	inline const TileType getTileType() const { return _tileType; };
-	void setLightTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-	void setDarkTileColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-
-	void setTileType(TileType type);
+	void setPosition(int x, int y);
 
 private:
-	Chessboard* _chessboard;
 
 	// True if the square is occupied, false if empty. If occupied, the square will use the take overlay. If empty, the square will use the move overlay.
 	bool _occupied;
@@ -86,13 +76,7 @@ private:
 
 	std::pair<int, int> _boardIndex;
 
-	Color _moveOverlayColor;
-	Color _takeOverlayColor;
-
-	Color _lightTileColor;
-	Color _darkTileColor;
-
-	SquareGraphicsComponent* _graphics;
+	std::unique_ptr<SquareGraphicsComponent> _graphics;
 
 	Overlay _overlay;
 	TileType _tileType;

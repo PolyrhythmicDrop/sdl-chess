@@ -4,7 +4,9 @@
 
 // Constructor, initialize values
 Button::Button(ButtonType bType) :
-	_graphics(new GraphicsComponent()), _input(new ButtonInputComponent()), type(bType)
+	_graphics(std::make_unique<GraphicsComponent>()),
+	_input(std::make_unique<ButtonInputComponent>()), 
+	type(bType)
 {
 	// Sets the button's name and texture path, depending on the type of button it is.
 	switch (bType)
@@ -51,10 +53,10 @@ Button::Button(ButtonType bType) :
 			break;
 	}
 	_graphics->loadTexture();
-	_draw = true;
-	// Set dimensions
-	setScaleFromTexture(_graphics->getSdlTexture());
-	
+	_graphics->_draw = true;
+
+	// Set object dimensions (NOT draw dimensions)
+	setScaleFromTexture(_graphics->getCurrentTexture());
 
 	LOG(TRACE) << "Button " << _name << " created!";
 }
@@ -66,10 +68,10 @@ Button::~Button()
 
 GraphicsComponent* Button::getGraphicsComponent()
 {
-	return _graphics->getGraphicsComponent();
+	return _graphics.get()->getGraphicsComponent();
 }
 
 ButtonInputComponent* Button::getInputComponent()
 {
-	return this->_input;
+	return _input.get();
 }

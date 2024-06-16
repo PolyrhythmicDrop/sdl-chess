@@ -1,6 +1,7 @@
 #include "GraphicsService.h"
 #include "easylogging++.h"
 #include <stdexcept>
+#include <cassert>
 
 GraphicsService::GraphicsService(Window* window) :	
 
@@ -28,12 +29,12 @@ Renderer* GraphicsService::getRenderer()
 	return _renderer;
 }
 
-bool GraphicsService::compareZ(std::pair<GameObject*, SDL_Texture*> a, std::pair<GameObject*, SDL_Texture*> b)
+bool GraphicsService::compareZ(IDrawable* a, IDrawable* b)
 {
-	return a.first->getZ() < b.first->getZ();
+	return a->getZ() < b->getZ();
 }
 
-void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject*, SDL_Texture*>> pairs)
+void GraphicsService::addToRenderMap(int layer, std::vector<IDrawable*> objects)
 {
 	// Translate the supplied integer to the layer enumeration
 	if (layer > 4)
@@ -71,10 +72,10 @@ void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject
 		SDL_QUIT;
 	}
 
-	if (findInRenderMap(pairs).size() == 0)
+	if (findInRenderMap(objects).size() == 0)
 	{
 		// Add objects to the render map if they are not already in the render map
-		_renderMap[rendLayer].insert(_renderMap[rendLayer].begin(), pairs.begin(), pairs.end());
+		_renderMap[rendLayer].insert(_renderMap[rendLayer].begin(), objects.begin(), objects.end());
 		LOG(DEBUG) << "Objects added to render map!";
 		sortRenderMap();
 	}
@@ -84,17 +85,16 @@ void GraphicsService::addToRenderMap(int layer, std::vector<std::pair<GameObject
 	}
 }
 
-void GraphicsService::removeFromRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects)
+void GraphicsService::removeFromRenderMap(std::vector<IDrawable*> objects)
 {
-	std::pair<GameObject*, SDL_Texture*> target;
-	std::vector<std::pair<GameObject*, SDL_Texture*>> findVect = findInRenderMap(objects);
+	std::vector<IDrawable*> findVect{ findInRenderMap(objects) };
 
 	for (int i = 0; i < findVect.size(); ++i)
 	{
-		target = findVect.at(i);
+		IDrawable* target{ findVect.at(i) };
 		for (int layer = 0; layer < _renderMap.size(); ++layer)
 		{
-			std::vector<std::pair<GameObject*, SDL_Texture*>>::const_iterator iVect = std::find(_renderMap[(Layer)layer].begin(), _renderMap[(Layer)layer].end(), target);
+			std::vector<IDrawable*>::const_iterator iVect = std::find(_renderMap[(Layer)layer].begin(), _renderMap[(Layer)layer].end(), target);
 			if (iVect != _renderMap[(Layer)layer].end())
 			{
 				_renderMap[(Layer)layer].erase(iVect);
@@ -106,19 +106,16 @@ void GraphicsService::removeFromRenderMap(std::vector<std::pair<GameObject*, SDL
 
 }
 
-std::vector<std::pair<GameObject*, SDL_Texture*>> GraphicsService::findInRenderMap(std::vector<std::pair<GameObject*, SDL_Texture*>> objects)
+std::vector<IDrawable*> GraphicsService::findInRenderMap(std::vector<IDrawable*> objects)
 {
-	// Initialize the target and the count
-	std::pair<GameObject*, SDL_Texture*> target;
 	int cnt = 0;
 	
-	// vector of booleans to be returned
-	std::vector<std::pair<GameObject*, SDL_Texture*>> foundVect;
-	// Containing loop, set iterations to 0 and use the size of the objects vector to limit the loops
+	// vector of IDrawable objects to be returned
+	std::vector<IDrawable*> foundVect{};
+
 	for (int i = 0; i < objects.size(); ++i)
 	{
-		// Set the target to the pair in the objects vector at the iteration count
-		target = objects.at(i);
+		IDrawable* target{ objects.at(i) };
 		// Loop for every Layer value in the render map
 		for (int layer = 0; layer < _renderMap.size(); ++layer)
 			// Start the loop
@@ -139,17 +136,15 @@ std::vector<std::pair<GameObject*, SDL_Texture*>> GraphicsService::findInRenderM
 void GraphicsService::sortRenderMap()
 {
 	// Sort the render map by Z-value
-	std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>>::iterator mItr;
-	std::vector<std::pair<GameObject*, SDL_Texture*>>::iterator vItr;
+	std::map<Layer, std::vector<IDrawable*>>::iterator mItr;
+	std::vector<IDrawable*>::iterator vItr;
 	for (mItr = _renderMap.begin(); mItr != _renderMap.end(); ++mItr)
 	{
-		std::sort(mItr->second.begin(), mItr->second.end(), 
+		std::sort(mItr->second.begin(), mItr->second.end(),
 			// Lamba defining the comparator
-			[](std::pair<GameObject*, SDL_Texture*> a, std::pair<GameObject*, SDL_Texture*> b)
-			{ return a.first->getZ() < b.first->getZ(); });
+			[](IDrawable* a, IDrawable* b)
+			{ return a->getZ() < b->getZ(); });
 	}
-
-	
 }
 
 void GraphicsService::render()
@@ -164,12 +159,15 @@ void GraphicsService::render()
 
 	sortRenderMap();
 
-	std::map<Layer, std::vector<std::pair<GameObject*, SDL_Texture*>>>::iterator mapItr = _renderMap.begin();
+	std::map<Layer, std::vector<IDrawable*>>::iterator mapItr = _renderMap.begin();
 	for (mapItr; mapItr != _renderMap.end(); mapItr++)
 	{
 		for (auto vItr = mapItr->second.begin(); vItr != mapItr->second.end(); vItr++)
 		{
-			SDL_RenderCopy(renderer, vItr->second, NULL, vItr->first->getDimensions());
+			if ((*vItr)->_draw)
+			{
+				SDL_RenderCopy(renderer, (*vItr)->getCurrentTexture(), NULL, &(*vItr)->getDrawDimensions());
+			}
 		}
 	}
 
