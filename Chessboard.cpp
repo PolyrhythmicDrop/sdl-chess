@@ -109,6 +109,7 @@ void const Chessboard::buildChessboard()
 		for (int col = 0; col < 8; ++col)
 		{
 			_boardGrid.at(row).push_back(createSquare(*(nameItr)));
+			_boardGrid.at(row).at(col).setBoardIndex(row, col);
 			++nameItr;
 		}
 
@@ -117,14 +118,14 @@ void const Chessboard::buildChessboard()
 		setRowSquarePosition(boardBottomLeft, _boardGrid[row], row + 1);
 	}
 
-	// Set the board index for every square in the board
-	for (int row = 0; row < _boardGrid.size(); ++row)
-	{
-		for (int column = 0; column < _boardGrid[row].size(); ++column)
-		{
-			_boardGrid.at(row).at(column).setBoardIndex(row, column);
-		}
-	}
+	//// Set the board index for every square in the board
+	//for (int row = 0; row < _boardGrid.size(); ++row)
+	//{
+	//	for (int column = 0; column < _boardGrid[row].size(); ++column)
+	//	{
+	//		_boardGrid.at(row).at(column).setBoardIndex(row, column);
+	//	}
+	//}
 
 }
 

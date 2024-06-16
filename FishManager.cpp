@@ -17,7 +17,7 @@ void FishManager::newStockfishGame(std::string fen)
 void FishManager::setUpStockfishPosition()
 {
 	// Set up FEN move string
-	if (_lastPosition != "")
+	if (_lastPosition == "" || _gm->_fenManager->getFenHistory()->size() != 0)
 	{
 		std::string lastPosition = *(_gm->_fenManager->getFenHistory()->rbegin() + 1);
 		setLastMovePosition(_gm->_fenManager->createFishFen(lastPosition, true));
