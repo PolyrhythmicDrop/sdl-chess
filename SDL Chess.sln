@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDL Chess", "SDL Chess.vcxproj", "{D34060B0-353A-460F-B2C6-DBA0CB6574EA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QtEscMenu", "..\QtEscMenu\QtEscMenu.vcxproj", "{DC3B4774-A86D-42D9-9B91-C0042C6FF643}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{D34060B0-353A-460F-B2C6-DBA0CB6574EA}.Release|x64.Build.0 = Release|x64
 		{D34060B0-353A-460F-B2C6-DBA0CB6574EA}.Release|x86.ActiveCfg = Release|Win32
 		{D34060B0-353A-460F-B2C6-DBA0CB6574EA}.Release|x86.Build.0 = Release|Win32
+		{DC3B4774-A86D-42D9-9B91-C0042C6FF643}.Debug|x64.ActiveCfg = Debug|x64
+		{DC3B4774-A86D-42D9-9B91-C0042C6FF643}.Debug|x64.Build.0 = Debug|x64
+		{DC3B4774-A86D-42D9-9B91-C0042C6FF643}.Debug|x86.ActiveCfg = Debug|x64
+		{DC3B4774-A86D-42D9-9B91-C0042C6FF643}.Debug|x86.Build.0 = Debug|x64
+		{DC3B4774-A86D-42D9-9B91-C0042C6FF643}.Release|x64.ActiveCfg = Release|x64
+		{DC3B4774-A86D-42D9-9B91-C0042C6FF643}.Release|x64.Build.0 = Release|x64
+		{DC3B4774-A86D-42D9-9B91-C0042C6FF643}.Release|x86.ActiveCfg = Release|x64
+		{DC3B4774-A86D-42D9-9B91-C0042C6FF643}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

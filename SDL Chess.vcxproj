@@ -301,6 +301,11 @@
   <ItemGroup>
     <None Include="stockfish.exe" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QtEscMenu\QtEscMenu.vcxproj">
+      <Project>{dc3b4774-a86d-42d9-9b91-c0042c6ff643}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
