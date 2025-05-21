@@ -13,20 +13,19 @@ Scene::~Scene()
 	LOG(INFO) << "Scene destructed!";
 }
 
-void Scene::addObject(GameObject* object, SDL_Texture* texture)
+void Scene::addObject(IDrawable* object)
 {
 	// _textureMap.insert(std::pair<GameObject*, SDL_Texture*>(object, texture));
 	//_sceneMap.insert({object->getZ(), std::pair<GameObject*, SDL_Texture*>(object, texture) });
-	_objVect.push_back(std::pair<GameObject*, SDL_Texture*>(object, texture));
+	_objVect.push_back(object);
 }
 
-void Scene::removeObject(GameObject* object, SDL_Texture* texture)
+void Scene::removeObject(IDrawable* object)
 {
-	//_sceneMap.erase(object->getZ());
 	
 	// Find the element
-	std::vector<std::pair<GameObject*, SDL_Texture*>>::iterator itr;
-	itr = std::find(_objVect.begin(), _objVect.end(), std::pair<GameObject*, SDL_Texture*>(object, texture));
+	std::vector<IDrawable*>::iterator itr;
+	itr = std::find(_objVect.begin(), _objVect.end(), object);
 	if (itr != _objVect.end())
 	{
 		_objVect.erase(itr);
@@ -38,7 +37,7 @@ void Scene::removeObject(GameObject* object, SDL_Texture* texture)
 
 }
 
-std::vector<std::pair<GameObject*, SDL_Texture*>> Scene::getObjectMap()
+std::vector<IDrawable*> Scene::getObjectMap()
 {
 	return _objVect;
 }

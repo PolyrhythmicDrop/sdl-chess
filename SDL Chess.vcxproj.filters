@@ -442,95 +442,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="images\esc-menu_1024.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\esc-menu_1920.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\esc-menu_bg-esc-menu.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\esc-menu_button-back.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\esc-menu_button-exit.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\esc-menu_button-options.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\esc-menu_button-resolution.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\chessboard.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\esc-menu_bg-resolution-menu.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\exit-confirm-menu_button-no.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\exit-confirm-menu_button-yes.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\exit-confirm-menu_ConfirmExitBG.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\chessboard-compressed.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\squareOverlay.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\squareSquare.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\square_Overlay.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\whtBishop.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\whtKing.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\whtKnight.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\whtPawn.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\whtQueen.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\whtRook.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\blkPawn.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\blkQueen.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\blkRook.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\blkKing.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\blkKnight.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\blkBishop.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-    <Image Include="images\selected.png">
-      <Filter>Source Files\Images</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="chess-log.log">
       <Filter>Resource Files</Filter>
     </Text>
@@ -539,5 +450,91 @@
     <None Include="stockfish.exe">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\blkBishop.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\blkKing.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\blkKnight.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\blkPawn.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\blkQueen.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\blkRook.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\chessboard.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\chessboard-compressed.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\esc-menu_1024.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\esc-menu_1920.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\esc-menu_bg-esc-menu.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\esc-menu_bg-resolution-menu.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\esc-menu_button-back.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\esc-menu_button-exit.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\esc-menu_button-options.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\exit-confirm-menu_button-no.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\exit-confirm-menu_button-yes.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\exit-confirm-menu_ConfirmExitBG.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\selected.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\square_Overlay.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\squareOverlay.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\squareSquare.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\whtBishop.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\whtKing.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\whtKnight.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\whtPawn.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\whtQueen.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
+    <Image Include="assets\whtRook.png">
+      <Filter>Source Files\Images</Filter>
+    </Image>
   </ItemGroup>
 </Project>

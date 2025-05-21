@@ -14,42 +14,42 @@ Button::Button(ButtonType bType) :
 		case OPTIONS:
 			type = OPTIONS;
 			_name = "Options Button";
-			_graphics->setImgPath("images/esc-menu_button-options.png");
+			_graphics->setImgPath("assets/esc-menu_button-options.png");
 			break;
 		case BACK:
 			type = BACK;
 			_name = "Back Button";
-			_graphics->setImgPath("images/esc-menu_button-back.png");
+			_graphics->setImgPath("assets/esc-menu_button-back.png");
 			break;
 		case EXITGAME:
 			type = EXITGAME;
 			_name = "Exit Game Button";
-			_graphics->setImgPath("images/esc-menu_button-exit.png");
+			_graphics->setImgPath("assets/esc-menu_button-exit.png");
 			break;
 		case RESOLUTION:
 			type = RESOLUTION;
 			_name = "Resolution Button";
-			_graphics->setImgPath("images/esc-menu_button-resolution.png");
+			_graphics->setImgPath("assets/esc-menu_button-resolution.png");
 			break;
 		case TENTWENTYFOUR:
 			type = TENTWENTYFOUR;
 			_name = "1024x768";
-			_graphics->setImgPath("images/esc-menu_1024.png");
+			_graphics->setImgPath("assets/esc-menu_1024.png");
 			break;
 		case NINETEENTWENTY:
 			type = NINETEENTWENTY;
 			_name = "1920x1080";
-			_graphics->setImgPath("images/esc-menu_1920.png");
+			_graphics->setImgPath("assets/esc-menu_1920.png");
 			break;
 		case YES:
 			type = YES;
 			_name = "Yes Button";
-			_graphics->setImgPath("images/exit-confirm-menu_button-yes.png");
+			_graphics->setImgPath("assets/exit-confirm-menu_button-yes.png");
 			break;
 		case NO:
 			type = NO;
 			_name = "No Button";
-			_graphics->setImgPath("images/exit-confirm-menu_button-no.png");
+			_graphics->setImgPath("assets/exit-confirm-menu_button-no.png");
 			break;
 	}
 	_graphics->loadTexture();

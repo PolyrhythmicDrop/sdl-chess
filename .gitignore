@@ -364,4 +364,8 @@ FodyWeavers.xsd
 
 # Planning files
 planning/
-images/imagesource
+
+# Build files
+SDL Chess/
+x64/
+

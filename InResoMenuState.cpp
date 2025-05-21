@@ -94,41 +94,50 @@ void InResoMenuState::buildMenu(SceneEscMenu* menuScene)
 		// Y position
 		menuScene->_resoMenuBg->getDimensions()->y + (menuScene->_backButton->getDimensions()->h * 4)
 	);
+
+	// Add all the decorations to a vector.
+	std::vector<GameObject*> decoVect{ menuScene->_resoMenuBg, menuScene->_1024, menuScene->_1920, menuScene->_backButton };
 	
 	// Add to scene map
-	menuScene->addObject(menuScene->_resoMenuBg, menuScene->_resoMenuBg->getGraphicsComponent()->getCurrentTexture());
-	menuScene->addObject(menuScene->_1024, menuScene->_1024->getGraphicsComponent()->getCurrentTexture());
-	menuScene->addObject(menuScene->_1920, menuScene->_1920->getGraphicsComponent()->getCurrentTexture());
-	menuScene->addObject(menuScene->_backButton, menuScene->_backButton->getGraphicsComponent()->getCurrentTexture());
+	menuScene->addObject(menuScene->_resoMenuBg->getGraphicsComponent());
+	menuScene->addObject(menuScene->_1024->getGraphicsComponent());
+	menuScene->addObject(menuScene->_1920->getGraphicsComponent());
+	menuScene->addObject(menuScene->_backButton->getGraphicsComponent());
+
+	// Set the draw position for all objects
+	for (int i = 0; i < menuScene->getObjectMap().size(); ++i)
+	{
+		menuScene->getObjectMap()[i]->setDrawPosition(decoVect[i]->getX(), decoVect[i]->getY());
+	}
 
 	// Add to render queue
-	/*ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());*/
+	ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());
 
 }
 
 void InResoMenuState::destroyMenu(SceneEscMenu* menuScene)
 {
 	// Remove the menuScene menu vector objects from the render map
-	/*ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());*/
+	ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());
 
 	if (menuScene->_resoMenuBg != nullptr)
 	{
-		menuScene->removeObject(menuScene->_resoMenuBg, menuScene->_resoMenuBg->getGraphicsComponent()->getCurrentTexture());
+		menuScene->removeObject(menuScene->_resoMenuBg->getGraphicsComponent());
 		menuScene->_resoMenuBg->~Decoration();
 	}
 	if (menuScene->_1024 != nullptr)
 	{
-		menuScene->removeObject(menuScene->_1024, menuScene->_1024->getGraphicsComponent()->getCurrentTexture());
+		menuScene->removeObject(menuScene->_1024->getGraphicsComponent());
 		menuScene->_1024->~Button();
 	}
 	if (menuScene->_1920 != nullptr)
 	{
-		menuScene->removeObject(menuScene->_1920, menuScene->_1920->getGraphicsComponent()->getCurrentTexture());
+		menuScene->removeObject(menuScene->_1920->getGraphicsComponent());
 		menuScene->_1920->~Button();
 	}
 	if (menuScene->_backButton != nullptr)
 	{
-		menuScene->removeObject(menuScene->_backButton, menuScene->_backButton->getGraphicsComponent()->getCurrentTexture());
+		menuScene->removeObject(menuScene->_backButton->getGraphicsComponent());
 		menuScene->_backButton->~Button();
 	}
 	// Clear the menu vector if it is not empty

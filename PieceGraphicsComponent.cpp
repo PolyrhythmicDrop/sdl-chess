@@ -20,7 +20,7 @@ void PieceGraphicsComponent::loadTexture()
 {
 	_pieceTexture = _textureLoader->loadTextureFromImage(_imgPath);
 	Texture* selected{ new Texture() };
-	_selectedTexture = selected->loadTextureFromImage("images/selected.png");
+	_selectedTexture = selected->loadTextureFromImage("assets/selected.png");
 
 	int pieceW, pieceH;
 	Uint32 format;
