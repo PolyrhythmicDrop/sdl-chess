@@ -23,8 +23,14 @@ Once you have the game running, a terminal window and a game window with a grey 
 
 1. Press **Enter** in the game window to initialize the game.
 2. The terminal window prompts you to select a game mode. Switch focus to the terminal window. Select a game mode by pressing the corresponding key, then pressing **Enter**.
-  1. Single Player - Play against Stockfish 16.1. **WARNING** - You cannot currently adjust the difficulty! Stockfish will treat you like the chess master you (probably) are.
-  2. Head to Head - Play against a human opponent or yourself.
+
+  * `Single Player` - Play against Stockfish 16.1.
+
+> [!WARNING]
+> You cannot currently adjust the difficulty! Stockfish will treat you like the chess master you (probably) are.
+
+  * `Head to Head` - Play against a human opponent or yourself.
+
 3. In the terminal window, enter a name for Player One, then press **Enter** to accept.
 4. Enter a name for Player Two, then press **Enter** to accept.
 
