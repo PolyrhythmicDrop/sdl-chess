@@ -1,6 +1,6 @@
 # SDL Chess
 
-SDL Chess is a chess game created using C++, the [SDL2 library](https://www.libsdl.org/), and the [Stockfish open-source chess engine](https://stockfishchess.org/). The game currently uses Stockfish 16.1 to enable single-player mode and check for checkmate. All other rule implementations, move mechanics, and game functionality has been built from the ground up.
+SDL Chess is a chess game created using C++, the [Easylogging++ logging library](https://github.com/abumq/easyloggingpp), the [SDL2 library](https://www.libsdl.org/), and the [Stockfish open-source chess engine](https://stockfishchess.org/). The game currently uses Stockfish 16.1 to enable single-player mode and check for checkmate. All other rule implementations, move mechanics, and game functionality has been built from the ground up.
 
 > [!NOTE]
 > SDL Chess is a work in progress! While both single-player and two-player mode are fully functional, I plan on adding more features in the future, including:
