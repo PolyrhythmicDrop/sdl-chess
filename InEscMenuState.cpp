@@ -83,15 +83,22 @@ void InEscMenuState::buildMenu(SceneEscMenu* menuScene)
 
 	menuScene->_exitButton->setPosition((windowW / 2) - (menuScene->_exitButton->getWidth() / 2), (menuScene->_escMenuBg->getDimensions()->y + menuScene->_escMenuBg->getHeight() - menuScene->_exitButton->getHeight()) - (menuScene->_exitButton->getHeight() / 2));
 
+	// Add all the decorations to a vector.
+	std::vector<GameObject*> decoVect{ menuScene->_escMenuBg, menuScene->_optionsButton, menuScene->_backButton, menuScene->_exitButton };
+
 	// Add the objects to the scene map
-	menuScene->addObject(menuScene->_escMenuBg, menuScene->_escMenuBg->getGraphicsComponent()->getCurrentTexture());
-	menuScene->addObject(menuScene->_optionsButton, menuScene->_optionsButton->getGraphicsComponent()->getCurrentTexture());
-	menuScene->addObject(menuScene->_backButton, menuScene->_backButton->getGraphicsComponent()->getCurrentTexture());
-	menuScene->addObject(menuScene->_exitButton, menuScene->_exitButton->getGraphicsComponent()->getCurrentTexture());
+	menuScene->addObject(menuScene->_escMenuBg->getGraphicsComponent());
+	menuScene->addObject(menuScene->_optionsButton->getGraphicsComponent());
+	menuScene->addObject(menuScene->_backButton->getGraphicsComponent());
+	menuScene->addObject(menuScene->_exitButton->getGraphicsComponent());
 
+	// Set the draw position for all objects
+	for (int i = 0; i < menuScene->getObjectMap().size(); ++i)
+	{
+		menuScene->getObjectMap()[i]->setDrawPosition(decoVect[i]->getX(), decoVect[i]->getY());
+	}
 
-	// Add the scene map to the render map in the Graphics Service
-	/*ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());*/
+	ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());
 	
 }
 
@@ -124,27 +131,27 @@ void InEscMenuState::unsubscribeToEventManager(EventManager& manager, SceneEscMe
 void InEscMenuState::destroyMenu(SceneEscMenu* menuScene)
 {
 	// Remove the objects from the render map
-	/*ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());*/
+	ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());
 	
 	
 	if (menuScene->_escMenuBg != nullptr)
 	{
-		menuScene->removeObject(menuScene->_escMenuBg, menuScene->_escMenuBg->getGraphicsComponent()->getCurrentTexture());
+		menuScene->removeObject(menuScene->_escMenuBg->getGraphicsComponent());
 		menuScene->_escMenuBg->~Decoration();
 	}
 	if (menuScene->_optionsButton != nullptr)
 	{
-		menuScene->removeObject(menuScene->_optionsButton, menuScene->_optionsButton->getGraphicsComponent()->getCurrentTexture());
+		menuScene->removeObject(menuScene->_optionsButton->getGraphicsComponent());
 		menuScene->_optionsButton->~Button();
 	}
 	if (menuScene->_backButton != nullptr)
 	{
-		menuScene->removeObject(menuScene->_backButton, menuScene->_backButton->getGraphicsComponent()->getCurrentTexture());
+		menuScene->removeObject(menuScene->_backButton->getGraphicsComponent());
 		menuScene->_backButton->~Button();
 	}
 	if (menuScene->_exitButton != nullptr)
 	{
-		menuScene->removeObject(menuScene->_exitButton, menuScene->_exitButton->getGraphicsComponent()->getCurrentTexture());
+		menuScene->removeObject(menuScene->_exitButton->getGraphicsComponent());
 		menuScene->_exitButton->~Button();
 	}
 

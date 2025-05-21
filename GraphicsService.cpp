@@ -133,9 +133,9 @@ std::vector<IDrawable*> GraphicsService::findInRenderMap(std::vector<IDrawable*>
 
 }
 
+// Sort the render map by Z-value
 void GraphicsService::sortRenderMap()
 {
-	// Sort the render map by Z-value
 	std::map<Layer, std::vector<IDrawable*>>::iterator mItr;
 	std::vector<IDrawable*>::iterator vItr;
 	for (mItr = _renderMap.begin(); mItr != _renderMap.end(); ++mItr)

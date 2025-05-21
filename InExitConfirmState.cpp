@@ -19,7 +19,6 @@ void InExitConfirmState::enter(SceneEscMenu* menuScene)
 
 void InExitConfirmState::changeState(SceneEscMenu* menuScene, std::string eventString)
 {
-	
 	if (eventString == "Esc" || eventString == "No")
 	{
 		menuScene->setMenuState(InEscMenuState::getInstance());
@@ -30,10 +29,6 @@ void InExitConfirmState::changeState(SceneEscMenu* menuScene, std::string eventS
 		e.type = SDL_QUIT;
 		SDL_PushEvent(&e);
 	}
-
-
-	// If Yes button is pressed:
-	// exit game
 }
 
 void InExitConfirmState::exit(SceneEscMenu* menuScene)
@@ -82,35 +77,44 @@ void InExitConfirmState::buildMenu(SceneEscMenu* menuScene)
 		// Y position
 		(menuScene->_yes->getDimensions()->y )
 	);
+
+	// Add all the decorations to a vector.
+	std::vector<GameObject*> decoVect{ menuScene->_exitConfirmMenuBg, menuScene->_yes, menuScene->_no};
 	
 	// Add to scene map
-	menuScene->addObject(menuScene->_exitConfirmMenuBg, menuScene->_exitConfirmMenuBg->getGraphicsComponent()->getCurrentTexture());
-	menuScene->addObject(menuScene->_yes, menuScene->_yes->getGraphicsComponent()->getCurrentTexture());
-	menuScene->addObject(menuScene->_no, menuScene->_no->getGraphicsComponent()->getCurrentTexture());
+	menuScene->addObject(menuScene->_exitConfirmMenuBg->getGraphicsComponent());
+	menuScene->addObject(menuScene->_yes->getGraphicsComponent());
+	menuScene->addObject(menuScene->_no->getGraphicsComponent());
+
+	// Set the draw position for all objects
+	for (int i = 0; i < menuScene->getObjectMap().size(); ++i)
+	{
+		menuScene->getObjectMap()[i]->setDrawPosition(decoVect[i]->getX(), decoVect[i]->getY());
+	}
 
 	// Add to render queue
-	//ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());
+	ServiceLocator::getGraphics().addToRenderMap(4, menuScene->getObjectMap());
 
 }
 
 void InExitConfirmState::destroyMenu(SceneEscMenu* menuScene)
 {
 	// Remove the objects from the render map
-	/*ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());*/
+	ServiceLocator::getGraphics().removeFromRenderMap(menuScene->getObjectMap());
 
 	if (menuScene->_exitConfirmMenuBg != nullptr)
 	{
-		menuScene->removeObject(menuScene->_exitConfirmMenuBg, menuScene->_exitConfirmMenuBg->getGraphicsComponent()->getCurrentTexture());
+		menuScene->removeObject(menuScene->_exitConfirmMenuBg->getGraphicsComponent());
 		menuScene->_exitConfirmMenuBg->~Decoration();
 	}
 	if (menuScene->_yes != nullptr)
 	{
-		menuScene->removeObject(menuScene->_yes, menuScene->_yes->getGraphicsComponent()->getCurrentTexture());
+		menuScene->removeObject(menuScene->_yes->getGraphicsComponent());
 		menuScene->_yes->~Button();
 	}
 	if (menuScene->_no != nullptr)
 	{
-		menuScene->removeObject(menuScene->_no, menuScene->_no->getGraphicsComponent()->getCurrentTexture());
+		menuScene->removeObject(menuScene->_no->getGraphicsComponent());
 		menuScene->_no->~Button();
 	}
 	

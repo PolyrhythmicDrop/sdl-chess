@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "IDrawable.h"
 #include <map>
 
 /// <summary>
@@ -12,7 +13,7 @@ protected:
 	/// <summary>
 	/// Vector containing all the objects in the scene for a menu.
 	/// </summary>
-	std::vector<std::pair<GameObject*, SDL_Texture*>> _objVect;
+	std::vector<IDrawable*> _objVect;
 
 public:
 
@@ -23,11 +24,11 @@ public:
 	/// Adds an object to the back of to the scene object vector.
 	/// </summary>
 	/// <param name="object">The object to add to the vector.</param>
-	virtual void addObject(GameObject* object, SDL_Texture* texture);
+	virtual void addObject(IDrawable* object);
 
-	virtual void removeObject(GameObject* object, SDL_Texture* texture);
+	virtual void removeObject(IDrawable* object);
 
-	std::vector<std::pair<GameObject*, SDL_Texture*>> getObjectMap();
+	std::vector<IDrawable*> getObjectMap();
 
 };
 
