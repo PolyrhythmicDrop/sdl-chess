@@ -47,8 +47,8 @@ After choosing a name for Player Two, the game takes a few seconds to build the 
 * To deselect a piece, either select another piece or click anywhere in the game window that is not a moveable square.
 * The game will not allow you to perform a move that puts your king in check. If you can't move a piece, check the terminal window to see why.
 * When promoting a pawn, use the terminal window to select the piece you want the pawn to turn into.
-* To capture *en passant*, select the pawn you want to capture with. If you can capture *en passant*, the square behind the opposing pawn will be highlighted in red. Click the red highlighted square to move you pawn to the square and capture the opposing pawn.
-* To castle, make sure the conditions are right, then select your king and select the moveable square next to the rook. Your king and rook will automatically move to the castling position.
+* To capture *en passant*, select the pawn you want to capture with. If you can capture *en passant*, the square behind the opposing pawn will be highlighted in red. Click the red highlighted square to move your pawn to the square and capture the opposing pawn.
+* To castle, make sure the conditions are right, then select your king and click the moveable square next to the rook. Your king and rook will automatically move to the castling position.
 * To exit the game, press **Esc** at any time and select **Exit Game**, or select **Back** to close the menu and resume play.
 * You can change the resolution **before** loading the board by pressing **Esc**, selecting **Options**, and clicking the desired resolution.
 
