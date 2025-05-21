@@ -19,10 +19,10 @@ SDL Chess does not currently have a public build available. To build and run the
 
 ### Start a Match
 
-Once you have the game running, a terminal window and a game window with a grey background displays. The terminal window displays menu entries and logs debug information throughout gameplay. Pardon the excessive logging: SDL Chess is still a work in progress!
+Once you have the game running, a terminal window and a game window with a grey background display. The terminal window displays menu entries and logs debug information throughout gameplay. Pardon the excessive logging: SDL Chess is still a work in progress!
 
-1. Press **Enter** to initialize the game.
-2. The terminal window prompts you to select a game mode. Press the corresponding key, then press **Enter** to select a game mode.
+1. Press **Enter** in the game window to initialize the game.
+2. The terminal window prompts you to select a game mode. Switch focus to the terminal window. Select a game mode by pressing the corresponding key, then pressing **Enter**.
   1. Single Player - Play against Stockfish 16.1. **WARNING** - You cannot currently adjust the difficulty! Stockfish will treat you like the chess master you (probably) are.
   2. Head to Head - Play against a human opponent or yourself.
 3. In the terminal window, enter a name for Player One, then press **Enter** to accept.
