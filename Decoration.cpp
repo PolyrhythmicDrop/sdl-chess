@@ -8,15 +8,15 @@ Decoration::Decoration(DecorationType type)	:
 	{
 	case ESC_MENU_BG:
 		_name = "Esc Menu Background";
-		_graphics->setImgPath("images/esc-menu_bg-esc-menu.png");
+		_graphics->setImgPath("assets/esc-menu_bg-esc-menu.png");
 		break;
 	case RESO_MENU_BG:
 		_name = "Resolution Menu Background";
-		_graphics->setImgPath("images/esc-menu_bg-resolution-menu.png");
+		_graphics->setImgPath("assets/esc-menu_bg-resolution-menu.png");
 		break;
 	case EXIT_CONFIRM_BG:
 		_name = "Exit Confirmation Menu Background";
-		_graphics->setImgPath("images/exit-confirm-menu_ConfirmExitBG.png");
+		_graphics->setImgPath("assets/exit-confirm-menu_ConfirmExitBG.png");
 		break;
 	}
 	_graphics->_draw = true;

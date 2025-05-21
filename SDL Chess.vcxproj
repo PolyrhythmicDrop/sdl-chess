@@ -265,41 +265,40 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="images\blkBishop.png" />
-    <Image Include="images\blkKing.png" />
-    <Image Include="images\blkKnight.png" />
-    <Image Include="images\blkPawn.png" />
-    <Image Include="images\blkQueen.png" />
-    <Image Include="images\blkRook.png" />
-    <Image Include="images\chessboard-compressed.png" />
-    <Image Include="images\chessboard.png" />
-    <Image Include="images\esc-menu_1024.png" />
-    <Image Include="images\esc-menu_1920.png" />
-    <Image Include="images\esc-menu_bg-esc-menu.png" />
-    <Image Include="images\esc-menu_bg-resolution-menu.png" />
-    <Image Include="images\esc-menu_button-back.png" />
-    <Image Include="images\esc-menu_button-exit.png" />
-    <Image Include="images\esc-menu_button-options.png" />
-    <Image Include="images\esc-menu_button-resolution.png" />
-    <Image Include="images\exit-confirm-menu_button-no.png" />
-    <Image Include="images\exit-confirm-menu_button-yes.png" />
-    <Image Include="images\exit-confirm-menu_ConfirmExitBG.png" />
-    <Image Include="images\selected.png" />
-    <Image Include="images\squareOverlay.png" />
-    <Image Include="images\squareSquare.png" />
-    <Image Include="images\square_Overlay.png" />
-    <Image Include="images\whtBishop.png" />
-    <Image Include="images\whtKing.png" />
-    <Image Include="images\whtKnight.png" />
-    <Image Include="images\whtPawn.png" />
-    <Image Include="images\whtQueen.png" />
-    <Image Include="images\whtRook.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="chess-log.log" />
   </ItemGroup>
   <ItemGroup>
     <None Include="stockfish.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\blkBishop.png" />
+    <Image Include="assets\blkKing.png" />
+    <Image Include="assets\blkKnight.png" />
+    <Image Include="assets\blkPawn.png" />
+    <Image Include="assets\blkQueen.png" />
+    <Image Include="assets\blkRook.png" />
+    <Image Include="assets\chessboard-compressed.png" />
+    <Image Include="assets\chessboard.png" />
+    <Image Include="assets\esc-menu_1024.png" />
+    <Image Include="assets\esc-menu_1920.png" />
+    <Image Include="assets\esc-menu_bg-esc-menu.png" />
+    <Image Include="assets\esc-menu_bg-resolution-menu.png" />
+    <Image Include="assets\esc-menu_button-back.png" />
+    <Image Include="assets\esc-menu_button-exit.png" />
+    <Image Include="assets\esc-menu_button-options.png" />
+    <Image Include="assets\exit-confirm-menu_button-no.png" />
+    <Image Include="assets\exit-confirm-menu_button-yes.png" />
+    <Image Include="assets\exit-confirm-menu_ConfirmExitBG.png" />
+    <Image Include="assets\selected.png" />
+    <Image Include="assets\squareOverlay.png" />
+    <Image Include="assets\squareSquare.png" />
+    <Image Include="assets\square_Overlay.png" />
+    <Image Include="assets\whtBishop.png" />
+    <Image Include="assets\whtKing.png" />
+    <Image Include="assets\whtKnight.png" />
+    <Image Include="assets\whtPawn.png" />
+    <Image Include="assets\whtQueen.png" />
+    <Image Include="assets\whtRook.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

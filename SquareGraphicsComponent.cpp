@@ -14,7 +14,7 @@ SquareGraphicsComponent::SquareGraphicsComponent() :
 	_overlayTexture(nullptr)
 {
 	_currentTexture = nullptr;
-	setOverlayImgPath("images/square_Overlay.png");
+	setOverlayImgPath("assets/square_Overlay.png");
 	_zIndex = 1;
 	_drawDimensions = {};
 	LOG(INFO) << "Square graphics component constructed!";

@@ -88,7 +88,7 @@ bool SDLfunc::loadMedia()
 	bool success = true;
 
 	// Load the PNG image to a surface
-	pngSurface = loadSurface("images/chessboard.png");
+	pngSurface = loadSurface("assets/chessboard.png");
 
 	// Error checking for load media
 	if (pngSurface == NULL)
